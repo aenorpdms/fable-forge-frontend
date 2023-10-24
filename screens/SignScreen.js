@@ -25,7 +25,7 @@ export default function SignScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('TabNavigator');
+    navigation.navigate('Home');
   };
 
 
