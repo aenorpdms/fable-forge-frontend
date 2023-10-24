@@ -5,7 +5,9 @@ import * as Font from "expo-font";
 import { useState } from "react";
 
 export default function ProfilScreen({ navigation }) {
-  return <View style={styles.container}></View>;
+  return <View style={styles.container}>
+    
+  </View>;
 }
 
 const styles = StyleSheet.create({});
