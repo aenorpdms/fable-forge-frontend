@@ -4,8 +4,9 @@ const initialState = {
   value: {
     user: {
       username: null,
-      name: null,
+      firstname: null,
       email: null,
+      token: null,
     },
     stories: [],
     settings: [],

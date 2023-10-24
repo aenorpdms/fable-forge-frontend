@@ -1,8 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image } from "react-native";
 import * as Font from "expo-font";
+import { useDispatch, useSelector } from "react-redux";
 
 
 export default function HomeScreen({ navigation }) {
+
+  const user = useSelector((state) => state.user.value)
+  const nameUser = user.user.firstname
+  const readyName = nameUser.toUpperCase()
 
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
@@ -14,7 +19,7 @@ export default function HomeScreen({ navigation }) {
         style={styles.imagBgd}
         source={require('../assets/ImageBibliotheque.png')}
       >
-        <Text style={styles.title1}>BIENVENUE PIERRE</Text>
+        <Text style={styles.title1}>BIENVENUE {readyName}</Text>
         <Text style={styles.title2}>Où les histoires</Text>
         <Text style={styles.title2bis}>prennent vie...</Text>
       </ImageBackground>

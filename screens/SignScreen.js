@@ -5,21 +5,29 @@ import * as Font from "expo-font";
 //   GoogleSigninButton,
 // } from "@react-native-google-signin/google-signin";
 
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from "../reducers/user";
 
 export default function SignScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
+  const dispatch = useDispatch()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstname, setFirstName] = useState('')
+  const [email, setEmail] = useState('')
+
+  const [identifier, setIdentifier] = useState('')
+  const [passwordUp, setPasswordUp] = useState('')
+
 
   const handleModalToggle = type => {
     setModalType(type);
     setModalVisible(!modalVisible);
   };
 
-  const handleSubmit = () => {
-    navigation.navigate("TabNavigator");
-  };
-
+ 
   // GOOGLE
   // GoogleSignin.configure({
   //   webClientId: '940491110305-hujjjcdlhjq1n84llmcnl9ajlj7cu195.apps.googleusercontent.com',
@@ -35,6 +43,47 @@ export default function SignScreen({ navigation }) {
   //     console.error(error);
   //   }
   // };
+
+  const handleInscription = () => {
+
+		fetch('https://fable-forge-backend.vercel.app/users/signup', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ username, firstname, email, password}),
+		}).then(response => response.json())
+			.then(data => {
+				console.log(data.token)
+				if (data.result){
+					setUsername('');
+					setPassword('');
+          setFirstName('');
+					setEmail('');
+					dispatch(updateUser({firstname, username, email, token: data.token}))
+          setModalVisible(false)
+          navigation.navigate("TabNavigator");
+				}
+			});
+	};
+
+  const handleConnection = () =>{
+
+    fetch('https://fable-forge-backend.vercel.app/users/signin', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ identifier, password: passwordUp}),
+		}).then(response => response.json())
+			.then(data => {
+				console.log(data)
+				if (data.result){
+					setIdentifier('');
+					setPasswordUp('');
+					dispatch(updateUser({firstname:data.firstname, username: data.username, email: data.email, token: data.token}))
+          setModalVisible(false)
+          navigation.navigate("TabNavigator");
+				}
+			});
+
+}
 
   return (
     <View style={styles.container}>
@@ -73,20 +122,26 @@ export default function SignScreen({ navigation }) {
             </TouchableOpacity>
             {modalType === "register" && (
               <>
-                <TextInput style={styles.input} placeholder='Prénom' placeholderTextColor='white'></TextInput>
-                <TextInput style={styles.input} placeholder='Pseudonyme' placeholderTextColor='white'></TextInput>
-                <TextInput style={styles.input} placeholder='Email' placeholderTextColor='white'></TextInput>
-                <TextInput style={styles.input} placeholder='Mot de Passe' placeholderTextColor='white'></TextInput>
-                <TouchableOpacity style={styles.btnValidate} onPress={() => handleSubmit()}>
+                <TextInput style={styles.input} placeholder='Prénom' placeholderTextColor='white' onChangeText={(value) => setFirstName(value)}
+              value={firstname}></TextInput>
+                <TextInput style={styles.input} placeholder='Pseudonyme' placeholderTextColor='white' onChangeText={(value) => setUsername(value)}
+              value={username}></TextInput>
+                <TextInput style={styles.input} placeholder='Email' placeholderTextColor='white' onChangeText={(value) => setEmail(value)}
+              value={email}></TextInput>
+                <TextInput style={styles.input} placeholder='Mot de Passe' secureTextEntry={true} placeholderTextColor='white' onChangeText={(value) => setPassword(value)}
+              value={password}></TextInput>
+                <TouchableOpacity style={styles.btnValidate} onPress={() => handleInscription()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
             )}
             {modalType === "connexion" && (
               <>
-                <TextInput style={styles.input} placeholder='Pseudonyme ou Email' placeholderTextColor='white'></TextInput>
-                <TextInput style={styles.input} placeholder='Mot de Passe' placeholderTextColor='white'></TextInput>
-                <TouchableOpacity style={styles.btnValidate} onPress={() => handleSubmit()}>
+                <TextInput style={styles.input} placeholder='Pseudonyme ou Email' placeholderTextColor='white'onChangeText={(value) => setIdentifier(value)}
+              value={identifier}></TextInput>
+                <TextInput style={styles.input} placeholder='Mot de Passe' placeholderTextColor='white' secureTextEntry={true} onChangeText={(value) => setPasswordUp(value)}
+              value={passwordUp}></TextInput>
+                <TouchableOpacity style={styles.btnValidate} onPress={() => handleConnection()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>

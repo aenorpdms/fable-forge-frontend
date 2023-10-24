@@ -19,7 +19,7 @@ import { updateUser } from "../reducers/user";
 export default function ProfilScreen({ navigation }) {
   // INPUT STATE
   const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+  const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ export default function ProfilScreen({ navigation }) {
   // MODIFY INFO
   const handleModifyInfo = () => {
     // send to back info PUT ROUTE USER
-    dispatch(updateUser({ username, name, email }));
+    dispatch(updateUser({ username, firstname, email }));
     setIsEditable(false);
     setButtonText("Modifier mes informations");
   };
@@ -93,7 +93,7 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.username}
+              placeholder={user.user.username}
               placeholderTextColor="white"
               onChangeText={(value) => setUsername(value)}
               value={username}
@@ -104,10 +104,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.name}
+              placeholder={user.user.firstname}
               placeholderTextColor="white"
-              onChangeText={(value) => setName(value)}
-              value={name}
+              onChangeText={(value) => setFirstName(value)}
+              value={firstname}
               editable={isEditable}
             ></TextInput>
           </View>
@@ -115,7 +115,7 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.email}
+              placeholder={user.user.email}
               placeholderTextColor="white"
               onChangeText={(value) => setEmail(value)}
               value={email}
