@@ -10,6 +10,7 @@ import LoadingPage from "./screens/loadingPage";
 import SignScreen from "./screens/sign";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 // const AppStack = () => {
 //   return (
@@ -20,6 +21,34 @@ const Stack = createNativeStackNavigator();
 //   );
 // };
 
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
+        let iconName = '';
+
+        if (route.name === 'Home') {
+          iconName = 'location-arrow';
+        } else if (route.name === 'Stories') {
+          iconName = 'map-pin';
+        }else if (route.name === 'Profil') {
+          iconName = 'map-pin';
+         } else if (route.name === 'Settings') {
+            iconName = 'map-pin';}
+
+        return <FontAwesome name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: '#ec6e5b',
+      tabBarInactiveTintColor: '#335561',
+      headerShown: false,
+    })}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Stories" component={StoriesScreen} />
+      <Tab.Screen name="Profil" component={ProfilScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+};
 
 export default function App() {
   return (
@@ -28,6 +57,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
     // {/* </Provider> */}

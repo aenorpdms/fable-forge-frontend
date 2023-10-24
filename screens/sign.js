@@ -24,7 +24,9 @@ export default function SignScreen({ navigation }) {
     setModalVisible(!modalVisible);
   };
 
- 
+  const handleSubmit = () => {
+    navigation.navigate('TabNavigator');
+  };
 
 
   // GOOGLE 
@@ -111,7 +113,7 @@ export default function SignScreen({ navigation }) {
                   placeholder="Mot de Passe"
                   placeholderTextColor="white"
                 ></TextInput>
-                <TouchableOpacity style={styles.btnValidate}>
+                <TouchableOpacity style={styles.btnValidate} onPress = {()=> handleSubmit()} >
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
@@ -128,7 +130,7 @@ export default function SignScreen({ navigation }) {
                   placeholder="Mot de Passe"
                   placeholderTextColor="white"
                 ></TextInput>
-                <TouchableOpacity style={styles.btnValidate}>
+                <TouchableOpacity style={styles.btnValidate} onPress= {()=> handleSubmit()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
