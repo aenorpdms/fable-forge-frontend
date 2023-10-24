@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import * as Font from "expo-font";
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useState } from "react";
 
 export default function ProfilScreen({ navigation }) {
@@ -25,8 +25,8 @@ const [newPassword, setNewPassword] = useState('')
 const [password, setPassword] = useState('')
 const [oldPassword, setOldPassword] = useState('')
 
-
-
+const dispatch = useDispatch()
+const user = useSelector((state))
 // MODIFY INFO
 const handleModifyInfo = () => {
   // send to back info PUT ROUTE USER 
