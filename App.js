@@ -65,6 +65,7 @@ export default function App() {
   return (
     // <Provider store={configureStore({})}>
     /* <AppStack /> */
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
@@ -72,7 +73,7 @@ export default function App() {
         <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
-    // {/* </Provider> */}
+  </Provider>
   );
 }
 
