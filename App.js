@@ -6,12 +6,17 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import LoadingPage from "./screens/LoadingScreen";
+
 import SignScreen from "./screens/SignScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProfilScreen from "./screens/ProfilScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StoriesScreen from "./screens/StoriesScreen";
+import CguvScreen from "./screens/CguvScreen"
+import SplashScreen from './screens/SplashScreen';
+import SubscriptionScreen from "./screens/SubscriptionScreen";
+import StoryGenerationScreen from "./screens/StoryGenerationScreen";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +29,12 @@ const Tab = createBottomTabNavigator();
 //     </Stack.Navigator>
 //   );
 // };
+
+import user from './reducers/user';
+
+const store = configureStore({
+  reducer: { user },
+});
 
 const TabNavigator = () => {
   return (
@@ -58,13 +69,18 @@ export default function App() {
   return (
     // <Provider store={configureStore({})}>
     /* <AppStack /> */
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
+        <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="StoryGenerationScreen" component={StoryGenerationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-    // {/* </Provider> */}
+  </Provider> 
   );
 }
 
