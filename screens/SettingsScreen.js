@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+  Switch,
+} from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function SettingsScreen({ navigation }) {
   // const [isEnabled, setIsEnabled] = useState(false);
@@ -22,11 +30,16 @@ export default function SettingsScreen({ navigation }) {
     setFontSize(fontSize - 1);
   };
 
-  const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
-  const toggleAudioSwitch = () => setIsAudioEnabled(previousState => !previousState);
-  const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
-  const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
-  const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
+  const toggleFontSwitch = () =>
+    setIsFontEnabled((previousState) => !previousState);
+  const toggleAudioSwitch = () =>
+    setIsAudioEnabled((previousState) => !previousState);
+  const toggleAmbianceSwitch = () =>
+    setIsAmbianceEnabled((previousState) => !previousState);
+  const toggleNotificationsSwitch = () =>
+    setIsNotificationsEnabled((previousState) => !previousState);
+  const toggleModeSwitch = () =>
+    setIsModeEnabled((previousState) => !previousState);
 
   const handleCguv = () => {
     // call back delete account
@@ -36,70 +49,88 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
-        <Text style={styles.title1}>Bienvenue Pierre</Text>
+      <ImageBackground
+        style={styles.imagBgd}
+        source={require("../assets/ImageBibliotheque.png")}
+      >
+        {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
         <Text style={styles.title2}>Paramètres</Text>
       </ImageBackground>
+    
       <View style={styles.settingsApp}>
-        <View style={styles.police}>
-          <TouchableOpacity style={styles.buttonInc} onPress={increaseFontSize}>
-            <Text style={styles.buttonTextInc}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonDec} onPress={decreaseFontSize}>
-            <Text style={styles.buttonTextDec}>-</Text>
-          </TouchableOpacity>
-          <Text style={styles.fontSettingsPolice}>Taille de police : 16px</Text>
+
+        <View style={styles.containerPolice}>
+          <FontAwesome
+            name="minus"
+            size="20"
+            style={styles.iconDec}
+            color="white"
+            onPress={decreaseFontSize}
+          />
+          <Text style={styles.textPolice}>Taille de police : 16px</Text>
+          <FontAwesome
+            name="plus"
+            size="20"
+            style={styles.iconInc}
+            color="white"
+            onPress={increaseFontSize}
+          />
         </View>
-        <View style={styles.audio}>
+
+        <View style={styles.setting}>
           <Text style={styles.fontSettings}>Audio :</Text>
           <Switch
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isAudioEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor='#FFCE4A'
+            ios_backgroundColor="#3e3e3e"
             onValueChange={toggleAudioSwitch}
             value={isAudioEnabled}
           />
         </View>
-        <View style={styles.ambiance}>
+
+        <View style={styles.setting}>
           <Text style={styles.fontSettings}>Ambiance :</Text>
           <Switch
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isAmbianceEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor='#3e3e3e'
+            ios_backgroundColor="#3e3e3e"
             onValueChange={toggleAmbianceSwitch}
             value={isAmbianceEnabled}
           />
         </View>
-        <View style={styles.notifications}>
+
+        <View style={styles.setting}>
           <Text style={styles.fontSettings}>Notifications :</Text>
           <Switch
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isNotificationsEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor='#3e3e3e'
+            ios_backgroundColor="#3e3e3e"
             onValueChange={toggleNotificationsSwitch}
             value={isNotificationsEnabled}
+            
           />
         </View>
-        <View style={styles.notifications}>
+
+        <View style={styles.setting}>
           <Text style={styles.fontSettings}>Mode :</Text>
           <Switch
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor='#3e3e3e'
+            ios_backgroundColor="#3e3e3e"
             onValueChange={toggleModeSwitch}
             value={isModeEnabled}
           />
         </View>
       </View>
-      <View style={styles.cgvBtn}>
-        <TouchableOpacity onPress={() => handleCguv("Cguv")}>
+
+        <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
           <Text style={styles.fontCGU}>CGU / CGV</Text>
         </TouchableOpacity>
-      </View>
+      
     </SafeAreaView>
   );
 }
@@ -115,98 +146,89 @@ const styles = StyleSheet.create({
     flex: 2,
     marginTop: "-12%",
     width: "100%",
-    height: "65%",
+    height: "54.8%",
   },
-  title1: {
-    fontFamily: "Lato",
-    fontSize: 20,
-    // margin: 170,
-    fontWeight: "200",
-    textAlign: "left",
-    color: "#FFFFFF",
-    marginTop: 183,
-    marginLeft: 16,
-  },
+
   title2: {
     // fontFamily: "Lato",
-    fontSize: 34,
+    fontSize: 32,
     fontWeight: "500",
     textAlign: "left",
     color: "#FFCE4A",
     lineHeight: 60,
     marginLeft: 16,
+    marginTop: 183,
   },
   settingsApp: {
     flex: 2,
     width: "92%",
+    marginTop: "-40%",
+    justifyContent:'flex-start',
+    alignItems:'center'
   },
-  fontSettingsPolice: {
-    textAlign: "center",
-    color: "white",
-    margin: -10,
+  containerPolice: {
+    flexDirection: "row",
+    padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: "92%",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#FFCE4A",
     borderRadius: 10,
-    padding: 10,
-    bottom: 150,
+    height: 55,
+    marginBottom: 15,
+  },
+  textPolice: {
+    color: "white",
+    fontSize: 16,
+  },
+  setting:{
+    width: "92%",
+    flexDirection: "row",
+    padding: 10 ,
+    width: "92%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#FFCE4A",
+    borderRadius: 10,
+    marginBottom: 15,
   },
 
   fontSettings: {
+    textAlign: "center",
     color: "white",
-    margin: -10,
-    borderWidth: 1,
-    borderColor: "#FFCE4A",
-    borderRadius: 10,
-    padding: 10,
-    bottom: 150,
-  },
-
-  ambiance: {},
-  police: {
-    marginBottom: 50,
-  },
-
-  buttonInc: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    bottom: 100,
-    paddingRight: 10,
-  },
-  buttonDec: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    bottom: 128,
-    paddingLeft: 10,
-  },
-  buttonTextInc: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  buttonTextDec: {
-    justifyContent: "flex-end",
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
+    marginLeft: 10,
+    fontSize: 16,
+},
+  // fontSettings: {
+  //   color: "white",
+  //   margin: -10,
+  //   borderWidth: 1,
+  //   borderColor: "#FFCE4A",
+  //   borderRadius: 10,
+  //   padding: 10,
+  //   bottom: 150,
+  // },
   switchBtn: {
-    bottom: 185,
-    marginRight: 30,
+    marginRight: 10,
+    transform: [{ scaleX: 1.1 }, { scaleY: 1}]
   },
-
   cgvBtn: {
-    flex: 0.2,
-    justifyContent: "center",
-    margin: 1,
-    width: "96%",
+    width: "85%",
+    flexDirection: "row",
+    padding: 10 ,
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    bottom: 60,
     borderRadius: 10,
+    marginBottom: 15,
+    height: 55,
   },
   fontCGU: {
-    textAlign: "center",
     color: "white",
   },
 });

@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "66%",
+    height: "71%",
     marginBottom: "4%",
   },
 
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "left",
     color: "#FFCE4A",
-    marginTop: 160,
+    marginTop: 183,
     lineHeight: 60,
     marginLeft: 16,
   },

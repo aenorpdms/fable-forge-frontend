@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: 250,
+    height: "29.5%",
+    marginTop:"-12%"
   },
 
   title1: {
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     fontWeight: '200',
     textAlign: "left",
     color: "#FFFFFF",
-    marginTop: 160,
+    marginTop: 205,
     marginLeft: 16,
 },
 
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "left",
     color: "#FFFFFF",
-    lineHeight: 60,
+    lineHeight: 40,
     marginLeft: 15,
   },
 
@@ -99,13 +100,13 @@ const styles = StyleSheet.create({
 
   newStoryButton: {
     position: 'absolute',
-    top: 300,
+    top: 320,
     width: '92%',
     height: '17%',
     padding: 15,
     borderWidth: 1,
     borderColor: '#FFCE4A',
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginVertical: 20,
@@ -114,7 +115,8 @@ const styles = StyleSheet.create({
   addButton: {
     width: 30,
     height: 30,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
 
   buttonText: {
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
 
   title3: {
     position: 'absolute',
-    top: 470,
+    top: 490,
     fontFamily: "Lato",
     fontSize: 16,
     color: '#FFCE4A',
@@ -136,12 +138,12 @@ const styles = StyleSheet.create({
 
   lastStoryButton: {
     position: 'absolute',
-    top: 510,
+    top: 520,
     width: '92%',
     height: '21%',
     borderWidth: 1,
     borderColor: '#FFFFFF',
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginVertical: 20,
@@ -166,7 +168,7 @@ readButton: {
     borderWidth: 1,
     borderColor: '#FFCE4A',
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
 },
 
