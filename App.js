@@ -15,6 +15,8 @@ import StoriesScreen from "./screens/StoriesScreen";
 import CguvScreen from "./screens/CguvScreen"
 import SplashScreen from './screens/SplashScreen';
 import SubscriptionScreen from "./screens/SubscriptionScreen";
+import StoryGenerationScreen from "./screens/StoryGenerationScreen";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,6 +77,7 @@ export default function App() {
         <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="StoryGenerationScreen" component={StoryGenerationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   </Provider> 

@@ -2,7 +2,12 @@ import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextI
 import * as Font from "expo-font";
 
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
+
+  const handleSubmit = () => {
+    navigation.navigate("StoryGenerationScreen");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -14,7 +19,7 @@ export default function HomeScreen() {
         <Text style={styles.title2bis}>prennent vie...</Text>
       </ImageBackground>
 
-      <TouchableOpacity style={styles.newStoryButton}>
+      <TouchableOpacity style={styles.newStoryButton} onPress={() => handleSubmit()}>
           <Image
             style={styles.addButton}
             source={require('../assets/add-circle-outline.png')}
