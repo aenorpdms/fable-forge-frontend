@@ -12,6 +12,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ProfilScreen from "./screens/ProfilScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StoriesScreen from "./screens/StoriesScreen";
+import CguvScreen from "./screens/CguvScreen"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +25,12 @@ const Tab = createBottomTabNavigator();
 //     </Stack.Navigator>
 //   );
 // };
+
+import user from './reducers/user';
+
+const store = configureStore({
+  reducer: { user },
+});
 
 const TabNavigator = () => {
   return (
@@ -62,6 +69,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
+        <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
     // {/* </Provider> */}
