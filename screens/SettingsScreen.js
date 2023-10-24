@@ -28,6 +28,12 @@ export default function SettingsScreen({ navigation }) {
   const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
   const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
 
+  const handleCguv = () => {
+    // call back delete account
+    // go back to sign in
+    navigation.navigate("Cguv");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
@@ -90,7 +96,9 @@ export default function SettingsScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.cgvBtn}>
-        <Text style={styles.fontCGU}>CGU / CGV</Text>
+        <TouchableOpacity onPress={() => handleCguv("Cguv")}>
+          <Text style={styles.fontCGU}>CGU / CGV</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
