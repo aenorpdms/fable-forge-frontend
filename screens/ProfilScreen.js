@@ -14,6 +14,7 @@ import {
 import * as Font from "expo-font";
 import { useDispatch,useSelector } from 'react-redux';
 import { useState } from "react";
+import { updateUser } from "../reducers/user";
 
 export default function ProfilScreen({ navigation }) {
 
@@ -24,16 +25,23 @@ const [email, setEmail] = useState('')
 const [newPassword, setNewPassword] = useState('')
 const [password, setPassword] = useState('')
 const [oldPassword, setOldPassword] = useState('')
+const [isEditable, setIsEditable] = useState(false);
 
 const dispatch = useDispatch()
-const user = useSelector((state))
+const user = useSelector((state)  => state.user.value)
+console.log(user)
+
+
 // MODIFY INFO
 const handleModifyInfo = () => {
   // send to back info PUT ROUTE USER 
+  dispatch(updateUser({username, name, email}))
+  setIsEditable(false)
 }
 
+
 // MODIFY PWD
-const handleMOdifyPwd = () => {
+const handleModifyPwd = () => {
   // send to back info PUT ROUTE USER 
 }
 
@@ -41,6 +49,7 @@ const handleMOdifyPwd = () => {
 // SUBSCRIPTION PAGE
 const handleSubscription = () => {
   // navigate to subscription page
+  navigation.navigate('Subscription')
 }
 
 
@@ -66,7 +75,7 @@ const handleDeleteAccount = () => {
           source={require("../assets/ImageBibliotheque.png")}
         >
           <View>
-          <Text style={styles.title1}>BIENVENUE PIERRE</Text>
+          {/* <Text style={styles.title1}>BIENVENUE PIERRE</Text> */}
           <Text style={styles.title2}>Profil</Text>
           <Image
             style={styles.image}
@@ -81,7 +90,7 @@ const handleDeleteAccount = () => {
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholder="Pierre-Lapin"
+              placeholder={user.username}
               placeholderTextColor="white"
               onChangeText={(value) => setUsername(value)} value={username}
             ></TextInput>
@@ -90,7 +99,7 @@ const handleDeleteAccount = () => {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder="Pierre"
+              placeholder={user.name}
               placeholderTextColor="white"
               onChangeText={(value) => setName(value)} value={name}
             ></TextInput>
@@ -99,7 +108,7 @@ const handleDeleteAccount = () => {
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              placeholder="pierre@gmail.com"
+              placeholder={user.email}
               placeholderTextColor="white"
               onChangeText={(value) => setEmail(value)} value={email}
             ></TextInput>
@@ -109,7 +118,7 @@ const handleDeleteAccount = () => {
           </TouchableOpacity>
           <Text style={styles.titleInput}>Mot de Passe</Text>
           <TouchableOpacity style={styles.mdp}>
-            <Text style={styles.btnModify} onPress={() => handleMOdifyPwd()}>Modifier mon mot de passe</Text>
+            <Text style={styles.btnModify} onPress={() => handleModifyPwd()}>Modifier mon mot de passe</Text>
           </TouchableOpacity>
           <Text style={styles.subscriptionText}>
             Votre abonnement est valide jusqu’au 31/10/2023
@@ -161,6 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "left",
     color: "#FFCE4A",
+    marginTop: 160,
     lineHeight: 60,
     marginLeft: 16,
   },
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
   },
   image: {
     position: "absolute",
-    top: "58%",
+    top: "55%",
     left: "36%",
   },
   containerInformation: {
@@ -195,7 +205,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FFCE4A",
     marginBottom: "5%",
-    marginLeft:"4%"
+    marginLeft:"4%",
+    color:"white"
   },
   btnModify: {
     color: "#FFCE4A",

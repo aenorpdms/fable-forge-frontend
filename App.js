@@ -13,6 +13,7 @@ import ProfilScreen from "./screens/ProfilScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StoriesScreen from "./screens/StoriesScreen";
 import CguvScreen from "./screens/CguvScreen"
+import SubscriptionScreen from "./screens/SubscriptionScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,9 +72,10 @@ export default function App() {
         <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
         <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
+        <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
-  </Provider>
+  </Provider> 
   );
 }
 
