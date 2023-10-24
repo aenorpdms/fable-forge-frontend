@@ -1,7 +1,9 @@
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useState } from "react";
 
 export default function HomeScreen({ navigation }) {
 
@@ -37,8 +39,8 @@ export default function HomeScreen({ navigation }) {
 
       <View style={styles.lastStoryButton}>
         <ImageBackground
-          //source={{ uri: 'URL_DE_L'HISTOIRE' }}
           style={styles.storyImage}
+          source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
         >
           <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
         </ImageBackground>
@@ -47,9 +49,7 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-    </SafeAreaView>
-
-    
+    </SafeAreaView> 
   )
 }
 
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     top: 510,
     width: '92%',
     height: '21%',
-    padding: 15,
     borderWidth: 1,
     borderColor: '#FFFFFF',
     borderRadius: 8,
@@ -148,8 +147,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
 },
 
-storyImage: {
-    height: 150,
+  storyImage: {
+    width: '100%',
+    height: '100%',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
