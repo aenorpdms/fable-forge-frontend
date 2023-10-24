@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput } from "react-native";
 import * as Font from "expo-font";
-import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin";
+
 
 import { useState } from "react";
 
