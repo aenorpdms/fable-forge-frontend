@@ -3,7 +3,7 @@ import * as Font from "expo-font";
 
 import { useState } from "react";
 
-export default function settingsScreen({ navigation }) {
+export default function StoriesScreen({ navigation }) {
   return <View style={styles.container}></View>;
 }
 
