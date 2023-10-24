@@ -20,6 +20,7 @@ const Stack = createNativeStackNavigator();
 //   );
 // };
 
+
 export default function App() {
   return (
     // <Provider store={configureStore({})}>
