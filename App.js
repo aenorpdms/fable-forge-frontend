@@ -8,6 +8,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import LoadingPage from "./screens/loadingPage";
 import SignScreen from "./screens/sign";
+import HomeScreen from "./screens/HomeScreen";
+import ProfilScreen from "./screens/ProfilScreen";
+import SettingsScreen from "./screens/SettingsScreen";
+import StoriesScreen from "./screens/StoriesScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
