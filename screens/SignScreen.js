@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ImageBackground,
-  Modal,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput } from "react-native";
 import * as Font from "expo-font";
 // import {
 //   GoogleSignin,
@@ -19,17 +11,16 @@ export default function SignScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
 
-  const handleModalToggle = (type) => {
+  const handleModalToggle = type => {
     setModalType(type);
     setModalVisible(!modalVisible);
   };
 
   const handleSubmit = () => {
-    navigation.navigate('TabNavigator');
+    navigation.navigate("TabNavigator");
   };
 
-
-  // GOOGLE 
+  // GOOGLE
   // GoogleSignin.configure({
   //   webClientId: '940491110305-hujjjcdlhjq1n84llmcnl9ajlj7cu195.apps.googleusercontent.com',
   //   offlineAccess: true,
@@ -47,44 +38,33 @@ export default function SignScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.imagBgd}
-        source={require("../assets/finalimageConnection.png")}
-      >
+      <ImageBackground style={styles.imagBgd} source={require("../assets/finalimageConnection.png")}>
         <Text style={styles.title1}>Fable</Text>
         <Text style={styles.title2}>Forge</Text>
       </ImageBackground>
-      <Text style={styles.subTitle}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        temp.
-      </Text>
-      <TouchableOpacity
-        style={styles.btnHome}
-        onPress={() => handleModalToggle("register")}
-      >
+      <Text style={styles.subTitle}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp.</Text>
+      <TouchableOpacity style={styles.btnHome} onPress={() => handleModalToggle("register")}>
         <Text style={styles.textBtn}>S'inscrire gratuitement</Text>
       </TouchableOpacity>
-      <TouchableOpacity  style={styles.btnGoogle}
-      // </View>onPress={() => handleGoogleSignIn()}
+      <TouchableOpacity
+        style={styles.btnGoogle}
+        // </View>onPress={() => handleGoogleSignIn()}
       >
-      {/* <GoogleSigninButton
+        {/* <GoogleSigninButton
         style={styles.btnGoogle}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={() => handleGoogleSignIn()} 
       /> */}
-       <Text style={styles.textBtn1}>Se connecter avec Google</Text>
-      </TouchableOpacity> 
+        <Text style={styles.textBtn1}>Se connecter avec Google</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.btnFacebook}>
         <Text style={styles.textBtn1}>Se connecter avec Facebook</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.btnInput}
-        onPress={() => handleModalToggle("connexion")}
-      >
+      <TouchableOpacity style={styles.btnInput} onPress={() => handleModalToggle("connexion")}>
         <Text style={styles.textBtn1}>Se connecter</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+      <Modal visible={modalVisible} animationType='slide' transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
             <TouchableOpacity onPress={() => handleModalToggle("")}>
@@ -93,44 +73,20 @@ export default function SignScreen({ navigation }) {
             </TouchableOpacity>
             {modalType === "register" && (
               <>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Prénom"
-                  placeholderTextColor="white"
-                ></TextInput>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Pseudonyme"
-                  placeholderTextColor="white"
-                ></TextInput>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Email"
-                  placeholderTextColor="white"
-                ></TextInput>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Mot de Passe"
-                  placeholderTextColor="white"
-                ></TextInput>
-                <TouchableOpacity style={styles.btnValidate} onPress = {()=> handleSubmit()} >
+                <TextInput style={styles.input} placeholder='Prénom' placeholderTextColor='white'></TextInput>
+                <TextInput style={styles.input} placeholder='Pseudonyme' placeholderTextColor='white'></TextInput>
+                <TextInput style={styles.input} placeholder='Email' placeholderTextColor='white'></TextInput>
+                <TextInput style={styles.input} placeholder='Mot de Passe' placeholderTextColor='white'></TextInput>
+                <TouchableOpacity style={styles.btnValidate} onPress={() => handleSubmit()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
             )}
             {modalType === "connexion" && (
               <>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Pseudonyme ou Email"
-                  placeholderTextColor="white"
-                ></TextInput>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Mot de Passe"
-                  placeholderTextColor="white"
-                ></TextInput>
-                <TouchableOpacity style={styles.btnValidate} onPress= {()=> handleSubmit()}>
+                <TextInput style={styles.input} placeholder='Pseudonyme ou Email' placeholderTextColor='white'></TextInput>
+                <TextInput style={styles.input} placeholder='Mot de Passe' placeholderTextColor='white'></TextInput>
+                <TouchableOpacity style={styles.btnValidate} onPress={() => handleSubmit()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
