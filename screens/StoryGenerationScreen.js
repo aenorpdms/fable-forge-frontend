@@ -3,12 +3,13 @@ import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, Dimensions }
 import { SafeAreaView } from "react-native-safe-area-context";
 // eslint-disable-next-line
 import Carousel from "react-native-snap-carousel";
-
-export default function StoryGenerationScreen({ navigation }) {
+import { useNavigation } from "@react-navigation/native";
+export default function StoryGenerationScreen() {
   // Story display page:
-  const handleStoryDisplay = () => {
-    // navigate to Story display page
-    navigation.navigate("StoryDisplay");
+  const navigation = useNavigation();
+  const handleStoryGeneration2 = () => {
+    // navigate to Story step 2 page
+    navigation.navigate("StoryGeneration2");
   };
 
   const data = [
@@ -53,7 +54,7 @@ export default function StoryGenerationScreen({ navigation }) {
             <ImageBackground source={item.image} style={styles.genreImage}></ImageBackground>
           </View>
           <Text style={styles.genreDescription}>{item.description}</Text>
-          <TouchableOpacity style={styles.selectButton} onPress={() => handleStoryDisplay("StoryDisplay")}>
+          <TouchableOpacity style={styles.selectButton} onPress={() => handleStoryGeneration2()}>
             <Text style={styles.selectButtonText}>Sélectionner</Text>
           </TouchableOpacity>
         </View>

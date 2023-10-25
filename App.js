@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 import { StyleSheet, Text, View } from "react-native";
-import AppLoading from 'expo-app-loading';
+import AppLoading from "expo-app-loading";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -21,7 +21,7 @@ import {
   Lato_700Bold_Italic,
   Lato_900Black,
   Lato_900Black_Italic,
-} from '@expo-google-fonts/lato';
+} from "@expo-google-fonts/lato";
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -35,6 +35,7 @@ import CguvScreen from "./screens/CguvScreen";
 import SplashScreen from "./screens/SplashScreen";
 import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
+import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 
 const Stack = createNativeStackNavigator();
@@ -88,7 +89,6 @@ const TabNavigator = () => {
 };
 
 export default function App() {
-
   let [fontsLoaded] = useFonts({
     Lato_100Thin,
     Lato_100Thin_Italic,
@@ -109,14 +109,13 @@ export default function App() {
 
   if (!fontsLoaded) {
     return <AppLoading />;
-  } 
+  }
 
   return (
     // <Provider store={configureStore({})}>
     /* <AppStack /> */
- 
-       <Provider store={store}>
-        <Text style = {{fontFamily: "Lato_100Thin_Italic"}}>Lato</Text>
+
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
@@ -125,12 +124,11 @@ export default function App() {
           <Stack.Screen name='TabNavigator' component={TabNavigator} />
           <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
           <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
+          <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
           <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
-  
-   
   );
 }
 
@@ -140,6 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily:"Lato"
+    fontFamily: "Lato",
   },
 });
