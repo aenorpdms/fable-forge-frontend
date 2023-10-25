@@ -47,7 +47,6 @@ const store = configureStore({
   reducer: { user },
 });
 
-
 export default function App() {
   let [fontsLoaded] = useFonts({
     Lato_100Thin,
@@ -72,20 +71,20 @@ export default function App() {
   }
 
   return (
-<Provider store={store}>
-  <NavigationContainer>
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Home' component={HomeScreen} />
-      <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
-      <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
-      <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  </NavigationContainer>
-</Provider>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
+          <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
+          <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

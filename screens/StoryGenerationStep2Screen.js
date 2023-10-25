@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 
 export default function StoryGenerationStep2Screen({ navigation }) {
@@ -51,6 +52,14 @@ export default function StoryGenerationStep2Screen({ navigation }) {
               <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
               <Text style={styles.textTypeEnd}>fin morale</Text>
             </View>
+            <View style={styles.arrowContainer}>
+              <TouchableOpacity style={styles.arrowBtn}>
+                <Icon name='arrow-left' size={30} color={"#2C1A51"} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.arrowBtn}>
+                <Icon name='arrow-right' size={30} color={"#FFCE4A"} />
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -95,12 +104,11 @@ const styles = StyleSheet.create({
   },
   containerInformation: {
     height: 700,
-    borderWidth: 2,
+    // borderWidth: 2,
   },
   containerStory: {
     height: 600,
-    borderWidth: 2,
-
+    // borderWidth: 2,
     bottom: 30,
     minHeight: "60%",
     width: "90%",
@@ -172,7 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "80%",
     height: "40%",
-    bottom: 40,
+    bottom: 60,
     // borderColor: "red",
     // borderWidth: 1,
     borderRadius: 15,
@@ -188,5 +196,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     marginTop: 10,
+  },
+  arrowBtn: {
+    flexDirection: "row",
+    // width: "90%",
+    // borderWidth: 1,
+    // borderColor: "red",
+    right: 300,
+    marginRight: 250,
+    top: 100,
+  },
+  arrowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20, // ajustez la marge supérieure selon vos besoins
   },
 });
