@@ -15,6 +15,10 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate("StoryGenerationScreen");
   };
 
+  const handleDisplayStory = () => {
+    navigation.navigate("StoryDisplay");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -45,7 +49,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
         </ImageBackground>
 
-        <TouchableOpacity style={styles.readButton}>
+        <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
           <Text style={styles.readButtonText}>Lire mon histoire</Text>
         </TouchableOpacity>
 

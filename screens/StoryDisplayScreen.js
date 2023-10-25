@@ -10,6 +10,8 @@ export default function StoryDisplayScreen({ navigation }) {
   //     // Generate your text here
   //     const newText = "This is the generated text.";
   //   setGeneratedText(newText);
+
+  
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.textTitle}>Titre de l'Histoire</Text>
