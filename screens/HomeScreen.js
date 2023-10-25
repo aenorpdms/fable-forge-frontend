@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useState } from "react";
 
+import TabBar from "../TabBar";
+
 export default function HomeScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value)
@@ -52,7 +54,7 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
           <Text style={styles.readButtonText}>Lire mon histoire</Text>
         </TouchableOpacity>
-
+       <TabBar />
       </View>
 
     </SafeAreaView> 

@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // eslint-disable-next-line
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
+import TabBar from "../TabBar";
 export default function StoryGenerationScreen() {
   // Story display page:
   const navigation = useNavigation();
@@ -66,6 +67,7 @@ export default function StoryGenerationScreen() {
     <SafeAreaView style={styles.container}>
       <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd} />
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} />
+     <TabBar /> 
     </SafeAreaView>
   );
 }

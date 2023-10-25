@@ -60,7 +60,7 @@ export default function SignScreen({ navigation }) {
 					setEmail('');
 					dispatch(updateUser({firstname, username, email, token: data.token}))
           setModalVisible(false)
-          navigation.navigate("TabNavigator");
+          navigation.navigate("Home");
 				}
 			});
 	};
@@ -79,7 +79,7 @@ export default function SignScreen({ navigation }) {
 					setPasswordUp('');
 					dispatch(updateUser({firstname:data.firstname, username: data.username, email: data.email, token: data.token}))
           setModalVisible(false)
-          navigation.navigate("TabNavigator");
+          navigation.navigate("Home");
 				}
 			});
 
