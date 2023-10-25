@@ -2,9 +2,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-nati
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect} from "react";
-
-const API_KEY = process.env.API_KEY;
-const API_URL = process.env.API_URL;
+import {API_URL, API_KEY} from "@env"
 
 export default function StoryDisplayScreen({ navigation }) {
   //   const [generatedText, setGeneratedText] = useState("");
