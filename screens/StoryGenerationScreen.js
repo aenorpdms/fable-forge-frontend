@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // eslint-disable-next-line
 import Carousel from "react-native-snap-carousel";
 
-const StoryGenerationScreen = () => {
+export default function StoryGenerationScreen({ navigation }) {
   // Story display page:
   const handleStoryDisplay = () => {
     // navigate to Story display page
@@ -67,7 +67,7 @@ const StoryGenerationScreen = () => {
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} />
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StoryGenerationScreen;
+// export default StoryGenerationScreen;
