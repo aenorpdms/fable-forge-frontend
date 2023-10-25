@@ -54,10 +54,10 @@ export default function StoryGenerationStep2Screen({ navigation }) {
             </View>
             <View style={styles.arrowContainer}>
               <TouchableOpacity style={styles.arrowBtn}>
-                <Icon name='arrow-left' size={30} color={"#2C1A51"} />
+                <Icon name='chevron-left' size={30} color={"#2C1A51"} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.arrowBtn}>
-                <Icon name='arrow-right' size={30} color={"#FFCE4A"} />
+                <Icon name='chevron-right' size={30} color={"#FFCE4A"} />
               </TouchableOpacity>
             </View>
           </View>
