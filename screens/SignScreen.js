@@ -91,7 +91,6 @@ export default function SignScreen({ navigation }) {
         <Text style={styles.title1}>Fable</Text>
         <Text style={styles.title2}>Forge</Text>
       </ImageBackground>
-      <Text style={styles.subTitle}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp.</Text>
       <TouchableOpacity style={styles.btnHome} onPress={() => handleModalToggle("register")}>
         <Text style={styles.textBtn}>S'inscrire gratuitement</Text>
       </TouchableOpacity>
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
     // backgroundColor:
   },
   title1: {
-    fontFamily: "Lato_100Thin_Italic",
+    fontFamily: "Lato_400Regular",
     fontSize: 28,
     // margin: 170,
     
@@ -181,31 +180,22 @@ const styles = StyleSheet.create({
     marginTop: 350,
   },
   title2: {
-    // fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 56,
-    fontWeight: "bold",
     textAlign: "center",
     color: "#FFFFFF",
     lineHeight: 60,
-  },
-  subTitle: {
-    width: "80%",
-    color: "#FFFFFF",
-    textAlign: "center",
-    fontSize: 14,
-    marginBottom: 40,
   },
   btnConnect: {
     margin: 10,
     width: "90%",
   },
   btnHome: {
+    alignItems: 'center',
     backgroundColor: "#FFCE4A",
     borderRadius: 10,
     margin: 10,
     padding: 10,
-    paddingLeft: 80,
-    paddingRight: 80,
     width: "80%",
   },
   btnGoogle: {
@@ -238,6 +228,7 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     textAlign: "center",
+    width: 200,
   },
   textBtn1: {
     textAlign: "center",

@@ -19,7 +19,7 @@ import { updateUser } from "../reducers/user";
 export default function ProfilScreen({ navigation }) {
   // INPUT STATE
   const [username, setUsername] = useState("");
-  const [firstname, setFirstName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ export default function ProfilScreen({ navigation }) {
   // MODIFY INFO
   const handleModifyInfo = () => {
     // send to back info PUT ROUTE USER
-    dispatch(updateUser({ username, firstname, email }));
+    dispatch(updateUser({ username, name, email }));
     setIsEditable(false);
     setButtonText("Modifier mes informations");
   };
@@ -93,7 +93,7 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.user.username}
+              placeholder={user.username}
               placeholderTextColor="white"
               onChangeText={(value) => setUsername(value)}
               value={username}
@@ -104,10 +104,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.user.firstname}
+              placeholder={user.name}
               placeholderTextColor="white"
-              onChangeText={(value) => setFirstName(value)}
-              value={firstname}
+              onChangeText={(value) => setName(value)}
+              value={name}
               editable={isEditable}
             ></TextInput>
           </View>
@@ -115,7 +115,7 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.user.email}
+              placeholder={user.email}
               placeholderTextColor="white"
               onChangeText={(value) => setEmail(value)}
               value={email}
@@ -216,10 +216,9 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "71%",
+    height: "66%",
     marginBottom: "4%",
   },
-
   title1: {
     fontFamily: "Lato",
     fontSize: 20,
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "left",
     color: "#FFCE4A",
-    marginTop: 183,
+    marginTop: 160,
     lineHeight: 60,
     marginLeft: 16,
   },

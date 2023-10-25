@@ -4,8 +4,11 @@ import * as Font from "expo-font";
 
 import { useState } from "react";
 
-export default function StoriesScreen() {
+export default function StoriesScreen({ navigation }) {
 
+  const handleDisplayStory = () => {
+    navigation.navigate("StoryDisplay");
+  };
 
 // mockdata (faux tableau de data)
 const storiesData = [
@@ -57,13 +60,11 @@ const storiesList = storiesData.map((story, index) => (
       <Text style={styles.storyTitle}>{story.title}</Text>
       <Text style={styles.storyStatus}>{story.status}</Text>
     </ImageBackground>
-    <TouchableOpacity style={styles.readButton}>
+    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
       <Text style={styles.readButtonText}>{story.button}</Text>
     </TouchableOpacity>
   </View>
 ))
-
-
 
 //dans le scrollview le tableau résultant du map
 
@@ -76,10 +77,7 @@ const storiesList = storiesData.map((story, index) => (
           style={styles.imagBgd}
           source={require('../assets/ImageBibliotheque.png')}
         >
-        
           <Text style={styles.title1}>Retrouvez toutes vos histoires</Text>
-        
-
         </ImageBackground>
       </View>
 
@@ -98,14 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: "#2C1A51",
-    borderWidth: 1,
-    borderColor: 'green',
   },
 
   header: {
-    height: 250, 
+    height: '25%', 
     width: '100%', 
-    borderWidth: 3
   },
 
   imagBgd: {
@@ -123,29 +118,23 @@ const styles = StyleSheet.create({
 },
 
   scrollView: {
-    height: 600
-
- 
+    width: '100%',
   },
+
   scrollViewContainer: {
-    height: 500, 
+    flex: 2,
     width: "90%",
-    borderWidth: 1,
-    borderColor: 'orange',
   },
 
   storiesContainer: {
     flex:3,
-    borderWidth: 1,
-    borderColor: 'red',
     height:'100%',
     alignItems: 'center',
-    
   },
 
   storyButton: {
     width: '100%',
-    height: 50,
+    height: 200,
     borderWidth: 1,
     borderColor: '#FFFFFF',
     borderRadius: 8,
@@ -174,12 +163,14 @@ const styles = StyleSheet.create({
   },
 
   readButton: {
+    width: 100,
     backgroundColor: '#2C1A51',
     borderWidth: 1,
     borderColor: '#FFCE4A',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
+    marginTop: -20,
   },
 
   readButtonText: {
