@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 

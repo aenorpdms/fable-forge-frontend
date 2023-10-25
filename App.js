@@ -13,10 +13,11 @@ import HomeScreen from "./screens/HomeScreen";
 import ProfilScreen from "./screens/ProfilScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StoriesScreen from "./screens/StoriesScreen";
-import CguvScreen from "./screens/CguvScreen"
-import SplashScreen from './screens/SplashScreen';
+import CguvScreen from "./screens/CguvScreen";
+import SplashScreen from "./screens/SplashScreen";
 import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
+import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,7 +31,7 @@ const Tab = createBottomTabNavigator();
 //   );
 // };
 
-import user from './reducers/user';
+import user from "./reducers/user";
 
 const store = configureStore({
   reducer: { user },
@@ -38,29 +39,32 @@ const store = configureStore({
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName = '';
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName = "";
 
-        if (route.name === 'Home') {
-          iconName = 'location-arrow';
-        } else if (route.name === 'Stories') {
-          iconName = 'map-pin';
-        }else if (route.name === 'Profil') {
-          iconName = 'map-pin';
-         } else if (route.name === 'Settings') {
-            iconName = 'map-pin';}
+          if (route.name === "Home") {
+            iconName = "location-arrow";
+          } else if (route.name === "Stories") {
+            iconName = "map-pin";
+          } else if (route.name === "Profil") {
+            iconName = "map-pin";
+          } else if (route.name === "Settings") {
+            iconName = "map-pin";
+          }
 
-        return <FontAwesome name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: '#ec6e5b',
-      tabBarInactiveTintColor: '#335561',
-      headerShown: false,
-    })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Stories" component={StoriesScreen} />
-      <Tab.Screen name="Profil" component={ProfilScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+          return <FontAwesome name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#ec6e5b",
+        tabBarInactiveTintColor: "#335561",
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name='Home' component={HomeScreen} />
+      <Tab.Screen name='Stories' component={StoriesScreen} />
+      <Tab.Screen name='Profil' component={ProfilScreen} />
+      <Tab.Screen name='Settings' component={SettingsScreen} />
     </Tab.Navigator>
   );
 };
@@ -70,17 +74,18 @@ export default function App() {
     // <Provider store={configureStore({})}>
     /* <AppStack /> */
     <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
-        <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
-        <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
-        <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="StoryGenerationScreen" component={StoryGenerationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  </Provider> 
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='TabNavigator' component={TabNavigator} />
+          <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
+          <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
