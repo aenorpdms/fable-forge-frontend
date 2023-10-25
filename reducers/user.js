@@ -8,8 +8,6 @@ const initialState = {
       email: null,
       token: null,
     },
-    stories: [],
-    settings: [],
   },
 };
 
@@ -20,14 +18,7 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       state.value.user = action.payload;
     },
-    addStories: (state, action) => {
-      state.value.stories.push(action.payload);
-    },
-    removeStories: (state, action) => {
-      state.value.stories = state.value.stories.filter(
-        (e) => e.title !== action.payload
-      );
-    },
+    
   },
 });
 
