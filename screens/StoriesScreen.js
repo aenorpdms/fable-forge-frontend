@@ -48,6 +48,22 @@ const storiesData = [
 ];
 
 // map sur le tableau et return 
+const storiesList = storiesData.map((story, index) => (
+  <View style={styles.storyButton} key={index}>
+    <ImageBackground
+      style={styles.storyImage}
+      source={story.image} //{{ uri: 'URL_DE_L'HISTOIRE' }}
+    >
+      <Text style={styles.storyTitle}>{story.title}</Text>
+      <Text style={styles.storyStatus}>{story.status}</Text>
+    </ImageBackground>
+    <TouchableOpacity style={styles.readButton}>
+      <Text style={styles.readButtonText}>{story.button}</Text>
+    </TouchableOpacity>
+  </View>
+))
+
+
 
 //dans le scrollview le tableau résultant du map
 
@@ -68,76 +84,10 @@ const storiesData = [
       </View>
 
       <View style={styles.scrollViewContainer}>
-
-<ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
-
-        
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-
-     
-
-      </ScrollView>
-
-
+        <ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
+          {storiesList}
+        </ScrollView>
       </View>
-
-
     </SafeAreaView> 
   )
 }
@@ -212,22 +162,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 },
 
-storyTitle: {
+  storyTitle: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
 },
 
-readButton: {
+  storyStatus: {
+    color: 'white',
+    fontSize: 14,
+  },
+
+  readButton: {
     backgroundColor: '#2C1A51',
     borderWidth: 1,
     borderColor: '#FFCE4A',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
-},
+  },
 
-readButtonText: {
+  readButtonText: {
     color: 'white',
     fontSize: 14,
   },
