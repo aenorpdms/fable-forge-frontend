@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function StoriesScreen() {
 
 
-// mockdata 
+// mockdata (faux tableau de data)
 
 // map sur le tableau et return 
 
@@ -108,21 +108,20 @@ export default function StoriesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     alignItems: 'center',
     backgroundColor: "#2C1A51",
     borderWidth: 1,
     borderColor: 'green',
   },
+
   header: {
-height: 250, 
-width:"100%", 
-borderWidth: 3 },
+    height: 250, 
+    width: '100%', 
+    borderWidth: 3
+  },
 
   imagBgd: {
-    
     width: "100%",
-    
   },
 
   title1: {
@@ -130,7 +129,7 @@ borderWidth: 3 },
     fontSize: 20,
     fontWeight: '200',
     textAlign: "left",
-    color: "#FFFFFF",
+    color: "#FFCE4A",
     marginTop: 160,
     marginLeft: 16,
 },
