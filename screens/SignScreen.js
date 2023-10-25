@@ -172,10 +172,10 @@ const styles = StyleSheet.create({
     // backgroundColor:
   },
   title1: {
-    fontFamily: "Lato",
+    fontFamily: "Lato_100Thin_Italic",
     fontSize: 28,
     // margin: 170,
-    fontWeight: "bold",
+    
     textAlign: "center",
     color: "#FFFFFF",
     marginTop: 350,
