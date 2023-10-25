@@ -12,30 +12,38 @@ const storiesData = [
   {
     title: "Histoire 1",
     image: require("../assets/Horreur.png"),
-    status: "en cours",
-    button: 
+    status: "En cours",
+    button: "reprendre",
   },
   {
     title: "Histoire 2",
     image: require("../assets/Aventure.png"),
-    status: "en cours"
+    status: "en cours",
+    button: "reprendre",
   },
   {
     title: "Histoire 3",
     image: require("../assets/Fantasy_SF.png"),
-    status: "terminée"
+    status: "terminée",
+    button: "relire",
   },
   {
     title: "Histoire 4",
     image: require("../assets/Policier_Thriller.png"),
+    status: "terminée",
+    button: "relire",
   },
   {
     title: "Histoire 5",
     image: require("../assets/Romance.png"),
+    status: "terminée",
+    button: "relire",
   },
   {
     title: "Histoire 6",
     image: require("../assets/Enfant.png"),
+    status: "terminée",
+    button: "relire",
   },
 ];
 
