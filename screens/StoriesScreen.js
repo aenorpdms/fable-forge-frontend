@@ -4,8 +4,11 @@ import * as Font from "expo-font";
 
 import { useState } from "react";
 
-export default function StoriesScreen() {
+export default function StoriesScreen({ navigation }) {
 
+  const handleDisplayStory = () => {
+    navigation.navigate("StoryDisplay");
+  };
 
 // mockdata (faux tableau de data)
 const storiesData = [
@@ -48,6 +51,20 @@ const storiesData = [
 ];
 
 // map sur le tableau et return 
+const storiesList = storiesData.map((story, index) => (
+  <View style={styles.storyButton} key={index}>
+    <ImageBackground
+      style={styles.storyImage}
+      source={story.image} //{{ uri: 'URL_DE_L'HISTOIRE' }}
+    >
+      <Text style={styles.storyTitle}>{story.title}</Text>
+      <Text style={styles.storyStatus}>{story.status}</Text>
+    </ImageBackground>
+    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
+      <Text style={styles.readButtonText}>{story.button}</Text>
+    </TouchableOpacity>
+  </View>
+))
 
 //dans le scrollview le tableau résultant du map
 
@@ -60,84 +77,15 @@ const storiesData = [
           style={styles.imagBgd}
           source={require('../assets/ImageBibliotheque.png')}
         >
-        
           <Text style={styles.title1}>Retrouvez toutes vos histoires</Text>
-        
-
         </ImageBackground>
       </View>
 
       <View style={styles.scrollViewContainer}>
-
-<ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
-
-        
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.storyButton}>
-            <ImageBackground
-              style={styles.storyImage}
-              source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-            >
-              <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-            </ImageBackground>
-            <TouchableOpacity style={styles.readButton}>
-              <Text style={styles.readButtonText}>Voir les détails</Text>
-            </TouchableOpacity>
-          </View>
-
-     
-
-      </ScrollView>
-
-
+        <ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
+          {storiesList}
+        </ScrollView>
       </View>
-
-
     </SafeAreaView> 
   )
 }
@@ -148,14 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: "#2C1A51",
-    borderWidth: 1,
-    borderColor: 'green',
   },
 
   header: {
-    height: 250, 
+    height: '25%', 
     width: '100%', 
-    borderWidth: 3
   },
 
   imagBgd: {
@@ -173,29 +118,23 @@ const styles = StyleSheet.create({
 },
 
   scrollView: {
-    height: 600
-
- 
+    width: '100%',
   },
+
   scrollViewContainer: {
-    height: 500, 
+    flex: 2,
     width: "90%",
-    borderWidth: 1,
-    borderColor: 'orange',
   },
 
   storiesContainer: {
     flex:3,
-    borderWidth: 1,
-    borderColor: 'red',
     height:'100%',
     alignItems: 'center',
-    
   },
 
   storyButton: {
     width: '100%',
-    height: 50,
+    height: 200,
     borderWidth: 1,
     borderColor: '#FFFFFF',
     borderRadius: 8,
@@ -212,22 +151,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 },
 
-storyTitle: {
+  storyTitle: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
 },
 
-readButton: {
+  storyStatus: {
+    color: 'white',
+    fontSize: 14,
+  },
+
+  readButton: {
+    width: 100,
     backgroundColor: '#2C1A51',
     borderWidth: 1,
     borderColor: '#FFCE4A',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
-},
+    marginTop: -20,
+  },
 
-readButtonText: {
+  readButtonText: {
     color: 'white',
     fontSize: 14,
   },
