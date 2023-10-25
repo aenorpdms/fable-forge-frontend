@@ -28,7 +28,7 @@ export default function StoryGenerationScreen({ navigation }) {
       image: require("../assets/Fantasy_SF.png"),
     },
     {
-      title: "Policier Thriller",
+      title: "Policier / Thriller",
       description: "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
       image: require("../assets/Policier_Thriller.png"),
     },

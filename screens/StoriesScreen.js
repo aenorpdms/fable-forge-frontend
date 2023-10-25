@@ -8,6 +8,36 @@ export default function StoriesScreen() {
 
 
 // mockdata (faux tableau de data)
+const storiesData = [
+  {
+    title: "Histoire 1",
+    image: require("../assets/Horreur.png"),
+    status: "en cours",
+    button: 
+  },
+  {
+    title: "Histoire 2",
+    image: require("../assets/Aventure.png"),
+    status: "en cours"
+  },
+  {
+    title: "Histoire 3",
+    image: require("../assets/Fantasy_SF.png"),
+    status: "terminée"
+  },
+  {
+    title: "Histoire 4",
+    image: require("../assets/Policier_Thriller.png"),
+  },
+  {
+    title: "Histoire 5",
+    image: require("../assets/Romance.png"),
+  },
+  {
+    title: "Histoire 6",
+    image: require("../assets/Enfant.png"),
+  },
+];
 
 // map sur le tableau et return 
 
@@ -125,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   title1: {
-    fontFamily: "Lato",
+    //fontFamily: "Lato",
     fontSize: 20,
     fontWeight: '200',
     textAlign: "left",

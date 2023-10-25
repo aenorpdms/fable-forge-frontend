@@ -38,15 +38,17 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.title3}>Votre dernière histoire</Text>
 
       <View style={styles.lastStoryButton}>
-        <ImageBackground
-          style={styles.storyImage}
-          source={require('../assets/ImageBibliotheque.png')} //{{ uri: 'URL_DE_L'HISTOIRE' }}
-        >
+        <View> 
+
+        </View>
+        <ImageBackground style={styles.storyImage} source={require('../assets/ImageBibliotheque.png')} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/ >
           <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
         </ImageBackground>
+
         <TouchableOpacity style={styles.readButton}>
           <Text style={styles.readButtonText}>Lire mon histoire</Text>
         </TouchableOpacity>
+
       </View>
 
     </SafeAreaView> 
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
   },
 
   title1: {
-    fontFamily: "Lato",
+    //fontFamily: "Lato",
     fontSize: 20,
     fontWeight: '200',
     textAlign: "left",
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
 
   newStoryButton: {
     position: 'absolute',
-    top: 320,
+    top: '38%',
     width: '92%',
     height: '17%',
     padding: 15,
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
 
   title3: {
     position: 'absolute',
-    top: 490,
+    top: '62%',
     fontFamily: "Lato",
     fontSize: 16,
     color: '#FFCE4A',
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
 
   lastStoryButton: {
     position: 'absolute',
-    top: 520,
+    top: '67%',
     width: '92%',
     height: '21%',
     borderWidth: 1,
@@ -164,12 +166,15 @@ storyTitle: {
 },
 
 readButton: {
-    backgroundColor: '#2C1A51',
+    width: 150,
     borderWidth: 1,
-    borderColor: '#FFCE4A',
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
+    borderColor: "#FFCE4A",
+    backgroundColor: "#2C1A51",
+    padding: 15,
+    marginTop: -25,
+    borderRadius: 8,
+    alignItems: "center",
+    alignSelf: "center",
 },
 
 readButtonText: {
