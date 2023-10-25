@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -16,7 +17,6 @@ import CguvScreen from "./screens/CguvScreen"
 import SplashScreen from './screens/SplashScreen';
 import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
