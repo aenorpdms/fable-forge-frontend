@@ -36,6 +36,7 @@ import SplashScreen from "./screens/SplashScreen";
 import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
 import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
+import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 
 const Stack = createNativeStackNavigator();
