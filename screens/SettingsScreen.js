@@ -3,6 +3,9 @@ import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch } fro
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { ScrollView } from "react-native-gesture-handler";
+
+import TabBar from "../TabBar";
 
 export default function SettingsScreen({ navigation }) {
   // const [isEnabled, setIsEnabled] = useState(false);
@@ -96,11 +99,12 @@ export default function SettingsScreen({ navigation }) {
             value={isModeEnabled}
           />
         </View>
+        <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
+          <Text style={styles.fontCGU}>CGU / CGV</Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
-        <Text style={styles.fontCGU}>CGU / CGV</Text>
-      </TouchableOpacity>
+      <TabBar navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -149,6 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
+    marginTop: 20,
   },
   textPolice: {
     color: "white",
@@ -187,16 +192,19 @@ const styles = StyleSheet.create({
     transform: [{ scaleX: 1.1 }, { scaleY: 1 }],
   },
   cgvBtn: {
-    width: "85%",
     flexDirection: "row",
     padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: "92%",
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#FFCE4A",
     borderRadius: 10,
-    marginBottom: 15,
     height: 55,
+    marginBottom: 15,
+    marginTop: 70,
   },
   fontCGU: {
     color: "white",

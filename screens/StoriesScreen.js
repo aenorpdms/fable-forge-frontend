@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
 import * as Font from "expo-font";
 
+import TabBar from "../TabBar";
+
 import { useState } from "react";
 
 export default function StoriesScreen({ navigation }) {
@@ -85,6 +87,9 @@ const storiesList = storiesData.map((story, index) => (
         <ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
           {storiesList}
         </ScrollView>
+      </View>
+      <View style={styles.tabBar}>
+        <TabBar navigation={navigation} />
       </View>
     </SafeAreaView> 
   )
