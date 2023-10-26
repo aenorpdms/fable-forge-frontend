@@ -3,9 +3,23 @@ import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity }
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
+import TabBar from "../TabBar";
 
 export default function StoryGenerationStep2Screen({ navigation }) {
   const [buttonColor, setButtonColor] = useState("#2C1A51");
+
+  // const navigation = useNavigation();
+  const handleStoryGeneration3 = () => {
+    // navigate to Story step 2 page
+    navigation.navigate("StoryGeneration3");
+  };
+
+  const handleStoryGeneration = () => {
+    // navigate to Story step 2 page
+    navigation.navigate("StoryGenerationScreen");
+  };
 
   // Story display page:
   // const handleStoryDisplay = () => {
@@ -35,33 +49,44 @@ export default function StoryGenerationStep2Screen({ navigation }) {
           <Text style={styles.titleContainer}>Type de fin</Text>
           <View style={styles.leftContainer}>
             <View style={styles.typeEndLeft}>
-              <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-              <Text style={styles.textTypeEnd}> fin heureuse</Text>
+              <TouchableOpacity style={styles.TypeEndBtn}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <Text style={styles.textTypeEnd}> fin heureuse</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.typeEndLeft}>
-              <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-              <Text style={styles.textTypeEnd}>fin triste</Text>
+              <TouchableOpacity style={styles.TypeEndBtn}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <Text style={styles.textTypeEnd}>fin triste</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.rightContainer}>
             <View style={styles.typeEndRight}>
-              <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-              <Text style={styles.textTypeEnd}>fin ouverte</Text>
+              <TouchableOpacity style={styles.TypeEndBtn}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <Text style={styles.textTypeEnd}>fin ouverte</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.typeEndRight}>
-              <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-              <Text style={styles.textTypeEnd}>fin morale</Text>
+              <TouchableOpacity style={styles.TypeEndBtn}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <Text style={styles.textTypeEnd}>fin morale</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.arrowContainer}>
               <TouchableOpacity style={styles.arrowBtn}>
-                <Icon name='chevron-left' size={30} color={"#2C1A51"} />
+                <Icon name='chevron-left' size={30} color={"#2C1A51"} onPress={() => handleStoryGeneration()} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.arrowBtn}>
-                <Icon name='chevron-right' size={30} color={"#FFCE4A"} />
+                <Icon name='chevron-right' size={30} color={"#FFCE4A"} onPress={() => handleStoryGeneration3()} />
               </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
+        <View style={styles.tabBar}>
+          <TabBar navigation={navigation} />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -103,18 +128,26 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   containerInformation: {
-    height: 700,
+    height: 650,
     // borderWidth: 2,
   },
   containerStory: {
-    height: 600,
+    // height: 600,
+    // // borderWidth: 2,
+    // bottom: 30,
+    // minHeight: "60%",
+    // width: "90%",
+    // borderRadius: 10,
+    // backgroundColor: "#6B5F85",
+    // padding: 20,
+    height: 550,
     // borderWidth: 2,
-    bottom: 30,
+    bottom: 60,
     minHeight: "60%",
     width: "90%",
     borderRadius: 10,
     backgroundColor: "#6B5F85",
-    padding: 20,
+    padding: 10,
   },
   leftContainer: {
     flexDirection: "row",
@@ -169,8 +202,8 @@ const styles = StyleSheet.create({
   typeEndLeft: {
     flexDirection: "column",
     width: "80%",
-    height: "40%",
-    bottom: 10,
+    height: "30%",
+    bottom: 20,
     // borderColor: "red",
     // borderWidth: 1,
     borderRadius: 15,
@@ -179,8 +212,8 @@ const styles = StyleSheet.create({
   typeEndRight: {
     flexDirection: "column",
     width: "80%",
-    height: "40%",
-    bottom: 60,
+    height: "30%",
+    bottom: 20,
     // borderColor: "red",
     // borderWidth: 1,
     borderRadius: 15,
@@ -204,11 +237,14 @@ const styles = StyleSheet.create({
     // borderColor: "red",
     right: 300,
     marginRight: 250,
-    top: 100,
+    top: 80,
   },
   arrowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20, // ajustez la marge supérieure selon vos besoins
+    marginTop: 70, // ajustez la marge supérieure selon vos besoins
+  },
+  tabBar: {
+    top: 72,
   },
 });

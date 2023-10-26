@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ImageBackground,
-  Switch,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -23,23 +16,18 @@ export default function SettingsScreen({ navigation }) {
   const [fontSize, setFontSize] = useState(16);
 
   const increaseFontSize = () => {
-    setFontSize(fontSize + 1);
+    setFontSize(fontSize + 2);
   };
 
   const decreaseFontSize = () => {
-    setFontSize(fontSize - 1);
+    setFontSize(fontSize - 2);
   };
 
-  const toggleFontSwitch = () =>
-    setIsFontEnabled((previousState) => !previousState);
-  const toggleAudioSwitch = () =>
-    setIsAudioEnabled((previousState) => !previousState);
-  const toggleAmbianceSwitch = () =>
-    setIsAmbianceEnabled((previousState) => !previousState);
-  const toggleNotificationsSwitch = () =>
-    setIsNotificationsEnabled((previousState) => !previousState);
-  const toggleModeSwitch = () =>
-    setIsModeEnabled((previousState) => !previousState);
+  const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
+  const toggleAudioSwitch = () => setIsAudioEnabled(previousState => !previousState);
+  const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
+  const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
+  const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
 
   const handleCguv = () => {
     // call back delete account
@@ -49,32 +37,16 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={styles.imagBgd}
-        source={require("../assets/ImageBibliotheque.png")}
-      >
+      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
         {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
         <Text style={styles.title2}>Paramètres</Text>
       </ImageBackground>
-    
-      <View style={styles.settingsApp}>
 
+      <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
-          <FontAwesome
-            name="minus"
-            size="20"
-            style={styles.iconDec}
-            color="white"
-            onPress={decreaseFontSize}
-          />
+          <FontAwesome name='minus' size='20' style={styles.iconDec} color='white' onPress={decreaseFontSize} />
           <Text style={styles.textPolice}>Taille de police : 16px</Text>
-          <FontAwesome
-            name="plus"
-            size="20"
-            style={styles.iconInc}
-            color="white"
-            onPress={increaseFontSize}
-          />
+          <FontAwesome name='plus' size='20' style={styles.iconInc} color='white' onPress={increaseFontSize} />
         </View>
 
         <View style={styles.setting}>
@@ -83,7 +55,7 @@ export default function SettingsScreen({ navigation }) {
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isAudioEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
+            ios_backgroundColor='#3e3e3e'
             onValueChange={toggleAudioSwitch}
             value={isAudioEnabled}
           />
@@ -95,7 +67,7 @@ export default function SettingsScreen({ navigation }) {
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isAmbianceEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
+            ios_backgroundColor='#3e3e3e'
             onValueChange={toggleAmbianceSwitch}
             value={isAmbianceEnabled}
           />
@@ -107,10 +79,9 @@ export default function SettingsScreen({ navigation }) {
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isNotificationsEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
+            ios_backgroundColor='#3e3e3e'
             onValueChange={toggleNotificationsSwitch}
             value={isNotificationsEnabled}
-            
           />
         </View>
 
@@ -120,17 +91,16 @@ export default function SettingsScreen({ navigation }) {
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
+            ios_backgroundColor='#3e3e3e'
             onValueChange={toggleModeSwitch}
             value={isModeEnabled}
           />
         </View>
       </View>
 
-        <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
-          <Text style={styles.fontCGU}>CGU / CGV</Text>
-        </TouchableOpacity>
-      
+      <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
+        <Text style={styles.fontCGU}>CGU / CGV</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -163,8 +133,8 @@ const styles = StyleSheet.create({
     flex: 2,
     width: "92%",
     marginTop: "-40%",
-    justifyContent:'flex-start',
-    alignItems:'center'
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   containerPolice: {
     flexDirection: "row",
@@ -184,10 +154,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
-  setting:{
+  setting: {
     width: "92%",
     flexDirection: "row",
-    padding: 10 ,
+    padding: 10,
     width: "92%",
     justifyContent: "space-between",
     alignItems: "center",
@@ -202,7 +172,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 10,
     fontSize: 16,
-},
+  },
   // fontSettings: {
   //   color: "white",
   //   margin: -10,
@@ -214,12 +184,12 @@ const styles = StyleSheet.create({
   // },
   switchBtn: {
     marginRight: 10,
-    transform: [{ scaleX: 1.1 }, { scaleY: 1}]
+    transform: [{ scaleX: 1.1 }, { scaleY: 1 }],
   },
   cgvBtn: {
     width: "85%",
     flexDirection: "row",
-    padding: 10 ,
+    padding: 10,
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
