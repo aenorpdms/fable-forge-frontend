@@ -1,51 +1,43 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import * as Font from "expo-font";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { API_URL, API_KEY } from "@env";
+import { useDispatch, useSelector } from "react-redux";
+import { addStories } from "../reducers/stories";
+import { updateNew } from "../reducers/newStories";
+import user from "../reducers/user";
 
 export default function StoryDisplayScreen({ navigation }) {
-  //   const [generatedText, setGeneratedText] = useState("");
-
-  //   const generateText = () => {
-  //     // Generate your text here
-  //     const newText = "This is the generated text.";
-  //   setGeneratedText(newText);
 
   const [story, setStory] = useState("");
   const [title, setTitle] = useState("");
 
   const generate = () => {
     (async () => {
+      
       const body = {
         genre: "Horreur",
         fin: "Triste",
         longueur: "1",
       };
+  
       console.log("click");
 
-      let maxTokens;
-      if (body.longueur === "1") {
-        maxTokens = Math.floor(Math.random() * (800 - 600 + 1) + 600);
-      } else if (body.longueur === "2") {
-        maxTokens = Math.floor(Math.random() * (1500 - 800 + 1) + 800);
-      } else if (body.longueur === "3") {
-        maxTokens = Math.floor(Math.random() * (4000 - 1500 + 1) + 1500);
-      } else {
-        // Default value if the selection is not valid
-        maxTokens = 1000;
-      }
       try {
-        // Generate the beginning of the story
-        const beginningUserMessage = `Je souhaite créer une histoire de genre ${body.genre} d'environ ${body.longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${body.fin} en accord avec le genre. M'inspirer pour le personnage principal, le lieu de départ et l'époque. Créer aussi un titre avant le texte de l'histoire.`;
 
-        const beginningRequestBody = {
-          model: "gpt-3.5-turbo-16k",
+        // Generate the beginning of the story
+        const beginningUserMessage = `Je souhaite créer une histoire de genre ${body.genre} d'environ ${body.longueur} page A4, soit environ 50 mots par page A4. Assurez-vous que l'histoire a une fin ${body.fin} en accord avec le genre. M'inspirer pour le personnage principal, le lieu de départ et l'époque. Créer aussi un titre avant le texte de l'histoire.`;
+        const beginningRequestBody = {model: "gpt-3.5-turbo-16k",
           messages: [
-            { role: "system", content: "You are the best storyteller there is." },
-            { role: "user", content: beginningUserMessage },
-          ],
-          max_tokens: maxTokens,
+            {role: "system", content: "You are the best storyteller there is.",},
+            { role: "user", content: beginningUserMessage },],
+          max_tokens: 200,
           temperature: 1,
         };
 
@@ -65,33 +57,6 @@ export default function StoryDisplayScreen({ navigation }) {
         const beginningData = await beginningResponse.json();
         const beginningMessage = beginningData.choices[0].message.content;
 
-        const endingUserMessage = `Suite de l'histoire de ${beginningMessage}`;
-
-        const endingRequestBody = {
-          model: "gpt-3.5-turbo-16k",
-          messages: [
-            { role: "system", content: "You are the best storyteller there is." },
-            { role: "user", content: endingUserMessage },
-          ],
-          max_tokens: maxTokens, // You can adjust maxTokens for the ending
-          temperature: 1,
-        };
-
-        const endingResponse = await fetch(`${API_URL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
-          },
-          body: JSON.stringify(endingRequestBody),
-        });
-
-        if (!endingResponse.ok) {
-          throw new Error("Error generating the ending of the story");
-        }
-
-        const endingData = await endingResponse.json();
-        const endingMessage = endingData.choices[0].message.content;
 
         // Find the index of the first occurrence of a newline character
         const newLineIndex = beginningMessage.indexOf("\n");
@@ -99,18 +64,44 @@ export default function StoryDisplayScreen({ navigation }) {
         if (newLineIndex !== -1) {
           const title = beginningMessage.slice(0, newLineIndex).trim();
           const storyWithoutTitle = beginningMessage.slice(newLineIndex).trim();
-          const fullStory = `${storyWithoutTitle}\n\n${endingMessage}`;
+          // const fullStory = `${storyWithoutTitle}\n\n${endingMessage}`;
           setTitle(title);
-          setStory(fullStory);
+          setStory(storyWithoutTitle);
+
+          // CALL BACK TO SEND STORIES CREATED
+          const bodyToSend = {
+            length: "1",
+            title: "title",
+            story: "story",
+            type: "horreur",
+            endingType: "triste",
+          };
+
+          fetch(
+            `https://fable-forge-backend.vercel.app/stories/new/TnNDRl-8PoQH8jmZJfpx1JerbZ6fFRNy`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(bodyToSend),
+            }
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.result) {
+               console.log("added to data")
+              }
+            });
         } else {
           // Handle the case where no newline character is found
-          console.log("Title not found", fullStory);
+          console.log("Title not found", beginningMessage);
         }
       } catch (error) {
         console.error(error);
       }
     })();
   };
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -119,9 +110,7 @@ export default function StoryDisplayScreen({ navigation }) {
       </TouchableOpacity>
       <Text style={styles.textTitle}>{title}</Text>
       <View style={styles.containerStory}>
-        <ScrollView style={styles.containerInformation} indicatorStyle='white'>
-          {/* <Text style={styles.textStory}>{generatedText}</Text>
-            <TouchableOpacity title='Generate Text' onPress={generateText} /> */}
+        <ScrollView style={styles.containerInformation} indicatorStyle="white">
           <Text style={styles.textStory}>{story}</Text>
         </ScrollView>
       </View>
