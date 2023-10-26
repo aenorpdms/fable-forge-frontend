@@ -16,54 +16,83 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { updateUser } from "../reducers/user";
 
-import TabBar from '../TabBar'
+import TabBar from "../TabBar";
 
 export default function ProfilScreen({ navigation }) {
   // INPUT STATE
   const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+  const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
+
+  // PASSWORD UPDATE
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
+
+  // EDITE
   const [isEditable, setIsEditable] = useState(false);
   const [isEditablePwd, setIsEditablePwd] = useState(false);
   const [buttonText, setButtonText] = useState("Modifier mes informations");
   const [buttonTextPwd, setButtonTextPwd] = useState(
     "Modifier mon mot de passe"
   );
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
   // MODIFY INFO
   const handleModifyInfo = () => {
+    // const updatedUserInfo = { token: user.token };
+
+    // // UPDATE USERNAME
+    // if (username !== user.username && username!== "" && username!== null) {
+    //   updatedUserInfo.username = username;
+    // } else {
+    //   updatedUserInfo.username = user.username; // Use the old value
+    // }
+    // // UPDATE FIRSTNAME
+    // if (firstname !== user.firstname && firstname!=="" && firstname!== null) {
+    //   updatedUserInfo.firstname = firstname;
+    // } else {
+    //   updatedUserInfo.firstname = user.firstname; // Use the old value
+    // }
+
+    // // UPDATE EMAIL
+    // if (email !== user.email && email!=="" && email!== null) {
+    //   updatedUserInfo.email = email;
+    // } else {
+    //   updatedUserInfo.email = user.email; // Use the old value
+    // }
+
+    // dispatch(updateUser(updatedUserInfo));
+    // console.log(updatedUserInfo)
+
     // send to back info PUT ROUTE USER
-    fetch('https://fable-forge-backend.vercel.app/users/signin', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ identifier, password: passwordUp}),
-		}).then(response => response.json())
-			.then(data => {
-				console.log(data)
-				if (data.result){
-					setIdentifier('');
-					setPasswordUp('');
-					dispatch(updateUser({firstname:data.firstname, username: data.username, email: data.email, token: data.token}))
-          setModalVisible(false)
-          navigation.navigate("Home");
-				}
-			});
-
-
-    dispatch(updateUser({ username, firstname, email }));
-    setIsEditable(false);
-    setButtonText("Modifier mes informations");
-  };
+    fetch(`https://fable-forge-backend.vercel.app/users/information`, {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    token: user.token,
+    email,
+    firstname,
+    username,
+  }),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    if (data.result) {
+      setIsEditable(false);
+      setButtonText("Modifier mes informations");
+    }
+  });
+      
+};
 
   // MODIFY PWD
   const handleModifyPwd = () => {
     // send to back info PUT ROUTE USER
-    if(password === newPassword){
+    if (password === newPassword) {
       // send to back info PUT ROUTE USER
     }
     setIsEditablePwd(false);
@@ -78,10 +107,18 @@ export default function ProfilScreen({ navigation }) {
 
   // DELETE ACCOUNT
   const handleDeleteAccount = () => {
-    // call back delete account
-    // go back to sign in
-    navigation.navigate("Sign");
-  };
+    fetch(`https://fable-forge-backend.vercel.app/users`, {
+  method: "DELETE",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({token: user.token,}),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.result) {
+      navigation.navigate("Sign");
+    }
+  })
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -115,7 +152,7 @@ export default function ProfilScreen({ navigation }) {
               placeholderTextColor="white"
               onChangeText={(value) => setUsername(value)}
               value={username}
-              editable={isEditable}
+              // editable={isEditable}
             ></TextInput>
           </View>
           <View>
@@ -124,9 +161,9 @@ export default function ProfilScreen({ navigation }) {
               style={styles.input}
               placeholder={user.firstname}
               placeholderTextColor="white"
-              onChangeText={(value) => setName(value)}
-              value={name}
-              editable={isEditable}
+              onChangeText={(value) => setFirstName(value)}
+              value={firstname}
+              // editable={isEditable}
             ></TextInput>
           </View>
           <View>
@@ -137,17 +174,17 @@ export default function ProfilScreen({ navigation }) {
               placeholderTextColor="white"
               onChangeText={(value) => setEmail(value)}
               value={email}
-              editable={isEditable}
+              // editable={isEditable}
             ></TextInput>
           </View>
           <TouchableOpacity
-            onPress={() => {
-              if (isEditable) {
-                handleModifyInfo();
-              } else {
-                setIsEditable(true);
-                setButtonText("Valider mes modifications");
-              }
+            onPress={() => { handleModifyInfo()
+              // if (isEditable) {
+              //   handleModifyInfo();
+              // } else {
+              //   setIsEditable(true);
+              //   setButtonText("Valider mes modifications");
+              // }
             }}
           >
             <Text style={styles.btnModify}>{buttonText}</Text>
@@ -352,6 +389,6 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
   tabBar: {
-    marginTop: '12%'
-  }
+    marginTop: "12%",
+  },
 });
