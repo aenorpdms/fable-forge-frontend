@@ -36,7 +36,6 @@ import SplashScreen from "./screens/SplashScreen";
 import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
 import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
-import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 
 const Stack = createNativeStackNavigator();
@@ -82,10 +81,12 @@ export default function App() {
           <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='Profil' component={ProfilScreen} />
+          <Stack.Screen name='Settings' component={SettingsScreen} />
+          <Stack.Screen name='Stories' component={StoriesScreen} />
           <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
           <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
           <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
-          <Stack.Screen name='StoryGeneration3' component={StoryGenerationStep3Screen} />
           <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
