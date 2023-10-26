@@ -44,7 +44,7 @@ export default function TabBar({ navigation }) {
     };
 
     const handleDisplayStory = () => {
-        navigation.navigate("StoryDisplay");
+        navigation.navigate("Stories");
     };
 
     const handleDisplayProfil = () => {
