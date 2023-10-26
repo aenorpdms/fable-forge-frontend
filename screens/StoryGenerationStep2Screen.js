@@ -8,7 +8,86 @@ import { useNavigation } from "@react-navigation/native";
 import TabBar from "../TabBar";
 
 export default function StoryGenerationStep2Screen({ navigation }) {
-  const [buttonColor, setButtonColor] = useState("#2C1A51");
+  // Etats pour choisir la longueur de l'histoire à générer
+  const [buttonColor1, setButtonColor1] = useState("#2C1A51");
+  const [buttonColor2, setButtonColor2] = useState("#2C1A51");
+  const [buttonColor3, setButtonColor3] = useState("#2C1A51");
+
+  // Etats pour choisir le type de fin de l'histoire à générer
+  const [buttonTypeEnd1, setButtonType1] = useState("");
+  const [buttonTypeEnd2, setButtonType2] = useState("");
+  const [buttonTypeEnd3, setButtonType3] = useState("");
+  const [buttonTypeEnd4, setButtonType4] = useState("");
+
+  // Fonction qui permet de changer la couleur du bouton au click et de désactiver les autres (si je clique sur courte puis sur moyenne, courte se désactive)
+  function handleButtonClick(buttonNumber) {
+    if (buttonNumber === 1) {
+      if (buttonColor1 === "#2C1A51") {
+        setButtonColor1("#FFCE4A");
+        setButtonColor2("#2C1A51");
+        setButtonColor3("#2C1A51");
+      } else {
+        setButtonColor1("#2C1A51");
+      }
+    } else if (buttonNumber === 2) {
+      if (buttonColor2 === "#2C1A51") {
+        setButtonColor2("#FFCE4A");
+        setButtonColor1("#2C1A51");
+        setButtonColor3("#2C1A51");
+      } else {
+        setButtonColor2("#2C1A51");
+      }
+    } else if (buttonNumber === 3) {
+      if (buttonColor3 === "#2C1A51") {
+        setButtonColor3("#FFCE4A");
+        setButtonColor1("#2C1A51");
+        setButtonColor2("#2C1A51");
+      } else {
+        setButtonColor3("#2C1A51");
+      }
+    }
+  }
+
+  // Fonction qui permet de changer la couleur du bouton au click et de désactiver les autres (si je clique sur fin heureuse puis sur fin morale, fin heureuse se désactive)
+  function handleButtonEndTypeClick(buttonEndNumber) {
+    if (buttonEndNumber === 1) {
+      if (buttonTypeEnd1 === null) {
+        setButtonType1("#FFCE4A");
+        setButtonType2(null);
+        setButtonType3(null);
+        setButtonType4(null);
+      } else {
+        setButtonType1(null);
+      }
+    } else if (buttonEndNumber === 2) {
+      if (buttonTypeEnd2 === null) {
+        setButtonType2("#FFCE4A");
+        setButtonType1(null);
+        setButtonType3(null);
+        setButtonType4(null);
+      } else {
+        setButtonType2(null);
+      }
+    } else if (buttonEndNumber === 3) {
+      if (buttonTypeEnd3 === null) {
+        setButtonType3("#FFCE4A");
+        setButtonType1(null);
+        setButtonType2(null);
+        setButtonType4(null);
+      } else {
+        setButtonType3(null);
+      }
+    } else if (buttonEndNumber === 4) {
+      if (buttonTypeEnd4 === null) {
+        setButtonType4("#FFCE4A");
+        setButtonType1(null);
+        setButtonType2(null);
+        setButtonType3(null);
+      } else {
+        setButtonType4(null);
+      }
+    }
+  }
 
   // const navigation = useNavigation();
   const handleStoryGeneration3 = () => {
@@ -37,25 +116,25 @@ export default function StoryGenerationStep2Screen({ navigation }) {
       <View style={styles.containerStory}>
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
-          <TouchableOpacity style={styles.btnSizeStory} onPress={() => setButtonColor("#2C1A51")}>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColor1 }]} onPress={() => handleButtonClick(1)}>
             <Text style={styles.sizeTextBtn}>Courte</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSizeStoryOn}>
-            <Text style={styles.sizeTextBtnOn}>Moyenne</Text>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColor2 }]} onPress={() => handleButtonClick(2)}>
+            <Text style={styles.sizeTextBtn}>Moyenne</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSizeStory}>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColor3 }]} onPress={() => handleButtonClick(3)}>
             <Text style={styles.sizeTextBtn}>Longue</Text>
           </TouchableOpacity>
           <Text style={styles.titleContainer}>Type de fin</Text>
           <View style={styles.leftContainer}>
             <View style={styles.typeEndLeft}>
-              <TouchableOpacity style={styles.TypeEndBtn}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd1 }]} onPress={() => handleButtonEndTypeClick(1)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}> fin heureuse</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndLeft}>
-              <TouchableOpacity style={styles.TypeEndBtn}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd2 }]} onPress={() => handleButtonEndTypeClick(2)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>fin triste</Text>
               </TouchableOpacity>
@@ -63,13 +142,13 @@ export default function StoryGenerationStep2Screen({ navigation }) {
           </View>
           <View style={styles.rightContainer}>
             <View style={styles.typeEndRight}>
-              <TouchableOpacity style={styles.TypeEndBtn}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd3 }]} onPress={() => handleButtonEndTypeClick(3)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>fin ouverte</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndRight}>
-              <TouchableOpacity style={styles.TypeEndBtn}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd4 }]} onPress={() => handleButtonEndTypeClick(4)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>fin morale</Text>
               </TouchableOpacity>
@@ -157,6 +236,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     top: 30,
     // margin: 10,
+    // borderWidth: 1,
+    // borderColor: "green",
   },
   rightContainer: {
     flexDirection: "row",
@@ -223,12 +304,17 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     overflow: "hidden",
-    borderRadius: 15,
+    borderRadius: 5,
   },
   textTypeEnd: {
     textAlign: "center",
     color: "white",
     marginTop: 10,
+  },
+  typeEndBtn: {
+    borderWidth: 3,
+    borderColor: "#FFCE4A",
+    borderRadius: 10,
   },
   arrowBtn: {
     flexDirection: "row",
