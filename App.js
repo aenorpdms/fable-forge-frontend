@@ -47,7 +47,6 @@ const store = configureStore({
   reducer: { user },
 });
 
-
 export default function App() {
   let [fontsLoaded] = useFonts({
     Lato_100Thin,
