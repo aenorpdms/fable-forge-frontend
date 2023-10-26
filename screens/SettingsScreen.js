@@ -10,6 +10,9 @@ import {
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { ScrollView } from "react-native-gesture-handler";
+
+import TabBar from "../TabBar";
 
 export default function SettingsScreen({ navigation }) {
   // const [isEnabled, setIsEnabled] = useState(false);
@@ -49,88 +52,88 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={styles.imagBgd}
-        source={require("../assets/ImageBibliotheque.png")}
-      >
-        {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
-        <Text style={styles.title2}>Paramètres</Text>
-      </ImageBackground>
-    
-      <View style={styles.settingsApp}>
-
-        <View style={styles.containerPolice}>
-          <FontAwesome
-            name="minus"
-            size="20"
-            style={styles.iconDec}
-            color="white"
-            onPress={decreaseFontSize}
-          />
-          <Text style={styles.textPolice}>Taille de police : 16px</Text>
-          <FontAwesome
-            name="plus"
-            size="20"
-            style={styles.iconInc}
-            color="white"
-            onPress={increaseFontSize}
-          />
-        </View>
-
-        <View style={styles.setting}>
-          <Text style={styles.fontSettings}>Audio :</Text>
-          <Switch
-            style={styles.switchBtn}
-            trackColor={{ false: "white", true: "#FFCE4A" }}
-            thumbColor={isAudioEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleAudioSwitch}
-            value={isAudioEnabled}
-          />
-        </View>
-
-        <View style={styles.setting}>
-          <Text style={styles.fontSettings}>Ambiance :</Text>
-          <Switch
-            style={styles.switchBtn}
-            trackColor={{ false: "white", true: "#FFCE4A" }}
-            thumbColor={isAmbianceEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleAmbianceSwitch}
-            value={isAmbianceEnabled}
-          />
-        </View>
-
-        <View style={styles.setting}>
-          <Text style={styles.fontSettings}>Notifications :</Text>
-          <Switch
-            style={styles.switchBtn}
-            trackColor={{ false: "white", true: "#FFCE4A" }}
-            thumbColor={isNotificationsEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleNotificationsSwitch}
-            value={isNotificationsEnabled}
-            
-          />
-        </View>
-
-        <View style={styles.setting}>
-          <Text style={styles.fontSettings}>Mode :</Text>
-          <Switch
-            style={styles.switchBtn}
-            trackColor={{ false: "white", true: "#FFCE4A" }}
-            thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleModeSwitch}
-            value={isModeEnabled}
-          />
-        </View>
-      </View>
-
-        <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
-          <Text style={styles.fontCGU}>CGU / CGV</Text>
-        </TouchableOpacity>
+        <ImageBackground
+          style={styles.imagBgd}
+          source={require("../assets/ImageBibliotheque.png")}
+        >
+          {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
+          <Text style={styles.title2}>Paramètres</Text>
+        </ImageBackground>
       
+        <View style={styles.settingsApp}>
+
+          <View style={styles.containerPolice}>
+            <FontAwesome
+              name="minus"
+              size="20"
+              style={styles.iconDec}
+              color="white"
+              onPress={decreaseFontSize}
+            />
+            <Text style={styles.textPolice}>Taille de police : 16px</Text>
+            <FontAwesome
+              name="plus"
+              size="20"
+              style={styles.iconInc}
+              color="white"
+              onPress={increaseFontSize}
+            />
+          </View>
+
+          <View style={styles.setting}>
+            <Text style={styles.fontSettings}>Audio :</Text>
+            <Switch
+              style={styles.switchBtn}
+              trackColor={{ false: "white", true: "#FFCE4A" }}
+              thumbColor={isAudioEnabled ? "#FFCE4A" : "white"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleAudioSwitch}
+              value={isAudioEnabled}
+            />
+          </View>
+
+          <View style={styles.setting}>
+            <Text style={styles.fontSettings}>Ambiance :</Text>
+            <Switch
+              style={styles.switchBtn}
+              trackColor={{ false: "white", true: "#FFCE4A" }}
+              thumbColor={isAmbianceEnabled ? "#FFCE4A" : "white"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleAmbianceSwitch}
+              value={isAmbianceEnabled}
+            />
+          </View>
+
+          <View style={styles.setting}>
+            <Text style={styles.fontSettings}>Notifications :</Text>
+            <Switch
+              style={styles.switchBtn}
+              trackColor={{ false: "white", true: "#FFCE4A" }}
+              thumbColor={isNotificationsEnabled ? "#FFCE4A" : "white"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleNotificationsSwitch}
+              value={isNotificationsEnabled}
+              
+            />
+          </View>
+
+          <View style={styles.setting}>
+            <Text style={styles.fontSettings}>Mode :</Text>
+            <Switch
+              style={styles.switchBtn}
+              trackColor={{ false: "white", true: "#FFCE4A" }}
+              thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleModeSwitch}
+              value={isModeEnabled}
+            />
+          </View>
+          <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
+            <Text style={styles.fontCGU}>CGU / CGV</Text>
+          </TouchableOpacity>
+        </View>
+
+            <TabBar navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -179,6 +182,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
+    marginTop: 20,
   },
   textPolice: {
     color: "white",
@@ -217,16 +221,19 @@ const styles = StyleSheet.create({
     transform: [{ scaleX: 1.1 }, { scaleY: 1}]
   },
   cgvBtn: {
-    width: "85%",
     flexDirection: "row",
-    padding: 10 ,
+    padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: "92%",
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#FFCE4A",
     borderRadius: 10,
-    marginBottom: 15,
     height: 55,
+    marginBottom: 15,
+    marginTop: 70,
   },
   fontCGU: {
     color: "white",
