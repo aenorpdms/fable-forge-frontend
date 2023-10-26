@@ -4,7 +4,7 @@ import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming } from '
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
-const TabBar = () => {
+export default function TabBar({ navigation }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const widthValue = useSharedValue(0);
@@ -39,26 +39,44 @@ const TabBar = () => {
         });
     };
 
+    const handleDisplayHome = () => {
+        navigation.navigate("Home");
+    };
+
+    const handleDisplayStory = () => {
+        navigation.navigate("Stories");
+    };
+
+    const handleDisplayProfil = () => {
+        navigation.navigate("Profil");
+    };
+
+    const handleDisplaySettings = () => {
+        navigation.navigate("Settings");
+    };
+
     return (
     <View style={styles.pageContainer}>
         <View style={styles.tabBar}>
             <Animated.View style={[styles.background, animatedBackgroundStyle]} />
             <Animated.View style={[styles.tabBarItem, animatedStyles]}>
-                <View style={styles.icone1}>
-            <Image source={require('./assets/home.png')} />
-
-                </View>
-                <View style={styles.icone2}>
-
-            <Image source={require('./assets/book.png')} />
-                </View>
+              <TouchableOpacity style={styles.icone1} onPress={()=> handleDisplayHome()}>
+                <Image source={require('./assets/home.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.icone2} onPress={()=> handleDisplayStory()}>
+                <Image source={require('./assets/book.png')} />
+              </TouchableOpacity>
             </Animated.View>
             <TouchableOpacity style={styles.toggleButton} onPress={toggleTabBar}>
                 <FontAwesomeIcon icon={faCircle} size={24} color="white" />
             </TouchableOpacity>
             <Animated.View style={[styles.tabBarItem, animatedStyles]}>
-                <Image source={require('./assets/user.png')} />
+              <TouchableOpacity onPress={()=> handleDisplayProfil()}>
+                <Image source={require('./assets/user.png')} />  
+              </TouchableOpacity> 
+              <TouchableOpacity onPress={()=> handleDisplaySettings()}>
                 <Image source={require('./assets/roue.png')} />
+              </TouchableOpacity>
             </Animated.View>
         </View>
     </View>
@@ -77,7 +95,7 @@ const styles = StyleSheet.create({
         height: 60,
         backgroundColor: 'transparent',
         position: 'absolute',
-        bottom: 20,
+        bottom: 0,
         left: 0,
         right: 0,
     },
@@ -95,6 +113,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
+        width: 40, // Exemple
+        height: 40,
         backgroundColor: '#ffffff',
         borderRadius: 30,
         marginHorizontal: 5,
@@ -117,5 +137,3 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
 });
-
-export default TabBar;

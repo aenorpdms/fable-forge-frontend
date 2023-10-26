@@ -47,7 +47,6 @@ const store = configureStore({
   reducer: { user },
 });
 
-
 export default function App() {
   let [fontsLoaded] = useFonts({
     Lato_100Thin,
@@ -82,7 +81,9 @@ export default function App() {
       <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
       <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
       <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
-      <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='Stories' component={StoriesScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='Profil' component={ProfilScreen} />
+      <Stack.Screen name='Settings' component={SettingsScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   </NavigationContainer>
 </Provider>

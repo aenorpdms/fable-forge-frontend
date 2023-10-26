@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { updateUser } from "../reducers/user";
 
+import TabBar from '../TabBar'
+
 export default function ProfilScreen({ navigation }) {
   // INPUT STATE
   const [username, setUsername] = useState("");
@@ -195,6 +197,9 @@ export default function ProfilScreen({ navigation }) {
               Supprimer mon compte
             </Text>
           </TouchableOpacity>
+          <View style={styles.tabBar}>
+            <TabBar navigation={navigation} />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -330,4 +335,7 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
     marginLeft: "4%",
   },
+  tabBar: {
+    marginTop: '15%'
+  }
 });
