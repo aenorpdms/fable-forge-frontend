@@ -34,12 +34,28 @@ export default function ProfilScreen({ navigation }) {
   );
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  console.log(user);
 
   // MODIFY INFO
   const handleModifyInfo = () => {
     // send to back info PUT ROUTE USER
-    dispatch(updateUser({ username, name, email }));
+    fetch('https://fable-forge-backend.vercel.app/users/signin', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ identifier, password: passwordUp}),
+		}).then(response => response.json())
+			.then(data => {
+				console.log(data)
+				if (data.result){
+					setIdentifier('');
+					setPasswordUp('');
+					dispatch(updateUser({firstname:data.firstname, username: data.username, email: data.email, token: data.token}))
+          setModalVisible(false)
+          navigation.navigate("Home");
+				}
+			});
+
+
+    dispatch(updateUser({ username, firstname, email }));
     setIsEditable(false);
     setButtonText("Modifier mes informations");
   };
@@ -106,7 +122,7 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.name}
+              placeholder={user.firstname}
               placeholderTextColor="white"
               onChangeText={(value) => setName(value)}
               value={name}
@@ -248,11 +264,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "500",
     textAlign: "center",
-    marginTop: "17%",
+    marginTop: "8%",
   },
   image: {
     position: "absolute",
-    top: "55%",
+    top: "48%",
     left: "36%",
   },
   containerInformation: {
@@ -263,7 +279,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     marginLeft: "4%",
-    marginBottom: "2%",
+    marginBottom: "1%",
   },
 
   titleInput: {
@@ -286,7 +302,7 @@ const styles = StyleSheet.create({
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    marginBottom: "5%",
+    marginBottom: "4%",
     marginLeft: "4%",
     color: "white",
   },
@@ -295,7 +311,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     marginLeft: "4%",
-    marginBottom: "5%",
+    marginBottom: "4%",
   },
   mdp: {
     marginTop: "1%",
@@ -314,7 +330,7 @@ const styles = StyleSheet.create({
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    marginBottom: "5%",
+    marginBottom: "4%",
     marginLeft: "4%",
   },
   btnText: {
@@ -336,6 +352,6 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
   tabBar: {
-    marginTop: '15%'
+    marginTop: '12%'
   }
 });
