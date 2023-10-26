@@ -42,9 +42,11 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 import user from "./reducers/user";
+import stories from "./reducers/stories";
+import newstories from "./reducers/newStories";
 
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, stories, newstories },
 });
 
 export default function App() {
@@ -68,25 +70,24 @@ export default function App() {
 
   if (!fontsLoaded) {
     return <AppLoading />;
+    //hello to delete
   }
 
   return (
-<Provider store={store}>
-  <NavigationContainer>
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Home' component={HomeScreen} />
-      <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
-      <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
-      <Stack.Screen name='Stories' component={StoriesScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='Profil' component={ProfilScreen} />
-      <Stack.Screen name='Settings' component={SettingsScreen} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  </NavigationContainer>
-</Provider>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='Splash' component={SplashScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
+          <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
+          <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
