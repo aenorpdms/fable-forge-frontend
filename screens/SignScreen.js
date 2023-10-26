@@ -20,8 +20,8 @@ export default function SignScreen({ navigation }) {
 
   const [identifier, setIdentifier] = useState('')
   const [passwordUp, setPasswordUp] = useState('')
-
-
+  const user = useSelector((state) => state.user.value);
+  
   const handleModalToggle = type => {
     setModalType(type);
     setModalVisible(!modalVisible);
@@ -66,7 +66,7 @@ export default function SignScreen({ navigation }) {
 	};
 
   const handleConnection = () =>{
-
+    console.log(user);
     fetch('https://fable-forge-backend.vercel.app/users/signin', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },

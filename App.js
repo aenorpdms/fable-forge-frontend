@@ -81,6 +81,9 @@ export default function App() {
           <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
           <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='Profil' component={ProfilScreen} />
+          <Stack.Screen name='Settings' component={SettingsScreen} />
+          <Stack.Screen name='Stories' component={StoriesScreen} />
           <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
           <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
           <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
