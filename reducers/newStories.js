@@ -1,13 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: {
-    newStories: {}
-    
-  },
+  value:  {}
 };
 
-export const userSlice = createSlice({
+export const newStoriesSlice = createSlice({
   name: "newStories",
   initialState,
   reducers: {
