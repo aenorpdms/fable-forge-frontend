@@ -6,7 +6,7 @@ import { useState, useRef } from "react";
 import { API_URL, API_KEY } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import { addStories } from "../reducers/stories";
-import { updateNew } from "../reducers/newStories";
+import { updateNew } from "../reducers/newStory";
 import user from "../reducers/user";
 
 import TabBar from "../TabBar";
@@ -104,7 +104,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
       <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd}>
         <Text style={styles.title1}>Création d'une histoire</Text>
         <Text style={styles.title2}>Récapitulatif</Text>
-        <Text style={styles.title2bis}>Etape 3/5</Text>
+        <Text style={styles.title2bis}>Etape 3/3</Text>
       </ImageBackground>
       <View style={styles.containerStory}>
         {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
