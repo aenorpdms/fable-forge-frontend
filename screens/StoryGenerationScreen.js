@@ -66,7 +66,11 @@ export default function StoryGenerationScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd} />
+      <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd} >
+        <Text style={styles.title1}>Création d'une histoire</Text>
+        <Text style={styles.title2}>Choisissez un genre</Text>
+        <Text style={styles.title2bis}>Etape 1/3</Text>
+      </ImageBackground>
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} />
       <TabBar />
     </SafeAreaView>
@@ -85,6 +89,23 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     marginTop: "-12%",
+  },
+  title1: {
+    color: "white",
+    fontSize: 21,
+    top: "50%",
+    marginLeft: 10,
+  },
+  title2: {
+    color: "#FFCE4A",
+    fontSize: 16,
+    top: "50%",
+    marginLeft: 10,
+  },
+  title2bis: {
+    color: "#FFCE4A",
+    marginLeft: 300,
+    top: "50%",
   },
   slide: {
     width: 300,

@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 import TabBar from "../TabBar";
+import { userSlice } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value)
-  const nameUser = user.user.firstname
+  const nameUser = user.firstname
   const readyName = nameUser.toUpperCase()
 
   const handleSubmit = () => {
