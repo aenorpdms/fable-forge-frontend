@@ -4,92 +4,44 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { updateNewLength, updateNewEnding } from "../reducers/newStory";
 
 import TabBar from "../TabBar";
 
 export default function StoryGenerationStep2Screen({ navigation }) {
   // Etats pour choisir la longueur de l'histoire à générer
-  const [buttonColor1, setButtonColor1] = useState("#2C1A51");
-  const [buttonColor2, setButtonColor2] = useState("#2C1A51");
-  const [buttonColor3, setButtonColor3] = useState("#2C1A51");
+  // const [buttonColor1, setButtonColor1] = useState("#2C1A51");
+  // const [buttonColor2, setButtonColor2] = useState("#2C1A51");
+  // const [buttonColor3, setButtonColor3] = useState("#2C1A51");
 
-  // Etats pour choisir le type de fin de l'histoire à générer
-  const [buttonTypeEnd1, setButtonType1] = useState("");
-  const [buttonTypeEnd2, setButtonType2] = useState("");
-  const [buttonTypeEnd3, setButtonType3] = useState("");
-  const [buttonTypeEnd4, setButtonType4] = useState("");
+  // // Etats pour choisir le type de fin de l'histoire à générer
+  // const [buttonTypeEnd1, setButtonType1] = useState("");
+  // const [buttonTypeEnd2, setButtonType2] = useState("");
+  // const [buttonTypeEnd3, setButtonType3] = useState("");
+  // const [buttonTypeEnd4, setButtonType4] = useState("");
 
-  // Fonction qui permet de changer la couleur du bouton au click et de désactiver les autres (si je clique sur courte puis sur moyenne, courte se désactive)
-  function handleButtonClick(buttonNumber) {
-    if (buttonNumber === 1) {
-      if (buttonColor1 === "#2C1A51") {
-        setButtonColor1("#FFCE4A");
-        setButtonColor2("#2C1A51");
-        setButtonColor3("#2C1A51");
-      } else {
-        setButtonColor1("#2C1A51");
-      }
-    } else if (buttonNumber === 2) {
-      if (buttonColor2 === "#2C1A51") {
-        setButtonColor2("#FFCE4A");
-        setButtonColor1("#2C1A51");
-        setButtonColor3("#2C1A51");
-      } else {
-        setButtonColor2("#2C1A51");
-      }
-    } else if (buttonNumber === 3) {
-      if (buttonColor3 === "#2C1A51") {
-        setButtonColor3("#FFCE4A");
-        setButtonColor1("#2C1A51");
-        setButtonColor2("#2C1A51");
-      } else {
-        setButtonColor3("#2C1A51");
-      }
-    }
-  }
+  const newStory = useSelector(state => state.newStory.value);
+  const dispatch = useDispatch();
 
-  // Fonction qui permet de changer la couleur du bouton au click et de désactiver les autres (si je clique sur fin heureuse puis sur fin morale, fin heureuse se désactive)
-  function handleButtonEndTypeClick(buttonEndNumber) {
-    if (buttonEndNumber === 1) {
-      if (buttonTypeEnd1 === null) {
-        setButtonType1("#FFCE4A");
-        setButtonType2(null);
-        setButtonType3(null);
-        setButtonType4(null);
-      } else {
-        setButtonType1(null);
-      }
-    } else if (buttonEndNumber === 2) {
-      if (buttonTypeEnd2 === null) {
-        setButtonType2("#FFCE4A");
-        setButtonType1(null);
-        setButtonType3(null);
-        setButtonType4(null);
-      } else {
-        setButtonType2(null);
-      }
-    } else if (buttonEndNumber === 3) {
-      if (buttonTypeEnd3 === null) {
-        setButtonType3("#FFCE4A");
-        setButtonType1(null);
-        setButtonType2(null);
-        setButtonType4(null);
-      } else {
-        setButtonType3(null);
-      }
-    } else if (buttonEndNumber === 4) {
-      if (buttonTypeEnd4 === null) {
-        setButtonType4("#FFCE4A");
-        setButtonType1(null);
-        setButtonType2(null);
-        setButtonType3(null);
-      } else {
-        setButtonType4(null);
-      }
-    }
-  }
+  const [buttonColors, setButtonColors] = useState(["#2C1A51", "#2C1A51", "#2C1A51"]);
+  const [buttonTypeEnd, setButtonTypeEnd] = useState([null, null, null, null]);
 
-  // const navigation = useNavigation();
+  const handleButtonClick = buttonNumber => {
+    const newButtonColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#FFCE4A" : "#2C1A51"));
+    setButtonColors(newButtonColors);
+    const lengthStory = buttonNumber === 1 ? "Courte" : buttonNumber === 2 ? "Moyenne" : "Longue";
+    dispatch(updateNewLength(lengthStory));
+  };
+
+  const handleButtonEndTypeClick = buttonEndNumber => {
+    const newButtonTypeEnd = buttonTypeEnd.map((type, index) => (buttonEndNumber - 1 === index ? "#FFCE4A" : null));
+    setButtonTypeEnd(newButtonTypeEnd);
+    const typeEnd =
+      buttonEndNumber === 1 ? "Fin heureuse" : buttonEndNumber === 2 ? "Fin triste" : buttonEndNumber === 3 ? "Fin ouverte" : "Fin morale";
+    dispatch(updateNewEnding(typeEnd));
+  };
+
   const handleStoryGeneration3 = () => {
     // navigate to Story step 2 page
     navigation.navigate("StoryGeneration3");
@@ -100,57 +52,52 @@ export default function StoryGenerationStep2Screen({ navigation }) {
     navigation.navigate("StoryGenerationScreen");
   };
 
-  // Story display page:
-  // const handleStoryDisplay = () => {
-  //   // navigate to Story display page
-  //   navigation.navigate("StoryDisplay");
-
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd}>
         <Text style={styles.title1}>Création d'une histoire</Text>
         <Text style={styles.title2}>Choisissez les paramètres</Text>
-        <Text style={styles.title2bis}>Etape 2/5</Text>
+        <Text style={styles.title2bis}>Etape 2/3</Text>
         <Text style={styles.title3}>Interactif</Text>
       </ImageBackground>
       <View style={styles.containerStory}>
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
-          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColor1 }]} onPress={() => handleButtonClick(1)}>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[0] }]} onPress={() => handleButtonClick(1)}>
             <Text style={styles.sizeTextBtn}>Courte</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColor2 }]} onPress={() => handleButtonClick(2)}>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[1] }]} onPress={() => handleButtonClick(2)}>
             <Text style={styles.sizeTextBtn}>Moyenne</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColor3 }]} onPress={() => handleButtonClick(3)}>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[2] }]} onPress={() => handleButtonClick(3)}>
             <Text style={styles.sizeTextBtn}>Longue</Text>
           </TouchableOpacity>
           <Text style={styles.titleContainer}>Type de fin</Text>
           <View style={styles.leftContainer}>
             <View style={styles.typeEndLeft}>
-              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd1 }]} onPress={() => handleButtonEndTypeClick(1)}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[0] }]} onPress={() => handleButtonEndTypeClick(1)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-                <Text style={styles.textTypeEnd}> fin heureuse</Text>
+                <Text style={styles.textTypeEnd}>Fin heureuse</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndLeft}>
-              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd2 }]} onPress={() => handleButtonEndTypeClick(2)}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[1] }]} onPress={() => handleButtonEndTypeClick(2)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-                <Text style={styles.textTypeEnd}>fin triste</Text>
+                <Text style={styles.textTypeEnd}>Fin triste</Text>
               </TouchableOpacity>
             </View>
           </View>
           <View style={styles.rightContainer}>
             <View style={styles.typeEndRight}>
-              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd3 }]} onPress={() => handleButtonEndTypeClick(3)}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[2] }]} onPress={() => handleButtonEndTypeClick(3)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-                <Text style={styles.textTypeEnd}>fin ouverte</Text>
+                <Text style={styles.textTypeEnd}>Fin ouverte</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndRight}>
-              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd4 }]} onPress={() => handleButtonEndTypeClick(4)}>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[3] }]} onPress={() => handleButtonEndTypeClick(4)}>
                 <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-                <Text style={styles.textTypeEnd}>fin morale</Text>
+                <Text style={styles.textTypeEnd}>Fin morale</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.arrowContainer}>
@@ -158,7 +105,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
                 <Icon name='chevron-left' size={30} color={"#2C1A51"} onPress={() => handleStoryGeneration()} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.arrowBtn}>
-                <Icon name='chevron-right' size={30} color={"#FFCE4A"} onPress={() => handleStoryGeneration3()} />
+                <Icon name='chevron-right' size={30} color={"#2C1A51"} onPress={() => handleStoryGeneration3()} />
               </TouchableOpacity>
             </View>
           </View>
