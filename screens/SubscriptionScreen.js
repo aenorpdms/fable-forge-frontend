@@ -4,6 +4,53 @@ import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SubscriptionScreen({ navigation }) {
+
+  // Création d'un tableau d'objets subscriptions (avec id, type, price, buttonText et buttonColor) qui représente chaque d'abonnement.
+  const [subscriptions, setSubscriptions] = useState([
+    { id: 1, type: "Abonnement hebdomadaire :", price: "4.99€/semaine", buttonText: "Choisir", buttonColor: "#2C1A51", imageSource: require("../assets/ImageBibliotheque.png") },
+    { id: 2, type: "Abonnement mensuel :", price: "9.99€/mois", buttonText: "Choisir", buttonColor: "#2C1A51", imageSource: require("../assets/ImageBibliotheque.png") },
+    { id: 3, type: "Abonnement annuel :", price: "99.99€/an", buttonText: "Choisir", buttonColor: "#2C1A51", imageSource: require("../assets/ImageBibliotheque.png") }
+  ]);
+
+  //création d'un état pour suivre l'abonnement sélectionné
+  const [activeSubscription, setActiveSubscription] = useState(null);
+
+
+  //Fonction qui permet de changer la couleur du bouton et le texte au click (uniquement 1 bouton actif à la fois)
+  function handleButtonClick(id) {
+    const updatedSubscriptions = subscriptions.map(subscription => {
+      if (subscription.id === id) {
+        return {
+          ...subscription,
+          buttonText: "En cours",
+          buttonColor: "#FFCE4A"
+        };
+      } else {
+        return {
+          ...subscription,
+          buttonText: "Choisir",
+          buttonColor: "#2C1A51"
+        };
+      }
+    });
+
+    setSubscriptions(updatedSubscriptions);
+    setActiveSubscription(id);
+  }
+    
+    /*
+    (buttonColor === 1) {
+      if (buttonColor1 === "#2C1A51") {
+        setButtonColor1("#FFCE4A");
+        setButtonColor2("#2C1A51");
+        setButtonColor3("#2C1A51");
+      } else {
+        setButtonColor1("#2C1A51");
+      }
+    }
+  }
+*/
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
@@ -14,34 +61,23 @@ export default function SubscriptionScreen({ navigation }) {
       </ImageBackground>
       {/* <View style={styles.containerInformation} indicatorStyle='white'> */}
       <View style={styles.abonnementContainer}>
-        <View style={styles.aboPrice}>
-          <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}>
-            <Text style={styles.textAboPrice}>Abonnement hebdomadaire 4.99€/ semaine (essayer gratuitement pendant 7jours) </Text>
-            {/* <Text style={styles.textAboPrice}></Text> */}
-          </ImageBackground>
-        </View>
-        <TouchableOpacity style={styles.btnPrice}>
-          <Text style={styles.textBtnPrice}>Choisir</Text>
-        </TouchableOpacity>
-        <View style={styles.aboPrice}>
-          <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}>
-            <Text style={styles.textAboPrice}>Abonnement mensuel 9.99€/ mois</Text>
-          </ImageBackground>
-        </View>
-        <TouchableOpacity style={styles.btnPriceOn}>
-          <Text style={styles.textBtnPriceOn}>En cours</Text>
-        </TouchableOpacity>
-        <View style={styles.aboPrice}>
-          <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}>
-            <Text style={styles.textAboPrice}>Abonnement annuel 99.99€/ an</Text>
-          </ImageBackground>
-        </View>
-        <TouchableOpacity style={styles.btnPrice}>
-          <Text style={styles.textBtnPrice}>Choisir</Text>
-        </TouchableOpacity>
-        {/* <View style={styles.resiliation}> */}
-        <TouchableOpacity>
-          <Text style={styles.btnResiliation}> Résilier mon abonnement</Text>
+        {subscriptions.map(subscription => (
+          <View key={subscription.id} style={styles.aboPrice}>
+            <ImageBackground style={styles.imagBgdAbo} source={subscription.imageSource}>
+              <Text style={styles.textAboPrice}>
+                {subscription.type}  {subscription.price}
+              </Text>
+            </ImageBackground>
+            <TouchableOpacity
+              style={{ ...styles.btnPrice, backgroundColor: subscription.buttonColor }}
+              onPress={() => handleButtonClick(subscription.id)}
+            >
+              <Text style={styles.textBtnPrice}>{subscription.buttonText}</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+        <TouchableOpacity style={styles.btnResiliation}>
+          <Text style={styles.btnResiliationText}> Résilier mon abonnement</Text>
         </TouchableOpacity>
       </View>
       {/* </View> */}
@@ -58,7 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
   },
   header: {
-    height: 300,
     top: 120,
     width: "100%",
   },
@@ -84,12 +119,12 @@ const styles = StyleSheet.create({
   },
 
   abonnementContainer: {
-    // top: 80,
-    bottom: 180,
+    marginBottom: 20,
+    bottom: 130,
     width: "90%",
-    // height: "80%",
-    // borderColor: "red",
-    // borderWidth: 1,
+    flexDirection: "column", // Alignement vertical
+    alignItems: "center", // Centre les éléments horizontalement
+    justifyContent: "space-between",
   },
 
   imagBgdAbo: {
@@ -114,6 +149,7 @@ const styles = StyleSheet.create({
     top: "40%",
     width: "90%",
     textAlign: "center",
+    marginLeft: 15,
   },
 
   btnPrice: {
@@ -126,6 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 120,
     marginBottom: 20,
+    justifyContent: "center",
   },
 
   btnPriceOn: {
@@ -136,29 +173,29 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 120,
     marginBottom: 20,
+    justifyContent: "center",
   },
 
   textBtnPriceOn: {
     color: "black",
     textAlign: "center",
-    top: 10,
   },
 
   textBtnPrice: {
     color: "white",
     textAlign: "center",
-    top: 10,
-  },
-
-  resiliation: {
-    flex: 1,
   },
 
   btnResiliation: {
+    width: '100%',
+
+  },
+
+  btnResiliationText: {
+    fontFamily: 'Lato_400Regular',
     color: "#FFFFFF",
     textAlign: "center",
-    fontSize: 18,
-    fontWeight: "500",
+    fontSize: 16,
     borderColor: "#FFFFFF",
     borderWidth: 1,
     paddingTop: 10,
