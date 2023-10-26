@@ -87,6 +87,7 @@ export default function App() {
           <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
           <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
           <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
+          <Stack.Screen name='StoryGeneration3' component={StoryGenerationStep3Screen} />
           <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
