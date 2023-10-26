@@ -54,8 +54,8 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
           <Text style={styles.readButtonText}>Lire mon histoire</Text>
         </TouchableOpacity>
-       <TabBar />
       </View>
+       <TabBar navigation={navigation} />
 
     </SafeAreaView> 
   )
@@ -189,4 +189,3 @@ readButtonText: {
   },
   
 });
-
