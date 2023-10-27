@@ -82,14 +82,13 @@ const storiesList = storiesData.map((story, index) => (
           <Text style={styles.title1}>Retrouvez toutes vos histoires</Text>
         </ImageBackground>
       </View>
-
+      <View style={styles.tabBar}>
+        <TabBar navigation={navigation} />
+      </View>
       <View style={styles.scrollViewContainer}>
         <ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
           {storiesList}
         </ScrollView>
-      </View>
-      <View style={styles.tabBar}>
-        <TabBar navigation={navigation} />
       </View>
     </SafeAreaView> 
   )
@@ -181,6 +180,12 @@ const styles = StyleSheet.create({
   readButtonText: {
     color: 'white',
     fontSize: 14,
+  },
+  tabBar: {
+    marginTop: "100%",
+    position: "absolute",
+    zIndex: 1,
+
   },
   
 });
