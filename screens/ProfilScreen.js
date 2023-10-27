@@ -43,20 +43,20 @@ export default function ProfilScreen({ navigation }) {
     const updatedUserInfo = { token: user.token };
 
     // UPDATE USERNAME
-    if (username !== user.username) {
+    if (username !== user.username || username !== null || username!== "") {
       updatedUserInfo.username = username;
     } else {
       updatedUserInfo.username = user.username; // Use the old value
     }
     // UPDATE FIRSTNAME
-    if (firstname !== user.firstname) {
+    if (firstname !== user.firstname || firstname !== null || firstname!== "") {
       updatedUserInfo.firstname = firstname;
     } else {
       updatedUserInfo.firstname = user.firstname; // Use the old value
     }
 
     // UPDATE EMAIL
-    if (email !== user.email) {
+    if (email !== user.email ||email !== null || email!== "") {
       updatedUserInfo.email = email;
     } else {
       updatedUserInfo.email = user.email; // Use the old value
