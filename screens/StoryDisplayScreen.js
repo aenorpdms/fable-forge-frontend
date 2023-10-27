@@ -1,117 +1,92 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { API_KEY } from "@env";
 import TabBar from "../TabBar";
 
 export default function StoryDisplayScreen({ route, navigation }) {
+  const { genre, fin, longueur } = route.params;
+
+  const [newContent, setNewContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedText, setGeneratedText] = useState("");
-  const { genre, longueur, fin } = route.params;
 
-  const [conversationHistory, setConversationHistory] = useState([
-    { role: "system", content: "You are the best storyteller there is." },
-    { role: "user", content: `Je souhaite créer une histoire de genre ${genre} ...` } // Votre message initial
-  ]);
-
-  const generateText = async customBody => {
-    console.log("Click");
-    console.log("Starting the generateText function..."); // Log initial
-
-    console.log("Preparing to send request with body:", JSON.stringify(customBody)); // Log pour inspecter le contenu du body avant l'envoi
+  const handleGenerateStory = async () => {
+    setIsGenerating(true);
 
     try {
-      const response = await fetch("https://fable-forge-backend-seven.vercel.app/api/generate-story", {
+      const url = "https://api.openai.com/v1/chat/completions";
+      const { genre, longueur, fin } = route.params;
+
+      // Définir le nombre maximal de tokens en fonction de la longueur souhaitée
+      // let maxTokens;
+      // if (longueur === "1") {
+      //   maxTokens = Math.floor(Math.random() * (800 - 600 + 1)) + 600;
+      // } else if (longueur === "2") {
+      //   maxTokens = Math.floor(Math.random() * (1500 - 800 + 1)) + 800;
+      // } else if (longueur === "3") {
+      //   maxTokens = Math.floor(Math.random() * (3000 - 1500 + 1)) + 1500;
+      // } else {
+
+      //   maxTokens = 800; // Par défaut
+      // }
+
+      const userMessage = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. M'inspirer pour le personnage principal, le lieu de départ et l'époque. Créer aussi un titre avant le texte de l'histoire.`;
+
+      const data = {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "You are the best storyteller there is." },
+          { role: "user", content: userMessage },
+        ],
+        temperature: 0.7,
+        max_tokens: 150,
+      };
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
         },
-        body: JSON.stringify(customBody), // Objet utilisé pour personnaliser votre requête
+        body: JSON.stringify(data),
       });
 
-      console.log("Received response:", response.status, response.statusText); // Log pour inspecter la réponse
-
       if (!response.ok) {
-        const errorContent = await response.text();
-        console.error("Error fetching the story: Status", response.status, response.statusText, "Content:", errorContent);
-        return;
+        throw new Error("Erreur lors de la génération de l'histoire");
       }
+      const responseData = await response.json();
 
-      const data = await response.json();
-      console.log("Parsed data from response:", data); // Log pour inspecter les données reçues
+      // Extraire le contenu généré de la réponse de l'API
+      const generatedContent = responseData.choices[0].message.content;
+      
+      // Afficher la réponse de l'API dans la console
+       console.log("Réponse de l'API :", responseData);
 
-      const receivedContent = data.storyWithoutTitle; // Mise à jour du nom de la propriété en fonction de la réponse du backend
-      setGeneratedText(receivedContent); // Mise à jour de l'état avec le texte généré complet
+      setNewContent(generatedContent);
     } catch (error) {
-      console.error(error);
+      console.error("Erreur lors de la génération de l'histoire :", error);
+    } finally {
+      setIsGenerating(false);
     }
-    setIsGenerating(false);
   };
-
-  const handleGenerateStory = () => {
-    console.log("handleGenerateStory triggered!");
-
-    setIsGenerating(true);
-
-     // Utilisation des valeurs genre, longueur, fin et de l'historique de la conversation pour personnaliser la requête
-     const body = {
-      genre: genre,
-      fin: fin,
-      longueur: longueur,
-      messages: conversationHistory
-    };
-
-    console.log("Prepared body for generateText:", body);
-    generateText(body);
-  };
-
-  useEffect(() => {
-    if (generatedText) {
-      setConversationHistory(prevHistory => [...prevHistory, { role: "user", content: generatedText }]);
-    }
-  }, [generatedText]);
-
-  // 2. CALL BACK TO SEND STORIES CREATED
-  // const bodyToSend = {
-  //     length: "1",
-  //     title: title,
-  //     story: story,
-  //     type: "horreur",
-  //     endingType: "triste",
-  // };
-
-  // const saveResponse = await fetch(`https://fable-forge-backend.vercel.app/stories/new/TnNDRl-8PoQH8jmZJfpx1JerbZ6fFRNy`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(bodyToSend),
-  // });
-
-  // const saveData = await saveResponse.json();
-
-  // if (saveData.result) {
-  //     console.log("added to data");
-  // } else {
-  //     throw new Error("Error saving story to backend");
-  // }
 
   return (
     <SafeAreaView style={styles.container}>
-      {isGenerating ? (
-        <ActivityIndicator size='large' color='#0000ff' />
-      ) : (
-        <>
-          <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
-            <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-          </TouchableOpacity>
-          <ScrollView style={styles.containerStory}>
-            <Text key={generatedText} style={styles.textStory}>
-              {generatedText}
-            </Text>
-          </ScrollView>
-          <View style={styles.tabBar}>
+      <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
+        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
+      </TouchableOpacity>
+      <View style={styles.tabBar}>
             <TabBar navigation={navigation} />
-          </View>
-        </>
-      )}
+            <View style={styles.backgroundTab}></View>
+      </View>
+      <ScrollView style={styles.containerStory}>
+        {isGenerating ? (
+          <ActivityIndicator style={styles.tournicoti} size="large" color="#2C1A51"  />
+        ) : (
+          <Text key={newContent} style={styles.textStory}>
+            {newContent}
+          </Text>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -119,14 +94,10 @@ export default function StoryDisplayScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#2C1A51",
     padding: 20,
-  },
-  textTitle: {
-    color: "white",
-    fontSize: 25,
-    top: 20,
-    fontWeight: "bold",
   },
   containerStory: {
     flex: 2,
@@ -135,17 +106,47 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     padding: 20,
+    width: '80%',
   },
   textStory: {
     fontSize: 16,
     color: "black",
   },
-  tabBar: {
-    top: 72,
+  btngenerateStory: {
+    borderColor: "white",
+    backgroundColor: "#2C1A51",
+    margin: 10,
+    borderWidth: 1,
+    borderColor: "#FFCE4A",
+    borderRadius: 10,
+    padding: 5,
+    marginTop: 10,
   },
   generateTextBtn: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     textAlign: "center",
     padding: 10,
   },
+  tabBar: {
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
+  },
+  backgroundTab:{
+    backgroundColor:"#2C1A51",
+    top: "95%", 
+    position: "absolute",
+    zIndex: -1,
+    height: 100,
+    width: 650,
+    marginLeft:-400,
+    marginTop:-20,
+  },
+  tournicoti: {
+    position: "absolute",
+    left: 120,
+    top: 250,
+
+  }
 });
