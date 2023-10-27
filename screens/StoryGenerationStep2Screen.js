@@ -134,23 +134,27 @@ const styles = StyleSheet.create({
     marginTop: "-12%",
   },
   title1: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 21,
     top: "50%",
     marginLeft: 10,
   },
   title2: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     fontSize: 16,
     top: "50%",
     marginLeft: 10,
   },
   title2bis: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     marginLeft: 300,
     top: "50%",
   },
   title3: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     top: "50%",
     marginLeft: 10,
@@ -199,6 +203,7 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
     textAlign: "center",
@@ -220,6 +225,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   sizeTextBtn: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     textAlign: "center",
     padding: 10,
@@ -256,11 +262,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textTypeEnd: {
+    fontFamily: "Lato_400Regular",
     textAlign: "center",
     color: "white",
     marginTop: 10,
   },
   typeEndBtn: {
+    fontFamily: "Lato_400Regular",
     borderWidth: 3,
     borderColor: "#FFCE4A",
     borderRadius: 10,

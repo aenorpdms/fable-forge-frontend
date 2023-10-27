@@ -79,23 +79,27 @@
         marginTop: "-12%",
       },
       title1: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         fontSize: 21,
         top: "50%",
         marginLeft: 10,
       },
       title2: {
+        fontFamily: "Lato_400Regular",
         color: "#FFCE4A",
         fontSize: 16,
         top: "50%",
         marginLeft: 10,
       },
       title2bis: {
+        fontFamily: "Lato_400Regular",
         color: "#FFCE4A",
         marginLeft: 300,
         top: "50%",
       },
       title3: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         top: "50%",
         marginLeft: 10,
@@ -116,6 +120,7 @@
       },
 
       titleContainer: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         fontSize: 28,
         textAlign: "center",
@@ -133,6 +138,7 @@
       },
 
       textRecap: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         textAlign: "justify",
         marginTop: 10,
@@ -147,6 +153,7 @@
         padding: 5,
       },
       sizeTextRecap: {
+        fontFamily: "Lato_400Regular",
         color: "black",
         textAlign: "center",
         padding: 10,
@@ -162,6 +169,7 @@
         marginTop: 10,
       },
       generateTextBtn: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         textAlign: "center",
         padding: 10,
