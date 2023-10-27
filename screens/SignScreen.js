@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
 
     textAlign: "center",
     color: "#FFFFFF",
-    marginTop: 350,
+    marginTop: 480,
   },
   title2: {
     fontFamily: "Lato_400Regular",
