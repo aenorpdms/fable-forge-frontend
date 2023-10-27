@@ -4,17 +4,36 @@ import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SubscriptionScreen({ navigation }) {
-
   // Création d'un tableau d'objets subscriptions (avec id, type, price, buttonText et buttonColor) qui représente chaque d'abonnement.
   const [subscriptions, setSubscriptions] = useState([
-    { id: 1, type: "Abonnement hebdomadaire :", price: "4.99€/semaine", buttonText: "Choisir", buttonColor: "#2C1A51", imageSource: require("../assets/ImageBibliotheque.png") },
-    { id: 2, type: "Abonnement mensuel :", price: "9.99€/mois", buttonText: "Choisir", buttonColor: "#2C1A51", imageSource: require("../assets/ImageBibliotheque.png") },
-    { id: 3, type: "Abonnement annuel :", price: "99.99€/an", buttonText: "Choisir", buttonColor: "#2C1A51", imageSource: require("../assets/ImageBibliotheque.png") }
+    {
+      id: 1,
+      type: "Abonnement hebdomadaire :",
+      price: "4.99€/semaine",
+      buttonText: "Choisir",
+      buttonColor: "#2C1A51",
+      imageSource: require("../assets/ImageBibliotheque.png"),
+    },
+    {
+      id: 2,
+      type: "Abonnement mensuel :",
+      price: "9.99€/mois",
+      buttonText: "Choisir",
+      buttonColor: "#2C1A51",
+      imageSource: require("../assets/ImageBibliotheque.png"),
+    },
+    {
+      id: 3,
+      type: "Abonnement annuel :",
+      price: "99.99€/an",
+      buttonText: "Choisir",
+      buttonColor: "#2C1A51",
+      imageSource: require("../assets/ImageBibliotheque.png"),
+    },
   ]);
 
   //création d'un état pour suivre l'abonnement sélectionné
   const [activeSubscription, setActiveSubscription] = useState(null);
-
 
   //Fonction qui permet de changer la couleur du bouton et le texte au click (uniquement 1 bouton actif à la fois)
   function handleButtonClick(id) {
@@ -23,22 +42,23 @@ export default function SubscriptionScreen({ navigation }) {
         return {
           ...subscription,
           buttonText: "En cours",
-          buttonColor: "#FFCE4A"
+          buttonColor: "#FFCE4A",
         };
       } else {
         return {
           ...subscription,
           buttonText: "Choisir",
-          buttonColor: "#2C1A51"
+          buttonColor: "#2C1A51",
         };
       }
     });
 
     setSubscriptions(updatedSubscriptions);
     setActiveSubscription(id);
+    navigation.navigate("SubscriptionPayment");
   }
-    
-    /*
+
+  /*
     (buttonColor === 1) {
       if (buttonColor1 === "#2C1A51") {
         setButtonColor1("#FFCE4A");
@@ -65,7 +85,7 @@ export default function SubscriptionScreen({ navigation }) {
           <View key={subscription.id} style={styles.aboPrice}>
             <ImageBackground style={styles.imagBgdAbo} source={subscription.imageSource}>
               <Text style={styles.textAboPrice}>
-                {subscription.type}  {subscription.price}
+                {subscription.type} {subscription.price}
               </Text>
             </ImageBackground>
             <TouchableOpacity
@@ -191,12 +211,11 @@ const styles = StyleSheet.create({
   },
 
   btnResiliation: {
-    width: '100%',
-
+    width: "100%",
   },
 
   btnResiliationText: {
-    fontFamily: 'Lato_400Regular',
+    fontFamily: "Lato_400Regular",
     color: "#FFFFFF",
     textAlign: "center",
     fontSize: 16,
