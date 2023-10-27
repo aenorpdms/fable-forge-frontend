@@ -6,8 +6,12 @@ import TabBar from "../TabBar";
 export default function StoryDisplayScreen({ route, navigation }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedText, setGeneratedText] = useState("");
-
   const { genre, longueur, fin } = route.params;
+
+  const [conversationHistory, setConversationHistory] = useState([
+    { role: "system", content: "You are the best storyteller there is." },
+    { role: "user", content: `Je souhaite créer une histoire de genre ${genre} ...` } // Votre message initial
+  ]);
 
   const generateText = async customBody => {
     console.log("Click");
@@ -43,6 +47,29 @@ export default function StoryDisplayScreen({ route, navigation }) {
     setIsGenerating(false);
   };
 
+  const handleGenerateStory = () => {
+    console.log("handleGenerateStory triggered!");
+
+    setIsGenerating(true);
+
+     // Utilisation des valeurs genre, longueur, fin et de l'historique de la conversation pour personnaliser la requête
+     const body = {
+      genre: genre,
+      fin: fin,
+      longueur: longueur,
+      messages: conversationHistory
+    };
+
+    console.log("Prepared body for generateText:", body);
+    generateText(body);
+  };
+
+  useEffect(() => {
+    if (generatedText) {
+      setConversationHistory(prevHistory => [...prevHistory, { role: "user", content: generatedText }]);
+    }
+  }, [generatedText]);
+
   // 2. CALL BACK TO SEND STORIES CREATED
   // const bodyToSend = {
   //     length: "1",
@@ -65,22 +92,6 @@ export default function StoryDisplayScreen({ route, navigation }) {
   // } else {
   //     throw new Error("Error saving story to backend");
   // }
-
-  const handleGenerateStory = () => {
-    console.log("handleGenerateStory triggered!"); // Log lorsque la fonction est appelée
-
-    setIsGenerating(true); // Démarrez la génération lorsque l'utilisateur appuie sur le bouton
-
-    // Utilisation des valeurs genre, longueur et fin pour personnaliser la requête
-    const body = {
-      genre: genre,
-      fin: fin,
-      longueur: longueur,
-    };
-
-    console.log("Prepared body for generateText:", body); // Log pour inspecter le body avant de l'appeler
-    generateText(body); // Commencez la génération du texte en passant les données personnalisées
-  };
 
   return (
     <SafeAreaView style={styles.container}>
