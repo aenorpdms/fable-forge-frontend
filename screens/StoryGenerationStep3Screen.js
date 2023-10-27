@@ -14,6 +14,17 @@ import TabBar from "../TabBar";
 export default function StoryGenerationStep3Screen({ navigation }) {
   const [buttonColor, setButtonColor] = useState("#2C1A51");
 
+  const newStory = useSelector(state => state.newStory.value);
+  let page;
+  if (newStory.length === "Courte") {
+    page = "1";
+  } else if (newStory.length === "Moyenne") {
+    page = "2";
+  } else {
+    page = "3";
+  }
+  const synopsis = `Préparez-vous à plonger dans une histoire ${newStory.type}, qui s'étirera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons tissée pour vous.`;
+
   const handleStoryGenerated = () => {
     const [story, setStory] = useState("");
     const [title, setTitle] = useState("");
@@ -108,18 +119,15 @@ export default function StoryGenerationStep3Screen({ navigation }) {
       </ImageBackground>
       <View style={styles.containerStory}>
         {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
-        <Text style={styles.titleContainer}>Titre de l'histoire</Text>
+        <Text style={styles.titleContainer}>Genre: {newStory.type}</Text>
         <ImageBackground style={styles.imagBgdRecap} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
-        <Text style={styles.textRecap}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco
-        </Text>
+        <Text style={styles.textRecap}>{synopsis}</Text>
 
         <View style={styles.recapSizeStory}>
-          <Text style={styles.sizeTextRecap}>Moyenne</Text>
+          <Text style={styles.sizeTextRecap}>{newStory.length}</Text>
         </View>
         <View style={styles.recapSizeStory}>
-          <Text style={styles.sizeTextRecap}>Fin heureuse</Text>
+          <Text style={styles.sizeTextRecap}>{newStory.endingType}</Text>
         </View>
         <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleStoryGenerated()}>
           <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
