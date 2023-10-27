@@ -18,75 +18,75 @@ export default function StoryDisplayScreen({ route, navigation }) {
   };
 
   const generateText = async () => {
-    console.log('Click');
+    console.log("Click");
     try {
-        const response = await fetch('/generate-story', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body), // Utilisez l'objet 'body' pour personnaliser votre requête
-          });
+      const response = await fetch("/generate-story", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body), // Utilisez l'objet 'body' pour personnaliser votre requête
+      });
 
-        if (!response.ok) {
-            console.error("Error fetching the story:", response.statusText);
-            return;
-        }
+      if (!response.ok) {
+        console.error("Error fetching the story:", response.statusText);
+        return;
+      }
 
-        const data = await response.json();
-        const receivedContent = data.storyWithoutTitle; // Mettez à jour le nom de la propriété en fonction de la réponse du backend.
-        setGeneratedText(receivedContent); // Mettez à jour l'état avec le texte généré complet
+      const data = await response.json();
+      const receivedContent = data.storyWithoutTitle; // Mettez à jour le nom de la propriété en fonction de la réponse du backend.
+      setGeneratedText(receivedContent); // Mettez à jour l'état avec le texte généré complet
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-};
+  };
 
-            // 2. CALL BACK TO SEND STORIES CREATED
-            // const bodyToSend = {
-            //     length: "1",
-            //     title: title,
-            //     story: story,
-            //     type: "horreur",
-            //     endingType: "triste",
-            // };
+  // 2. CALL BACK TO SEND STORIES CREATED
+  // const bodyToSend = {
+  //     length: "1",
+  //     title: title,
+  //     story: story,
+  //     type: "horreur",
+  //     endingType: "triste",
+  // };
 
-            // const saveResponse = await fetch(`https://fable-forge-backend.vercel.app/stories/new/TnNDRl-8PoQH8jmZJfpx1JerbZ6fFRNy`, {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify(bodyToSend),
-            // });
-            
-            // const saveData = await saveResponse.json();
-            
-            // if (saveData.result) {
-            //     console.log("added to data");
-            // } else {
-            //     throw new Error("Error saving story to backend");
-            // }
+  // const saveResponse = await fetch(`https://fable-forge-backend.vercel.app/stories/new/TnNDRl-8PoQH8jmZJfpx1JerbZ6fFRNy`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(bodyToSend),
+  // });
 
-            const handleGenerateStory = () => {
-              setIsGenerating(true); // Démarrez la génération lorsque l'utilisateur appuie sur le bouton
-            
-              // Utilisez les valeurs genre, longueur et fin pour personnaliser votre requête
-              const body = {
-                genre: genre, // Utilisez la valeur passée en tant que paramètre de navigation
-                fin: fin, // Utilisez la valeur passée en tant que paramètre de navigation
-                longueur: longueur, // Utilisez la valeur passée en tant que paramètre de navigation
-              };
-            
-              generateText(body); // Commencez la génération du texte ici en passant les données personnalisées
-            };
+  // const saveData = await saveResponse.json();
+
+  // if (saveData.result) {
+  //     console.log("added to data");
+  // } else {
+  //     throw new Error("Error saving story to backend");
+  // }
+
+  const handleGenerateStory = () => {
+    setIsGenerating(true); // Démarrez la génération lorsque l'utilisateur appuie sur le bouton
+
+    // Utilisez les valeurs genre, longueur et fin pour personnaliser votre requête
+    const body = {
+      genre: genre, // Utilisez la valeur passée en tant que paramètre de navigation
+      fin: fin, // Utilisez la valeur passée en tant que paramètre de navigation
+      longueur: longueur, // Utilisez la valeur passée en tant que paramètre de navigation
+    };
+
+    generateText(body); // Commencez la génération du texte ici en passant les données personnalisées
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
-            <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
+        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
       </TouchableOpacity>
       <ScrollView style={styles.containerStory}>
-      <Text>{/* Élément vide pour forcer la réorganisation */}</Text>
-      <Text key={generatedText} style={styles.textStory}>
-        {generatedText}
-      </Text>
+        <Text>{/* Élément vide pour forcer la réorganisation */}</Text>
+        <Text key={generatedText} style={styles.textStory}>
+          {generatedText}
+        </Text>
       </ScrollView>
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
