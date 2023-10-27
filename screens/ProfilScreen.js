@@ -40,41 +40,36 @@ export default function ProfilScreen({ navigation }) {
 
   // MODIFY INFO
   const handleModifyInfo = () => {
-    // const updatedUserInfo = { token: user.token };
+    const updatedUserInfo = { token: user.token };
 
-    // // UPDATE USERNAME
-    // if (username !== user.username && username!== "" && username!== null) {
-    //   updatedUserInfo.username = username;
-    // } else {
-    //   updatedUserInfo.username = user.username; // Use the old value
-    // }
-    // // UPDATE FIRSTNAME
-    // if (firstname !== user.firstname && firstname!=="" && firstname!== null) {
-    //   updatedUserInfo.firstname = firstname;
-    // } else {
-    //   updatedUserInfo.firstname = user.firstname; // Use the old value
-    // }
+    // UPDATE USERNAME
+    if (username !== user.username) {
+      updatedUserInfo.username = username;
+    } else {
+      updatedUserInfo.username = user.username; // Use the old value
+    }
+    // UPDATE FIRSTNAME
+    if (firstname !== user.firstname) {
+      updatedUserInfo.firstname = firstname;
+    } else {
+      updatedUserInfo.firstname = user.firstname; // Use the old value
+    }
 
-    // // UPDATE EMAIL
-    // if (email !== user.email && email!=="" && email!== null) {
-    //   updatedUserInfo.email = email;
-    // } else {
-    //   updatedUserInfo.email = user.email; // Use the old value
-    // }
+    // UPDATE EMAIL
+    if (email !== user.email) {
+      updatedUserInfo.email = email;
+    } else {
+      updatedUserInfo.email = user.email; // Use the old value
+    }
 
-    // dispatch(updateUser(updatedUserInfo));
-    // console.log(updatedUserInfo)
+    dispatch(updateUser(updatedUserInfo));
+    console.log(updatedUserInfo)
 
     // send to back info PUT ROUTE USER
     fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: user.token,
-        email,
-        firstname,
-        username,
-      }),
+      body: JSON.stringify(updatedUserInfo),
     })
       .then(response => response.json())
       .then(data => {
