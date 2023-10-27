@@ -117,6 +117,16 @@ export default function ProfilScreen({ navigation }) {
     navigation.navigate("Sign");
   };
 
+// MODALE DELETE 
+const [modalVisible, setModalVisible] = useState(false);
+const [modalType, setModalType] = useState("");
+
+ const handleModalToggle = type => {
+    setModalType(type);
+    setModalVisible(!modalVisible);
+  };
+
+
   // DELETE ACCOUNT
   const handleDeleteAccount = () => {
     fetch(`https://fable-forge-backend-84ce.vercel.app/users`, {
@@ -255,12 +265,32 @@ export default function ProfilScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnDelete}>
-            <Text style={styles.btnText} onPress={() => handleDeleteAccount()}>
+            <Text style={styles.btnText} onPress={() => handleModalToggle("deleteAccount")}>
               Supprimer mon compte
             </Text>
           </TouchableOpacity>
           <View style={styles.space}>
           </View>
+
+          
+          <Modal visible={modalVisible} animationType='slide' transparent={true}>
+        <View style={styles.mdlctn}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.titleModal}>Êtes-vous sûr de vouloir supprimer votre compte Fable Forge ?</Text>
+           
+            {modalType === "deleteAccount" && (
+              < View style={styles.containerBtnModal}>
+                 <TouchableOpacity style={styles.btnDeleteModal} onPress={() => handleDeleteAccount()}>
+                 <Text style={styles.btnTextDelete}>Oui</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnNoModal} onPress={() => handleModalToggle()}>
+              <Text style={styles.btnText}>Non</Text>
+            </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </View>
+      </Modal>
           
         </ScrollView>
       </KeyboardAvoidingView>
@@ -385,6 +415,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
   },
+  btnTextDelete:{
+    fontFamily: "Lato_400Regular",
+    color: "black",
+    textAlign: "center",
+    fontSize: 18,
+  },
   btnDelete: {
     backgroundColor: "#6B5F85",
     borderRadius: 10,
@@ -417,5 +453,55 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor:"transparent",
   },
+  mdlctn: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, 0.5)",
+  },
+  modalContainer: {
+    width: 350, // Adjust the width as per your requirement
+    height: 180, // Adjust the height as per your requirement
+    marginTop: 350,
+    marginLeft: 30,
+    backgroundColor: "#6B5F85",
+    borderRadius: 20, // Adjust the borderRadius as per your requirement
+    alignItems: "center",
+    justifyContent: "center",
+    // backdropFilter: "blur(5px)",
+  },
+  titleModal: {
+    fontFamily: "Lato_400Regular",
+    color: "white",
+    fontSize: 20,
+    padding: 10,
+  },
+  btnDeleteModal: {
+    backgroundColor: "#FFCE4A",
+    borderRadius: 10,
+    margin: 10,
+    marginTop: 5,
+    padding: 11,
+    width: 100,
+    marginBottom: "6%",
+    marginLeft: "4%",
+  },
+  btnNoModal:{
+    backgroundColor: "#6B5F85",
+    borderRadius: 10,
+    margin: 10,
+    marginTop: 5,
+    padding: 10,
+    width: 100,
+    borderWidth: 1,
+    borderColor: "#FFFFFF",
+    marginBottom: "6%",
+    marginLeft: "12%",
+  },
+  containerBtnModal:{
+    marginTop:10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent:"center",
+  }
 
 });
