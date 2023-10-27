@@ -74,8 +74,9 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "29.5%",
-    marginTop:"-12%"
+    height: "45%",
+    marginTop:"-12%",// -30%
+
   },
 
   title1: {
@@ -83,8 +84,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "left",
     color: "#FFFFFF",
-    marginTop: 205,
-    marginLeft: 16,
+    marginTop: "52%",//205
+    marginLeft: "3.5%",//16
 },
 
   title2: {
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "#FFFFFF",
     lineHeight: 40,
-    marginLeft: 15,
+    marginLeft: "3%",
   },
 
   title2bis: {
@@ -101,12 +102,12 @@ const styles = StyleSheet.create({
     fontSize: 34,
     textAlign: "left",
     color: "#FFFFFF",
-    marginLeft: 15,
+    marginLeft: "3%",
   },
 
   newStoryButton: {
     position: 'absolute',
-    top: '35%',
+    top: '40%',
     width: '92%',
     height: '17%',
     padding: 15,
@@ -115,14 +116,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginVertical: 20,
+    marginVertical: "5%",//20
   },
 
   addButton: {
-    width: 30,
-    height: 30,
-    marginTop: 10,
-    marginBottom: 10,
+    width: "9%",//30
+    height: "25%",//30
+    marginTop: "5%",//10
+    marginBottom: "4%",//10
   },
 
   buttonText: {
@@ -138,13 +139,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFCE4A',
     alignSelf: 'flex-start',
-    marginLeft: 16,
-    marginTop: 20,
+    marginLeft: "4%",//16
+    marginTop: "12%",//20
   },
 
   lastStoryButton: {
     position: 'absolute',
-    top: '64%',
+    top: '68%',
     width: '92%',
     height: '21%',
     borderWidth: 1,
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginVertical: 20,
+    marginVertical: "5%",
 },
 
   storyImage: {
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
 
   readButton: {
-    width: 150,
+    width: "45%",//150
     borderWidth: 1,
     borderColor: "#FFCE4A",
     backgroundColor: "#2C1A51",
