@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: []
+  stories: []
 };
 
 export const storiesSlice = createSlice({
@@ -9,10 +9,10 @@ export const storiesSlice = createSlice({
   initialState,
   reducers: {
     addStories: (state, action) => {
-        state.value.stories.push(action.payload);
+        state.stories.push(action.payload);
       },
     removeStories: (state, action) => {
-        state.value.stories = state.value.stories.filter(
+        state.stories = state.stories.filter(
           (e) => e.title !== action.payload
         );
       },

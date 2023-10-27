@@ -14,7 +14,7 @@ import {
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { updateUser } from "../reducers/user";
+import { updateUser, logOutuser } from "../reducers/user";
 
 import TabBar from "../TabBar";
 
@@ -33,12 +33,10 @@ export default function ProfilScreen({ navigation }) {
   const [isEditable, setIsEditable] = useState(false);
   const [isEditablePwd, setIsEditablePwd] = useState(false);
   const [buttonText, setButtonText] = useState("Modifier mes informations");
-  const [buttonTextPwd, setButtonTextPwd] = useState(
-    "Modifier mon mot de passe"
-  );
+  const [buttonTextPwd, setButtonTextPwd] = useState("Modifier mon mot de passe");
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector(state => state.user.value);
 
   // MODIFY INFO
   const handleModifyInfo = () => {
@@ -78,8 +76,8 @@ export default function ProfilScreen({ navigation }) {
         username,
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         console.log(data);
         if (data.result) {
           setIsEditable(false);
@@ -97,26 +95,31 @@ export default function ProfilScreen({ navigation }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token: user.token,
-          oldPassword, 
-          newPassword
+          oldPassword,
+          newPassword,
         }),
       })
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           console.log(data);
           if (data.result) {
-            console.log("updated")
+            console.log("updated");
             setIsEditablePwd(false);
             setButtonTextPwd("Modifier mon mot de passe");
           }
         });
-    }  
-};
+    }
+  };
 
   // SUBSCRIPTION PAGE
   const handleSubscription = () => {
     // navigate to subscription page
     navigation.navigate("Subscription");
+  };
+
+  const handleLogOut = () => {
+    // LogOut and return to sign page
+    navigation.navigate("Sign");
   };
 
   // DELETE ACCOUNT
@@ -126,8 +129,8 @@ export default function ProfilScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         if (data.result) {
           navigation.navigate("Sign");
         }
@@ -136,24 +139,13 @@ export default function ProfilScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.containerBis}
-        behavior={Platform.OS === "ios" ? "padding" : null}
-        enabled
-        keyboardVerticalOffset={10}
-      >
-        <ScrollView style={styles.containerInformation} indicatorStyle="white">
-          <ImageBackground
-            style={styles.imagBgd}
-            source={require("../assets/ImageBibliotheque.png")}
-          >
+      <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
+        <ScrollView style={styles.containerInformation} indicatorStyle='white'>
+          <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
             <View>
               {/* <Text style={styles.title1}>BIENVENUE PIERRE</Text> */}
               <Text style={styles.title2}>Profil</Text>
-              <Image
-                style={styles.image}
-                source={require("../assets/profilPicture.png")}
-              />
+              <Image style={styles.image} source={require("../assets/profilPicture.png")} />
               <Text style={styles.subtitle}>Informations Personnelles</Text>
             </View>
           </ImageBackground>
@@ -163,8 +155,8 @@ export default function ProfilScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder={user.username}
-              placeholderTextColor="white"
-              onChangeText={(value) => setUsername(value)}
+              placeholderTextColor='white'
+              onChangeText={value => setUsername(value)}
               value={username}
               editable={isEditable}
             ></TextInput>
@@ -174,8 +166,8 @@ export default function ProfilScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder={user.firstname}
-              placeholderTextColor="white"
-              onChangeText={(value) => setFirstName(value)}
+              placeholderTextColor='white'
+              onChangeText={value => setFirstName(value)}
               value={firstname}
               editable={isEditable}
             ></TextInput>
@@ -185,8 +177,8 @@ export default function ProfilScreen({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder={user.email}
-              placeholderTextColor="white"
-              onChangeText={(value) => setEmail(value)}
+              placeholderTextColor='white'
+              onChangeText={value => setEmail(value)}
               value={email}
               editable={isEditable}
             ></TextInput>
@@ -210,9 +202,9 @@ export default function ProfilScreen({ navigation }) {
                 <Text style={styles.titleInputPWD}>Ancien mot de passe</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Tapez votre ancien mot de passe"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setOldPassword(value)}
+                  placeholder='Tapez votre ancien mot de passe'
+                  placeholderTextColor='white'
+                  onChangeText={value => setOldPassword(value)}
                   value={oldPassword}
                 ></TextInput>
               </View>
@@ -220,9 +212,9 @@ export default function ProfilScreen({ navigation }) {
                 <Text style={styles.titleInputPWD}>Nouveau mot de passe</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Tapez votre nouveau mot de passe"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setNewPassword(value)}
+                  placeholder='Tapez votre nouveau mot de passe'
+                  placeholderTextColor='white'
+                  onChangeText={value => setNewPassword(value)}
                   value={newPassword}
                 ></TextInput>
               </View>
@@ -230,9 +222,9 @@ export default function ProfilScreen({ navigation }) {
                 <Text style={styles.titleInputPWD}>Confirmez mot de Passe</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Confirmez votre nouveau mot de passe"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setPassword(value)}
+                  placeholder='Confirmez votre nouveau mot de passe'
+                  placeholderTextColor='white'
+                  onChangeText={value => setPassword(value)}
                   value={password}
                 ></TextInput>
               </View>
@@ -251,12 +243,15 @@ export default function ProfilScreen({ navigation }) {
           >
             <Text style={styles.btnModify}>{buttonTextPwd}</Text>
           </TouchableOpacity>
-          <Text style={styles.subscriptionText}>
-            Votre abonnement est valide jusqu’au 31/10/2023
-          </Text>
+          <Text style={styles.subscriptionText}>Votre abonnement est valide jusqu’au 31/10/2023</Text>
           <TouchableOpacity style={styles.btnAbonnement}>
             <Text style={styles.btnText} onPress={() => handleSubscription()}>
               Gérer l'abonnement
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnAbonnement}>
+            <Text style={styles.btnText} onPress={() => handleLogOut()}>
+              Se déconnecter
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnDelete}>
