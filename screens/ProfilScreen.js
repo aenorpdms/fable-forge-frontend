@@ -69,35 +69,49 @@ export default function ProfilScreen({ navigation }) {
 
     // send to back info PUT ROUTE USER
     fetch(`https://fable-forge-backend.vercel.app/users/information`, {
-  method: "PUT",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    token: user.token,
-    email,
-    firstname,
-    username,
-  }),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-    if (data.result) {
-      setIsEditable(false);
-      setButtonText("Modifier mes informations");
-    }
-  });
-      
-};
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: user.token,
+        email,
+        firstname,
+        username,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.result) {
+          setIsEditable(false);
+          setButtonText("Modifier mes informations");
+        }
+      });
+  };
 
   // MODIFY PWD
   const handleModifyPwd = () => {
     // send to back info PUT ROUTE USER
     if (password === newPassword) {
-      // send to back info PUT ROUTE USER
-    }
-    setIsEditablePwd(false);
-    setButtonTextPwd("Modifier mon mot de passe");
-  };
+      fetch(`https://fable-forge-backend.vercel.app/users/password`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: user.token,
+          oldPassword, 
+          newPassword
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.result) {
+            console.log("updated")
+            setIsEditablePwd(false);
+            setButtonTextPwd("Modifier mon mot de passe");
+          }
+        });
+    }  
+};
 
   // SUBSCRIPTION PAGE
   const handleSubscription = () => {
@@ -108,17 +122,17 @@ export default function ProfilScreen({ navigation }) {
   // DELETE ACCOUNT
   const handleDeleteAccount = () => {
     fetch(`https://fable-forge-backend.vercel.app/users`, {
-  method: "DELETE",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({token: user.token,}),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    if (data.result) {
-      navigation.navigate("Sign");
-    }
-  })
-};
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          navigation.navigate("Sign");
+        }
+      });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -152,7 +166,7 @@ export default function ProfilScreen({ navigation }) {
               placeholderTextColor="white"
               onChangeText={(value) => setUsername(value)}
               value={username}
-              // editable={isEditable}
+              editable={isEditable}
             ></TextInput>
           </View>
           <View>
@@ -163,7 +177,7 @@ export default function ProfilScreen({ navigation }) {
               placeholderTextColor="white"
               onChangeText={(value) => setFirstName(value)}
               value={firstname}
-              // editable={isEditable}
+              editable={isEditable}
             ></TextInput>
           </View>
           <View>
@@ -174,17 +188,17 @@ export default function ProfilScreen({ navigation }) {
               placeholderTextColor="white"
               onChangeText={(value) => setEmail(value)}
               value={email}
-              // editable={isEditable}
+              editable={isEditable}
             ></TextInput>
           </View>
           <TouchableOpacity
-            onPress={() => { handleModifyInfo()
-              // if (isEditable) {
-              //   handleModifyInfo();
-              // } else {
-              //   setIsEditable(true);
-              //   setButtonText("Valider mes modifications");
-              // }
+            onPress={() => {
+              if (isEditable) {
+                handleModifyInfo();
+              } else {
+                setIsEditable(true);
+                setButtonText("Valider mes modifications");
+              }
             }}
           >
             <Text style={styles.btnModify}>{buttonText}</Text>
