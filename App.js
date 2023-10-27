@@ -25,7 +25,7 @@ import {
 } from "@expo-google-fonts/lato";
 
 import { Provider } from "react-redux";
-import {combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // redux-persist imports
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -43,6 +43,7 @@ import StoryGenerationScreen from "./screens/StoryGenerationScreen";
 import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
 import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
+import PaymentScreen from "./screens/paymentScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,6 +51,7 @@ const Tab = createBottomTabNavigator();
 import user from "./reducers/user";
 import stories from "./reducers/stories";
 import newStory from "./reducers/newStory";
+import paymentScreen from "./screens/paymentScreen";
 
 const reducers = combineReducers({ user, stories, newStory });
 const persistConfig = {
@@ -59,14 +61,12 @@ const persistConfig = {
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }),
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 const persistor = persistStore(store);
 
 export default function App() {
-
   useEffect(() => {
     SplashScreen.hideAsync();
   }, []);
@@ -99,47 +99,19 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="Splash"
-              component={LoadingScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Sign"
-              component={SignScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Cguv"
-              component={CguvScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Profil" component={ProfilScreen} />
-            <Stack.Screen name="Settings" component={SettingsScreen} />
-            <Stack.Screen name="Stories" component={StoriesScreen} />
-            <Stack.Screen
-              name="Subscription"
-              component={SubscriptionScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="StoryGenerationScreen"
-              component={StoryGenerationScreen}
-            />
-            <Stack.Screen
-              name="StoryGeneration2"
-              component={StoryGenerationStep2Screen}
-            />
-            <Stack.Screen
-              name="StoryGeneration3"
-              component={StoryGenerationStep3Screen}
-            />
-            <Stack.Screen
-              name="StoryDisplay"
-              component={StoryDisplayScreen}
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name='Splash' component={LoadingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='Sign' component={SignScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='Cguv' component={CguvScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='Home' component={HomeScreen} />
+            <Stack.Screen name='Profil' component={ProfilScreen} />
+            <Stack.Screen name='Settings' component={SettingsScreen} />
+            <Stack.Screen name='Stories' component={StoriesScreen} />
+            <Stack.Screen name='Subscription' component={SubscriptionScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
+            <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
+            <Stack.Screen name='StoryGeneration3' component={StoryGenerationStep3Screen} />
+            <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='paymentScreen' component={PaymentScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
