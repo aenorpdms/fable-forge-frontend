@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   titleModal: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     padding: 10,
     marginLeft: 50,
   },
