@@ -134,7 +134,11 @@ export default function ProfilScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+       <View style={styles.tabBar}>
+            <TabBar navigation={navigation} />
+        </View>
       <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
+     
         <ScrollView style={styles.containerInformation} indicatorStyle='white'>
           <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
             <View>
@@ -254,9 +258,9 @@ export default function ProfilScreen({ navigation }) {
               Supprimer mon compte
             </Text>
           </TouchableOpacity>
-          <View style={styles.tabBar}>
-            <TabBar navigation={navigation} />
+          <View style={styles.space}>
           </View>
+          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -338,7 +342,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "transparent",
     borderRadius: 10,
-    margin: 10,
+    margin: 5,
     padding: 10,
     width: "92%",
     borderWidth: 1,
@@ -351,6 +355,7 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
     fontSize: 16,
     fontWeight: "500",
+    marginTop: 0,
     marginLeft: "4%",
     marginBottom: "4%",
   },
@@ -366,12 +371,12 @@ const styles = StyleSheet.create({
   btnAbonnement: {
     backgroundColor: "transparent",
     borderRadius: 10,
-    margin: 10,
+    marginTop: 5,
     padding: 10,
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    marginBottom: "4%",
+    marginBottom: "2%",
     marginLeft: "4%",
   },
   btnText: {
@@ -389,10 +394,17 @@ const styles = StyleSheet.create({
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFFFFF",
-    marginBottom: "5%",
+    marginBottom: "4%",
     marginLeft: "4%",
   },
   tabBar: {
-    marginTop: "12%",
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
   },
+  space: {
+    padding: 10,
+    height: 60,
+    backgroundColor:"transparent",
+  }
 });

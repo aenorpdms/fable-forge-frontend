@@ -79,7 +79,7 @@ export default function StoryGenerationScreen() {
         <Text style={styles.title2bis}>Etape 1/3</Text>
       </ImageBackground>
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} />
-      <TabBar />
+      <TabBar navigation={navigation}/>
     </SafeAreaView>
   );
 }

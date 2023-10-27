@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   tabBar: {
-    marginTop: "100%",
+    marginTop: "104%",
     position: "absolute",
     zIndex: 1,
   },
