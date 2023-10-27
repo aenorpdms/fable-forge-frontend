@@ -66,7 +66,7 @@ export default function ProfilScreen({ navigation }) {
     // console.log(updatedUserInfo)
 
     // send to back info PUT ROUTE USER
-    fetch(`https://fable-forge-backend.vercel.app/users/information`, {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -90,7 +90,7 @@ export default function ProfilScreen({ navigation }) {
   const handleModifyPwd = () => {
     // send to back info PUT ROUTE USER
     if (password === newPassword) {
-      fetch(`https://fable-forge-backend.vercel.app/users/password`, {
+      fetch(`https://fable-forge-backend-84ce.vercel.app/users/password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -124,7 +124,7 @@ export default function ProfilScreen({ navigation }) {
 
   // DELETE ACCOUNT
   const handleDeleteAccount = () => {
-    fetch(`https://fable-forge-backend.vercel.app/users`, {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/users`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
