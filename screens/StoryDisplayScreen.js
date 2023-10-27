@@ -9,100 +9,100 @@ export default function StoryDisplayScreen({ route, navigation }) {
 
   const { genre, longueur, fin } = route.params;
 
-  const generateText = async (customBody) => {
-    console.log('Click');
-    console.log('Starting the generateText function...'); // Log initial
+  const generateText = async customBody => {
+    console.log("Click");
+    console.log("Starting the generateText function..."); // Log initial
 
-    console.log('Preparing to send request with body:', JSON.stringify(customBody)); // Log pour inspecter le contenu du body avant l'envoi
+    console.log("Preparing to send request with body:", JSON.stringify(customBody)); // Log pour inspecter le contenu du body avant l'envoi
 
     try {
-        const response = await fetch('https://fable-forge-backend-seven.vercel.app/api/generate-story', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(customBody), // Objet utilisé pour personnaliser votre requête
-          });
+      const response = await fetch("https://fable-forge-backend.vercel.app/api/generate-story", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(customBody), // Objet utilisé pour personnaliser votre requête
+      });
 
-          console.log('Received response:', response.status, response.statusText); // Log pour inspecter la réponse
+      console.log("Received response:", response.status, response.statusText); // Log pour inspecter la réponse
 
-          if (!response.ok) {
-            const errorContent = await response.text();
-            console.error("Error fetching the story: Status", response.status, response.statusText, 'Content:', errorContent);
-            return;
-        }
+      if (!response.ok) {
+        const errorContent = await response.text();
+        console.error("Error fetching the story: Status", response.status, response.statusText, "Content:", errorContent);
+        return;
+      }
 
-        const data = await response.json();
-        console.log('Parsed data from response:', data); // Log pour inspecter les données reçues
+      const data = await response.json();
+      console.log("Parsed data from response:", data); // Log pour inspecter les données reçues
 
-        const receivedContent = data.storyWithoutTitle; // Mise à jour du nom de la propriété en fonction de la réponse du backend
-        setGeneratedText(receivedContent); // Mise à jour de l'état avec le texte généré complet
+      const receivedContent = data.storyWithoutTitle; // Mise à jour du nom de la propriété en fonction de la réponse du backend
+      setGeneratedText(receivedContent); // Mise à jour de l'état avec le texte généré complet
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
     setIsGenerating(false);
-};
+  };
 
-            // 2. CALL BACK TO SEND STORIES CREATED
-            // const bodyToSend = {
-            //     length: "1",
-            //     title: title,
-            //     story: story,
-            //     type: "horreur",
-            //     endingType: "triste",
-            // };
+  // 2. CALL BACK TO SEND STORIES CREATED
+  // const bodyToSend = {
+  //     length: "1",
+  //     title: title,
+  //     story: story,
+  //     type: "horreur",
+  //     endingType: "triste",
+  // };
 
-            // const saveResponse = await fetch(`https://fable-forge-backend.vercel.app/stories/new/TnNDRl-8PoQH8jmZJfpx1JerbZ6fFRNy`, {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify(bodyToSend),
-            // });
-            
-            // const saveData = await saveResponse.json();
-            
-            // if (saveData.result) {
-            //     console.log("added to data");
-            // } else {
-            //     throw new Error("Error saving story to backend");
-            // }
+  // const saveResponse = await fetch(`https://fable-forge-backend.vercel.app/stories/new/TnNDRl-8PoQH8jmZJfpx1JerbZ6fFRNy`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(bodyToSend),
+  // });
 
-            const handleGenerateStory = () => {
-              console.log('handleGenerateStory triggered!'); // Log lorsque la fonction est appelée
+  // const saveData = await saveResponse.json();
 
-              setIsGenerating(true); // Démarrez la génération lorsque l'utilisateur appuie sur le bouton
-            
-              // Utilisation des valeurs genre, longueur et fin pour personnaliser la requête
-              const body = {
-                genre: genre, 
-                fin: fin,
-                longueur: longueur,
-              };
-            
-              console.log('Prepared body for generateText:', body); // Log pour inspecter le body avant de l'appeler
-              generateText(body); // Commencez la génération du texte en passant les données personnalisées
-            };
+  // if (saveData.result) {
+  //     console.log("added to data");
+  // } else {
+  //     throw new Error("Error saving story to backend");
+  // }
 
-            return (
-              <SafeAreaView style={styles.container}>
-                  {isGenerating ? (
-                      <ActivityIndicator size="large" color="#0000ff" />
-                  ) : (
-                      <>
-                          <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
-                              <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-                          </TouchableOpacity>
-                          <ScrollView style={styles.containerStory}>
-                              <Text key={generatedText} style={styles.textStory}>
-                                  {generatedText}
-                              </Text>
-                          </ScrollView>
-                          <View style={styles.tabBar}>
-                              <TabBar navigation={navigation} />
-                          </View>
-                      </>
-                  )}
-              </SafeAreaView>
-          );
+  const handleGenerateStory = () => {
+    console.log("handleGenerateStory triggered!"); // Log lorsque la fonction est appelée
+
+    setIsGenerating(true); // Démarrez la génération lorsque l'utilisateur appuie sur le bouton
+
+    // Utilisation des valeurs genre, longueur et fin pour personnaliser la requête
+    const body = {
+      genre: genre,
+      fin: fin,
+      longueur: longueur,
+    };
+
+    console.log("Prepared body for generateText:", body); // Log pour inspecter le body avant de l'appeler
+    generateText(body); // Commencez la génération du texte en passant les données personnalisées
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {isGenerating ? (
+        <ActivityIndicator size='large' color='#0000ff' />
+      ) : (
+        <>
+          <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
+            <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
+          </TouchableOpacity>
+          <ScrollView style={styles.containerStory}>
+            <Text key={generatedText} style={styles.textStory}>
+              {generatedText}
+            </Text>
+          </ScrollView>
+          <View style={styles.tabBar}>
+            <TabBar navigation={navigation} />
+          </View>
+        </>
+      )}
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({

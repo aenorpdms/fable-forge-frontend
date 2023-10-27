@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, Image, StyleSheet, Animated } from 'react-native';
 
-const SplashScreen = ({ navigation }) => {
+const LoadingScreen = ({ navigation }) => {
   const splashTime = 3000; // 3 secondes
   const animationDuration = 500; // Durée de l'animation en millisecondes
 
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SplashScreen;
+export default LoadingScreen;

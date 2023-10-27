@@ -5,6 +5,7 @@ import * as Font from "expo-font";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../reducers/user";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 export default function SignScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,14 +15,22 @@ export default function SignScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const [identifier, setIdentifier] = useState("");
   const [passwordUp, setPasswordUp] = useState("");
+  const [isValidPassword, setIsValidPassword] = useState("");
+
   const user = useSelector(state => state.user.value);
 
   const handleModalToggle = type => {
     setModalType(type);
     setModalVisible(!modalVisible);
+  };
+
+  const isValidEmail = email => {
+    const regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+    return regex.test(email);
   };
 
   const handleInscription = () => {
@@ -46,7 +55,7 @@ export default function SignScreen({ navigation }) {
   };
 
   const handleConnection = () => {
-    console.log(user);
+    console.log(email);
     fetch("https://fable-forge-backend-84ce.vercel.app/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -61,16 +70,17 @@ export default function SignScreen({ navigation }) {
           dispatch(updateUser({ firstname: data.firstname, username: data.username, email: data.email, token: data.token }));
           setModalVisible(false);
           navigation.navigate("Home");
+        } else {
+          setEmailError("Invalid email address");
         }
       });
   };
 
   useEffect(() => {
-    if ( (user.email != null) || (user.username != null) ) {
-      navigation.navigate('Home');
-  }
-  },[]);
-
+    if (user.email != null || user.username != null) {
+      navigation.navigate("Home");
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -120,6 +130,7 @@ export default function SignScreen({ navigation }) {
                   onChangeText={value => setEmail(value)}
                   value={email}
                 ></TextInput>
+                {!isValidEmail && <Text style={styles.errorText}>{text}</Text>}
                 <TextInput
                   style={styles.input}
                   placeholder='Mot de Passe'
@@ -292,7 +303,7 @@ const styles = StyleSheet.create({
   titleModal: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     padding: 10,
     marginLeft: 50,
   },
@@ -328,5 +339,9 @@ const styles = StyleSheet.create({
   textBtnValidate: {
     fontFamily: "Lato_400Regular",
     textAlign: "center",
+  },
+  errorText: {
+    color: "red",
+    marginTop: 5,
   },
 });
