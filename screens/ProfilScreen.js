@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     marginBottom: "4%",
   },
   title1: {
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 20,
     fontWeight: "200",
     textAlign: "left",

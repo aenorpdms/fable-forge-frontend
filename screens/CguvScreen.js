@@ -105,15 +105,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   textCgvTitle: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     top: 10,
     marginTop: 20,
     fontSize: 20,
     textAlign: "center",
-    fontWeight: "bold",
-    padding: 5,
+    padding: 10,
   },
   textCgv: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     top: 10,
     padding: 5,

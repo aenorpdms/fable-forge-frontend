@@ -79,9 +79,8 @@ const styles = StyleSheet.create({
   },
 
   title1: {
-    //fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 20,
-    fontWeight: '200',
     textAlign: "left",
     color: "#FFFFFF",
     marginTop: 205,
@@ -89,9 +88,8 @@ const styles = StyleSheet.create({
 },
 
   title2: {
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 34,
-    fontWeight: "500",
     textAlign: "left",
     color: "#FFFFFF",
     lineHeight: 40,
@@ -99,9 +97,8 @@ const styles = StyleSheet.create({
   },
 
   title2bis: {
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 34,
-    fontWeight: "500",
     textAlign: "left",
     color: "#FFFFFF",
     marginLeft: 15,
@@ -129,7 +126,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 16,
   },
@@ -137,7 +134,7 @@ const styles = StyleSheet.create({
   title3: {
     position: 'absolute',
     top: '60%',
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 16,
     color: '#FFCE4A',
     alignSelf: 'flex-start',
@@ -167,13 +164,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 },
 
-storyTitle: {
+  storyTitle: {
+    fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
-},
+  },
 
-readButton: {
+  readButton: {
     width: 150,
     borderWidth: 1,
     borderColor: "#FFCE4A",
@@ -185,7 +182,8 @@ readButton: {
     alignSelf: "center",
 },
 
-readButtonText: {
+  readButtonText: {
+    fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 14,
   },

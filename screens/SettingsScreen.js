@@ -47,9 +47,9 @@ export default function SettingsScreen({ navigation }) {
 
       <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
-          <FontAwesome name='minus' size='20' style={styles.iconDec} color='white' onPress={decreaseFontSize} />
+          <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
           <Text style={styles.textPolice}>Taille de police : 16px</Text>
-          <FontAwesome name='plus' size='20' style={styles.iconInc} color='white' onPress={increaseFontSize} />
+          <FontAwesome name='plus' size={20} style={styles.iconInc} color='white' onPress={increaseFontSize} />
         </View>
 
         <View style={styles.setting}>
@@ -124,9 +124,8 @@ const styles = StyleSheet.create({
   },
 
   title2: {
-    // fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 32,
-    fontWeight: "500",
     textAlign: "left",
     color: "#FFCE4A",
     lineHeight: 60,
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   textPolice: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
   },
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
   },
 
   fontSettings: {
+    fontFamily: "Lato_400Regular",
     textAlign: "center",
     color: "white",
     marginLeft: 10,
@@ -204,9 +205,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
-    marginTop: 70,
+    marginTop: 35,
   },
   fontCGU: {
+    fontFamily: "Lato_400Regular",
     color: "white",
   },
 });
