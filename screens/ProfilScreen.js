@@ -136,6 +136,7 @@ export default function ProfilScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
        <View style={styles.tabBar}>
             <TabBar navigation={navigation} />
+            <View style={styles.backgroundTab}></View>
         </View>
       <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
      
@@ -402,9 +403,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
+  backgroundTab:{
+    backgroundColor:"#2C1A51",
+    top: "95%", 
+    position: "absolute",
+    zIndex: -1,
+    height: 100,
+    width: 650,
+    marginLeft:-400,
+    marginTop:-20,
+  },
   space: {
     padding: 10,
     height: 60,
     backgroundColor:"transparent",
-  }
+  },
+
 });

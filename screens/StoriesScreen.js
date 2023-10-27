@@ -84,10 +84,13 @@ const storiesList = storiesData.map((story, index) => (
       </View>
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
+        <View style={styles.backgroundTab}></View>
       </View>
       <View style={styles.scrollViewContainer}>
         <ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
           {storiesList}
+          <View style={styles.space}>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView> 
@@ -188,6 +191,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
-  
+  backgroundTab:{
+    backgroundColor:"#2C1A51",
+    top: "95%", 
+    position: "absolute",
+    zIndex: -1,
+    height: 100,
+    width: 650,
+    marginLeft:-400,
+    marginTop:-40,
+  },
+  space: {
+    padding: 10,
+    height: 80,
+    backgroundColor:"transparent",
+  }
 });
 
