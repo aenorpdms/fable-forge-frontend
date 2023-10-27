@@ -44,10 +44,9 @@ const Tab = createBottomTabNavigator();
 
 import user from "./reducers/user";
 import stories from "./reducers/stories";
-import newstories from "./reducers/newStories";
-
+import newStory from "./reducers/newStory";
 const store = configureStore({
-  reducer: { user, stories, newstories },
+  reducer: { user, stories, newStory },
 });
 
 export default function App() {

@@ -16,43 +16,102 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { updateUser } from "../reducers/user";
 
-import TabBar from '../TabBar'
+import TabBar from "../TabBar";
 
 export default function ProfilScreen({ navigation }) {
   // INPUT STATE
   const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+  const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
+
+  // PASSWORD UPDATE
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
+
+  // EDITE
   const [isEditable, setIsEditable] = useState(false);
   const [isEditablePwd, setIsEditablePwd] = useState(false);
   const [buttonText, setButtonText] = useState("Modifier mes informations");
   const [buttonTextPwd, setButtonTextPwd] = useState(
     "Modifier mon mot de passe"
   );
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  console.log(user);
 
   // MODIFY INFO
   const handleModifyInfo = () => {
+    // const updatedUserInfo = { token: user.token };
+
+    // // UPDATE USERNAME
+    // if (username !== user.username && username!== "" && username!== null) {
+    //   updatedUserInfo.username = username;
+    // } else {
+    //   updatedUserInfo.username = user.username; // Use the old value
+    // }
+    // // UPDATE FIRSTNAME
+    // if (firstname !== user.firstname && firstname!=="" && firstname!== null) {
+    //   updatedUserInfo.firstname = firstname;
+    // } else {
+    //   updatedUserInfo.firstname = user.firstname; // Use the old value
+    // }
+
+    // // UPDATE EMAIL
+    // if (email !== user.email && email!=="" && email!== null) {
+    //   updatedUserInfo.email = email;
+    // } else {
+    //   updatedUserInfo.email = user.email; // Use the old value
+    // }
+
+    // dispatch(updateUser(updatedUserInfo));
+    // console.log(updatedUserInfo)
+
     // send to back info PUT ROUTE USER
-    dispatch(updateUser({ username, name, email }));
-    setIsEditable(false);
-    setButtonText("Modifier mes informations");
+    fetch(`https://fable-forge-backend.vercel.app/users/information`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: user.token,
+        email,
+        firstname,
+        username,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.result) {
+          setIsEditable(false);
+          setButtonText("Modifier mes informations");
+        }
+      });
   };
 
   // MODIFY PWD
   const handleModifyPwd = () => {
     // send to back info PUT ROUTE USER
-    if(password === newPassword){
-      // send to back info PUT ROUTE USER
-    }
-    setIsEditablePwd(false);
-    setButtonTextPwd("Modifier mon mot de passe");
-  };
+    if (password === newPassword) {
+      fetch(`https://fable-forge-backend.vercel.app/users/password`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: user.token,
+          oldPassword, 
+          newPassword
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.result) {
+            console.log("updated")
+            setIsEditablePwd(false);
+            setButtonTextPwd("Modifier mon mot de passe");
+          }
+        });
+    }  
+};
 
   // SUBSCRIPTION PAGE
   const handleSubscription = () => {
@@ -62,9 +121,17 @@ export default function ProfilScreen({ navigation }) {
 
   // DELETE ACCOUNT
   const handleDeleteAccount = () => {
-    // call back delete account
-    // go back to sign in
-    navigation.navigate("Sign");
+    fetch(`https://fable-forge-backend.vercel.app/users`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          navigation.navigate("Sign");
+        }
+      });
   };
 
   return (
@@ -106,10 +173,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.name}
+              placeholder={user.firstname}
               placeholderTextColor="white"
-              onChangeText={(value) => setName(value)}
-              value={name}
+              onChangeText={(value) => setFirstName(value)}
+              value={firstname}
               editable={isEditable}
             ></TextInput>
           </View>
@@ -248,11 +315,11 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "500",
     textAlign: "center",
-    marginTop: "17%",
+    marginTop: "8%",
   },
   image: {
     position: "absolute",
-    top: "55%",
+    top: "48%",
     left: "36%",
   },
   containerInformation: {
@@ -263,7 +330,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     marginLeft: "4%",
-    marginBottom: "2%",
+    marginBottom: "1%",
   },
 
   titleInput: {
@@ -286,7 +353,7 @@ const styles = StyleSheet.create({
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    marginBottom: "5%",
+    marginBottom: "4%",
     marginLeft: "4%",
     color: "white",
   },
@@ -295,7 +362,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     marginLeft: "4%",
-    marginBottom: "5%",
+    marginBottom: "4%",
   },
   mdp: {
     marginTop: "1%",
@@ -314,7 +381,7 @@ const styles = StyleSheet.create({
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    marginBottom: "5%",
+    marginBottom: "4%",
     marginLeft: "4%",
   },
   btnText: {
@@ -336,6 +403,6 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
   tabBar: {
-    marginTop: '15%'
-  }
+    marginTop: "12%",
+  },
 });

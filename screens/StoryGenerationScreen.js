@@ -5,14 +5,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import TabBar from "../TabBar";
+import { useDispatch, useSelector } from "react-redux";
+import { updateNewType } from "../reducers/newStory";
 
 export default function StoryGenerationScreen() {
   // Story display page:
   const navigation = useNavigation();
-  const handleStoryGeneration2 = () => {
+  const dispatch = useDispatch();
+  const newStory = useSelector(state => state.newStory.value);
+  const handleStoryGeneration2 = item => {
     // navigate to Story step 2 page
+    const type = item;
+    dispatch(updateNewType(type));
     navigation.navigate("StoryGeneration2");
   };
+  console.log(newStory);
 
   const data = [
     {
@@ -56,7 +63,7 @@ export default function StoryGenerationScreen() {
             <ImageBackground source={item.image} style={styles.genreImage}></ImageBackground>
           </View>
           <Text style={styles.genreDescription}>{item.description}</Text>
-          <TouchableOpacity style={styles.selectButton} onPress={() => handleStoryGeneration2()}>
+          <TouchableOpacity style={styles.selectButton} onPress={() => handleStoryGeneration2(item.title)}>
             <Text style={styles.selectButtonText}>Sélectionner</Text>
           </TouchableOpacity>
         </View>
@@ -66,7 +73,7 @@ export default function StoryGenerationScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd} >
+      <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd}>
         <Text style={styles.title1}>Création d'une histoire</Text>
         <Text style={styles.title2}>Choisissez un genre</Text>
         <Text style={styles.title2bis}>Etape 1/3</Text>

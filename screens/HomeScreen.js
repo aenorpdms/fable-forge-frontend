@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 import TabBar from "../TabBar";
+import { userSlice } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
 
   const user = useSelector((state) => state.user.value)
-  const nameUser = user.user.firstname
+  const nameUser = user.firstname
   const readyName = nameUser.toUpperCase()
 
   const handleSubmit = () => {
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
 
   newStoryButton: {
     position: 'absolute',
-    top: '38%',
+    top: '35%',
     width: '92%',
     height: '17%',
     padding: 15,
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
 
   title3: {
     position: 'absolute',
-    top: '62%',
+    top: '60%',
     fontFamily: "Lato",
     fontSize: 16,
     color: '#FFCE4A',
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
 
   lastStoryButton: {
     position: 'absolute',
-    top: '67%',
+    top: '64%',
     width: '92%',
     height: '21%',
     borderWidth: 1,
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
   storyImage: {
     width: '100%',
     height: '100%',
+    overflow: "hidden",
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
