@@ -91,11 +91,11 @@ const errorTextUpStyle = isValidSignUp
     : { ...styles.errorInText, color: '#FFCE4A' }; // Style when isValidSignIn is false (you can change the color)
 
 
-  // useEffect(() => {
-  //   if (user.email != null || user.username != null) {
-  //     navigation.navigate("Home");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user.email != null || user.username != null) {
+      navigation.navigate("Home");
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
