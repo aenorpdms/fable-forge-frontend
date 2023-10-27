@@ -24,7 +24,7 @@ import {
 } from "@expo-google-fonts/lato";
 
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import {combineReducers, configureStore } from "@reduxjs/toolkit";
 // redux-persist imports
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
