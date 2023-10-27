@@ -106,15 +106,16 @@ const errorTextUpStyle = isValidSignUp
       <TouchableOpacity style={styles.btnHome} onPress={() => handleModalToggle("register")}>
         <Text style={styles.textBtn}>S'inscrire gratuitement</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.btnInput} onPress={() => handleModalToggle("connexion")}>
+        <Text style={styles.textBtn1}>Se connecter</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.btnGoogle}>
         <Text style={styles.textBtn1}>Se connecter avec Google</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnFacebook}>
         <Text style={styles.textBtn1}>Se connecter avec Facebook</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnInput} onPress={() => handleModalToggle("connexion")}>
-        <Text style={styles.textBtn1}>Se connecter</Text>
-      </TouchableOpacity>
+     
       <Modal visible={modalVisible} animationType='slide' transparent={true}>
         <View style={styles.mdlctn}>
           <View style={modalStyle}>
@@ -127,21 +128,21 @@ const errorTextUpStyle = isValidSignUp
               <>
 
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputUp}
                   placeholder='Prénom'
                   placeholderTextColor='white'
                   onChangeText={value => setFirstName(value)}
                   value={firstname}
                 ></TextInput>
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputUp}
                   placeholder='Pseudonyme'
                   placeholderTextColor='white'
                   onChangeText={value => setUsername(value)}
                   value={username}
                 ></TextInput>
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputUp}
                   placeholder='Email'
                   placeholderTextColor='white'
                   onChangeText={value => setEmail(value)}
@@ -149,7 +150,7 @@ const errorTextUpStyle = isValidSignUp
                 ></TextInput>
              
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputUp}
                   placeholder='Mot de Passe'
                   secureTextEntry={true}
                   placeholderTextColor='white'
@@ -165,14 +166,14 @@ const errorTextUpStyle = isValidSignUp
              {modalType === "connexion" && (
               <>
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputIn}
                   placeholder='Pseudonyme ou Email'
                   placeholderTextColor='white'
                   onChangeText={value => setIdentifier(value)}
                   value={identifier}
                 ></TextInput>
                 <TextInput
-                  style={styles.input}
+                  style={styles.inputIn}
                   placeholder='Mot de Passe'
                   placeholderTextColor='white'
                   secureTextEntry={true}
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
 
     textAlign: "center",
     color: "#FFFFFF",
-    marginTop: 480,
+    marginTop: "115%",
   },
   title2: {
     fontFamily: "Lato_400Regular",
@@ -239,22 +240,26 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   btnGoogle: {
-    backgroundColor: "transparent",
+    backgroundColor: "#E6DAFF",
     borderRadius: 10,
     margin: 10,
     padding: 10,
     width: "80%",
     borderWidth: 1,
-    borderColor: "#FFFFFF",
+    borderColor: "#E6DAFF",
+    opacity: 0.2
+  
   },
   btnFacebook: {
-    backgroundColor: "transparent",
+    backgroundColor: "#E6DAFF",
     borderRadius: 10,
     margin: 10,
     padding: 10,
     width: "80%",
     borderWidth: 1,
-    borderColor: "#FFFFFF",
+    borderColor: "#E6DAFF",
+    opacity: 0.2,
+    marginBottom: "18%"
   },
   btnInput: {
     backgroundColor: "transparent",
@@ -264,12 +269,12 @@ const styles = StyleSheet.create({
     width: "80%",
     borderWidth: 1,
     borderColor: "#FFFFFF",
-    marginBottom: 80,
+    // marginBottom: "18%",
   },
   textBtn: {
     fontFamily: "Lato_400Regular",
     textAlign: "center",
-    width: 200,
+    width: "90%",
   },
   textBtn1: {
     fontFamily: "Lato_400Regular",
@@ -277,10 +282,10 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   modalContainerInscription: {
-    width: 350, // Adjust the width as per your requirement
-    height: 400, // Adjust the height as per your requirement
-    marginTop: 220,
-    marginLeft: 30,
+    width: "86%", // Adjust the width as per your requirement 350
+    height: "45%", // Adjust the height as per your requirement 400
+    marginTop: "60%", // 200
+    marginLeft: '7%', //30
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
     padding: 20,
@@ -289,10 +294,10 @@ const styles = StyleSheet.create({
     // backdropFilter: "blur(5px)",
   },
   modalContainerConnection: {
-    width: 350, // Adjust the width as per your requirement
-    height: 300, // Adjust the height as per your requirement
-    marginTop: 200,
-    marginLeft: 30,
+    width: "86%", // Adjust the width as per your requirement
+    height: "34%", // Adjust the height as per your requirement 300
+    marginTop: "60%",
+    marginLeft: "7%",
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
     padding: 20,
@@ -318,45 +323,55 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     padding: 10,
-    marginTop:-40,
+    marginTop:"-11%", // -40
   },
   titleModalUp: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
     padding: 10,
-    marginTop:-30,
+    marginTop:"-8%",
   },
   closeModalIn: {
     position: "absolute",
-    top: -5,
-    left: 200
+    top: "3%",
+    left: "62%"
   },
   closeModalUp: {
     position: "absolute",
-    top: -5,
-    left: 200
+    top: "-2%",
+    left: "62%"
   },
-  input: {
+  inputIn: {
     width: "90%",
-    height: 40,
+    height: "15%",//40
     borderColor: "white",
     color: "white",
     fontFamily: "Lato_400Regular",
     borderWidth: 1,
-    marginBottom: 15,
+    marginBottom: "5%",// 15
+    paddingLeft: 10,
+    borderRadius: 10,
+  },
+  inputUp: {
+    width: "90%",
+    height: "11%",//40
+    borderColor: "white",
+    color: "white",
+    fontFamily: "Lato_400Regular",
+    borderWidth: 1,
+    marginBottom: "5%",// 15
     paddingLeft: 10,
     borderRadius: 10,
   },
   btnValidate: {
     backgroundColor: "#FFCE4A",
     borderRadius: 10,
-    margin: 10,
-    padding: 10,
-    paddingLeft: 80,
-    paddingRight: 80,
+    margin: 10, // 10
+    padding: 10, // 10
+    textAlign:"center",
     width: "90%",
-    marginBottom: 10,
+    marginBottom: 10, // 10
   },
   textBtnValidate: {
     fontFamily: "Lato_400Regular",
