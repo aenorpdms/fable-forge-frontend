@@ -9,7 +9,7 @@ const SplashScreen = ({ navigation }) => {
   const [animation] = useState(new Animated.Value(0));
 
   useEffect(() => {
-    // Démarrez l'animation pour faire apparaître l'indicateur de chargement
+    // Démarrer l'animation pour faire apparaître l'indicateur de chargement
     Animated.timing(animation, {
       toValue: 1,
       duration: animationDuration,
@@ -17,7 +17,7 @@ const SplashScreen = ({ navigation }) => {
     }).start();
 
     setTimeout(() => {
-      // Utilisez navigation.replace pour passer à l'écran d'accueil et empêcher le retour en arrière
+      // Utiliser navigation.replace pour passer à l'écran d'accueil et empêcher le retour en arrière
       navigation.replace('Sign');
     }, splashTime);
   }, []);

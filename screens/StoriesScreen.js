@@ -156,12 +156,13 @@ const styles = StyleSheet.create({
 },
 
   storyTitle: {
+    fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
 },
 
   storyStatus: {
+    fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 14,
   },
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
   },
 
   readButtonText: {
+    fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 14,
   },
@@ -185,7 +187,6 @@ const styles = StyleSheet.create({
     marginTop: "100%",
     position: "absolute",
     zIndex: 1,
-
   },
   
 });
