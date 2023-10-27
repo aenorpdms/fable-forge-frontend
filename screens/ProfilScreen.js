@@ -289,16 +289,14 @@ const styles = StyleSheet.create({
   title1: {
     fontFamily: "Lato_400Regular",
     fontSize: 20,
-    fontWeight: "200",
     textAlign: "left",
     color: "#FFFFFF",
     marginTop: 160,
     marginLeft: 16,
   },
   title2: {
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 32,
-    fontWeight: "500",
     textAlign: "left",
     color: "#FFCE4A",
     marginTop: 160,
@@ -306,9 +304,9 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   subtitle: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 22,
-    fontWeight: "500",
     textAlign: "center",
     marginTop: "8%",
   },
@@ -321,26 +319,27 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   titleInputMDP: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
-    fontWeight: "500",
     marginLeft: "4%",
     marginBottom: "1%",
   },
 
   titleInput: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
-    fontWeight: "500",
     marginLeft: "4%",
   },
   titleInputPWD: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
-    fontWeight: "500",
     marginLeft: "4%",
   },
   input: {
+    fontFamily: "Lato_400Regular",
     backgroundColor: "transparent",
     borderRadius: 10,
     margin: 5,
@@ -353,9 +352,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   btnModify: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     fontSize: 16,
-    fontWeight: "500",
     marginTop: 0,
     marginLeft: "4%",
     marginBottom: "4%",
@@ -364,9 +363,9 @@ const styles = StyleSheet.create({
     marginTop: "1%",
   },
   subscriptionText: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 14,
-    fontWeight: "400",
     marginLeft: "4%",
   },
   btnAbonnement: {
@@ -381,10 +380,10 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
   btnText: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "500",
   },
   btnDelete: {
     backgroundColor: "#6B5F85",

@@ -14,6 +14,7 @@ export default function SignScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const [identifier, setIdentifier] = useState("");
   const [passwordUp, setPasswordUp] = useState("");
@@ -66,11 +67,10 @@ export default function SignScreen({ navigation }) {
   };
 
   useEffect(() => {
-    if ( (user.email != null) || (user.username != null) ) {
-      navigation.navigate('Home');
-  }
-  },[]);
-
+    if (user.email != null || user.username != null) {
+      navigation.navigate("Home");
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
