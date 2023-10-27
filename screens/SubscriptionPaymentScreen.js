@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 //import { TextInput } from "react-native-gesture-handler";
+
+// Dans votre composant de la page suivante
+// import { useRoute } from "@react-navigation/native";
 
 export default function SubscriptionPaymentScreen({ navigation }) {
   const handleReturnToPayment = () => {
@@ -10,13 +15,26 @@ export default function SubscriptionPaymentScreen({ navigation }) {
     navigation.navigate("Subscription");
   };
 
+  //   const route = useRoute();
+  //   const selectedSubscription = route.params.subscription;
+
   //   console.log("payment screen");
   return (
     <SafeAreaView style={styles.container}>
+      {/* <View>
+        <Text>Abonnement sélectionné : {selectedSubscription.type}</Text>
+        <Text>Prix : {selectedSubscription.price}</Text> */}
+      {/* Autres informations de l'abonnement */}
+      {/* </View> */}
       <View style={styles.containerTitles}>
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
+        <View style={styles.typeOfPayment}>
+          <Text style={styles.textTypeOfPayment}>Visa</Text>
+          <Text style={styles.textTypeOfPayment}>Paypal</Text>
+          <Text style={styles.textTypeOfPayment}>ApplePay</Text>
+        </View>
       </View>
       <View style={styles.arrowContainer}>
         <TouchableOpacity style={styles.arrowBtn}>
@@ -40,7 +58,10 @@ export default function SubscriptionPaymentScreen({ navigation }) {
             <Text style={styles.titleInput1}>Date d'expiration</Text>
             <TextInput style={styles.input1}>MM/AA</TextInput>
           </View>
-          <Text style={styles.title4}>sauvegarder mes informations pour la prochaine fois</Text>
+          <TouchableOpacity style={styles.btnSaved}></TouchableOpacity>
+          <Text style={styles.title4} icon={faCircle}>
+            sauvegarder mes informations pour la prochaine fois
+          </Text>
         </View>
       </View>
     </SafeAreaView>
@@ -60,6 +81,7 @@ const styles = StyleSheet.create({
     padding: 40,
     borderColor: "green",
     borderWidth: 1,
+    bottom: 50,
   },
   title1: {
     color: "#FFCE4A",
@@ -78,6 +100,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Lato_400Regular",
     fontSize: 10,
+  },
+  typeOfPayment: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "red",
+    justifyContent: "space-around",
+    top: 80,
+  },
+  textTypeOfPayment: {
+    color: "#FFCE4A",
   },
   scanCard: {
     left: 130,
