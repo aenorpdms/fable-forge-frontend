@@ -60,7 +60,11 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         <Text style={styles.title2bis}>Etape 2/3</Text>
         <Text style={styles.title3}>Interactif</Text>
       </ImageBackground>
+      <View style={styles.tabBar}>
+          <TabBar navigation={navigation} />
+        </View>
       <View style={styles.containerStory}>
+       
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
           <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[0] }]} onPress={() => handleButtonClick(1)}>
@@ -110,9 +114,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
             </View>
           </View>
         </ScrollView>
-        <View style={styles.tabBar}>
-          <TabBar navigation={navigation} />
-        </View>
+        
       </View>
     </SafeAreaView>
   );
@@ -278,6 +280,8 @@ const styles = StyleSheet.create({
     marginTop: 70, // ajustez la marge supérieure selon vos besoins
   },
   tabBar: {
-    top: 72,
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
   },
 });

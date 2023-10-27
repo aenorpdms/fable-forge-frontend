@@ -40,6 +40,10 @@
           <Text style={styles.title2}>Récapitulatif</Text>
           <Text style={styles.title2bis}>Etape 3/3</Text>
         </ImageBackground>
+        <View style={styles.tabBar}>
+            <TabBar navigation={navigation} />
+          </View>
+       
         <View style={styles.containerStory}>
           {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
           <Text style={styles.titleContainer}>Genre: {newStory.type}</Text>
@@ -56,10 +60,7 @@
             <Text style={styles.generateTextBtn}>Valider mes choix</Text>
           </TouchableOpacity>
           {/* </ScrollView> */}
-          <View style={styles.tabBar}>
-            <TabBar navigation={navigation} />
           </View>
-        </View>
       </SafeAreaView>
     );
   }
@@ -166,6 +167,8 @@
         padding: 10,
       },
       tabBar: {
-        top: 72,
+        marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
       },
     });
