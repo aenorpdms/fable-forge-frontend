@@ -16,7 +16,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
     console.log("Preparing to send request with body:", JSON.stringify(customBody)); // Log pour inspecter le contenu du body avant l'envoi
 
     try {
-      const response = await fetch("https://fable-forge-backend.vercel.app/api/generate-story", {
+      const response = await fetch("https://fable-forge-backend-seven.vercel.app/api/generate-story", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
