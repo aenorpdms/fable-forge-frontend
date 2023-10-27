@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function TabBar({ navigation }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
-    const widthValue = useSharedValue(0);
+    const widthValue = useSharedValue(isOpen ? 140 : 0);
 
     const animatedStyles = useAnimatedStyle(() => {
         return {
@@ -17,14 +17,21 @@ export default function TabBar({ navigation }) {
             }),
         };
     });
-    const bgValue = useSharedValue(0); // 0 pour fermé, 1 pour ouvert
+    const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
 
     const animatedBackgroundStyle = useAnimatedStyle(() => {
-        const bgColor = bgValue.value === 0 ? 'transparent' : 'rgba(255, 255, 255, 0.5)';
+        const bgColor = bgValue.value === 1 ? 'rgba(255, 255, 255, 0.5)'  : 'transparent';
         return {
-            backgroundColor: bgColor,
+            backgroundColor:bgColor,
         };
     });
+
+    useEffect(() => {
+        // Automatically open the tab bar when the component is rendered
+        if (!isOpen) {
+            toggleTabBar();
+        }
+    }, []);
 
     const toggleTabBar = () => {
         setIsOpen(prevState => {
@@ -115,7 +122,7 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 40, // Exemple
         height: 40,
-        backgroundColor: '#ffffff',
+        backgroundColor: 'white',
         borderRadius: 30,
         marginHorizontal: 5,
         elevation: 5, // pour l'ombre android
