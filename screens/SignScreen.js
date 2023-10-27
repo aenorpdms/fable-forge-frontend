@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../reducers/user";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function SignScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,11 +16,12 @@ export default function SignScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [isValidSignIn, setIsValidSignIn] = useState(true);
+  const [isValidSignUp, setIsValidSignUp] = useState(true)
 
   const [identifier, setIdentifier] = useState("");
   const [passwordUp, setPasswordUp] = useState("");
-  const [isValidPassword, setIsValidPassword] = useState("");
+
 
   const user = useSelector(state => state.user.value);
 
@@ -28,10 +30,6 @@ export default function SignScreen({ navigation }) {
     setModalVisible(!modalVisible);
   };
 
-  const isValidEmail = email => {
-    const regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
-    return regex.test(email);
-  };
 
   const handleInscription = () => {
     fetch("https://fable-forge-backend-84ce.vercel.app/users/signup", {
@@ -43,6 +41,7 @@ export default function SignScreen({ navigation }) {
       .then(data => {
         console.log(data.token);
         if (data.result) {
+          setIsValidSignUp(true)
           setUsername("");
           setPassword("");
           setFirstName("");
@@ -50,6 +49,8 @@ export default function SignScreen({ navigation }) {
           dispatch(updateUser({ firstname, username, email, token: data.token }));
           setModalVisible(false);
           navigation.navigate("Home");
+        }else {
+          setIsValidSignUp(false)
         }
       });
   };
@@ -65,22 +66,36 @@ export default function SignScreen({ navigation }) {
       .then(data => {
         console.log(data);
         if (data.result) {
+          setIsValidSignIn(true)
           setIdentifier("");
           setPasswordUp("");
           dispatch(updateUser({ firstname: data.firstname, username: data.username, email: data.email, token: data.token }));
           setModalVisible(false);
           navigation.navigate("Home");
         } else {
-          setEmailError("Invalid email address");
+          setIsValidSignIn(false)
         }
       });
   };
 
-  useEffect(() => {
-    if (user.email != null || user.username != null) {
-      navigation.navigate("Home");
-    }
-  }, []);
+  const modalStyle = modalType === "register" ? styles.modalContainerInscription : styles.modalContainerConnection;
+  const titleStyle = modalType === "register" ? styles.titleModalUp : styles.titleModalIn;
+  const closeStyle = modalType === "register" ? styles.closeModalUp : styles.closeModalIn;
+
+  const errorTextInStyle = isValidSignIn
+    ? styles.errorUpText // Style when isValidSignIn is true
+    : { ...styles.errorUpText, color: '#FFCE4A' }; // Style when isValidSignIn is false (you can change the color)
+
+const errorTextUpStyle = isValidSignUp
+    ? styles.errorInText // Style when isValidSignIn is true
+    : { ...styles.errorInText, color: '#FFCE4A' }; // Style when isValidSignIn is false (you can change the color)
+
+
+  // useEffect(() => {
+  //   if (user.email != null || user.username != null) {
+  //     navigation.navigate("Home");
+  //   }
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -102,13 +117,15 @@ export default function SignScreen({ navigation }) {
       </TouchableOpacity>
       <Modal visible={modalVisible} animationType='slide' transparent={true}>
         <View style={styles.mdlctn}>
-          <View style={styles.modalContainer}>
-            <TouchableOpacity onPress={() => handleModalToggle()}>
-              <Text style={styles.btnCloseModal}>x</Text>
-              <Text style={styles.titleModal}> Fable Forge</Text>
-            </TouchableOpacity>
+          <View style={modalStyle}>
+            <View style={styles.titleClose}>
+            <Text style={titleStyle}> Fable Forge</Text>
+              <FontAwesome name='close' size={20} style={closeStyle} color='white' onPress={() => handleModalToggle()}/>          
+              </View>
+             
             {modalType === "register" && (
               <>
+
                 <TextInput
                   style={styles.input}
                   placeholder='Prénom'
@@ -130,7 +147,7 @@ export default function SignScreen({ navigation }) {
                   onChangeText={value => setEmail(value)}
                   value={email}
                 ></TextInput>
-                {!isValidEmail && <Text style={styles.errorText}>{text}</Text>}
+             
                 <TextInput
                   style={styles.input}
                   placeholder='Mot de Passe'
@@ -139,12 +156,13 @@ export default function SignScreen({ navigation }) {
                   onChangeText={value => setPassword(value)}
                   value={password}
                 ></TextInput>
+                  <Text style={errorTextUpStyle}>Des champs obligatoires n'ont pas été complétés</Text>
                 <TouchableOpacity style={styles.btnValidate} onPress={() => handleInscription()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
             )}
-            {modalType === "connexion" && (
+             {modalType === "connexion" && (
               <>
                 <TextInput
                   style={styles.input}
@@ -161,6 +179,7 @@ export default function SignScreen({ navigation }) {
                   onChangeText={value => setPasswordUp(value)}
                   value={passwordUp}
                 ></TextInput>
+                <Text style={errorTextInStyle}>Mot de passe ou Email/ Nom d'utilisateur incorrect</Text>
                 <TouchableOpacity style={styles.btnValidate} onPress={() => handleConnection()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
@@ -257,10 +276,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#FFFFFF",
   },
-  modalContainer: {
+  modalContainerInscription: {
     width: 350, // Adjust the width as per your requirement
-    height: 350, // Adjust the height as per your requirement
-    marginTop: 150,
+    height: 400, // Adjust the height as per your requirement
+    marginTop: 220,
+    marginLeft: 30,
+    backgroundColor: "#6B5F85",
+    borderRadius: 20, // Adjust the borderRadius as per your requirement
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    // backdropFilter: "blur(5px)",
+  },
+  modalContainerConnection: {
+    width: 350, // Adjust the width as per your requirement
+    height: 300, // Adjust the height as per your requirement
+    marginTop: 200,
     marginLeft: 30,
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
@@ -270,59 +301,50 @@ const styles = StyleSheet.create({
     // backdropFilter: "blur(5px)",
   },
 
-  //   modalRegister: {
-  //     width: 350, // Adjust the width as per your requirement
-  //     height: 350, // Adjust the height as per your requirement
-  //     marginTop: 150,
-  //     marginLeft: 30,
-  //     backgroundColor: "#6B5F85",
-  //     borderRadius: 20, // Adjust the borderRadius as per your requirement
-  //     padding: 20,
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //   },
-
-  //   modalConnexion: {
-  //     width: 350, // Adjust the width as per your requirement
-  //     height: 350, // Adjust the height as per your requirement
-  //     marginTop: 150,
-  //     marginLeft: 30,
-  //     backgroundColor: "#6B5F85",
-  //     borderRadius: 20, // Adjust the borderRadius as per your requirement
-  //     padding: 20,
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //   },
-
   imagBgdModal: {
     height: "100%",
     width: "100%",
     opacity: 0.5,
   },
-
-  titleModal: {
+  titleClose:{
+    flex:1,
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center"
+  },
+ 
+  titleModalIn: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
     padding: 10,
-    marginLeft: 50,
+    marginTop:-40,
   },
-  btnCloseModal: {
+  titleModalUp: {
     fontFamily: "Lato_400Regular",
-    fontSize: 20,
-    padding: 10,
-    marginTop: 10,
-    marginLeft: 200,
     color: "white",
+    fontSize: 18,
+    padding: 10,
+    marginTop:-30,
+  },
+  closeModalIn: {
+    position: "absolute",
+    top: -5,
+    left: 200
+  },
+  closeModalUp: {
+    position: "absolute",
+    top: -5,
+    left: 200
   },
   input: {
-    width: "80%",
+    width: "90%",
     height: 40,
     borderColor: "white",
     color: "white",
     fontFamily: "Lato_400Regular",
     borderWidth: 1,
-    marginBottom: 10,
+    marginBottom: 15,
     paddingLeft: 10,
     borderRadius: 10,
   },
@@ -333,15 +355,25 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 80,
     paddingRight: 80,
-    width: "80%",
-    marginBottom: 20,
+    width: "90%",
+    marginBottom: 10,
   },
   textBtnValidate: {
     fontFamily: "Lato_400Regular",
     textAlign: "center",
   },
-  errorText: {
-    color: "red",
+  errorInText: {
+    color: "#6B5F85",
     marginTop: 5,
+    marginBottom: 5,
+    width: "88%",
+    textAlign: "justify"
   },
+  errorUpText:{
+    color: "#6B5F85",
+    marginTop: 5,
+    marginBottom: 5,
+    width: "88%",
+    textAlign: "justify"
+  }
 });
