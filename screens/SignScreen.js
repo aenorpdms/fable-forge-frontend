@@ -65,6 +65,13 @@ export default function SignScreen({ navigation }) {
       });
   };
 
+  useEffect(() => {
+    if ( (user.email != null) || (user.username != null) ) {
+      navigation.navigate('Home');
+  }
+  },[]);
+
+
   return (
     <View style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/finalimageConnection.png")}>
@@ -230,10 +237,12 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   textBtn: {
+    fontFamily: "Lato_400Regular",
     textAlign: "center",
     width: 200,
   },
   textBtn1: {
+    fontFamily: "Lato_400Regular",
     textAlign: "center",
     color: "#FFFFFF",
   },
@@ -281,13 +290,14 @@ const styles = StyleSheet.create({
   },
 
   titleModal: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 20,
-    fontWeight: "bold",
     padding: 10,
     marginLeft: 50,
   },
   btnCloseModal: {
+    fontFamily: "Lato_400Regular",
     fontSize: 20,
     padding: 10,
     marginTop: 10,
@@ -299,6 +309,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "white",
     color: "white",
+    fontFamily: "Lato_400Regular",
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 10,
@@ -315,7 +326,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   textBtnValidate: {
+    fontFamily: "Lato_400Regular",
     textAlign: "center",
-    fontWeight: "bold",
   },
 });
