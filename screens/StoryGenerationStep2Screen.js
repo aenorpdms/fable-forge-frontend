@@ -60,7 +60,11 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         <Text style={styles.title2bis}>Etape 2/3</Text>
         <Text style={styles.title3}>Interactif</Text>
       </ImageBackground>
+      <View style={styles.tabBar}>
+          <TabBar navigation={navigation} />
+        </View>
       <View style={styles.containerStory}>
+       
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
           <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[0] }]} onPress={() => handleButtonClick(1)}>
@@ -110,9 +114,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
             </View>
           </View>
         </ScrollView>
-        <View style={styles.tabBar}>
-          <TabBar navigation={navigation} />
-        </View>
+        
       </View>
     </SafeAreaView>
   );
@@ -132,23 +134,27 @@ const styles = StyleSheet.create({
     marginTop: "-12%",
   },
   title1: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 21,
     top: "50%",
     marginLeft: 10,
   },
   title2: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     fontSize: 16,
     top: "50%",
     marginLeft: 10,
   },
   title2bis: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     marginLeft: 300,
     top: "50%",
   },
   title3: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     top: "50%",
     marginLeft: 10,
@@ -197,6 +203,7 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
     textAlign: "center",
@@ -218,6 +225,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   sizeTextBtn: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     textAlign: "center",
     padding: 10,
@@ -254,11 +262,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textTypeEnd: {
+    fontFamily: "Lato_400Regular",
     textAlign: "center",
     color: "white",
     marginTop: 10,
   },
   typeEndBtn: {
+    fontFamily: "Lato_400Regular",
     borderWidth: 3,
     borderColor: "#FFCE4A",
     borderRadius: 10,
@@ -278,6 +288,8 @@ const styles = StyleSheet.create({
     marginTop: 70, // ajustez la marge supérieure selon vos besoins
   },
   tabBar: {
-    top: 72,
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
   },
 });

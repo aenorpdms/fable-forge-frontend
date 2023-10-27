@@ -40,6 +40,10 @@
           <Text style={styles.title2}>Récapitulatif</Text>
           <Text style={styles.title2bis}>Etape 3/3</Text>
         </ImageBackground>
+        <View style={styles.tabBar}>
+            <TabBar navigation={navigation} />
+          </View>
+       
         <View style={styles.containerStory}>
           {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
           <Text style={styles.titleContainer}>Genre: {newStory.type}</Text>
@@ -56,10 +60,7 @@
             <Text style={styles.generateTextBtn}>Valider mes choix</Text>
           </TouchableOpacity>
           {/* </ScrollView> */}
-          <View style={styles.tabBar}>
-            <TabBar navigation={navigation} />
           </View>
-        </View>
       </SafeAreaView>
     );
   }
@@ -78,23 +79,27 @@
         marginTop: "-12%",
       },
       title1: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         fontSize: 21,
         top: "50%",
         marginLeft: 10,
       },
       title2: {
+        fontFamily: "Lato_400Regular",
         color: "#FFCE4A",
         fontSize: 16,
         top: "50%",
         marginLeft: 10,
       },
       title2bis: {
+        fontFamily: "Lato_400Regular",
         color: "#FFCE4A",
         marginLeft: 300,
         top: "50%",
       },
       title3: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         top: "50%",
         marginLeft: 10,
@@ -115,6 +120,7 @@
       },
 
       titleContainer: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         fontSize: 28,
         textAlign: "center",
@@ -132,6 +138,7 @@
       },
 
       textRecap: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         textAlign: "justify",
         marginTop: 10,
@@ -146,6 +153,7 @@
         padding: 5,
       },
       sizeTextRecap: {
+        fontFamily: "Lato_400Regular",
         color: "black",
         textAlign: "center",
         padding: 10,
@@ -161,11 +169,14 @@
         marginTop: 10,
       },
       generateTextBtn: {
+        fontFamily: "Lato_400Regular",
         color: "white",
         textAlign: "center",
         padding: 10,
       },
       tabBar: {
-        top: 72,
+        marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
       },
     });

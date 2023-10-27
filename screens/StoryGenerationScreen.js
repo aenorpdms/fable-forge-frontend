@@ -79,7 +79,7 @@ export default function StoryGenerationScreen() {
         <Text style={styles.title2bis}>Etape 1/3</Text>
       </ImageBackground>
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} />
-      <TabBar />
+      <TabBar navigation={navigation}/>
     </SafeAreaView>
   );
 }
@@ -98,18 +98,21 @@ const styles = StyleSheet.create({
     marginTop: "-12%",
   },
   title1: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 21,
     top: "50%",
     marginLeft: 10,
   },
   title2: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     fontSize: 16,
     top: "50%",
     marginLeft: 10,
   },
   title2bis: {
+    fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
     marginLeft: 300,
     top: "50%",
@@ -124,8 +127,8 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   title: {
+    fontFamily: "Lato_400Regular",
     fontSize: 20,
-    fontWeight: "bold",
     color: "white",
     marginBottom: 20,
   },
@@ -143,12 +146,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   genreTitle: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 20,
-    fontWeight: "bold",
     marginBottom: 10,
   },
   genreDescription: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
     textAlign: "center",
@@ -166,6 +170,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   selectButtonText: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 14,
   },

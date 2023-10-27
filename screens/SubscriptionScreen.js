@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     height: "70%",
   },
   title2: {
-    // fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
     fontSize: 34,
     fontWeight: "500",
     textAlign: "left",
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   title3: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     top: 180,
     marginLeft: 20,
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
   },
 
   textAboPrice: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     height: 70,
     top: "40%",
@@ -177,11 +179,13 @@ const styles = StyleSheet.create({
   },
 
   textBtnPriceOn: {
+    fontFamily: "Lato_400Regular",
     color: "black",
     textAlign: "center",
   },
 
   textBtnPrice: {
+    fontFamily: "Lato_400Regular",
     color: "white",
     textAlign: "center",
   },
