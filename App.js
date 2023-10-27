@@ -3,7 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 
 import { StyleSheet, Text, View } from "react-native";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
+SplashScreen.preventAutoHideAsync();
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -36,7 +37,7 @@ import ProfilScreen from "./screens/ProfilScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import StoriesScreen from "./screens/StoriesScreen";
 import CguvScreen from "./screens/CguvScreen";
-import SplashScreen from "./screens/SplashScreen";
+import LoadingScreen from "./screens/LoadingScreen";
 import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
 import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
@@ -65,6 +66,11 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 export default function App() {
+
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
   let [fontsLoaded] = useFonts({
     Lato_100Thin,
     Lato_100Thin_Italic,
@@ -84,7 +90,7 @@ export default function App() {
   let paddingVertical = 6;
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
     //hello to delete
   }
 
@@ -95,7 +101,7 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
               name="Splash"
-              component={SplashScreen}
+              component={LoadingScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -147,6 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Lato",
+    fontFamily: "Lato_400Regular",
   },
 });
