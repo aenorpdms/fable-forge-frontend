@@ -25,7 +25,7 @@ export default function SignScreen({ navigation }) {
   };
 
   const handleInscription = () => {
-    fetch("https://fable-forge-backend.vercel.app/users/signup", {
+    fetch("https://fable-forge-backend-84ce.vercel.app/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, firstname, email, password }),
@@ -47,7 +47,7 @@ export default function SignScreen({ navigation }) {
 
   const handleConnection = () => {
     console.log(user);
-    fetch("https://fable-forge-backend.vercel.app/users/signin", {
+    fetch("https://fable-forge-backend-84ce.vercel.app/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password: passwordUp }),
