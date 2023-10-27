@@ -172,21 +172,21 @@ const styles = StyleSheet.create({
   },
 
   readButton: {
-    width: "45%",//150
+    width: "50%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
     backgroundColor: "#2C1A51",
     padding: 15,
-    marginTop: -25,
-    borderRadius: 8,
-    alignItems: "center",
+    marginTop: "-6%",
+    borderRadius: 10,
     alignSelf: "center",
 },
 
   readButtonText: {
     fontFamily: "Lato_400Regular",
     color: 'white',
-    fontSize: 14,
+    fontSize: 16,
+    textAlign:"center"
   },
   
 });

@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginTop: "-12%",
     width: "100%",
-    height: "54.8%",
+    height: "64%",
   },
 
   title2: {
@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "#FFCE4A",
     lineHeight: 60,
-    marginLeft: 16,
-    marginTop: 183,
+    marginLeft: "4%",
+    marginTop: "47%",
   },
   settingsApp: {
     flex: 2,
