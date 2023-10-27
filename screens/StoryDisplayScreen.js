@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { API_URL, API_KEY } from "@env";
 import TabBar from "../TabBar";
 
-export default function StoryDisplayScreen({ navigation }) {
+export default function StoryDisplayScreen({ route, navigation }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedText, setGeneratedText] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
+  const { genre, longueur, fin } = route.params;
 
   const body = {
     genre: "Horreur",
@@ -23,8 +25,8 @@ export default function StoryDisplayScreen({ navigation }) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body) // Remplacez 'body' par l'objet contenant genre, fin, longueur, etc.
-        });
+            body: JSON.stringify(body), // Utilisez l'objet 'body' pour personnaliser votre requête
+          });
 
         if (!response.ok) {
             console.error("Error fetching the story:", response.statusText);
@@ -64,7 +66,15 @@ export default function StoryDisplayScreen({ navigation }) {
 
             const handleGenerateStory = () => {
               setIsGenerating(true); // Démarrez la génération lorsque l'utilisateur appuie sur le bouton
-              generateText(); // Commencez la génération du texte ici
+            
+              // Utilisez les valeurs genre, longueur et fin pour personnaliser votre requête
+              const body = {
+                genre: genre, // Utilisez la valeur passée en tant que paramètre de navigation
+                fin: fin, // Utilisez la valeur passée en tant que paramètre de navigation
+                longueur: longueur, // Utilisez la valeur passée en tant que paramètre de navigation
+              };
+            
+              generateText(body); // Commencez la génération du texte ici en passant les données personnalisées
             };
 
   return (
