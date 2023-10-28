@@ -82,7 +82,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         {isGenerating ? (
           <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />
         ) : (
-          <Text key={newContent} style={styles.textStory}>
+          <Text key={newContent} style={[styles.textStory, { fontSize: fontSize }]}>
             {newContent}
           </Text>
         )}
