@@ -313,36 +313,30 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "66%",
-    marginBottom: "4%",
+    height: "77%",
+    // marginBottom: "4%",
   },
-  title1: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 20,
-    textAlign: "left",
-    color: "#FFFFFF",
-    marginTop: 160,
-    marginLeft: 16,
-  },
+
   title2: {
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     textAlign: "left",
     color: "#FFCE4A",
-    marginTop: 160,
+    marginTop: "46.5%",//160
     lineHeight: 60,
-    marginLeft: 16,
+    marginLeft: "3%",
   },
   subtitle: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 22,
     textAlign: "center",
-    marginTop: "8%",
+    marginTop: "10%",
+    marginBottom:"5%"
   },
   image: {
     position: "absolute",
-    top: "48%",
+    top: "52%",
     left: "36%",
   },
   containerInformation: {
@@ -406,7 +400,7 @@ const styles = StyleSheet.create({
     width: "92%",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    marginBottom: "2%",
+    marginBottom: "4%",
     marginLeft: "4%",
   },
   btnText: {

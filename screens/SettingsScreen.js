@@ -19,11 +19,15 @@ export default function SettingsScreen({ navigation }) {
   const [fontSize, setFontSize] = useState(16);
 
   const increaseFontSize = () => {
-    setFontSize(fontSize + 2);
+    if (fontSize < 30) {
+      setFontSize(fontSize + 2);
+    }
   };
 
   const decreaseFontSize = () => {
-    setFontSize(fontSize - 2);
+    if (fontSize > 10) {
+      setFontSize(fontSize - 2);
+    }
   };
 
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginTop: "-12%",
     width: "100%",
-    height: "54.8%",
+    height: "64%",
   },
 
   title2: {
@@ -129,8 +133,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "#FFCE4A",
     lineHeight: 60,
-    marginLeft: 16,
-    marginTop: 183,
+    marginLeft: "4%",
+    marginTop: "47%",
   },
   settingsApp: {
     flex: 2,

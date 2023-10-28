@@ -11,8 +11,8 @@ export default function CguvScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.arrowBtn}>
-          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} onPress={() => handleReturnToSettings()} />
+        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleReturnToSettings()}>
+          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.containerInformation} indicatorStyle='white'>

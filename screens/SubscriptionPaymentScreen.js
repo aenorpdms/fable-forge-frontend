@@ -2,31 +2,60 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
-//import { TextInput } from "react-native-gesture-handler";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function SubscriptionPaymentScreen({ navigation }) {
-  const handleReturnToPayment = () => {
-    // return to subscription page
+  // SUBSCRIPTION PAGE
+  const handleSubscription = () => {
+    // navigate to subscription page
     navigation.navigate("Subscription");
   };
+  console.log(handleSubscription);
 
-  //   console.log("payment screen");
+  const [choix1, setChoix1] = useState(0);
+  const [choix2, setChoix2] = useState(0);
+  const [choix3, setChoix3] = useState(0);
+
+  const handleClickChoix1 = () => {
+    setChoix1(1);
+    setChoix2(0);
+    setChoix3(0);
+  };
+
+  const handleClickChoix2 = () => {
+    setChoix1(0);
+    setChoix2(1);
+    setChoix3(0);
+  };
+
+  const handleClickChoix3 = () => {
+    setChoix1(0);
+    setChoix2(0);
+    setChoix3(1);
+  };
+
+  const [isSaveInfosClicked, setIsSaveInfosClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsSaveInfosClicked(!isSaveInfosClicked);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
+        <View style={styles.typeOfPayment}>
+          <Text style={styles.textTypeOfPayment}>Visa</Text>
+          <TouchableOpacity onPress={() => handleClickChoix1()} style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+          <Text style={styles.textTypeOfPayment}>Paypal</Text>
+          <TouchableOpacity onPress={() => handleClickChoix2()} style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+          <Text style={styles.textTypeOfPayment}>ApplePay</Text>
+          <TouchableOpacity onPress={() => handleClickChoix3()} style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.arrowBtn}>
-          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} onPress={() => handleReturnToPayment()} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.arrowBtn1}>
-          <Image source={require("../assets/validationbtn.png")} size={30} color={"#FFCE4A"} />
-        </TouchableOpacity>
-      </View>
-      {/* <View style={styles.header}></View> */}
       <View style={styles.containerPayment}>
         <View style={styles.inputPayment}>
           <Image source={require("../assets/buttonscanCard.png")} style={styles.scanCard} size={30} />
@@ -35,13 +64,30 @@ export default function SubscriptionPaymentScreen({ navigation }) {
           <Text style={styles.titleInput}>Numéro de carte</Text>
           <TextInput style={styles.input}></TextInput>
           <View style={styles.inputCard}>
-            <Text style={styles.titleInput1}>CVC</Text>
-            <TextInput style={styles.input1}>CVC</TextInput>
-            <Text style={styles.titleInput1}>Date d'expiration</Text>
-            <TextInput style={styles.input1}>MM/AA</TextInput>
+            <View style={styles.inputRow}>
+              <Text style={styles.titleInput1}>CVC</Text>
+              <TextInput style={styles.input1} placeholder='CVC' placeholderTextColor={"#FFCE4A"}></TextInput>
+            </View>
+            <View style={styles.inputRow}>
+              <FontAwesomeIcon icon='fa-regular fa-circle' style={styles.circleIcon} />
+              <Text style={styles.titleInput2}>Date d'expiration</Text>
+              <TextInput style={styles.input1} placeholder='MM/AA' placeholderTextColor={"#FFCE4A"}></TextInput>
+            </View>
           </View>
-          <Text style={styles.title4}>sauvegarder mes informations pour la prochaine fois</Text>
+          <TouchableOpacity
+            style={[styles.choixInfoSaved, isSaveInfosClicked === true && styles.choixSelectionneSaved]}
+            onPress={() => handleButtonClick()}
+          ></TouchableOpacity>
+          <Text style={styles.title4}>Sauvegarder mes informations pour la prochaine fois</Text>
         </View>
+      </View>
+      <View style={styles.arrowContainer}>
+        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleSubscription()}>
+          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.arrowBtn1}>
+          <Image source={require("../assets/validationbtn.png")} size={30} color={"#FFCE4A"} />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -58,8 +104,9 @@ const styles = StyleSheet.create({
   containerTitles: {
     width: "90%",
     padding: 40,
-    borderColor: "green",
-    borderWidth: 1,
+    // borderColor: "green",
+    // borderWidth: 1,
+    bottom: 50,
   },
   title1: {
     color: "#FFCE4A",
@@ -70,14 +117,48 @@ const styles = StyleSheet.create({
     color: "white",
     width: "100%",
     fontFamily: "Lato_400Regular",
-    borderColor: "red",
-    borderWidth: 1,
+    // borderColor: "red",
+    // borderWidth: 1,
     fontSize: 16,
   },
   title3: {
     color: "white",
     fontFamily: "Lato_400Regular",
     fontSize: 10,
+  },
+  typeOfPayment: {
+    flexDirection: "row",
+    // borderWidth: 1,
+    // borderColor: "red",
+    justifyContent: "space-around",
+    top: 80,
+  },
+  textTypeOfPayment: {
+    color: "#FFCE4A",
+  },
+  choix: {
+    width: 15,
+    height: 15,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "gray",
+    marginVertical: 2,
+  },
+  choixInfoSaved: {
+    width: 15,
+    height: 15,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "gray",
+    marginVertical: 2,
+    top: 120,
+    left: 190,
+  },
+  choixSelectionne: {
+    backgroundColor: "#FFCE4A",
+  },
+  choixSelectionneSaved: {
+    backgroundColor: "#FFCE4A",
   },
   scanCard: {
     left: 130,
@@ -87,6 +168,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Lato_400Regular",
   },
+
   input: {
     backgroundColor: "#6B5F85",
     textAlign: "center",
@@ -98,10 +180,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
   titleInput1: {
     color: "white",
     fontFamily: "Lato_400Regular",
-    left: 70,
+    left: 25,
+
+    // marginLeft: 20,
+  },
+  titleInput2: {
+    color: "white",
+    fontFamily: "Lato_400Regular",
+    left: 75,
+    // marginLeft: 20,
   },
   input1: {
     backgroundColor: "#6B5F85",
@@ -135,8 +230,9 @@ const styles = StyleSheet.create({
   },
   title4: {
     top: 70,
+    width: "100%",
     color: "white",
-    textAlign: "right",
-    marginRight: 20,
+    textAlign: "center",
+    // marginRight: 20,
   },
 });

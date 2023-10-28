@@ -18,37 +18,37 @@ const storiesData = [
     title: "Histoire 1",
     image: require("../assets/Horreur.png"),
     status: "En cours",
-    button: "reprendre",
+    button: "Reprendre",
   },
   {
     title: "Histoire 2",
     image: require("../assets/Aventure.png"),
-    status: "en cours",
-    button: "reprendre",
+    status: "En cours",
+    button: "Reprendre",
   },
   {
     title: "Histoire 3",
     image: require("../assets/Fantasy_SF.png"),
-    status: "terminée",
-    button: "relire",
+    status: "Terminée",
+    button: "Relire",
   },
   {
     title: "Histoire 4",
     image: require("../assets/Policier_Thriller.png"),
-    status: "terminée",
-    button: "relire",
+    status: "Terminée",
+    button: "Relire",
   },
   {
     title: "Histoire 5",
     image: require("../assets/Romance.png"),
-    status: "terminée",
-    button: "relire",
+    status: "Terminée",
+    button: "Relire",
   },
   {
     title: "Histoire 6",
     image: require("../assets/Enfant.png"),
-    status: "terminée",
-    button: "relire",
+    status: "Terminée",
+    button: "Relire",
   },
 ];
 
@@ -79,7 +79,7 @@ const storiesList = storiesData.map((story, index) => (
           style={styles.imagBgd}
           source={require('../assets/ImageBibliotheque.png')}
         >
-          <Text style={styles.title1}>Retrouvez toutes vos histoires</Text>
+          <Text style={styles.title1}>Bibliothèque</Text>
         </ImageBackground>
       </View>
       <View style={styles.tabBar}>
@@ -111,31 +111,32 @@ const styles = StyleSheet.create({
   },
 
   imagBgd: {
+    flex: 1,
     width: "100%",
+    height: "104%",
+    marginTop:"-12%"
+   
   },
 
   title1: {
-    //fontFamily: "Lato",
-    fontSize: 20,
-    fontWeight: '200',
-    textAlign: "left",
+    fontFamily: "Lato_400Regular",
+    fontSize: 32,
     color: "#FFCE4A",
-    marginTop: 160,
-    marginLeft: 16,
-},
+    marginTop: "49.5%",
+    marginLeft: "4%",
+  },
 
   scrollView: {
     width: '100%',
   },
 
   scrollViewContainer: {
-    flex: 2,
+    flex: 1,
     width: "90%",
+   
   },
 
   storiesContainer: {
-    flex:3,
-    height:'100%',
     alignItems: 'center',
   },
 
@@ -147,13 +148,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginVertical: 20,
+    marginVertical: "6%",
 },
 
   storyImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 8,
+    borderRadius: 10,
+    overflow:"hidden",
     justifyContent: 'center',
     alignItems: 'center',
 },
@@ -161,30 +163,30 @@ const styles = StyleSheet.create({
   storyTitle: {
     fontFamily: "Lato_400Regular",
     color: 'white',
-    fontSize: 16,
+    fontSize: 24,
 },
 
   storyStatus: {
     fontFamily: "Lato_400Regular",
     color: 'white',
-    fontSize: 14,
+    fontSize: 18,
   },
 
   readButton: {
-    width: 100,
+    width: "50%",
     backgroundColor: '#2C1A51',
     borderWidth: 1,
     borderColor: '#FFCE4A',
     padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: -20,
-  },
+    borderRadius: 10,
+    marginTop: "-6%", 
+   },
 
   readButtonText: {
     fontFamily: "Lato_400Regular",
     color: 'white',
-    fontSize: 14,
+    fontSize: 16,
+    textAlign:"center"
   },
   tabBar: {
     marginTop: "104%",
@@ -196,10 +198,11 @@ const styles = StyleSheet.create({
     top: "95%", 
     position: "absolute",
     zIndex: -1,
-    height: 100,
+    height: "120%",
     width: 650,
     marginLeft:-400,
     marginTop:-40,
+   
   },
   space: {
     padding: 10,
