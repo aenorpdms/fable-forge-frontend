@@ -14,11 +14,15 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   const dispatch = useDispatch();
 
   const [buttonColors, setButtonColors] = useState(["#2C1A51", "#2C1A51", "#2C1A51"]);
-  const [buttonTypeEnd, setButtonTypeEnd] = useState([null, null, null, null]);
-
+  const [buttonTypeEnd, setButtonTypeEnd] = useState(["#6B5F85", "#6B5F85", "#6B5F85", "#6B5F85"]);
+const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["white", "white", "white"])
   const handleButtonClick = buttonNumber => {
     const newButtonColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#FFCE4A" : "#2C1A51"));
+    const newSizeTextBtnColors = buttonColors.map((color, index) =>
+    buttonNumber - 1 === index ? "#2C1A51" : "white"
+  );
     setButtonColors(newButtonColors);
+    setSizeTextBtnColors(newSizeTextBtnColors);
     const lengthStory = buttonNumber === 1 ? "Courte" : buttonNumber === 2 ? "Moyenne" : "Longue";
     dispatch(updateNewLength(lengthStory));
   };
@@ -58,13 +62,13 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
           <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[0] }]} onPress={() => handleButtonClick(1)}>
-            <Text style={styles.sizeTextBtn}>Courte</Text>
+            <Text style={[styles.sizeTextBtn, {color: sizeTextBtnColors[0]}]}>Courte</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[1] }]} onPress={() => handleButtonClick(2)}>
-            <Text style={styles.sizeTextBtn}>Moyenne</Text>
+            <Text style={[styles.sizeTextBtn, {color: sizeTextBtnColors[1]}]}>Moyenne</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[2] }]} onPress={() => handleButtonClick(3)}>
-            <Text style={styles.sizeTextBtn}>Longue</Text>
+            <Text style={[styles.sizeTextBtn, {color: sizeTextBtnColors[2]}]}>Longue</Text>
           </TouchableOpacity>
           <Text style={styles.titleContainer}>Type de fin</Text>
           <View style={styles.leftContainer}>
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "85%",
+    height: "79%",
     marginTop: "-12%",
   },
   title1: {
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
   },
   containerStep:{
     flexDirection:"row",
-    marginTop:"48%",
+    marginTop:"49%",
     justifyContent:"space-between",
     alignItems:"center",
     position:"absolute",

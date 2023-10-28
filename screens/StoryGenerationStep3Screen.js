@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   sizeTextRecap: {
     fontFamily: "Lato_400Regular",
-    color: "black",
+    color: "#2C1A51",
     textAlign: "center",
     padding: 10,
   },
