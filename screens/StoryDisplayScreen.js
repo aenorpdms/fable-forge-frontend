@@ -29,7 +29,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
       //   maxTokens = 800; // Par défaut
       // }
 
-      const userMessage = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. M'inspirer pour le personnage principal, le lieu de départ et l'époque. Créer aussi un titre avant le texte de l'histoire.`;
+      const userMessage = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire.`;
 
       const data = {
         model: "gpt-3.5-turbo",
