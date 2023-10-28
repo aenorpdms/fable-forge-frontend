@@ -57,9 +57,9 @@ export default function StoryDisplayScreen({ route, navigation }) {
 
       // Extraire le contenu généré de la réponse de l'API
       const generatedContent = responseData.choices[0].message.content;
-      
+
       // Afficher la réponse de l'API dans la console
-       console.log("Réponse de l'API :", responseData);
+      console.log("Réponse de l'API :", responseData);
 
       setNewContent(generatedContent);
     } catch (error) {
@@ -75,12 +75,12 @@ export default function StoryDisplayScreen({ route, navigation }) {
         <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
       </TouchableOpacity>
       <View style={styles.tabBar}>
-            <TabBar navigation={navigation} />
-            <View style={styles.backgroundTab}></View>
+        <TabBar navigation={navigation} />
+        <View style={styles.backgroundTab}></View>
       </View>
       <ScrollView style={styles.containerStory}>
         {isGenerating ? (
-          <ActivityIndicator style={styles.tournicoti} size="large" color="#2C1A51"  />
+          <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />
         ) : (
           <Text key={newContent} style={styles.textStory}>
             {newContent}
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     padding: 20,
-    width: '80%',
+    width: "80%",
   },
   textStory: {
     fontSize: 16,
@@ -133,20 +133,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
-  backgroundTab:{
-    backgroundColor:"#2C1A51",
-    top: "95%", 
+  backgroundTab: {
+    backgroundColor: "#2C1A51",
+    top: "95%",
     position: "absolute",
     zIndex: -1,
     height: 100,
     width: 650,
-    marginLeft:-400,
-    marginTop:-20,
+    marginLeft: -400,
+    marginTop: -20,
   },
   tournicoti: {
     position: "absolute",
     left: 120,
     top: 250,
-
-  }
+  },
 });

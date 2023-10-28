@@ -19,11 +19,15 @@ export default function SettingsScreen({ navigation }) {
   const [fontSize, setFontSize] = useState(16);
 
   const increaseFontSize = () => {
-    setFontSize(fontSize + 2);
+    if (fontSize < 30) {
+      setFontSize(fontSize + 2);
+    }
   };
 
   const decreaseFontSize = () => {
-    setFontSize(fontSize - 2);
+    if (fontSize > 10) {
+      setFontSize(fontSize - 2);
+    }
   };
 
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);

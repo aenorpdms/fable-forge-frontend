@@ -4,41 +4,39 @@ import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-//import { TextInput } from "react-native-gesture-handler";
-
-// Dans votre composant de la page suivante
-// import { useRoute } from "@react-navigation/native";
 
 export default function SubscriptionPaymentScreen({ navigation }) {
-  const handleReturnToPayment = () => {
-    // return to subscription page
+  // SUBSCRIPTION PAGE
+  const handleSubscription = () => {
+    // navigate to subscription page
     navigation.navigate("Subscription");
   };
+  console.log(handleSubscription);
 
-  //   const route = useRoute();
-  //   const selectedSubscription = route.params.subscription;
-
-  //   console.log("payment screen");
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View>
-        <Text>Abonnement sélectionné : {selectedSubscription.type}</Text>
-        <Text>Prix : {selectedSubscription.price}</Text> */}
-      {/* Autres informations de l'abonnement */}
-      {/* </View> */}
       <View style={styles.containerTitles}>
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
         <View style={styles.typeOfPayment}>
-          <Text style={styles.textTypeOfPayment}>Visa</Text>
-          <Text style={styles.textTypeOfPayment}>Paypal</Text>
-          <Text style={styles.textTypeOfPayment}>ApplePay</Text>
+          <TouchableOpacity onPress={() => handleCircleClick(0)}>
+            <Text style={styles.textTypeOfPayment}>Visa</Text>
+            <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleCircleClick(1)}>
+            <Text style={styles.textTypeOfPayment}>Paypal</Text>
+            <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleCircleClick(2)}>
+            <Text style={styles.textTypeOfPayment}>ApplePay</Text>
+            <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.arrowBtn}>
-          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} onPress={() => handleReturnToPayment()} />
+        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleSubscription()}>
+          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.arrowBtn1}>
           <Image source={require("../assets/validationbtn.png")} size={30} color={"#FFCE4A"} />
@@ -53,10 +51,14 @@ export default function SubscriptionPaymentScreen({ navigation }) {
           <Text style={styles.titleInput}>Numéro de carte</Text>
           <TextInput style={styles.input}></TextInput>
           <View style={styles.inputCard}>
-            <Text style={styles.titleInput1}>CVC</Text>
-            <TextInput style={styles.input1}>CVC</TextInput>
-            <Text style={styles.titleInput1}>Date d'expiration</Text>
-            <TextInput style={styles.input1}>MM/AA</TextInput>
+            <View style={styles.inputRow}>
+              <Text style={styles.titleInput1}>CVC</Text>
+              <TextInput style={styles.input1}>CVC</TextInput>
+            </View>
+            <View style={styles.inputRow}>
+              <Text style={styles.titleInput1}>Date d'expiration</Text>
+              <TextInput style={styles.input1}>MM/AA</TextInput>
+            </View>
           </View>
           <TouchableOpacity style={styles.btnSaved}></TouchableOpacity>
           <Text style={styles.title4} icon={faCircle}>
@@ -111,6 +113,9 @@ const styles = StyleSheet.create({
   textTypeOfPayment: {
     color: "#FFCE4A",
   },
+  circleIcon: {
+    color: "white",
+  },
   scanCard: {
     left: 130,
     margin: 20,
@@ -130,10 +135,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
   titleInput1: {
     color: "white",
     fontFamily: "Lato_400Regular",
-    left: 70,
+    left: 25,
+    // marginLeft: 20,
   },
   input1: {
     backgroundColor: "#6B5F85",
