@@ -1,5 +1,5 @@
 import React, { useState, useNavigation } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView} from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -77,11 +77,12 @@ export default function SubscriptionScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.containerInformation} indicatorStyle='white'>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
-        <View style={styles.header}>
+      
           <Text style={styles.title2}>Abonnement</Text>
           <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
-        </View>
+      
       </ImageBackground>
       {/* <View style={styles.containerInformation} indicatorStyle='white'> */}
       <View style={styles.abonnementContainer}>
@@ -107,8 +108,7 @@ export default function SubscriptionScreen({ navigation }) {
           <Text style={styles.btnResiliationText} onPress={() => handleNavigateProfil()}>Retour vers Profil</Text>
         </TouchableOpacity>
       </View>
-      {/* </View> */}
-      {/* </View> */}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -120,41 +120,45 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
-  header: {
-    top: 120,
-    width: "100%",
+  containerInformation: {
+    flex: 1,
+    width:"100%",
+    marginTop: "-12%",
   },
 
   imagBgd: {
+    felx: 1,
     width: "100%",
-    height: "70%",
+    height: "69%",
   },
   title2: {
     fontFamily: "Lato_400Regular",
-    fontSize: 34,
-    fontWeight: "500",
+    fontSize: 32,
     textAlign: "left",
     color: "#FFCE4A",
-    top: 180,
-    lineHeight: 60,
-    marginLeft: 16,
+    marginTop: "49%",//160
+    marginLeft: "3%",
   },
   title3: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    top: 180,
-    marginLeft: 20,
+    fontSize: 16,
+    textAlign: "justify",
+    marginTop: "2%",
+    marginBottom:"5%",
+    width: "90%",
+    marginLeft: "3%",
   },
 
   abonnementContainer: {
-    marginBottom: 20,
-    bottom: 180,
+    flex: 1,
+    marginTop:"-25%",
     width: "90%",
+    marginLeft: "5%",
     flexDirection: "column", // Alignement vertical
     alignItems: "center", // Centre les éléments horizontalement
     justifyContent: "space-between",
   },
-
   imagBgdAbo: {
     width: "100%",
     height: "100%",
@@ -164,21 +168,21 @@ const styles = StyleSheet.create({
 
   aboPrice: {
     borderColor: "white",
-    height: "20%",
+    height: "30%",
     width: "100%",
     borderWidth: 1,
     borderRadius: 15,
-    marginBottom: "5%",
+    marginBottom: "11%",
   },
 
   textAboPrice: {
-    fontFamily: "Lato_400Regular",
+    fontFamily: "Lato_700Bold",
     color: "white",
-    height: 70,
     top: "40%",
     width: "90%",
     textAlign: "center",
-    marginLeft: 15,
+    marginLeft: "5%",
+    fontSize: 18,
   },
 
   btnPrice: {
@@ -207,10 +211,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     backgroundColor: "#6B5F85",
+
   }
   ,btnRetour: {
     width: "100%",
-    marginTop:-10,
+    marginTop:"4%",
     borderColor: "#FFCE4A",
     borderWidth: 1,
     padding:10,
@@ -224,5 +229,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
+ 
 
 });
