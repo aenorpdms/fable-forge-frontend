@@ -12,7 +12,7 @@ export default function SubscriptionScreen({ navigation }) {
       price: "4.99€/semaine",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      imageSource: require("../assets/ImageBibliotheque.png"),
+      imageSource: require("../assets/Abonnement_semaine.png"),
     },
     {
       id: 2,
@@ -20,7 +20,7 @@ export default function SubscriptionScreen({ navigation }) {
       price: "9.99€/mois",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      imageSource: require("../assets/ImageBibliotheque.png"),
+      imageSource: require("../assets/Abonnement_mois.png"),
     },
     {
       id: 3,
@@ -28,7 +28,7 @@ export default function SubscriptionScreen({ navigation }) {
       price: "99.99€/an",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      imageSource: require("../assets/ImageBibliotheque.png"),
+      imageSource: require("../assets/Abonnement_annee.png"),
     },
   ]);
 
