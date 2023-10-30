@@ -24,15 +24,6 @@ export const newStorySlice = createSlice({
       state.value.title = action.payload;
     },
     saveStory: (state, action) => {
-<<<<<<< HEAD
-      state.value.story.push(action.payload);
-    },
-  },
-});
-
-export const { updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, addTitle, saveStory } = newStorySlice.actions;
-export default newStorySlice.reducer;
-=======
       state.value.story += action.payload
     },
     emptyNewStory: (state, action) => {
@@ -48,4 +39,3 @@ export default newStorySlice.reducer;
 
 export const { updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, addTitle, saveStory, emptyNewStory } = newStorySlice.actions;
 export default newStorySlice.reducer;
->>>>>>> 79d57116a0069141dec28ea0501bfc76f8bfd040
