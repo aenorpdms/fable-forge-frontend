@@ -14,20 +14,15 @@ import { useNavigation } from "@react-navigation/native";
 import TabBar from "../TabBar";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNewType } from "../reducers/newStory";
+import { updateSelectedImage } from "../reducers/newStory";
+
 
 export default function StoryGenerationScreen() {
   // Story display page:
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const newStory = useSelector((state) => state.newStory.value);
-  const handleStoryGeneration2 = (item) => {
-    // navigate to Story step 2 page
-    const type = item;
-    dispatch(updateNewType(type));
-    navigation.navigate("StoryGeneration2");
-  };
-  console.log(newStory);
-
+  
   const data = [
     {
       title: "Horreur",
@@ -66,6 +61,16 @@ export default function StoryGenerationScreen() {
       image: require("../assets/Enfant.png"),
     },
   ];
+
+  const handleStoryGeneration2 = (item) => {
+    // navigate to Story step 2 page
+    const type = item;
+    dispatch(updateNewType(type));
+    dispatch(updateSelectedImage(type));
+    navigation.navigate("StoryGeneration2");
+  };
+  console.log(newStory);
+
 
   const renderItem = ({ item }) => {
     return (

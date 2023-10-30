@@ -20,8 +20,9 @@ import TabBar from "../TabBar";
 
 export default function StoryGenerationStep3Screen({ navigation }) {
   const [buttonColor, setButtonColor] = useState("#2C1A51");
-
+  
   const newStory = useSelector((state) => state.newStory.value);
+  
   let page;
   if (newStory.length === "Courte") {
     page = "1";
@@ -39,6 +40,8 @@ export default function StoryGenerationStep3Screen({ navigation }) {
       fin: newStory.endingType,
     });
   };
+
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +64,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
         <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
         <ImageBackground
           style={styles.imagBgdRecap}
-          source={require("../assets/ImageBibliotheque.png")}
+          source={newStory.selectedImage}
         ></ImageBackground>
         <Text style={styles.textRecap}>{synopsis}</Text>
 

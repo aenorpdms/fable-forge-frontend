@@ -36,7 +36,7 @@ const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["white", "white", "w
   };
 
   const handleStoryGeneration3 = () => {
-    // navigate to Story step 2 page
+    // navigate to Story step 3 page
     navigation.navigate("StoryGeneration3");
   };
 
