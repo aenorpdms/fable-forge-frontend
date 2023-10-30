@@ -67,7 +67,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   };
 
   const handleStoryGeneration3 = () => {
-    // navigate to Story step 2 page
+    // navigate to Story step 3 page
     navigation.navigate("StoryGeneration3");
   };
 
@@ -347,8 +347,8 @@ const styles = StyleSheet.create({
     top: "55%"
   },
   arrowBtn: {
-    marginLeft:"20%",
-    marginRight:"40%"
+    marginLeft:"12%",
+    marginRight:"60%"
   },
 
   tabBar: {

@@ -20,8 +20,9 @@ import TabBar from "../TabBar";
 
 export default function StoryGenerationStep3Screen({ navigation }) {
   const [buttonColor, setButtonColor] = useState("#2C1A51");
-
+  
   const newStory = useSelector((state) => state.newStory.value);
+  
   let page;
   if (newStory.length === "Courte") {
     page = "1";
@@ -38,6 +39,11 @@ export default function StoryGenerationStep3Screen({ navigation }) {
       longueur: newStory.length,
       fin: newStory.endingType,
     });
+  };
+
+  const handleStoryGeneration2 = () => {
+    // navigate to Story step 2 page
+    navigation.navigate("StoryGeneration2");
   };
 
   return (
@@ -61,7 +67,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
         <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
         <ImageBackground
           style={styles.imagBgdRecap}
-          source={require("../assets/ImageBibliotheque.png")}
+          source={newStory.selectedImage}
         ></ImageBackground>
         <Text style={styles.textRecap}>{synopsis}</Text>
 
@@ -71,12 +77,25 @@ export default function StoryGenerationStep3Screen({ navigation }) {
         <View style={styles.recapSizeStory}>
           <Text style={styles.sizeTextRecap}>{newStory.endingType}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.btngenerateStory}
-          onPress={() => handleStoryDisplay()}
-        >
-          <Text style={styles.generateTextBtn}>Valider mes choix</Text>
-        </TouchableOpacity>
+        <View style={styles.arrowContainer}>
+            <TouchableOpacity style={styles.arrowBtn}>
+              <Icon
+                name="chevron-left"
+                size={30}
+                color={"#2C1A51"}
+                onPress={() => handleStoryGeneration2()}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.arrowBtn}>
+              <Icon
+                name="chevron-right"
+                size={30}
+                color={"#2C1A51"}
+                onPress={() => handleStoryDisplay()}
+              />
+            </TouchableOpacity>
+           
+          </View>
         {/* </ScrollView> */}
       </View>
     </SafeAreaView>
@@ -194,4 +213,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
+
+  arrowContainer: {
+    flexDirection:"row",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "20%",
+    alignItems: "center",
+    
+  },
+  arrowBtn: {
+    marginLeft:"10%",
+    marginRight:"10%"
+  },
+
 });
