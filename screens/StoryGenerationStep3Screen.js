@@ -41,7 +41,10 @@ export default function StoryGenerationStep3Screen({ navigation }) {
     });
   };
 
-  
+  const handleStoryGeneration2 = () => {
+    // navigate to Story step 2 page
+    navigation.navigate("StoryGeneration2");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,12 +77,25 @@ export default function StoryGenerationStep3Screen({ navigation }) {
         <View style={styles.recapSizeStory}>
           <Text style={styles.sizeTextRecap}>{newStory.endingType}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.btngenerateStory}
-          onPress={() => handleStoryDisplay()}
-        >
-          <Text style={styles.generateTextBtn}>Valider mes choix</Text>
-        </TouchableOpacity>
+        <View style={styles.arrowContainer}>
+            <TouchableOpacity style={styles.arrowBtn}>
+              <Icon
+                name="chevron-left"
+                size={30}
+                color={"#2C1A51"}
+                onPress={() => handleStoryGeneration2()}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.arrowBtn}>
+              <Icon
+                name="chevron-right"
+                size={30}
+                color={"#2C1A51"}
+                onPress={() => handleStoryDisplay()}
+              />
+            </TouchableOpacity>
+           
+          </View>
         {/* </ScrollView> */}
       </View>
     </SafeAreaView>
@@ -197,4 +213,18 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
+
+  arrowContainer: {
+    flexDirection:"row",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "20%",
+    alignItems: "center",
+    
+  },
+  arrowBtn: {
+    marginLeft:"10%",
+    marginRight:"10%"
+  },
+
 });

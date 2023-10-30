@@ -65,8 +65,8 @@ export default function StoryGenerationScreen() {
   const handleStoryGeneration2 = (item) => {
     // navigate to Story step 2 page
     const type = item;
-    dispatch(updateNewType(type));
-    dispatch(updateSelectedImage(type));
+    dispatch(updateNewType(type.title));
+    dispatch(updateSelectedImage(type.image));
     navigation.navigate("StoryGeneration2");
   };
   console.log(newStory);
@@ -86,7 +86,7 @@ export default function StoryGenerationScreen() {
           <Text style={styles.genreDescription}>{item.description}</Text>
           <TouchableOpacity
             style={styles.selectButton}
-            onPress={() => handleStoryGeneration2(item.title)}
+            onPress={() => handleStoryGeneration2(item)}
           >
             <Text style={styles.selectButtonText}>Sélectionner</Text>
           </TouchableOpacity>
