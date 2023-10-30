@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
   },
   space: {
     padding: 10,
-    height: 60,
+    height: 80,
     backgroundColor:"transparent",
   },
   mdlctn: {

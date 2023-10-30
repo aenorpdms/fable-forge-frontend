@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
+import { fontSize } from "./SettingsScreen";
 
 const LENGTH_MAP = {
   'Courte': { min: 1000, max: 1500 },

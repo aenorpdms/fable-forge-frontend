@@ -183,15 +183,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  // fontSettings: {
-  //   color: "white",
-  //   margin: -10,
-  //   borderWidth: 1,
-  //   borderColor: "#FFCE4A",
-  //   borderRadius: 10,
-  //   padding: 10,
-  //   bottom: 150,
-  // },
+  
   switchBtn: {
     marginRight: 10,
     transform: [{ scaleX: 1.1 }, { scaleY: 1 }],
