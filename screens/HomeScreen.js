@@ -9,10 +9,10 @@ import TabBar from "../TabBar";
 import { userSlice } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
-
-  const user = useSelector((state) => state.user.value)
-  const nameUser = user.firstname
-  const readyName = nameUser.toUpperCase()
+  const user = useSelector(state => state.user.value);
+  console.log("user from homescreen", user);
+  const nameUser = user.firstname;
+  const readyName = nameUser.toUpperCase();
 
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
@@ -24,41 +24,33 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={styles.imagBgd}
-        source={require('../assets/ImageBibliotheque.png')}
-      >
+      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
         <Text style={styles.title1}>BIENVENUE {readyName}</Text>
         <Text style={styles.title2}>Où les histoires</Text>
         <Text style={styles.title2bis}>prennent vie...</Text>
       </ImageBackground>
-    <View style={styles.btnContainer}>
-      <TouchableOpacity style={styles.newStoryButton} onPress={() => handleSubmit()}>
-          <Image
-            style={styles.addButton}
-            source={require('../assets/add-circle-outline.png')}
-          />
+      <View style={styles.btnContainer}>
+        <TouchableOpacity style={styles.newStoryButton} onPress={() => handleSubmit()}>
+          <Image style={styles.addButton} source={require("../assets/add-circle-outline.png")} />
           <Text style={styles.buttonText}>Créer une</Text>
           <Text style={styles.buttonText}>nouvelle histoire</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.title3}>Votre dernière histoire</Text>
-
-      <View style={styles.lastStoryButton}>
-        <ImageBackground style={styles.storyImage} source={require('../assets/ImageBibliotheque.png')} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/ >
-          <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
-        </ImageBackground>
-        <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
-          <Text style={styles.readButtonText}>Lire mon histoire</Text>
         </TouchableOpacity>
-      </View>
-      </View>
-       <TabBar navigation={navigation} />
 
-    </SafeAreaView> 
-  )
+        <Text style={styles.title3}>Votre dernière histoire</Text>
+
+        <View style={styles.lastStoryButton}>
+          <ImageBackground style={styles.storyImage} source={require("../assets/ImageBibliotheque.png")} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/>
+            <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
+          </ImageBackground>
+          <TouchableOpacity style={styles.readButton} onPress={() => handleDisplayStory()}>
+            <Text style={styles.readButtonText}>Lire mon histoire</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <TabBar navigation={navigation} />
+    </SafeAreaView>
+  );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -72,8 +64,7 @@ const styles = StyleSheet.create({
     flex: 2,
     width: "100%",
     height: "98%",
-    marginTop:"-12%",// -30%
-
+    marginTop: "-12%", // -30%
   },
 
   title1: {
@@ -81,9 +72,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "left",
     color: "#FFFFFF",
-    marginTop: "52%",//205
-    marginLeft: "3.5%",//16
-},
+    marginTop: "52%", //205
+    marginLeft: "3.5%", //16
+  },
 
   title2: {
     fontFamily: "Lato_400Regular",
@@ -102,70 +93,69 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
   },
 
-  btnContainer:{
-    flex:3,
-    flexDirection:"column",
-    justifyContent:'flex-start',
-    alignItems:"center",
+  btnContainer: {
+    flex: 3,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
     width: "100%",
-    marginTop:"15%"
-    
+    marginTop: "15%",
   },
   newStoryButton: {
-    width: '92%',
-    height: '30%',
+    width: "92%",
+    height: "30%",
     padding: 15,
     borderWidth: 1,
-    borderColor: '#FFCE4A',
+    borderColor: "#FFCE4A",
     borderRadius: 10,
-    alignItems: 'center',
-    marginVertical: "5%",//20
+    alignItems: "center",
+    marginVertical: "5%", //20
   },
   addButton: {
-    width: "9%",//30
-    height: "28%",//30
-    marginTop: "3%",//10
-    marginBottom: "4%",//10
+    width: "9%", //30
+    height: "28%", //30
+    marginTop: "3%", //10
+    marginBottom: "4%", //10
   },
 
   buttonText: {
     fontFamily: "Lato_400Regular",
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
 
   title3: {
     fontFamily: "Lato_400Regular",
     fontSize: 16,
-    color: '#FFCE4A',
-    alignSelf: 'flex-start',
-    marginLeft: "4%",//16
-    marginTop: "4%",//20
+    color: "#FFCE4A",
+    alignSelf: "flex-start",
+    marginLeft: "4%", //16
+    marginTop: "4%", //20
   },
 
   lastStoryButton: {
-    width: '92%',
-    height: '40%',
+    width: "92%",
+    height: "40%",
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: "#FFFFFF",
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    alignItems: "center",
+    justifyContent: "flex-start",
     marginVertical: "3%",
-},
+  },
 
   storyImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     overflow: "hidden",
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-},
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
   storyTitle: {
     fontFamily: "Lato_400Regular",
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
 
@@ -178,13 +168,12 @@ const styles = StyleSheet.create({
     marginTop: "-6%",
     borderRadius: 10,
     alignSelf: "center",
-},
+  },
 
   readButtonText: {
     fontFamily: "Lato_400Regular",
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    textAlign:"center"
+    textAlign: "center",
   },
-  
 });

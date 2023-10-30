@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
 import { fontSize } from "./SettingsScreen";
+import { updateFontSize } from "../reducers/user";
 
 const LENGTH_MAP = {
   "Courte": { min: 1000, max: 1500 },
@@ -15,6 +17,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [chunks, setChunks] = useState([]);
   const [currentChunk, setCurrentChunk] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isGenerating && chunks.length > 0) {
@@ -83,6 +86,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
     setChunks([]);
     const initialPrompt = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire.`;
     setChunks([initialPrompt]);
+    dispatch(updateFontSize(fontSize));
   };
 
   return (
@@ -124,6 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     width: "80%",
+    bottom: 30,
   },
   textStory: {
     fontSize: 16,
@@ -138,6 +143,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginTop: 2,
     marginBottom: 65,
+    bottom: 30,
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",
