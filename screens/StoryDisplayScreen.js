@@ -108,7 +108,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
     setInitialPrompt(prompt);
  
 
-    fetch(`https://fable-forge-backend-84ce.vercel.app/user/stories/:token`, {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ length: newStory.length, title: newStory.title, type: newStory.type, ending: newStory.endingType, story: newStory.story}),
