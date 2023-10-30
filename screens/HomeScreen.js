@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, SafeAreaView, Image } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useState } from "react";
+import newStory, { addTitle,saveStory} from "../reducers/newStory";
+import { useState,useEffect } from "react";
 
 import TabBar from "../TabBar";
 import { userSlice } from "../reducers/user";
@@ -13,13 +13,35 @@ export default function HomeScreen({ navigation }) {
   const user = useSelector((state) => state.user.value)
   const nameUser = user.firstname
   const readyName = nameUser.toUpperCase()
+  const story = useSelector((state) => state.newStory.value)
+  const dispatch =useDispatch()
+  const titleStory = story.title
+  const readyTitle = titleStory !== null ? titleStory.toUpperCase() : "Pas d'Histoire Créée";
+  useEffect(() => {
+    
+    fetch(`https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+          console.log(data.lastStories)
+          dispatch(addTitle(data.lastStories.title))
+          dispatch(saveStory(data.lastStories.story))
+          
+          } else {
+           console.log("error")
+          }
+    });
+  
+  }, []);
+  
+
 
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
   };
 
   const handleDisplayStory = () => {
-    navigation.navigate("StoryDisplay");
+    navigation.navigate("StoryRead");
   };
 
   return (
@@ -46,7 +68,7 @@ export default function HomeScreen({ navigation }) {
 
       <View style={styles.lastStoryButton}>
         <ImageBackground style={styles.storyImage} source={require('../assets/ImageBibliotheque.png')} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/ >
-          <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
+          <Text style={styles.storyTitle}>{readyTitle}</Text>
         </ImageBackground>
         <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
           <Text style={styles.readButtonText}>Lire mon histoire</Text>
