@@ -6,7 +6,7 @@ const initialState = {
     firstname: null,
     email: null,
     token: null,
-    fontSizeSet: 0,
+    fontSizeSet: 16,
   },
 };
 
@@ -21,10 +21,14 @@ export const userSlice = createSlice({
       state.value.token = action.payload.token;
     },
     logOutuser: (state, action) => {
-      state.value.username = action.payload.username;
-      state.value.firstname = action.payload.firstname;
-      state.value.email = action.payload.email;
-      state.value.token = action.payload.token;
+      state.value.username = null;
+      //action.payload.username;
+      state.value.firstname = null;
+      //action.payload.firstname;
+      state.value.email = null;
+      //action.payload.email;
+      state.value.token = null;
+      //action.payload.token;
       // state.value = action.payload;
     },
     updateFontSize: (state, action) => {

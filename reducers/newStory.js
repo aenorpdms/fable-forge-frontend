@@ -21,11 +21,11 @@ export const newStorySlice = createSlice({
       state.value.selectedImage = action.payload;
     },
     addTitle: (state, action) => {
-      state.value.title = action.payload
+      state.value.title = action.payload;
     },
     saveStory: (state, action) => {
-      state.value.story.push(action.payload)
-    }
+      state.value.story.push(action.payload);
+    },
   },
 });
 

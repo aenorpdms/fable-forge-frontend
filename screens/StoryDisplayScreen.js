@@ -27,6 +27,8 @@ export default function StoryDisplayScreen({ route, navigation }) {
   const dispatch = useDispatch();
   const newStory = useSelector(state => state.newStory.value);
 
+  const user = useSelector(state => state.user.value);
+
   useEffect(() => {
     if (isGenerating) {
       // Utilisez la valeur désirée sans la recalculer
@@ -115,7 +117,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         {isGenerating && <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />}
         <Text style={styles.titleStory}>{newStory.title}</Text>
         {chunks.map((chunk, index) => (
-          <Text key={index} style={styles.textStory}>
+          <Text key={index} style={[styles.textStory, { fontSize: user.fontSizeSet }]}>
             {chunk}
           </Text>
         ))}
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
     marginTop: 2,
-    marginBottom: 65,
+    marginBottom: 95,
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",

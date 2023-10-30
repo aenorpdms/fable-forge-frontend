@@ -42,7 +42,7 @@ export default function SettingsScreen({ navigation }) {
       console.log(user);
       // setFontSize(fontSize - 2);
       // setFontSize(newFontSize);
-      dispatch(updateFontSize(newFontSize));
+      dispatch(updateFontSize(user.fontSizeSet - 2));
     }
   };
 
