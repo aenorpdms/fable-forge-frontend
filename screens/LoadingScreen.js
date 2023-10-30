@@ -6,7 +6,7 @@ const LoadingScreen = ({ navigation }) => {
   const animationDuration = 500; // Durée de l'animation en millisecondes
 
   // État local pour l'animation
-  const [animation] = useState(new Animated.Value(0));
+  const animation = new Animated.Value(0);
 
   useEffect(() => {
     // Démarrer l'animation pour faire apparaître l'indicateur de chargement
@@ -20,7 +20,7 @@ const LoadingScreen = ({ navigation }) => {
       // Utiliser navigation.replace pour passer à l'écran d'accueil et empêcher le retour en arrière
       navigation.replace('Sign');
     }, splashTime);
-  }, []);
+  }, [animation, navigation]);
 
   return (
     <View style={styles.container}>
