@@ -1,47 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { API_KEY } from "@env";
+import { API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
+import { fontSize } from "./SettingsScreen";
+import { useSelector, useDispatch } from 'react-redux';
+import { addTitle } from "../reducers/newStory";
+
+const LENGTH_MAP = {
+  'Courte': { min: 1000, max: 1500 },
+  'Moyenne': { min: 100, max: 2500 },
+  'Longue': { min: 2500, max: 4000 }
+};
 
 export default function StoryDisplayScreen({ route, navigation }) {
-  const { genre, fin, longueur } = route.params;
 
-  const [newContent, setNewContent] = useState("");
+    // Utilisez useSelector pour extraire les informations de votre reducer
+    const storySettings = useSelector(state => state.newStory.value);
+
+    // Log ce que vous recevez du useSelector
+    console.log("Récupéré du useSelector:", storySettings);
+
   const [isGenerating, setIsGenerating] = useState(false);
+  const [chunks, setChunks] = useState([]);
+  const [totalTokens, setTotalTokens] = useState(0);
+  const [initialPrompt, setInitialPrompt] = useState('');
+  const [desiredTokenCount, setDesiredTokenCount] = useState(0);
 
-  const handleGenerateStory = async () => {
-    setIsGenerating(true);
+  const dispatch = useDispatch()
+  const newStory = useSelector((state) => state.newStory.value);
 
+  useEffect(() => {
+    if (isGenerating) {
+      // Utilisez la valeur désirée sans la recalculer
+      console.log("Nombre total de tokens à générer:", desiredTokenCount);
+      
+      if (totalTokens < desiredTokenCount) {
+        generateNextChunk();
+      } else {
+        setIsGenerating(false);
+      }
+    }
+  }, [chunks]);
+  
+  const generateNextChunk = async () => {
+    // Combinez la phrase initiale et les chunks pour former le message complet
+    const userMessage = initialPrompt + ' ' + chunks.join(' ');
+  
+    const data = {
+      model: "gpt-3.5-turbo-16k",
+      messages: [
+        { role: "user", content: userMessage },
+      ],
+      temperature: 0.5,
+      max_tokens: 250,
+    };
+  
+    // Log ce que vous envoyez à l'API
+    console.log("Envoi à l'API:", data);
+  
     try {
-      const url = "https://api.openai.com/v1/chat/completions";
-      const { genre, longueur, fin } = route.params;
-
-      // Définir le nombre maximal de tokens en fonction de la longueur souhaitée
-      // let maxTokens;
-      // if (longueur === "1") {
-      //   maxTokens = Math.floor(Math.random() * (800 - 600 + 1)) + 600;
-      // } else if (longueur === "2") {
-      //   maxTokens = Math.floor(Math.random() * (1500 - 800 + 1)) + 800;
-      // } else if (longueur === "3") {
-      //   maxTokens = Math.floor(Math.random() * (3000 - 1500 + 1)) + 1500;
-      // } else {
-
-      //   maxTokens = 800; // Par défaut
-      // }
-
-      const userMessage = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. M'inspirer pour le personnage principal, le lieu de départ et l'époque. Créer aussi un titre avant le texte de l'histoire.`;
-
-      const data = {
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "You are the best storyteller there is." },
-          { role: "user", content: userMessage },
-        ],
-        temperature: 0.7,
-        max_tokens: 150,
-      };
-
-      const response = await fetch(url, {
+      const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,44 +67,71 @@ export default function StoryDisplayScreen({ route, navigation }) {
         },
         body: JSON.stringify(data),
       });
-
-      if (!response.ok) {
-        throw new Error("Erreur lors de la génération de l'histoire");
-      }
+  
       const responseData = await response.json();
-
-      // Extraire le contenu généré de la réponse de l'API
-      const generatedContent = responseData.choices[0].message.content;
-
-      // Afficher la réponse de l'API dans la console
-      console.log("Réponse de l'API :", responseData);
-
-      setNewContent(generatedContent);
+  
+      // Log ce que vous recevez de l'API
+      console.log("Réponse de l'API:", responseData);
+  
+      if (!response.ok || !responseData.choices || !responseData.choices[0]) {
+        console.error("Erreur lors de la génération de l'histoire");
+        setIsGenerating(false);
+        return;
+      }
+    const generatedContent = responseData.choices[0].message.content.trim();
+    
+    // Extract title using the regular expression
+    const titleRegex = /!(.*?)!/;
+    const titleMatch = titleRegex.exec(generatedContent);
+    const title = titleMatch ? titleMatch[1] : "";
+    dispatch(addTitle(title))
+  
+    // Remove the title from the chunk
+    const contentWithoutTitle = generatedContent.replace(titleRegex, "");
+    setChunks((prevChunks) => [...prevChunks, contentWithoutTitle]);
+    // dispatch(saveStory(contentWithoutTitle))
+    setTotalTokens(prevTokens => prevTokens + responseData.choices[0].message.content.split(' ').length);
+    return generatedContent; 
+    
+  
     } catch (error) {
-      console.error("Erreur lors de la génération de l'histoire :", error);
-    } finally {
+      console.error("Erreur lors de la génération de l'histoire:", error);
       setIsGenerating(false);
     }
   };
 
+  const handleGenerateStory = () => {
+    setIsGenerating(true);
+    setChunks([]);
+    setTotalTokens(0);
+    const tokenCount = Math.floor(Math.random() * (LENGTH_MAP[newStory.length].max - LENGTH_MAP[newStory.length].min + 1)) + LENGTH_MAP[newStory.length].min;
+    setDesiredTokenCount(tokenCount);  // Mettre à jour ici
+    const prompt = `Je souhaite créer une histoire de genre ${newStory.type} d'une longueur ${newStory.length}. Assurez-vous que l'histoire ait une ${newStory.endingType} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises "!".`;
+    setInitialPrompt(prompt);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
-        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-      </TouchableOpacity>
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
       <ScrollView style={styles.containerStory}>
-        {isGenerating ? (
-          <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />
-        ) : (
-          <Text key={newContent} style={[styles.textStory, { fontSize: fontSize }]}>
-            {newContent}
+        {isGenerating && <ActivityIndicator style={styles.tournicoti} size="large" color="#2C1A51" />}
+        <Text style={styles.titleStory}>{newStory.title}</Text>
+        {chunks.map((chunk, index) => (
+          <Text key={index} style={styles.textStory}>
+              {chunk}
           </Text>
-        )}
+        ))}
+        <View style={styles.space}></View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.btngenerateStory}
+        onPress={handleGenerateStory}
+      >
+        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -101,26 +146,33 @@ const styles = StyleSheet.create({
   },
   containerStory: {
     flex: 2,
-    marginHorizontal: 20,
+    marginHorizontal: 30,
     marginVertical: 20,
     borderRadius: 10,
     backgroundColor: "white",
     padding: 20,
-    width: "80%",
+    width: "92%",
+  },
+  titleStory:{
+    fontSize: 20,
+    fontWeight:"bold",
+    textAlign: "center",
+    marginBottom: 40
   },
   textStory: {
     fontSize: 16,
     color: "black",
+    textAlign:"justify"
   },
   btngenerateStory: {
-    borderColor: "white",
+    borderColor: "#FFCE4A",
     backgroundColor: "#2C1A51",
     margin: 10,
     borderWidth: 1,
-    borderColor: "#FFCE4A",
     borderRadius: 10,
     padding: 5,
-    marginTop: 10,
+    marginTop: 2,
+    marginBottom: 65,
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",
@@ -147,5 +199,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 120,
     top: 250,
+  },
+  space: {
+    height: 80,
+    backgroundColor: 'transparent',
   },
 });
