@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_KEY } from "@env";
 import TabBar from "../TabBar";
+import { fontSize } from "./SettingsScreen";
 
 export default function StoryDisplayScreen({ route, navigation }) {
   const { genre, fin, longueur } = route.params;

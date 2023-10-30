@@ -37,12 +37,9 @@ export default function SubscriptionScreen({ navigation }) {
 
   //Fonction qui permet de changer la couleur du bouton et le texte au click (uniquement 1 bouton actif à la fois)
   function handleButtonClick(id) {
-    // Récupérer les informations de l'abonnement sélectionné
-    // const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
+    const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
+    navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
 
-    // Naviguer vers la page suivante en passant les informations de l'abonnement en tant que paramètres
-    // const navigation = useNavigation();
-    // navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
     const updatedSubscriptions = subscriptions.map(subscription => {
       if (subscription.id === id) {
         return {

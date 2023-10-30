@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image, ImageBackground } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { Subscription } from "react-redux";
 
-export default function SubscriptionPaymentScreen({ navigation }) {
-  // SUBSCRIPTION PAGE
+export default function SubscriptionPaymentScreen({ navigation, route }) {
   const handleSubscription = () => {
-    // navigate to subscription page
     navigation.navigate("Subscription");
   };
-  console.log(handleSubscription);
 
   const [choix1, setChoix1] = useState(0);
   const [choix2, setChoix2] = useState(0);
@@ -43,7 +41,13 @@ export default function SubscriptionPaymentScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
+        {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
+      </ImageBackground>
       <View style={styles.containerTitles}>
+        {/* <Text>
+          Vous avez choisi l'abonnement {subscription.type} au prix de {subscription.price}
+        </Text> */}
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
@@ -69,7 +73,7 @@ export default function SubscriptionPaymentScreen({ navigation }) {
               <TextInput style={styles.input1} placeholder='CVC' placeholderTextColor={"#FFCE4A"}></TextInput>
             </View>
             <View style={styles.inputRow}>
-              <FontAwesomeIcon icon='fa-regular fa-circle' style={styles.circleIcon} />
+              <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
               <Text style={styles.titleInput2}>Date d'expiration</Text>
               <TextInput style={styles.input1} placeholder='MM/AA' placeholderTextColor={"#FFCE4A"}></TextInput>
             </View>
@@ -104,10 +108,9 @@ const styles = StyleSheet.create({
   containerTitles: {
     width: "90%",
     padding: 40,
-    // borderColor: "green",
-    // borderWidth: 1,
     bottom: 50,
   },
+
   title1: {
     color: "#FFCE4A",
     fontFamily: "Lato_400Regular",
@@ -117,8 +120,6 @@ const styles = StyleSheet.create({
     color: "white",
     width: "100%",
     fontFamily: "Lato_400Regular",
-    // borderColor: "red",
-    // borderWidth: 1,
     fontSize: 16,
   },
   title3: {
@@ -128,8 +129,6 @@ const styles = StyleSheet.create({
   },
   typeOfPayment: {
     flexDirection: "row",
-    // borderWidth: 1,
-    // borderColor: "red",
     justifyContent: "space-around",
     top: 80,
   },
@@ -168,7 +167,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Lato_400Regular",
   },
-
   input: {
     backgroundColor: "#6B5F85",
     textAlign: "center",
@@ -189,14 +187,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Lato_400Regular",
     left: 25,
-
-    // marginLeft: 20,
   },
   titleInput2: {
     color: "white",
     fontFamily: "Lato_400Regular",
     left: 75,
-    // marginLeft: 20,
   },
   input1: {
     backgroundColor: "#6B5F85",
@@ -213,7 +208,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
     top: "100%",
-    // backgroundColor: "purple",
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "center",
@@ -233,6 +227,5 @@ const styles = StyleSheet.create({
     width: "100%",
     color: "white",
     textAlign: "center",
-    // marginRight: 20,
   },
 });
