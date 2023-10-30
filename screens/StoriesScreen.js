@@ -13,51 +13,9 @@ export default function StoriesScreen({ navigation }) {
 
 const handleDisplayStory = (story) => {
     dispatch(addTitle(story.title))
-    dispatch(saveStory(story.story))
+    dispatch(saveStory(story.choicePrompt[0]))
     navigation.navigate("StoryRead");
   };
-
-
-
-// mockdata (faux tableau de data)
-const storiesData = [
-  {
-    title: "Histoire 1",
-    image: require("../assets/Horreur.png"),
-    status: "En cours",
-    button: "Reprendre",
-  },
-  {
-    title: "Histoire 2",
-    image: require("../assets/Aventure.png"),
-    status: "En cours",
-    button: "Reprendre",
-  },
-  {
-    title: "Histoire 3",
-    image: require("../assets/Fantasy_SF.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-  {
-    title: "Histoire 4",
-    image: require("../assets/Policier_Thriller.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-  {
-    title: "Histoire 5",
-    image: require("../assets/Romance.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-  {
-    title: "Histoire 6",
-    image: require("../assets/Enfant.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-];
 
 
 useEffect(() => {
