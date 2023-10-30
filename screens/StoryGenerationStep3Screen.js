@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "79%",
+    height: "77%",
     marginTop: "-12%",
   },
   title1: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   containerStep: {
     flexDirection: "row",
-    marginTop: "46%",
+    marginTop: "45%",
     justifyContent: "space-between",
     alignItems: "center",
     position: "absolute",

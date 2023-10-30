@@ -52,7 +52,7 @@ export default function SettingsScreen({ navigation }) {
       <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
           <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
-          <Text style={styles.textPolice}>Taille de police : {fontSize} px</Text>
+          <Text style={[styles.textPolice, {fontSize : fontSize}]}>Taille de police : {fontSize} px</Text>
           <FontAwesome name='plus' size={20} style={styles.iconInc} color='white' onPress={increaseFontSize} />
         </View>
 
@@ -183,15 +183,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  // fontSettings: {
-  //   color: "white",
-  //   margin: -10,
-  //   borderWidth: 1,
-  //   borderColor: "#FFCE4A",
-  //   borderRadius: 10,
-  //   padding: 10,
-  //   bottom: 150,
-  // },
+  
   switchBtn: {
     marginRight: 10,
     transform: [{ scaleX: 1.1 }, { scaleY: 1 }],
@@ -215,5 +207,11 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     color: "white",
     paddingLeft: "39%",
+  },
+  iconDec: {
+    padding: 5,
+  },
+  iconInc: {
+    padding: 5,
   },
 });

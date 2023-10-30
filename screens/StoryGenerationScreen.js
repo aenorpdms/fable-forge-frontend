@@ -27,37 +27,37 @@ export default function StoryGenerationScreen() {
     {
       title: "Horreur",
       description:
-        "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
+        "Explorez l'obscurité et laissez votre imagination vous guider à travers des récits terrifiants où le suspense règne en maître.",
       image: require("../assets/Horreur.png"),
     },
     {
       title: "Aventure",
       description:
-        "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
+        "Embarquez pour des aventures épiques, résolvez des énigmes, à travers des mondes extraordinaires.",
       image: require("../assets/Aventure.png"),
     },
     {
       title: "Fantasy / SF",
       description:
-        "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
+        "Explorez des mondes futuristes, rencontrez des créatures magiques et partez à la découverte de l'inconnu.",
       image: require("../assets/Fantasy_SF.png"),
     },
     {
       title: "Policier / Thriller",
       description:
-        "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
+        "Plongez dans des intrigues mystérieuses, traquez des criminels et résolvez des énigmes palpitantes.",
       image: require("../assets/Policier_Thriller.png"),
     },
     {
       title: "Romance",
       description:
-        "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
+        "Découvrez des récits passionnés, explorez des relations intenses et suivez les histoires d'amour captivantes.",
       image: require("../assets/Romance.png"),
     },
     {
       title: "Enfant",
       description:
-        "lorem ipsum dolor sit amet consecteur adipiscing elit, sed do eiusmod tempor incididunt ut labor",
+        "Plongez dans des aventures adaptées aux plus jeunes, remplies de leçons précieuses et d'histoires amusantes.",
       image: require("../assets/Enfant.png"),
     },
   ];
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "145%",
+    height: "202%",
     marginTop: "-12%",
   },
   title1: {
@@ -158,15 +158,21 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
   },
   
+  carousel:{
+    alignSelf:"center",
+    justifySelf: "center",
+   
+  },
+  
   slide: {
-    top: "15%",
-    width: 300,
-    height: 500,
-    justifyContent: "center",
+    width: "100%",//300
+    height: "74.5%",// 500
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 10,
     padding: 15,
+    top: "24%",
+    
   },
   title: {
     fontFamily: "Lato_400Regular",
@@ -200,8 +206,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     textAlign: "justify",
-    marginBottom: "6%",
+    marginBottom: "1%",
     padding: 12,
+    marginTop:"-5%"
     
   },
   selectButton: {

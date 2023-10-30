@@ -6,6 +6,8 @@ import {
   ImageBackground,
   Modal,
   TextInput,
+  SafeAreaView,
+  KeyboardAvoidingView
 } from "react-native";
 import * as Font from "expo-font";
 // import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -118,6 +120,7 @@ export default function SignScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      
       <ImageBackground
         style={styles.imagBgd}
         source={require("../assets/finalimageConnection.png")}
@@ -145,7 +148,7 @@ export default function SignScreen({ navigation }) {
       </TouchableOpacity>
 
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
-        <View style={styles.mdlctn}>
+       <View style={styles.mdlctn}>
           <View style={modalStyle}>
             <View style={styles.titleClose}>
               <Text style={titleStyle}> Fable Forge</Text>
@@ -231,6 +234,7 @@ export default function SignScreen({ navigation }) {
             )}
           </View>
         </View>
+   
       </Modal>
     </View>
   );
@@ -247,11 +251,15 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0,0,0, 0.5)",
+  },containerBis: {
+    flex: 1,
+    width: "100%",
+
   },
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "100%",
+    height: "90%",
     // backgroundColor:
   },
   title1: {
@@ -278,37 +286,41 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFCE4A",
     borderRadius: 10,
-    margin: 10,
+    margin: "2%",
     padding: 10,
     width: "80%",
+    height:"5%",
+    justifyContent:'center'
   },
   btnGoogle: {
     backgroundColor: "#E6DAFF",
     borderRadius: 10,
-    margin: 10,
+    margin: "2%",
     padding: 10,
     width: "80%",
-    borderWidth: 1,
-    borderColor: "#E6DAFF",
+    height:"5%",
+    justifyContent:'center',
     opacity: 0.2,
   },
   btnFacebook: {
     backgroundColor: "#E6DAFF",
     borderRadius: 10,
-    margin: 10,
+    margin: "2%",
     padding: 10,
     width: "80%",
-    borderWidth: 1,
-    borderColor: "#E6DAFF",
+    height:"5%",
+    justifyContent:'center',
     opacity: 0.2,
     marginBottom: "18%",
   },
   btnInput: {
     backgroundColor: "transparent",
     borderRadius: 10,
-    margin: 10,
+    margin: "2%",
     padding: 10,
     width: "80%",
+    height:"5%",
+    justifyContent:'center',
     borderWidth: 1,
     borderColor: "#FFFFFF",
     // marginBottom: "18%",
@@ -326,7 +338,7 @@ const styles = StyleSheet.create({
   modalContainerInscription: {
     width: "86%", // Adjust the width as per your requirement 350
     height: "45%", // Adjust the height as per your requirement 400
-    marginTop: "60%", // 200
+    marginTop: "40%", // 200
     marginLeft: "7%", //30
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
@@ -338,7 +350,7 @@ const styles = StyleSheet.create({
   modalContainerConnection: {
     width: "86%", // Adjust the width as per your requirement
     height: "34%", // Adjust the height as per your requirement 300
-    marginTop: "60%",
+    marginTop: "63%",
     marginLeft: "7%",
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
