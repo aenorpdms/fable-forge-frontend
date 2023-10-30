@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
   modalContainerConnection: {
     width: "86%", // Adjust the width as per your requirement
     height: "34%", // Adjust the height as per your requirement 300
-    marginTop: "64%",
+    marginTop: "63%",
     marginLeft: "7%",
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
