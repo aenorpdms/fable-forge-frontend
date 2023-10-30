@@ -44,6 +44,7 @@ import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
 import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
+import StoryReadScreen from "./screens/StoryReadScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -111,6 +112,7 @@ export default function App() {
             <Stack.Screen name='StoryGeneration3' component={StoryGenerationStep3Screen} />
             <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
             <Stack.Screen name='SubscriptionPayment' component={SubscriptionPaymentScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='StoryRead' component={StoryReadScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
