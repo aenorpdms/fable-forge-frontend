@@ -201,8 +201,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     textAlign: "justify",
-    marginBottom: "6%",
+    marginBottom: "1%",
     padding: 12,
+    marginTop:"-5%"
     
   },
   selectButton: {

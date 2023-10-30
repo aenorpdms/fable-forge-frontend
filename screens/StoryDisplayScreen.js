@@ -1,48 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { API_KEY } from "@env";
+import { API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
 import { fontSize } from "./SettingsScreen";
 
+const LENGTH_MAP = {
+  'Courte': { min: 1000, max: 1500 },
+  'Moyenne': { min: 100, max: 2500 },
+  'Longue': { min: 2500, max: 4000 }
+};
+
 export default function StoryDisplayScreen({ route, navigation }) {
-  const { genre, fin, longueur } = route.params;
-
-  const [newContent, setNewContent] = useState("");
+  const { genre, longueur, fin } = route.params;
   const [isGenerating, setIsGenerating] = useState(false);
+  const [chunks, setChunks] = useState([]);
+  const [currentChunk, setCurrentChunk] = useState("");
 
-  const handleGenerateStory = async () => {
-    setIsGenerating(true);
+  useEffect(() => {
+    if (isGenerating && chunks.length > 0) {
+      console.log("Exécution de useEffect lorsque isGenerating est vrai.");
+        const currentStory = chunks.join(' ');
+        const totalTokens = currentStory.split(' ').length;
+        const desiredTokenCount = Math.floor(Math.random() * (LENGTH_MAP[longueur].max - LENGTH_MAP[longueur].min + 1)) + LENGTH_MAP[longueur].min;
+        
+        if (totalTokens < desiredTokenCount) {
+            generateNextChunk(currentStory);
+        } else {
+            setIsGenerating(false);
+        }
+    }
+}, [chunks]);
+
+  const generateNextChunk = async (currentStory) => {
+    console.log("La génération du prochain chunk commence.");
+    setIsGenerating(true); // <-- Commencez le chargement ici
+
+    const userMessage = currentStory;
+
+    const data = {
+      model: "gpt-3.5-turbo-16k",
+      messages: [
+        { role: "system", content: "You are a great storyteller. Continue the story seamlessly." },
+        { role: "user", content: userMessage },
+      ],
+      temperature: 0.7,
+      max_tokens: 250,
+    };
 
     try {
-      const url = "https://api.openai.com/v1/chat/completions";
-      const { genre, longueur, fin } = route.params;
-
-      // Définir le nombre maximal de tokens en fonction de la longueur souhaitée
-      // let maxTokens;
-      // if (longueur === "1") {
-      //   maxTokens = Math.floor(Math.random() * (800 - 600 + 1)) + 600;
-      // } else if (longueur === "2") {
-      //   maxTokens = Math.floor(Math.random() * (1500 - 800 + 1)) + 800;
-      // } else if (longueur === "3") {
-      //   maxTokens = Math.floor(Math.random() * (3000 - 1500 + 1)) + 1500;
-      // } else {
-
-      //   maxTokens = 800; // Par défaut
-      // }
-
-      const userMessage = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. M'inspirer pour le personnage principal, le lieu de départ et l'époque. Créer aussi un titre avant le texte de l'histoire.`;
-
-      const data = {
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "You are the best storyteller there is." },
-          { role: "user", content: userMessage },
-        ],
-        temperature: 0.7,
-        max_tokens: 150,
-      };
-
-      const response = await fetch(url, {
+      const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,43 +57,63 @@ export default function StoryDisplayScreen({ route, navigation }) {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("Erreur lors de la génération de l'histoire");
-      }
       const responseData = await response.json();
 
-      // Extraire le contenu généré de la réponse de l'API
-      const generatedContent = responseData.choices[0].message.content;
+      if (!response.ok || !responseData.choices || !responseData.choices[0]) {
+        console.error("Erreur lors de la génération de l'histoire");
+        setIsGenerating(false);
+        return null; // Return null to indicate failure
+      }
 
-      // Afficher la réponse de l'API dans la console
-      console.log("Réponse de l'API :", responseData);
-
-      setNewContent(generatedContent);
+      const generatedContent = responseData.choices[0].message.content.trim();
+      console.log("Chunk généré :", generatedContent);
+      setChunks(prevChunks => [...prevChunks, generatedContent]);
+      return generatedContent; // Return the generated chunk
     } catch (error) {
-      console.error("Erreur lors de la génération de l'histoire :", error);
-    } finally {
+      console.error("Erreur lors de la génération de l'histoire:", error);
       setIsGenerating(false);
+      return null; // Return null to indicate failure
+      setIsGenerating(false); 
     }
   };
 
+const handleGenerateStory = () => {
+  console.log("Le bouton 'Générer mon histoire' a été pressé.");
+  setIsGenerating(true);
+  setChunks([]);
+  const initialPrompt = `Je souhaite créer une histoire de genre ${genre} d'environ ${longueur} pages, soit environ 300 tokens par page A4. Assurez-vous que l'histoire a une fin ${fin} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire.`;
+  setChunks([initialPrompt]);
+};
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.btngenerateStory} onPress={() => handleGenerateStory()}>
-        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-      </TouchableOpacity>
+      
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
       <ScrollView style={styles.containerStory}>
-        {isGenerating ? (
-          <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />
-        ) : (
-          <Text key={newContent} style={[styles.textStory, { fontSize: fontSize }]}>
-            {newContent}
-          </Text>
-        )}
+      {isGenerating && (
+  <ActivityIndicator
+      style={styles.tournicoti}
+      size="large"
+      color="#2C1A51"
+  />
+)}
+
+{chunks.map((chunk, index) => (
+  <Text key={index} style={styles.textStory}>
+      {chunk}
+  </Text>
+))}
+<View style={styles.space}></View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.btngenerateStory}
+        onPress={() => handleGenerateStory()}
+      >
+        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -114,14 +140,14 @@ const styles = StyleSheet.create({
     color: "black",
   },
   btngenerateStory: {
-    borderColor: "white",
+    borderColor: "#FFCE4A",
     backgroundColor: "#2C1A51",
     margin: 10,
     borderWidth: 1,
-    borderColor: "#FFCE4A",
     borderRadius: 10,
     padding: 5,
-    marginTop: 10,
+    marginTop: 2,
+    marginBottom: 65,
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",
@@ -148,5 +174,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 120,
     top: 250,
+  },
+  space: {
+    height: 80,
+    backgroundColor: 'transparent',
   },
 });
