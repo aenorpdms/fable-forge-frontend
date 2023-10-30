@@ -67,7 +67,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   };
 
   const handleStoryGeneration3 = () => {
-    // navigate to Story step 2 page
+    // navigate to Story step 3 page
     navigation.navigate("StoryGeneration3");
   };
 
