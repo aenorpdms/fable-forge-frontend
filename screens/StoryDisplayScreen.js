@@ -4,7 +4,7 @@ import { API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
 import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from 'react-redux';
-import { addTitle } from "../reducers/newStory";
+import { addTitle,saveStory, emptyNewStory } from "../reducers/newStory";
 
 const LENGTH_MAP = {
   'Courte': { min: 1000, max: 1500 },
@@ -14,20 +14,15 @@ const LENGTH_MAP = {
 
 export default function StoryDisplayScreen({ route, navigation }) {
 
-    // Utilisez useSelector pour extraire les informations de votre reducer
-    const storySettings = useSelector(state => state.newStory.value);
-
-    // Log ce que vous recevez du useSelector
-    console.log("Récupéré du useSelector:", storySettings);
-
   const [isGenerating, setIsGenerating] = useState(false);
   const [chunks, setChunks] = useState([]);
   const [totalTokens, setTotalTokens] = useState(0);
   const [initialPrompt, setInitialPrompt] = useState('');
   const [desiredTokenCount, setDesiredTokenCount] = useState(0);
-
+  const [count, setCount] = useState(0)
   const dispatch = useDispatch()
   const newStory = useSelector((state) => state.newStory.value);
+  const user = useSelector((state)=> state.user.value)
 
   useEffect(() => {
     if (isGenerating) {
@@ -36,12 +31,14 @@ export default function StoryDisplayScreen({ route, navigation }) {
       
       if (totalTokens < desiredTokenCount) {
         generateNextChunk();
+  
       } else {
         setIsGenerating(false);
       }
     }
   }, [chunks]);
   
+
   const generateNextChunk = async () => {
     // Combinez la phrase initiale et les chunks pour former le message complet
     const userMessage = initialPrompt + ' ' + chunks.join(' ');
@@ -54,9 +51,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
       temperature: 0.5,
       max_tokens: 250,
     };
-  
-    // Log ce que vous envoyez à l'API
-    console.log("Envoi à l'API:", data);
+
   
     try {
       const response = await fetch(`${API_URL}`, {
@@ -69,9 +64,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
       });
   
       const responseData = await response.json();
-  
-      // Log ce que vous recevez de l'API
-      console.log("Réponse de l'API:", responseData);
+
   
       if (!response.ok || !responseData.choices || !responseData.choices[0]) {
         console.error("Erreur lors de la génération de l'histoire");
@@ -81,15 +74,20 @@ export default function StoryDisplayScreen({ route, navigation }) {
     const generatedContent = responseData.choices[0].message.content.trim();
     
     // Extract title using the regular expression
-    const titleRegex = /!(.*?)!/;
+    const titleRegex = /<!(.*?)!>/;
     const titleMatch = titleRegex.exec(generatedContent);
     const title = titleMatch ? titleMatch[1] : "";
-    dispatch(addTitle(title))
+    
+    if(count === 0){
+      dispatch(addTitle(title));
+      setCount(1);
+    }
+   
   
     // Remove the title from the chunk
     const contentWithoutTitle = generatedContent.replace(titleRegex, "");
     setChunks((prevChunks) => [...prevChunks, contentWithoutTitle]);
-    // dispatch(saveStory(contentWithoutTitle))
+    dispatch(saveStory(contentWithoutTitle))
     setTotalTokens(prevTokens => prevTokens + responseData.choices[0].message.content.split(' ').length);
     return generatedContent; 
     
@@ -108,7 +106,25 @@ export default function StoryDisplayScreen({ route, navigation }) {
     setDesiredTokenCount(tokenCount);  // Mettre à jour ici
     const prompt = `Je souhaite créer une histoire de genre ${newStory.type} d'une longueur ${newStory.length}. Assurez-vous que l'histoire ait une ${newStory.endingType} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises "!".`;
     setInitialPrompt(prompt);
-  };
+ 
+
+    fetch(`https://fable-forge-backend-84ce.vercel.app/user/stories/:token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ length: newStory.length, title: newStory.title, type: newStory.type, ending: newStory.endingType, story: newStory.story}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+        console.log("done")
+        dispatch(emptyNewStory())
+        } else {
+         console.log("error")
+        }
+      });
+ };
+
+  
 
   return (
     <SafeAreaView style={styles.container}>

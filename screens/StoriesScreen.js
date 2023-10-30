@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
 import * as Font from "expo-font";
-
 import TabBar from "../TabBar";
-
 import { useState } from "react";
 
 export default function StoriesScreen({ navigation }) {
@@ -11,6 +9,8 @@ export default function StoriesScreen({ navigation }) {
   const handleDisplayStory = () => {
     navigation.navigate("StoryDisplay");
   };
+
+
 
 // mockdata (faux tableau de data)
 const storiesData = [
@@ -51,6 +51,26 @@ const storiesData = [
     button: "Relire",
   },
 ];
+
+useEffect(() => {
+    
+  fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ length: newStory.length, title: newStory.title, type: newStory.type, ending: newStory.endingType, story: newStory.story}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+        console.log("done")
+        dispatch(emptyNewStory())
+        } else {
+         console.log("error")
+        }
+      });
+
+
+}, []);
 
 // map sur le tableau et return 
 const storiesList = storiesData.map((story, index) => (
