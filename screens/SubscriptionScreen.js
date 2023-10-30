@@ -1,5 +1,5 @@
 import React, { useState, useNavigation } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView} from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,7 +12,8 @@ export default function SubscriptionScreen({ navigation }) {
       price: "4.99€/semaine",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      imageSource: require("../assets/ImageBibliotheque.png"),
+      textColor:"white",
+      imageSource: require("../assets/Abonnement_semaine.png"),
     },
     {
       id: 2,
@@ -20,7 +21,8 @@ export default function SubscriptionScreen({ navigation }) {
       price: "9.99€/mois",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      imageSource: require("../assets/ImageBibliotheque.png"),
+      textColor:"white",
+      imageSource: require("../assets/Abonnement_mois.png"),
     },
     {
       id: 3,
@@ -28,7 +30,8 @@ export default function SubscriptionScreen({ navigation }) {
       price: "99.99€/an",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      imageSource: require("../assets/ImageBibliotheque.png"),
+      textColor:"white",
+      imageSource: require("../assets/Abonnement_annee.png"),
     },
   ]);
 
@@ -46,12 +49,14 @@ export default function SubscriptionScreen({ navigation }) {
           ...subscription,
           buttonText: "En cours",
           buttonColor: "#FFCE4A",
+          textColor: "black"
         };
       } else {
         return {
           ...subscription,
           buttonText: "Choisir",
           buttonColor: "#2C1A51",
+          textColor:"white"
         };
       }
     });
@@ -61,26 +66,20 @@ export default function SubscriptionScreen({ navigation }) {
     navigation.navigate("SubscriptionPayment");
   }
 
-  /*
-    (buttonColor === 1) {
-      if (buttonColor1 === "#2C1A51") {
-        setButtonColor1("#FFCE4A");
-        setButtonColor2("#2C1A51");
-        setButtonColor3("#2C1A51");
-      } else {
-        setButtonColor1("#2C1A51");
-      }
-    }
+  const handleNavigateProfil = () => {
+    navigation.navigate("Profil");
   }
-*/
+
+
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.containerInformation} indicatorStyle='white'>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
-        <View style={styles.header}>
+      
           <Text style={styles.title2}>Abonnement</Text>
           <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
-        </View>
+      
       </ImageBackground>
       {/* <View style={styles.containerInformation} indicatorStyle='white'> */}
       <View style={styles.abonnementContainer}>
@@ -95,16 +94,18 @@ export default function SubscriptionScreen({ navigation }) {
               style={{ ...styles.btnPrice, backgroundColor: subscription.buttonColor }}
               onPress={() => handleButtonClick(subscription.id)}
             >
-              <Text style={styles.textBtnPrice}>{subscription.buttonText}</Text>
+              <Text style={{...styles.textBtnPrice, color: subscription.textColor}}>{subscription.buttonText}</Text>
             </TouchableOpacity>
           </View>
         ))}
         <TouchableOpacity style={styles.btnResiliation}>
           <Text style={styles.btnResiliationText}> Résilier mon abonnement</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.btnRetour}>
+          <Text style={styles.btnResiliationText} onPress={() => handleNavigateProfil()}>Retour vers Profil</Text>
+        </TouchableOpacity>
       </View>
-      {/* </View> */}
-      {/* </View> */}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -116,41 +117,45 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
-  header: {
-    top: 120,
-    width: "100%",
+  containerInformation: {
+    flex: 1,
+    width:"100%",
+    marginTop: "-12%",
   },
 
   imagBgd: {
+    felx: 1,
     width: "100%",
-    height: "70%",
+    height: "69%",
   },
   title2: {
     fontFamily: "Lato_400Regular",
-    fontSize: 34,
-    fontWeight: "500",
+    fontSize: 32,
     textAlign: "left",
     color: "#FFCE4A",
-    top: 180,
-    lineHeight: 60,
-    marginLeft: 16,
+    marginTop: "49%",//160
+    marginLeft: "3%",
   },
   title3: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    top: 180,
-    marginLeft: 20,
+    fontSize: 16,
+    textAlign: "justify",
+    marginTop: "2%",
+    marginBottom:"5%",
+    width: "90%",
+    marginLeft: "3%",
   },
 
   abonnementContainer: {
-    marginBottom: 20,
-    bottom: 130,
+    flex: 1,
+    marginTop:"-25%",
     width: "90%",
+    marginLeft: "5%",
     flexDirection: "column", // Alignement vertical
     alignItems: "center", // Centre les éléments horizontalement
     justifyContent: "space-between",
   },
-
   imagBgdAbo: {
     width: "100%",
     height: "100%",
@@ -160,51 +165,33 @@ const styles = StyleSheet.create({
 
   aboPrice: {
     borderColor: "white",
-    height: "20%",
+    height: "30%",
     width: "100%",
     borderWidth: 1,
     borderRadius: 15,
-    marginBottom: -10,
+    marginBottom: "11%",
   },
 
   textAboPrice: {
-    fontFamily: "Lato_400Regular",
+    fontFamily: "Lato_700Bold",
     color: "white",
-    height: 70,
     top: "40%",
     width: "90%",
     textAlign: "center",
-    marginLeft: 15,
+    marginLeft: "5%",
+    fontSize: 18,
   },
 
   btnPrice: {
     backgroundColor: "#2C1A51",
     borderWidth: 1,
     borderColor: "#FFCE4A",
-    width: 120,
-    bottom: 15,
-    height: 45,
+    width: "40%",
+    bottom: "20%",
+    height: "40%",
     borderRadius: 10,
-    marginLeft: 120,
-    marginBottom: 20,
+    marginLeft:"30%",
     justifyContent: "center",
-  },
-
-  btnPriceOn: {
-    backgroundColor: "#FFCE4A",
-    width: 120,
-    bottom: 15,
-    height: 45,
-    borderRadius: 10,
-    marginLeft: 120,
-    marginBottom: 20,
-    justifyContent: "center",
-  },
-
-  textBtnPriceOn: {
-    fontFamily: "Lato_400Regular",
-    color: "black",
-    textAlign: "center",
   },
 
   textBtnPrice: {
@@ -215,6 +202,22 @@ const styles = StyleSheet.create({
 
   btnResiliation: {
     width: "100%",
+    marginTop:"0%",
+    borderColor: "#FFFFFF",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#6B5F85",
+
+  }
+  ,btnRetour: {
+    width: "100%",
+    marginTop:"4%",
+    borderColor: "#FFCE4A",
+    borderWidth: 1,
+    padding:10,
+    borderRadius: 10,
+    backgroundColor: "transparent",
   },
 
   btnResiliationText: {
@@ -222,12 +225,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textAlign: "center",
     fontSize: 16,
-    borderColor: "#FFFFFF",
-    borderWidth: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "#6B5F85",
-    bottom: 10,
   },
+ 
+
 });

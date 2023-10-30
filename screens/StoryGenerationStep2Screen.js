@@ -74,13 +74,13 @@ const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["white", "white", "w
           <View style={styles.leftContainer}>
             <View style={styles.typeEndLeft}>
               <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[0] }]} onPress={() => handleButtonEndTypeClick(1)}>
-                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_heureuse.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin heureuse</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndLeft}>
               <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[1] }]} onPress={() => handleButtonEndTypeClick(2)}>
-                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_triste.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin triste</Text>
               </TouchableOpacity>
             </View>
@@ -88,13 +88,13 @@ const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["white", "white", "w
           <View style={styles.rightContainer}>
             <View style={styles.typeEndRight}>
               <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[2] }]} onPress={() => handleButtonEndTypeClick(3)}>
-                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_ouverte.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin ouverte</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndRight}>
               <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[3] }]} onPress={() => handleButtonEndTypeClick(4)}>
-                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/ImageBibliotheque.png")}></ImageBackground>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_morale.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin morale</Text>
               </TouchableOpacity>
             </View>

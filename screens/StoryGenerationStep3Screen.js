@@ -30,7 +30,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
   } else {
     page = "3";
   }
-  const synopsis = `Préparez-vous à plonger dans une histoire ${newStory.type}, qui s'étirera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons tissée pour vous.`;
+  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}, qui se déroulera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons tissée pour vous.`;
 
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {
@@ -58,7 +58,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
 
       <View style={styles.containerStory}>
         {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
-        <Text style={styles.titleContainer}>Genre: {newStory.type}</Text>
+        <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
         <ImageBackground
           style={styles.imagBgdRecap}
           source={require("../assets/ImageBibliotheque.png")}
