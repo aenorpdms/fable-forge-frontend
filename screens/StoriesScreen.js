@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
 import * as Font from "expo-font";
 import TabBar from "../TabBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import {updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, addTitle, saveStory} from "../reducers/newStory"
 
 export default function StoriesScreen({ navigation }) {
+  const newStory = useSelector((state) => state.newStory.value);
+  const user = useSelector((state)=> state.user.value)
+  const [stories, setStories] = useState([])
+  const dispatch = useDispatch()
 
-  const handleDisplayStory = () => {
-    navigation.navigate("StoryDisplay");
+const handleDisplayStory = (story) => {
+    dispatch(addTitle(story.title))
+    dispatch(saveStory(story.story))
+    navigation.navigate("StoryRead");
   };
 
 
@@ -52,38 +59,35 @@ const storiesData = [
   },
 ];
 
+
 useEffect(() => {
     
-  fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ length: newStory.length, title: newStory.title, type: newStory.type, ending: newStory.endingType, story: newStory.story}),
-    })
+  fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-        console.log("done")
-        dispatch(emptyNewStory())
+        console.log(data.stories)
+        setStories([...data.stories])
+        
         } else {
          console.log("error")
         }
-      });
-
+  });
 
 }, []);
 
 // map sur le tableau et return 
-const storiesList = storiesData.map((story, index) => (
+const storiesList = stories.map((story, index) => (
   <View style={styles.storyButton} key={index}>
     <ImageBackground
       style={styles.storyImage}
-      source={story.image} //{{ uri: 'URL_DE_L'HISTOIRE' }}
+      source={require("../assets/Policier_Thriller.png")}
     >
       <Text style={styles.storyTitle}>{story.title}</Text>
-      <Text style={styles.storyStatus}>{story.status}</Text>
+      <Text style={styles.storyStatus}>Terminée</Text>
     </ImageBackground>
-    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
-      <Text style={styles.readButtonText}>{story.button}</Text>
+    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory(story)}>
+      <Text style={styles.readButtonText}>Relire</Text>
     </TouchableOpacity>
   </View>
 ))
