@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, SafeAreaView, Image } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useState } from "react";
+import newStory, { addTitle, saveStory } from "../reducers/newStory";
+import { useState, useEffect } from "react";
 
 import TabBar from "../TabBar";
 import { userSlice } from "../reducers/user";
@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const handleDisplayStory = () => {
-    navigation.navigate("StoryDisplay");
+    navigation.navigate("StoryRead");
   };
 
   return (
