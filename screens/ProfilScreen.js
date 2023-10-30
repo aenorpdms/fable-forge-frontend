@@ -165,7 +165,7 @@ const [modalType, setModalType] = useState("");
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.username}
+              placeholder={isEditable ? '' : user.username}
               placeholderTextColor='white'
               onChangeText={value => setUsername(value)}
               value={username}
@@ -176,7 +176,7 @@ const [modalType, setModalType] = useState("");
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.firstname}
+              placeholder={isEditable ? '' : user.firstname}
               placeholderTextColor='white'
               onChangeText={value => setFirstName(value)}
               value={firstname}
@@ -187,7 +187,7 @@ const [modalType, setModalType] = useState("");
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              placeholder={user.email}
+              placeholder={isEditable ? '' : user.email}
               placeholderTextColor='white'
               onChangeText={value => setEmail(value)}
               value={email}
