@@ -1,21 +1,29 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_KEY } from "@env";
 import TabBar from "../TabBar";
-import { fontSize } from "./SettingsScreen";
+import { updateFontSize } from "../reducers/user";
 
 export default function StoryDisplayScreen({ route, navigation }) {
-  const { genre, fin, longueur } = route.params;
+  const handleNavigateToStoryDisplay = () => {
+    navigation.navigate("StoryDisplay", { fontSize: fontSize });
+  };
+
+  // const { genre, fin, longueur, fontSize } = route.params;
 
   const [newContent, setNewContent] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.value);
 
   const handleGenerateStory = async () => {
     setIsGenerating(true);
 
     try {
       const url = "https://api.openai.com/v1/chat/completions";
-      const { genre, longueur, fin } = route.params;
+      const { genre, longueur, fin, fontSize } = route.params;
 
       // Définir le nombre maximal de tokens en fonction de la longueur souhaitée
       // let maxTokens;
@@ -68,7 +76,14 @@ export default function StoryDisplayScreen({ route, navigation }) {
     } finally {
       setIsGenerating(false);
     }
+
+    // Modifier la taille de la police
+    // const updatedFontSize = "16px"; // Remplacez par la taille de police souhaitée
+    dispatch(updateFontSize(fontSize));
   };
+
+  // dispatch(updateFontSize(updatedFontSize));
+  // // console.log(updatedUserInfo);
 
   return (
     <SafeAreaView style={styles.container}>

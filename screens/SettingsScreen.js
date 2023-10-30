@@ -30,6 +30,10 @@ export default function SettingsScreen({ navigation }) {
     }
   };
 
+  const handleNavigateToStoryDisplay = () => {
+    navigation.navigate("StoryDisplay", { fontSize: fontSize });
+  };
+
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
   const toggleAudioSwitch = () => setIsAudioEnabled(previousState => !previousState);
   const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
@@ -183,7 +187,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  
+
   switchBtn: {
     marginRight: 10,
     transform: [{ scaleX: 1.1 }, { scaleY: 1 }],

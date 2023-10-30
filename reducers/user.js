@@ -19,8 +19,11 @@ export const userSlice = createSlice({
     logOutuser: (state, action) => {
       state.value = action.payload;
     },
+    updateFontSize: (state, action) => {
+      state.value = action.payload;
+    },
   },
 });
 
-export const { updateUser, addStories, removeStories, logOutuser } = userSlice.actions;
+export const { updateUser, addStories, removeStories, logOutuser, updateFontSize } = userSlice.actions;
 export default userSlice.reducer;
