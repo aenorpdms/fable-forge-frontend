@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image, ImageBackground } from "react-native";
-import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
 // import { Subscription } from "react-redux";
 import { useSelector } from "react-redux";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
-export default function SubscriptionPaymentScreen({ navigation, route }) {
-  const handleSubscription = () => {
-    navigation.navigate("Subscription");
-  };
+export default function SubscriptionPaymentScreen() {
+  const { subscriptions, activeSubscription } = useSelector(state => state.subscription);
+
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { subscription } = route.params;
+
+  // Vérifiez si subscription est défini
+  if (!subscription) {
+    // Gérez le cas où subscription n'est pas défini, par exemple, redirigez l'utilisateur ou affichez un message d'erreur.
+    return (
+      <View>
+        <Text>Subscription is not defined</Text>
+      </View>
+    );
+  }
 
   const [choix1, setChoix1] = useState(0);
   const [choix2, setChoix2] = useState(0);
   const [choix3, setChoix3] = useState(0);
 
-  const [numberToFillInInput, setNumberToFillInInput] = useState("");
-  const [numberToFillInInputError, setNumberToFillInInputError] = useState("");
-  const [letterToFillInInput, setLetterToFillInInput] = useState("");
-  const [letterToFillInInputError, setLetterToFillInInputError] = useState("");
-
-  // Access the subscription value from the state
-  // const subscription = useSelector(state => state.payment.value);
+  const [numberToFillInInput, setNumberToFillInInput] = useState('');
+  const [numberToFillInInputError, setNumberToFillInInputError] = useState('');
+  const [letterToFillInInput, setLetterToFillInInput] = useState('');
+  const [letterToFillInInputError, setLetterToFillInInputError] = useState('');
 
   const handleClickChoix1 = () => {
     setChoix1(1);
@@ -45,18 +52,18 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
   const handleLetterChange = text => {
     setLetterToFillInInput(text);
     if (!/^[a-zA-Z\s]+$/.test(text)) {
-      setLetterToFillInInput("Veuillez entrer uniquement des lettres et des espaces");
+      setLetterToFillInInputError('Veuillez entrer uniquement des lettres et des espaces');
     } else {
-      setLetterToFillInInput("");
+      setLetterToFillInInputError('');
     }
   };
 
   const handleNumberChange = text => {
     setNumberToFillInInput(text);
     if (!/^[0-9]+$/.test(text)) {
-      setNumberToFillInInputError("Veuillez entrer uniquement des chiffres");
+      setNumberToFillInInputError('Veuillez entrer uniquement des chiffres');
     } else {
-      setNumberToFillInInputError("");
+      setNumberToFillInInputError('');
     }
   };
 
@@ -66,18 +73,17 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
     setIsSaveInfosClicked(!isSaveInfosClicked);
   };
 
-  // const handleValidationAbo = () => {};
+  const activeImage = activeSubscription ? subscriptions.find(subscription => subscription.id === activeSubscription).imageSource : null;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
-        <View style={styles.recapAbo}>{/* <Image source={require("../assets/Abonnement_mois.png")} style={styles.imgAbo} /> */}</View>
-        <Text style={styles.textBtnPrice}>Choisi</Text>
-        <Text style={styles.textRecapAbo}>
-          Vous avez choisi l'abonnement:
-          {/* {subscription.type} au prix de {subscription.price} */}
-        </Text>
-
+      <ImageBackground source={activeImage} style={styles.recapAbo}>
+    <Text style={styles.textBtnPrice}>Choisi</Text>
+    <Text style={styles.textRecapAbo}>
+        Vous avez choisi l'abonnement: {subscription.type} Prix : {subscription.price}
+    </Text>
+</ImageBackground>
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
@@ -92,7 +98,7 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
       </View>
       <View style={styles.containerPayment}>
         <View style={styles.inputPayment}>
-          <Image source={require("../assets/buttonscanCard.png")} style={styles.scanCard} size={30} />
+          <Image source={require('../assets/buttonscanCard.png')} style={styles.scanCard} size={30} />
           <Text style={styles.titleInput}>Nom du propriétaire</Text>
           <TextInput style={styles.input} value={letterToFillInInput} onChangeText={handleLetterChange} />
           {letterToFillInInputError ? <Text style={styles.errorText}>{letterToFillInInputError}</Text> : null}
@@ -101,32 +107,26 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
           {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
         </View>
         <View style={styles.inputCard}>
-          {/* <View style={styles.inputRow}> */}
           <Text style={styles.titleInput1}>CVC</Text>
           <TextInput
             style={styles.input1}
-            placeholder='CVC'
-            placeholderTextColor={"#FFCE4A"}
+            placeholder="CVC"
+            placeholderTextColor="#FFCE4A"
             value={numberToFillInInput}
             onChangeText={handleNumberChange}
           />
           {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
-          {/* </View> */}
-          {/* <View style={styles.inputRow}> */}
-          <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
           <Text style={styles.titleInput2}>Date d'expiration</Text>
           <TextInput
             style={styles.input1}
-            placeholder='MM/AA'
-            placeholderTextColor={"#FFCE4A"}
+            placeholder="MM/AA"
+            placeholderTextColor="#FFCE4A"
             value={numberToFillInInput}
             onChangeText={handleNumberChange}
           ></TextInput>
           {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
-          {/* </View> */}
         </View>
       </View>
-      {/* <View style={styles.btnSaved}> */}
       <View style={styles.alignBtnSaved}>
         <TouchableOpacity
           style={[styles.choixInfoSaved, isSaveInfosClicked === true && styles.choixSelectionneSaved]}
@@ -134,13 +134,12 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
         ></TouchableOpacity>
         <Text style={styles.title4}>Sauvegarder mes informations pour la prochaine fois</Text>
       </View>
-      {/* </View> */}
       <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleSubscription()}>
-          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
+        <TouchableOpacity style={styles.arrowBtn} onPress={() => navigation.goBack()}>
+          <Image source={require('../assets/arrow-circle-back.png')} size={30} color="#FFCE4A" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.arrowBtn1}>
-          <Image source={require("../assets/validationbtn.png")} size={30} color={"#FFCE4A"} />
+          <Image source={require('../assets/validationbtn.png')} size={30} color="#FFCE4A" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -150,108 +149,70 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#2C1A51",
+    padding: 20,
+    backgroundColor: "#2E2E63", // Dark purple background
   },
   containerTitles: {
-    width: "95%",
-    // padding: 40,
-    bottom: 90,
-    // borderWidth: 2,
-    // borderColor: "green",
-    left: 15,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   recapAbo: {
-    flex: 3,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    // width: "100%",
-    // marginTop: "15%",
-    width: "92%",
-    padding: 45,
-    borderWidth: 1,
-    borderColor: "white",
+    height: 150,
+    width: '100%',
+    backgroundColor: '#4F4F91', // Slightly lighter purple for the subscription box
     borderRadius: 10,
-    alignItems: "center",
-    marginVertical: "5%", //20
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
   },
-
-  textRecapAbo: {
-    textAlign: "center",
-    color: "white",
-    bottom: 120,
-    right: 30,
-  },
-
-  btnPrice: {
-    backgroundColor: "#FFCE4A",
-    borderWidth: 1,
-    borderColor: "#FFCE4A",
-    width: "40%",
-    // bottom: "20%",
-    borderRadius: 10,
-    padding: 20,
-    top: 30,
-    // marginLeft: "30%",
-    justifyContent: "center",
-  },
-
   textBtnPrice: {
-    width: "30%",
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    textAlign: "center",
-    borderWidth: 1,
-    padding: 8,
-    borderColor: "yellow",
-    borderRadius: 10,
-    backgroundColor: "#FFCE4A",
-    // fontSize: 20,
-    bottom: 30,
-    left: "30%",
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
-
+  textRecapAbo: {
+    color: 'white',
+    fontSize: 15,
+    marginBottom: 20,
+  },
   title1: {
-    color: "#FFCE4A",
-    fontFamily: "Lato_400Regular",
-    fontSize: 34,
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   title2: {
-    color: "white",
-    width: "100%",
-    fontFamily: "Lato_400Regular",
-    fontSize: 16,
-    marginBottom: 10,
+    color: 'white',
+    fontSize: 20,
+    marginBottom: 5,
   },
   title3: {
-    color: "white",
-    fontFamily: "Lato_400Regular",
-    fontSize: 10,
+    color: 'white',
+    fontSize: 15,
+    marginBottom: 20,
   },
   typeOfPayment: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    bottom: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
   textTypeOfPayment: {
-    color: "#FFCE4A",
+    color: 'white',
+    fontSize: 18,
   },
   choix: {
-    width: 15,
-    height: 15,
-    borderRadius: 25,
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderColor: 'white',
     borderWidth: 2,
-    borderColor: "gray",
-    marginVertical: 2,
-    margin: 20,
+    backgroundColor: '#2E2E63',
   },
-
   choixSelectionne: {
-    backgroundColor: "#FFCE4A",
+    backgroundColor: 'white',
   },
   choixSelectionneSaved: {
     backgroundColor: "#FFCE4A",
@@ -361,4 +322,9 @@ const styles = StyleSheet.create({
     left: 15,
     bottom: 80,
   },
+  activeSubscriptionImage: {
+    width: '100%',
+    height: 500, // Vous pouvez ajuster cette valeur
+    resizeMode: 'cover', // ou 'contain' selon vos préférences
+},
 });
