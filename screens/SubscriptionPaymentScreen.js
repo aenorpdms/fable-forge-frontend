@@ -1,16 +1,36 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image, ImageBackground } from "react-native";
-import * as Font from "expo-font";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-// import { Subscription } from "react-redux";
 import { useSelector } from "react-redux";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
-export default function SubscriptionPaymentScreen({ navigation, route }) {
-  const handleSubscription = () => {
-    navigation.navigate("Subscription");
-  };
+export default function SubscriptionPaymentScreen() {
+  const { subscriptions, activeSubscription } = useSelector(
+    (state) => state.subscription
+  );
+
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { subscription } = route.params;
+
+  // Vérifiez si subscription est défini
+  if (!subscription) {
+    // Gérez le cas où subscription n'est pas défini, par exemple, redirigez l'utilisateur ou affichez un message d'erreur.
+    return (
+      <View>
+        <Text>Subscription is not defined</Text>
+      </View>
+    );
+  }
 
   const [choix1, setChoix1] = useState(0);
   const [choix2, setChoix2] = useState(0);
@@ -20,9 +40,6 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
   const [numberToFillInInputError, setNumberToFillInInputError] = useState("");
   const [letterToFillInInput, setLetterToFillInInput] = useState("");
   const [letterToFillInInputError, setLetterToFillInInputError] = useState("");
-
-  // Access the subscription value from the state
-  // const subscription = useSelector(state => state.payment.value);
 
   const handleClickChoix1 = () => {
     setChoix1(1);
@@ -42,16 +59,18 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
     setChoix3(1);
   };
 
-  const handleLetterChange = text => {
+  const handleLetterChange = (text) => {
     setLetterToFillInInput(text);
     if (!/^[a-zA-Z\s]+$/.test(text)) {
-      setLetterToFillInInput("Veuillez entrer uniquement des lettres et des espaces");
+      setLetterToFillInInput(
+        "Veuillez entrer uniquement des lettres et des espaces"
+      );
     } else {
       setLetterToFillInInput("");
     }
   };
 
-  const handleNumberChange = text => {
+  const handleNumberChange = (text) => {
     setNumberToFillInInput(text);
     if (!/^[0-9]+$/.test(text)) {
       setNumberToFillInInputError("Veuillez entrer uniquement des chiffres");
@@ -66,81 +85,125 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
     setIsSaveInfosClicked(!isSaveInfosClicked);
   };
 
-  // const handleValidationAbo = () => {};
+  const activeImage = activeSubscription
+    ? subscriptions.find(
+        (subscription) => subscription.id === activeSubscription
+      ).imageSource
+    : null;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
-        <View style={styles.recapAbo}>{/* <Image source={require("../assets/Abonnement_mois.png")} style={styles.imgAbo} /> */}</View>
-        <Text style={styles.textBtnPrice}>Choisi</Text>
-        <Text style={styles.textRecapAbo}>
-          Vous avez choisi l'abonnement:
-          {/* {subscription.type} au prix de {subscription.price} */}
-        </Text>
-
+        <ImageBackground source={activeImage} style={styles.recapAbo}>
+          <Text style={styles.textRecapAbo}>{subscription.type}</Text>
+          <Text style={styles.textRecapAbo}>{subscription.price}</Text>
+        </ImageBackground>
+        <TouchableOpacity style={styles.choisi}>
+          <Text style={styles.textBtnPrice}>Choisi</Text>
+        </TouchableOpacity>
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
-        <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
+        <Text style={styles.title3}>
+          Vous serez débité une fois l'abonnement validé
+        </Text>
       </View>
       <View style={styles.typeOfPayment}>
         <Text style={styles.textTypeOfPayment}>Visa</Text>
-        <TouchableOpacity onPress={() => handleClickChoix1()} style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleClickChoix1()}
+          style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
+        ></TouchableOpacity>
         <Text style={styles.textTypeOfPayment}>Paypal</Text>
-        <TouchableOpacity onPress={() => handleClickChoix2()} style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleClickChoix2()}
+          style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}
+        ></TouchableOpacity>
         <Text style={styles.textTypeOfPayment}>ApplePay</Text>
-        <TouchableOpacity onPress={() => handleClickChoix3()} style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleClickChoix3()}
+          style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}
+        ></TouchableOpacity>
       </View>
       <View style={styles.containerPayment}>
         <View style={styles.inputPayment}>
-          <Image source={require("../assets/buttonscanCard.png")} style={styles.scanCard} size={30} />
-          <Text style={styles.titleInput}>Nom du propriétaire</Text>
-          <TextInput style={styles.input} value={letterToFillInInput} onChangeText={handleLetterChange} />
-          {letterToFillInInputError ? <Text style={styles.errorText}>{letterToFillInInputError}</Text> : null}
-          <Text style={styles.titleInput}>Numéro de carte</Text>
-          <TextInput style={styles.input} value={numberToFillInInput} onChangeText={handleNumberChange}></TextInput>
-          {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
-        </View>
-        <View style={styles.inputCard}>
-          {/* <View style={styles.inputRow}> */}
-          <Text style={styles.titleInput1}>CVC</Text>
-          <TextInput
-            style={styles.input1}
-            placeholder='CVC'
-            placeholderTextColor={"#FFCE4A"}
-            value={numberToFillInInput}
-            onChangeText={handleNumberChange}
+          <Image
+            source={require("../assets/buttonscanCard.png")}
+            style={styles.scanCard}
+            size={30}
           />
-          {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
-          {/* </View> */}
-          {/* <View style={styles.inputRow}> */}
-          <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
-          <Text style={styles.titleInput2}>Date d'expiration</Text>
+          <Text style={styles.titleInput}>Nom du propriétaire</Text>
           <TextInput
-            style={styles.input1}
-            placeholder='MM/AA'
-            placeholderTextColor={"#FFCE4A"}
+            style={styles.input}
+            value={letterToFillInInput}
+            onChangeText={handleLetterChange}
+          />
+          {letterToFillInInputError ? (
+            <Text style={styles.errorText}>{letterToFillInInputError}</Text>
+          ) : null}
+          <Text style={styles.titleInput}>Numéro de carte</Text>
+          <TextInput
+            style={styles.input}
             value={numberToFillInInput}
             onChangeText={handleNumberChange}
           ></TextInput>
-          {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
-          {/* </View> */}
+          {numberToFillInInputError ? (
+            <Text style={styles.errorText}>{numberToFillInInputError}</Text>
+          ) : null}
+        </View>
+        <View style={styles.inputCard}>
+          <Text style={styles.titleInput1}>CVC</Text>
+          <TextInput
+            style={styles.input1}
+            placeholder="CVC"
+            placeholderTextColor="#FFCE4A"
+            value={numberToFillInInput}
+            onChangeText={handleNumberChange}
+          />
+          {numberToFillInInputError ? (
+            <Text style={styles.errorText}>{numberToFillInInputError}</Text>
+          ) : null}
+          <Text style={styles.titleInput2}>Date d'expiration</Text>
+          <TextInput
+            style={styles.input1}
+            placeholder="MM/AA"
+            placeholderTextColor="#FFCE4A"
+            value={numberToFillInInput}
+            onChangeText={handleNumberChange}
+          ></TextInput>
+          {numberToFillInInputError ? (
+            <Text style={styles.errorText}>{numberToFillInInputError}</Text>
+          ) : null}
         </View>
       </View>
-      {/* <View style={styles.btnSaved}> */}
       <View style={styles.alignBtnSaved}>
         <TouchableOpacity
-          style={[styles.choixInfoSaved, isSaveInfosClicked === true && styles.choixSelectionneSaved]}
+          style={[
+            styles.choixInfoSaved,
+            isSaveInfosClicked === true && styles.choixSelectionneSaved,
+          ]}
           onPress={() => handleButtonClick()}
         ></TouchableOpacity>
-        <Text style={styles.title4}>Sauvegarder mes informations pour la prochaine fois</Text>
+        <Text style={styles.title4}>
+          Sauvegarder mes informations pour la prochaine fois
+        </Text>
       </View>
-      {/* </View> */}
       <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleSubscription()}>
-          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
+        <TouchableOpacity
+          style={styles.arrowBtn}
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            source={require("../assets/arrow-circle-back.png")}
+            size={30}
+            color="#FFCE4A"
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.arrowBtn1}>
-          <Image source={require("../assets/validationbtn.png")} size={30} color={"#FFCE4A"} />
+          <Image
+            source={require("../assets/validationbtn.png")}
+            size={30}
+            color="#FFCE4A"
+          />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -150,104 +213,82 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#2C1A51",
+    padding: 20,
+    backgroundColor: "#2C1A51", // Dark purple background
   },
   containerTitles: {
-    width: "95%",
-    // padding: 40,
-    bottom: 90,
-    // borderWidth: 2,
-    // borderColor: "green",
-    left: 15,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   recapAbo: {
-    flex: 3,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    // width: "100%",
-    // marginTop: "15%",
-    width: "92%",
-    padding: 45,
-    borderWidth: 1,
+    height: 150,
+    width: "100%",
+    overflow: "hidden",
     borderColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
-    marginVertical: "5%", //20
-  },
-
-  textRecapAbo: {
-    textAlign: "center",
-    color: "white",
-    bottom: 120,
-    right: 30,
-  },
-
-  btnPrice: {
-    backgroundColor: "#FFCE4A",
     borderWidth: 1,
-    borderColor: "#FFCE4A",
-    width: "40%",
-    // bottom: "20%",
+    backgroundColor: "#4F4F91", // Slightly lighter purple for the subscription box
     borderRadius: 10,
-    padding: 20,
-    top: 30,
-    // marginLeft: "30%",
     justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
   },
-
   textBtnPrice: {
-    width: "30%",
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    textAlign: "center",
-    borderWidth: 1,
-    padding: 8,
-    borderColor: "yellow",
-    borderRadius: 10,
-    backgroundColor: "#FFCE4A",
-    // fontSize: 20,
-    bottom: 30,
-    left: "30%",
+    color: "#2C1A51",
+    fontSize: 14,
+    marginVertical: 10,
   },
-
+  textRecapAbo: {
+    color: "white",
+    fontSize: 15,
+    marginBottom: 20,
+  },
   title1: {
     color: "#FFCE4A",
-    fontFamily: "Lato_400Regular",
-    fontSize: 34,
+    fontSize: 25,
+    fontWeight: "bold",
     marginBottom: 10,
   },
   title2: {
     color: "white",
-    width: "100%",
-    fontFamily: "Lato_400Regular",
-    fontSize: 16,
-    marginBottom: 10,
+    fontSize: 20,
+    marginBottom: 5,
   },
   title3: {
     color: "white",
-    fontFamily: "Lato_400Regular",
-    fontSize: 10,
+    fontSize: 15,
+    marginBottom: 20,
   },
   typeOfPayment: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    bottom: 50,
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
   textTypeOfPayment: {
-    color: "#FFCE4A",
+    color: "white",
+    fontSize: 18,
+  },
+  choisi: {
+    backgroundColor: "#FFCE4A",
+    borderRadius: 12,
+    borderWidth: 1,
+    textAlign: "center",
+    justifyContent: "center",
+    height: "12%",
+    width: "40%",
+    borderColor: "#FFCE4A",
   },
   choix: {
-    width: 15,
-    height: 15,
-    borderRadius: 25,
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderColor: "white",
     borderWidth: 2,
-    borderColor: "gray",
-    marginVertical: 2,
-    margin: 20,
+    backgroundColor: "#2E2E63",
+  },
+  choixSelectionne: {
+    backgroundColor: "white",
   },
 
   choixSelectionne: {
@@ -268,7 +309,8 @@ const styles = StyleSheet.create({
     bottom: 30,
   },
   input: {
-    backgroundColor: "#6B5F85",
+    backgroundColor: "#ffffff",
+    opacity: 0.1,
     textAlign: "center",
     borderRadius: 10,
     padding: 5,
@@ -288,7 +330,7 @@ const styles = StyleSheet.create({
   titleInput1: {
     color: "white",
     fontFamily: "Lato_400Regular",
-    left: 15,
+    left: 14,
   },
   titleInput2: {
     color: "white",

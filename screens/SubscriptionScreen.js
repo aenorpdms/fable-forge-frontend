@@ -48,31 +48,31 @@ export default function SubscriptionScreen({ navigation }) {
     dispatch(selectSubscription({ id }));
     const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
 
-    if (selectedSubscription) {
-      console.log("Selected Subscription:", selectedSubscription);
+if (selectedSubscription) {
+  console.log("Selected Subscription:", selectedSubscription);
 
-      const updatedSubscriptions = subscriptions.map(subscription => {
-        if (subscription.id === id) {
-          return {
-            ...subscription,
-            buttonText: "En cours",
-            buttonColor: "#FFCE4A",
-            textColor: "black",
-          };
-        } else {
-          return {
-            ...subscription,
-            buttonText: "Choisir",
-            buttonColor: "#2C1A51",
-            textColor: "white",
-          };
-        }
-      });
-
-      setSubscriptions(updatedSubscriptions);
-      setActiveSubscription(id);
-      navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
+  const updatedSubscriptions = subscriptions.map(subscription => {
+    if (subscription.id === id) {
+      return {
+        ...subscription,
+        buttonText: "En cours",
+        buttonColor: "#FFCE4A",
+        textColor: "black",
+      };
+    } else {
+      return {
+        ...subscription,
+        buttonText: "Choisir",
+        buttonColor: "#2C1A51",
+        textColor: "white",
+      };
     }
+  });
+
+  setSubscriptions(updatedSubscriptions);
+  setActiveSubscription(id);
+  navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
+}
   }
 
   const handleSubscriptionSelection = subscription => {
@@ -89,6 +89,7 @@ export default function SubscriptionScreen({ navigation }) {
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
   };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -234,5 +235,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
-  // ...
 });
