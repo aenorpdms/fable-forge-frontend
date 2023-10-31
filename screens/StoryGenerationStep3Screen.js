@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { API_URL, API_KEY } from "@env";
 import { useDispatch, useSelector } from "react-redux";
+import { Audio } from 'expo-av';
 import { addStories } from "../reducers/stories";
 import { updateNew } from "../reducers/newStory";
 import user from "../reducers/user";
@@ -20,9 +21,35 @@ import TabBar from "../TabBar";
 
 export default function StoryGenerationStep3Screen({ navigation }) {
   const [buttonColor, setButtonColor] = useState("#2C1A51");
-  
   const newStory = useSelector((state) => state.newStory.value);
-  
+/*
+  const soundObject = useRef(new Audio.Sound()).current;
+  const [isEnabled, setIsEnabled] = useState(true); // État pour activer/désactiver la musique
+  const [selectedMusic, setSelectedMusic] = useState(null);
+
+
+  useEffect(() => {
+    const controlMusic = async () => {
+      try {
+        if (isEnabled && selectedMusic) {
+          await soundObject.loadAsync(selectedMusic);
+          await soundObject.setIsLoopingAsync(true);
+          await soundObject.playAsync();
+        } else {
+          await soundObject.pauseAsync();
+        }
+      } catch (error) {
+        console.error('Erreur lors de la lecture du son', error);
+      }
+    };
+
+    controlMusic();
+    return () => {
+      // Nettoyer les ressources audio lors de la sortie du composant
+      soundObject.unloadAsync();
+    };
+  }, [isEnabled, selectedMusic]);
+  */
   let page;
   if (newStory.length === "Courte") {
     page = "1";

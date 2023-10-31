@@ -1,13 +1,69 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from "react-native";
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Button } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import { Audio } from 'expo-av';
+
 export default function CguvScreen({ navigation }) {
+  const [soundObject, setSoundObject] = useState(null);
+  const [isEnabled, setIsEnabled] = useState(true);
+
+  useEffect( () => {
+    // Créez le soundObject une seule fois
+    if (!soundObject) {
+      setSoundObject(new Audio.Sound());
+    }
+
+    // Chargez le son lorsque le composant est monté
+    const loadMusic = async () => {
+      try {
+         const music = await import('../assets/Genre_Aventure.mp3')
+        await soundObject.loadAsync(music);
+        console.log("music chargée")
+        await soundObject.setIsLoopingAsync(true);
+      } catch (error) {
+        console.error('Erreur lors du chargement du son', error);
+      }
+    };
+
+    loadMusic(); // Chargez le son
+
+    // Nettoyez le soundObject lorsque le composant est démonté
+    return () => {
+      if (soundObject) {
+        soundObject.unloadAsync();
+      }
+    };
+  }, []);
+
+  const controlMusic = async () => {
+    try {
+      if (soundObject) {
+        if (isEnabled) {
+
+          console.log('isEnable');
+          await soundObject.playAsync();
+        } else {
+          await soundObject.pauseAsync();
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de la lecture du son', error);
+    }
+  };
+
+  const toggleMusic = () => {
+    setIsEnabled(previousState => !previousState);
+    controlMusic();
+  };
+
   const handleReturnToSettings = () => {
-    // return to settings page
     navigation.navigate("Settings");
   };
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.arrowContainer}>
@@ -15,6 +71,8 @@ export default function CguvScreen({ navigation }) {
           <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.musicButton} title={isEnabled ? "Pause Musique" : "Reprendre Musique"} onPress={toggleMusic} />
+
       <ScrollView style={styles.containerInformation} indicatorStyle='white'>
         <View style={styles.containerCgv}>
           <View>
@@ -106,6 +164,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#2C1A51",
+  },
+  musicButton: {
+    marginTop: 5, 
+    padding: 20, 
+    borderWidth: 2,
+    border: 'red',
   },
   // imagBgd: {
   //   flex: 2,
