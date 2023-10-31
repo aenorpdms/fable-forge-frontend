@@ -169,33 +169,39 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholder={isEditable ? "" : user.username}
-              placeholderTextColor='white'
+              // placeholder={isEditable ? "" : user.username}
+              // placeholderTextColor='white'
+              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setUsername(value)}
               value={username}
               editable={isEditable}
+              placeholder={isEditable ? "Nom d'utilisateur" : user.username}
             ></TextInput>
           </View>
           <View>
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={isEditable ? "" : user.firstname}
-              placeholderTextColor='white'
+              // placeholder={isEditable ? "" : user.firstname}
+              // placeholderTextColor='white'
+              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setFirstName(value)}
               value={firstname}
               editable={isEditable}
+              placeholder={isEditable ? "Prénom" : user.firstname}
             ></TextInput>
           </View>
           <View>
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              placeholder={isEditable ? "" : user.email}
-              placeholderTextColor='white'
+              // placeholder={isEditable ? "" : user.email}
+              // placeholderTextColor='white'
+              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setEmail(value)}
               value={email}
               editable={isEditable}
+              placeholder={isEditable ? "Adresse mail" : user.email}
             ></TextInput>
           </View>
           <TouchableOpacity
