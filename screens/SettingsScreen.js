@@ -14,7 +14,7 @@ export default function SettingsScreen({ navigation }) {
   // const [fontSize, setFontSize] = useState(16);
   const user = useSelector(state => state.user.value);
 
-  console.log("user", user);
+
   // const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [isFontEnabled, setIsFontEnabled] = useState(false);
@@ -39,7 +39,7 @@ export default function SettingsScreen({ navigation }) {
   const decreaseFontSize = () => {
     if (user.fontSizeSet > 10) {
       let newFontSize = user.fontSizeSet - 2;
-      console.log(user);
+  
       // setFontSize(fontSize - 2);
       // setFontSize(newFontSize);
       dispatch(updateFontSize(user.fontSizeSet - 2));
@@ -65,7 +65,8 @@ export default function SettingsScreen({ navigation }) {
     // return to settings page
     navigation.navigate("Home");
   };
-  console.log(font);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>

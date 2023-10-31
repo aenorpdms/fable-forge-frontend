@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: { length: null, type: null, endingType: null, selectedImage: null, selectedMusic: null, title: null, story: null },
+  value: { length: "", type: "", endingType: "", selectedImage: "", selectedMusic: "", title: "", story: "" },
 };
 
 export const newStorySlice = createSlice({
@@ -30,12 +30,13 @@ export const newStorySlice = createSlice({
       state.value.story += action.payload
     },
     emptyNewStory: (state, action) => {
-      state.value.length = null
-      state.value.title = null
-      state.value.endingType = null
-      state.value.selectedImage = null
-      state.value.type = null
-      state.value.story = null
+      console.log("Inside emptyNewStory reducer");
+      state.value.length = ""
+      state.value.title = ""
+      state.value.endingType = ""
+      state.value.selectedImage = ""
+      state.value.type = ""
+      state.value.story = ""
     }
   },
 });
