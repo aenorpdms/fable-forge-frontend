@@ -22,7 +22,7 @@ import TabBar from "../TabBar";
 export default function StoryGenerationStep3Screen({ navigation }) {
   const [buttonColor, setButtonColor] = useState("#2C1A51");
   const newStory = useSelector((state) => state.newStory.value);
-/*
+
   const soundObject = useRef(new Audio.Sound()).current;
   const [isEnabled, setIsEnabled] = useState(true); // État pour activer/désactiver la musique
   const [selectedMusic, setSelectedMusic] = useState(null);
@@ -32,7 +32,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
     const controlMusic = async () => {
       try {
         if (isEnabled && selectedMusic) {
-          await soundObject.loadAsync(selectedMusic);
+          await soundObject.loadAsync(newStory.selectedMusic);
           await soundObject.setIsLoopingAsync(true);
           await soundObject.playAsync();
         } else {
@@ -49,7 +49,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
       soundObject.unloadAsync();
     };
   }, [isEnabled, selectedMusic]);
-  */
+  
   let page;
   if (newStory.length === "Courte") {
     page = "1";
@@ -58,7 +58,7 @@ export default function StoryGenerationStep3Screen({ navigation }) {
   } else {
     page = "3";
   }
-  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}, qui se déroulera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons tissée pour vous.`;
+  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}, qui se déroulera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons élaborée pour vous.`;
 
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {

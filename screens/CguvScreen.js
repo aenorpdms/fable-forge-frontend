@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Button } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,10 +7,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Audio } from 'expo-av';
 
 export default function CguvScreen({ navigation }) {
-  const [soundObject, setSoundObject] = useState(null);
-  const [isEnabled, setIsEnabled] = useState(true);
+  const soundObject = useRef(new Audio.Sound());
+  const isEnabled = useRef(true);
 
-  useEffect( () => {
+  useEffect(() => {
     // Créez le soundObject une seule fois
     if (!soundObject) {
       setSoundObject(new Audio.Sound());
@@ -19,10 +19,10 @@ export default function CguvScreen({ navigation }) {
     // Chargez le son lorsque le composant est monté
     const loadMusic = async () => {
       try {
-         const music = await import('../assets/Genre_Aventure.mp3')
-        await soundObject.loadAsync(music);
-        console.log("music chargée")
+        console.log('Avant le chargement du son');
+        await soundObject.loadAsync(require('../assets_music/Genre_Fantasy-SF.mp3'));
         await soundObject.setIsLoopingAsync(true);
+        console.log('Après le chargement du son');
       } catch (error) {
         console.error('Erreur lors du chargement du son', error);
       }
@@ -42,8 +42,6 @@ export default function CguvScreen({ navigation }) {
     try {
       if (soundObject) {
         if (isEnabled) {
-
-          console.log('isEnable');
           await soundObject.playAsync();
         } else {
           await soundObject.pauseAsync();
