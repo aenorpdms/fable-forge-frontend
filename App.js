@@ -45,7 +45,6 @@ import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
 import StoryReadScreen from "./screens/StoryReadScreen";
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

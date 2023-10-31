@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: { length: null, type: null, endingType: null, selectedImage: null, title: null, story: null },
+  value: { length: null, type: null, endingType: null, selectedImage: null, selectedMusic: null, title: null, story: null },
 };
 
 export const newStorySlice = createSlice({
@@ -19,6 +19,9 @@ export const newStorySlice = createSlice({
     },
     updateSelectedImage: (state, action) => {
       state.value.selectedImage = action.payload;
+    },
+    updateSelectedMusic: (state, action) => {
+      state.value.selectedMusic = action.payload;
     },
     addTitle: (state, action) => {
       state.value.title = action.payload;
@@ -38,5 +41,5 @@ export const newStorySlice = createSlice({
   },
 });
 
-export const { updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, addTitle, saveStory, emptyNewStory } = newStorySlice.actions;
+export const { updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, updateSelectedMusic, addTitle, saveStory, emptyNewStory } = newStorySlice.actions;
 export default newStorySlice.reducer;

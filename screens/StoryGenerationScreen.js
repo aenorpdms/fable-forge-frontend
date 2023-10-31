@@ -12,8 +12,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import TabBar from "../TabBar";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNewType } from "../reducers/newStory";
+import { updateNewType, updateSelectedMusic } from "../reducers/newStory";
 import { updateSelectedImage } from "../reducers/newStory";
 
 
@@ -22,6 +23,8 @@ export default function StoryGenerationScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const newStory = useSelector((state) => state.newStory.value);
+  //const [selectedMusic, setSelectedMusic] = useState(null);
+
   
   const data = [
     {
@@ -29,36 +32,42 @@ export default function StoryGenerationScreen() {
       description:
         "Explorez l'obscurité et laissez votre imagination vous guider à travers des récits terrifiants où le suspense règne en maître.",
       image: require("../assets/Horreur.png"),
+      music: require('../assets_music/Genre_Horreur.mp3'),
     },
     {
       title: "Aventure",
       description:
         "Embarquez pour des aventures épiques, résolvez des énigmes, à travers des mondes extraordinaires.",
       image: require("../assets/Aventure.png"),
+      music: require('../assets_music/Genre_Aventure.mp3'),
     },
     {
       title: "Fantasy / SF",
       description:
         "Explorez des mondes futuristes, rencontrez des créatures magiques et partez à la découverte de l'inconnu.",
       image: require("../assets/Fantasy_SF.png"),
+      music: require('../assets_music/Genre_Fantasy-SF.mp3'),
     },
     {
       title: "Policier / Thriller",
       description:
         "Plongez dans des intrigues mystérieuses, traquez des criminels et résolvez des énigmes palpitantes.",
       image: require("../assets/Policier_Thriller.png"),
+      music: require('../assets_music/Genre_Policier-Thriller.mp3'),
     },
     {
       title: "Romance",
       description:
         "Découvrez des récits passionnés, explorez des relations intenses et suivez les histoires d'amour captivantes.",
       image: require("../assets/Romance.png"),
+      music: require('../assets_music/Genre_Romance.mp3'),
     },
     {
       title: "Enfant",
       description:
         "Plongez dans des aventures adaptées aux plus jeunes, remplies de leçons précieuses et d'histoires amusantes.",
       image: require("../assets/Enfant.png"),
+      music: require('../assets_music/Genre_Enfant.mp3'),
     },
   ];
 
@@ -67,6 +76,9 @@ export default function StoryGenerationScreen() {
     const type = item;
     dispatch(updateNewType(type.title));
     dispatch(updateSelectedImage(type.image));
+    dispatch(updateSelectedMusic(type.music))
+    //setSelectedMusic(type.music);
+    console.log('Selected Music:', type.music);
     navigation.navigate("StoryGeneration2");
   };
   console.log(newStory);

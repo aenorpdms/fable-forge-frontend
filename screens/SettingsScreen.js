@@ -72,11 +72,11 @@ export default function SettingsScreen({ navigation }) {
         {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
         <Text style={styles.title2}>Paramètres</Text>
       </ImageBackground>
-      <View style={styles.arrowContainer}>
+      {/* <View style={styles.arrowContainer}>
         <TouchableOpacity style={styles.arrowBtn} onPress={() => handleReturnToHome()}>
           <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
-        </TouchableOpacity>
-      </View>
+        </TouchableOpacity> */}
+      {/* </View> */}
       <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
           <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
