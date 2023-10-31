@@ -2,6 +2,8 @@ import React, { useState, useNavigation } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { addSubscription } from "../reducers/payment";
+import { useDispatch } from "react-redux";
 
 export default function SubscriptionScreen({ navigation }) {
   // Création d'un tableau d'objets subscriptions (avec id, type, price, buttonText et buttonColor) qui représente chaque d'abonnement.
@@ -37,11 +39,13 @@ export default function SubscriptionScreen({ navigation }) {
 
   //création d'un état pour suivre l'abonnement sélectionné
   const [activeSubscription, setActiveSubscription] = useState(null);
+  const dispatch = useDispatch();
 
   //Fonction qui permet de changer la couleur du bouton et le texte au click (uniquement 1 bouton actif à la fois)
   function handleButtonClick(id) {
     const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
-    navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
+    // navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
+    navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription, activeSubscription: activeSubscription });
 
     const updatedSubscriptions = subscriptions.map(subscription => {
       if (subscription.id === id) {
@@ -65,6 +69,17 @@ export default function SubscriptionScreen({ navigation }) {
     setActiveSubscription(id);
     navigation.navigate("SubscriptionPayment");
   }
+
+  const handleSubscriptionSelection = subscription => {
+    dispatch(addSubscription(subscription));
+  };
+
+  // ...
+
+  // Exemple d'utilisation dans votre composant
+  const selectedSubscription = subscriptions.find(subscription => subscription.id === 1);
+
+  handleSubscriptionSelection(selectedSubscription);
 
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");

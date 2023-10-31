@@ -69,16 +69,17 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
     setIsSaveInfosClicked(!isSaveInfosClicked);
   };
 
+  const handleValidationAbo = () => {};
+
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
-        {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
-      </ImageBackground>
       <View style={styles.containerTitles}>
-        <Text>
-          Vous avez choisi l'abonnement
+        <View style={styles.recapAbo}></View>
+        <Text style={styles.textRecapAbo}>
+          Vous avez choisi l'abonnement:
           {/* {subscription.type} au prix de {subscription.price} */}
         </Text>
+
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
@@ -98,7 +99,7 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
           <TextInput style={styles.input} value={letterToFillInInput} onChangeText={handleLetterChange} />
           {letterToFillInInputError ? <Text style={styles.errorText}>{letterToFillInInputError}</Text> : null}
           <Text style={styles.titleInput}>Numéro de carte</Text>
-          <TextInput style={styles.input}></TextInput>
+          <TextInput style={styles.input} value={numberToFillInInput} onChangeText={handleCvcChange}></TextInput>
         </View>
         <View style={styles.inputCard}>
           {/* <View style={styles.inputRow}> */}
@@ -145,10 +146,32 @@ const styles = StyleSheet.create({
   containerTitles: {
     width: "95%",
     // padding: 40,
-    bottom: 50,
+    bottom: 90,
     // borderWidth: 2,
     // borderColor: "green",
     left: 15,
+  },
+  recapAbo: {
+    flex: 3,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    // width: "100%",
+    // marginTop: "15%",
+    width: "92%",
+    padding: 45,
+    borderWidth: 1,
+    borderColor: "#FFCE4A",
+    borderRadius: 10,
+    alignItems: "center",
+    marginVertical: "5%", //20
+  },
+
+  textRecapAbo: {
+    textAlign: "center",
+    color: "white",
+    bottom: 90,
+    right: 30,
   },
 
   title1: {
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
   typeOfPayment: {
     flexDirection: "row",
     justifyContent: "space-around",
-    // top: 80,
+    bottom: 50,
   },
   textTypeOfPayment: {
     color: "#FFCE4A",
@@ -196,11 +219,13 @@ const styles = StyleSheet.create({
   scanCard: {
     left: 130,
     margin: 20,
+    bottom: 40,
   },
   titleInput: {
     color: "white",
     fontFamily: "Lato_400Regular",
     marginLeft: 10,
+    bottom: 30,
   },
   input: {
     backgroundColor: "#6B5F85",
@@ -208,10 +233,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
     margin: 10,
+    bottom: 30,
   },
   inputCard: {
     flexDirection: "row",
     justifyContent: "space-around",
+    bottom: 30,
   },
   // inputRow: {
   //   flexDirection: "row",
@@ -248,6 +275,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 2,
     width: "100%",
+    // bottom: 10,
   },
   arrowBtn: {
     bottom: 30,
@@ -272,8 +300,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "gray",
     marginVertical: 2,
-    top: 20,
+    // top: 20,
     right: 5,
+    bottom: 60,
+
     // width: 15,
     // height: 15,
     // borderRadius: 25,
@@ -289,5 +319,6 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     left: 15,
+    bottom: 80,
   },
 });
