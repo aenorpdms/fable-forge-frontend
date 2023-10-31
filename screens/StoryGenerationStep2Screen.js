@@ -347,8 +347,8 @@ const styles = StyleSheet.create({
     top: "55%"
   },
   arrowBtn: {
-    marginLeft:"20%",
-    marginRight:"40%"
+    marginLeft:"12%",
+    marginRight:"60%"
   },
 
   tabBar: {

@@ -1,5 +1,5 @@
 import React, { useState, useNavigation } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,7 +12,7 @@ export default function SubscriptionScreen({ navigation }) {
       price: "4.99€/semaine",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      textColor:"white",
+      textColor: "white",
       imageSource: require("../assets/Abonnement_semaine.png"),
     },
     {
@@ -21,7 +21,7 @@ export default function SubscriptionScreen({ navigation }) {
       price: "9.99€/mois",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      textColor:"white",
+      textColor: "white",
       imageSource: require("../assets/Abonnement_mois.png"),
     },
     {
@@ -30,7 +30,7 @@ export default function SubscriptionScreen({ navigation }) {
       price: "99.99€/an",
       buttonText: "Choisir",
       buttonColor: "#2C1A51",
-      textColor:"white",
+      textColor: "white",
       imageSource: require("../assets/Abonnement_annee.png"),
     },
   ]);
@@ -49,14 +49,14 @@ export default function SubscriptionScreen({ navigation }) {
           ...subscription,
           buttonText: "En cours",
           buttonColor: "#FFCE4A",
-          textColor: "black"
+          textColor: "black",
         };
       } else {
         return {
           ...subscription,
           buttonText: "Choisir",
           buttonColor: "#2C1A51",
-          textColor:"white"
+          textColor: "white",
         };
       }
     });
@@ -68,43 +68,41 @@ export default function SubscriptionScreen({ navigation }) {
 
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
-  }
-
-
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.containerInformation} indicatorStyle='white'>
-      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
-      
+        <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
           <Text style={styles.title2}>Abonnement</Text>
           <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
-      
-      </ImageBackground>
-      {/* <View style={styles.containerInformation} indicatorStyle='white'> */}
-      <View style={styles.abonnementContainer}>
-        {subscriptions.map(subscription => (
-          <View key={subscription.id} style={styles.aboPrice}>
-            <ImageBackground style={styles.imagBgdAbo} source={subscription.imageSource}>
-              <Text style={styles.textAboPrice}>
-                {subscription.type} {subscription.price}
-              </Text>
-            </ImageBackground>
-            <TouchableOpacity
-              style={{ ...styles.btnPrice, backgroundColor: subscription.buttonColor }}
-              onPress={() => handleButtonClick(subscription.id)}
-            >
-              <Text style={{...styles.textBtnPrice, color: subscription.textColor}}>{subscription.buttonText}</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-        <TouchableOpacity style={styles.btnResiliation}>
-          <Text style={styles.btnResiliationText}> Résilier mon abonnement</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnRetour}>
-          <Text style={styles.btnResiliationText} onPress={() => handleNavigateProfil()}>Retour vers Profil</Text>
-        </TouchableOpacity>
-      </View>
+        </ImageBackground>
+        {/* <View style={styles.containerInformation} indicatorStyle='white'> */}
+        <View style={styles.abonnementContainer}>
+          {subscriptions.map(subscription => (
+            <View key={subscription.id} style={styles.aboPrice}>
+              <ImageBackground style={styles.imagBgdAbo} source={subscription.imageSource}>
+                <Text style={styles.textAboPrice}>
+                  {subscription.type} {subscription.price}
+                </Text>
+              </ImageBackground>
+              <TouchableOpacity
+                style={{ ...styles.btnPrice, backgroundColor: subscription.buttonColor }}
+                onPress={() => handleButtonClick(subscription.id)}
+              >
+                <Text style={{ ...styles.textBtnPrice, color: subscription.textColor }}>{subscription.buttonText}</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+          <TouchableOpacity style={styles.btnResiliation}>
+            <Text style={styles.btnResiliationText}> Résilier mon abonnement</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnRetour}>
+            <Text style={styles.btnResiliationText} onPress={() => handleNavigateProfil()}>
+              Retour vers Profil
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -119,7 +117,7 @@ const styles = StyleSheet.create({
   },
   containerInformation: {
     flex: 1,
-    width:"100%",
+    width: "100%",
     marginTop: "-12%",
   },
 
@@ -133,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     textAlign: "left",
     color: "#FFCE4A",
-    marginTop: "49%",//160
+    marginTop: "49%", //160
     marginLeft: "3%",
   },
   title3: {
@@ -142,14 +140,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "justify",
     marginTop: "2%",
-    marginBottom:"5%",
+    marginBottom: "5%",
     width: "90%",
     marginLeft: "3%",
   },
 
   abonnementContainer: {
     flex: 1,
-    marginTop:"-25%",
+    marginTop: "-25%",
     width: "90%",
     marginLeft: "5%",
     flexDirection: "column", // Alignement vertical
@@ -190,7 +188,7 @@ const styles = StyleSheet.create({
     bottom: "20%",
     height: "40%",
     borderRadius: 10,
-    marginLeft:"30%",
+    marginLeft: "30%",
     justifyContent: "center",
   },
 
@@ -202,20 +200,19 @@ const styles = StyleSheet.create({
 
   btnResiliation: {
     width: "100%",
-    marginTop:"0%",
+    marginTop: "0%",
     borderColor: "#FFFFFF",
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
     backgroundColor: "#6B5F85",
-
-  }
-  ,btnRetour: {
+  },
+  btnRetour: {
     width: "100%",
-    marginTop:"4%",
+    marginTop: "4%",
     borderColor: "#FFCE4A",
     borderWidth: 1,
-    padding:10,
+    padding: 10,
     borderRadius: 10,
     backgroundColor: "transparent",
   },
@@ -226,6 +223,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
- 
-
 });

@@ -1,14 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ImageBackground,
-  Modal,
-  TextInput,
-  SafeAreaView,
-  KeyboardAvoidingView
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import * as Font from "expo-font";
 // import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
@@ -32,9 +22,9 @@ export default function SignScreen({ navigation }) {
   const [identifier, setIdentifier] = useState("");
   const [passwordUp, setPasswordUp] = useState("");
 
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector(state => state.user.value);
 
-  const handleModalToggle = (type) => {
+  const handleModalToggle = type => {
     setModalType(type);
     setModalVisible(!modalVisible);
   };
@@ -45,8 +35,8 @@ export default function SignScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, firstname, email, password }),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         console.log(data.token);
         if (data.result) {
           setIsValidSignUp(true);
@@ -54,9 +44,7 @@ export default function SignScreen({ navigation }) {
           setPassword("");
           setFirstName("");
           setEmail("");
-          dispatch(
-            updateUser({ firstname, username, email, token: data.token })
-          );
+          dispatch(updateUser({ firstname, username, email, token: data.token }));
           setModalVisible(false);
           navigation.navigate("Home");
         } else {
@@ -66,14 +54,13 @@ export default function SignScreen({ navigation }) {
   };
 
   const handleConnection = () => {
-    console.log(email);
     fetch("https://fable-forge-backend-84ce.vercel.app/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password: passwordUp }),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         console.log(data);
         if (data.result) {
           setIsValidSignIn(true);
@@ -95,14 +82,9 @@ export default function SignScreen({ navigation }) {
       });
   };
 
-  const modalStyle =
-    modalType === "register"
-      ? styles.modalContainerInscription
-      : styles.modalContainerConnection;
-  const titleStyle =
-    modalType === "register" ? styles.titleModalUp : styles.titleModalIn;
-  const closeStyle =
-    modalType === "register" ? styles.closeModalUp : styles.closeModalIn;
+  const modalStyle = modalType === "register" ? styles.modalContainerInscription : styles.modalContainerConnection;
+  const titleStyle = modalType === "register" ? styles.titleModalUp : styles.titleModalIn;
+  const closeStyle = modalType === "register" ? styles.closeModalUp : styles.closeModalIn;
 
   const errorTextInStyle = isValidSignIn
     ? styles.errorUpText // Style when isValidSignIn is true
@@ -120,24 +102,14 @@ export default function SignScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      
-      <ImageBackground
-        style={styles.imagBgd}
-        source={require("../assets/finalimageConnection.png")}
-      >
+      <ImageBackground style={styles.imagBgd} source={require("../assets/finalimageConnection.png")}>
         <Text style={styles.title1}>Fable</Text>
         <Text style={styles.title2}>Forge</Text>
       </ImageBackground>
-      <TouchableOpacity
-        style={styles.btnHome}
-        onPress={() => handleModalToggle("register")}
-      >
+      <TouchableOpacity style={styles.btnHome} onPress={() => handleModalToggle("register")}>
         <Text style={styles.textBtn}>S'inscrire gratuitement</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.btnInput}
-        onPress={() => handleModalToggle("connexion")}
-      >
+      <TouchableOpacity style={styles.btnInput} onPress={() => handleModalToggle("connexion")}>
         <Text style={styles.textBtn1}>Se connecter</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnGoogle}>
@@ -147,59 +119,48 @@ export default function SignScreen({ navigation }) {
         <Text style={styles.textBtn1}>Se connecter avec Facebook</Text>
       </TouchableOpacity>
 
-      <Modal visible={modalVisible} animationType="slide" transparent={true}>
-       <View style={styles.mdlctn}>
+      <Modal visible={modalVisible} animationType='slide' transparent={true}>
+        <View style={styles.mdlctn}>
           <View style={modalStyle}>
             <View style={styles.titleClose}>
               <Text style={titleStyle}> Fable Forge</Text>
-              <FontAwesome
-                name="close"
-                size={20}
-                style={closeStyle}
-                color="white"
-                onPress={() => handleModalToggle()}
-              />
+              <FontAwesome name='close' size={20} style={closeStyle} color='white' onPress={() => handleModalToggle()} />
             </View>
 
             {modalType === "register" && (
               <>
                 <TextInput
                   style={styles.inputUp}
-                  placeholder="Prénom"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setFirstName(value)}
+                  placeholder='Prénom'
+                  placeholderTextColor='white'
+                  onChangeText={value => setFirstName(value)}
                   value={firstname}
                 ></TextInput>
                 <TextInput
                   style={styles.inputUp}
-                  placeholder="Pseudonyme"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setUsername(value)}
+                  placeholder='Pseudonyme'
+                  placeholderTextColor='white'
+                  onChangeText={value => setUsername(value)}
                   value={username}
                 ></TextInput>
                 <TextInput
                   style={styles.inputUp}
-                  placeholder="Email"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setEmail(value)}
+                  placeholder='Email'
+                  placeholderTextColor='white'
+                  onChangeText={value => setEmail(value)}
                   value={email}
                 ></TextInput>
 
                 <TextInput
                   style={styles.inputUp}
-                  placeholder="Mot de Passe"
+                  placeholder='Mot de Passe'
                   secureTextEntry={true}
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setPassword(value)}
+                  placeholderTextColor='white'
+                  onChangeText={value => setPassword(value)}
                   value={password}
                 ></TextInput>
-                <Text style={errorTextUpStyle}>
-                  Des champs obligatoires n'ont pas été complétés
-                </Text>
-                <TouchableOpacity
-                  style={styles.btnValidate}
-                  onPress={() => handleInscription()}
-                >
+                <Text style={errorTextUpStyle}>Des champs obligatoires n'ont pas été complétés</Text>
+                <TouchableOpacity style={styles.btnValidate} onPress={() => handleInscription()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
@@ -208,33 +169,27 @@ export default function SignScreen({ navigation }) {
               <>
                 <TextInput
                   style={styles.inputIn}
-                  placeholder="Pseudonyme ou Email"
-                  placeholderTextColor="white"
-                  onChangeText={(value) => setIdentifier(value)}
+                  placeholder='Pseudonyme ou Email'
+                  placeholderTextColor='white'
+                  onChangeText={value => setIdentifier(value)}
                   value={identifier}
                 ></TextInput>
                 <TextInput
                   style={styles.inputIn}
-                  placeholder="Mot de Passe"
-                  placeholderTextColor="white"
+                  placeholder='Mot de Passe'
+                  placeholderTextColor='white'
                   secureTextEntry={true}
-                  onChangeText={(value) => setPasswordUp(value)}
+                  onChangeText={value => setPasswordUp(value)}
                   value={passwordUp}
                 ></TextInput>
-                <Text style={errorTextInStyle}>
-                  Mot de passe ou Email/ Nom d'utilisateur incorrect
-                </Text>
-                <TouchableOpacity
-                  style={styles.btnValidate}
-                  onPress={() => handleConnection()}
-                >
+                <Text style={errorTextInStyle}>Mot de passe ou Email/ Nom d'utilisateur incorrect</Text>
+                <TouchableOpacity style={styles.btnValidate} onPress={() => handleConnection()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>
               </>
             )}
           </View>
         </View>
-   
       </Modal>
     </View>
   );
@@ -251,10 +206,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0,0,0, 0.5)",
-  },containerBis: {
+  },
+  containerBis: {
     flex: 1,
     width: "100%",
-
   },
   imagBgd: {
     flex: 2,
@@ -289,8 +244,8 @@ const styles = StyleSheet.create({
     margin: "2%",
     padding: 10,
     width: "80%",
-    height:"5%",
-    justifyContent:'center'
+    height: "5%",
+    justifyContent: "center",
   },
   btnGoogle: {
     backgroundColor: "#E6DAFF",
@@ -298,8 +253,8 @@ const styles = StyleSheet.create({
     margin: "2%",
     padding: 10,
     width: "80%",
-    height:"5%",
-    justifyContent:'center',
+    height: "5%",
+    justifyContent: "center",
     opacity: 0.2,
   },
   btnFacebook: {
@@ -308,8 +263,8 @@ const styles = StyleSheet.create({
     margin: "2%",
     padding: 10,
     width: "80%",
-    height:"5%",
-    justifyContent:'center',
+    height: "5%",
+    justifyContent: "center",
     opacity: 0.2,
     marginBottom: "18%",
   },
@@ -319,8 +274,8 @@ const styles = StyleSheet.create({
     margin: "2%",
     padding: 10,
     width: "80%",
-    height:"5%",
-    justifyContent:'center',
+    height: "5%",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: "#FFFFFF",
     // marginBottom: "18%",

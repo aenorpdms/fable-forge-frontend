@@ -1,69 +1,51 @@
-import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
 import * as Font from "expo-font";
-
 import TabBar from "../TabBar";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import {updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, addTitle, saveStory} from "../reducers/newStory"
 
 export default function StoriesScreen({ navigation }) {
+  const newStory = useSelector((state) => state.newStory.value);
+  const user = useSelector((state)=> state.user.value)
+  const [stories, setStories] = useState([])
+  const dispatch = useDispatch()
 
-  const handleDisplayStory = () => {
-    navigation.navigate("StoryDisplay");
+const handleDisplayStory = (story) => {
+    dispatch(addTitle(story.title))
+    dispatch(saveStory(story.choicePrompt[0]))
+    navigation.navigate("StoryRead");
   };
 
-// mockdata (faux tableau de data)
-const storiesData = [
-  {
-    title: "Histoire 1",
-    image: require("../assets/Horreur.png"),
-    status: "En cours",
-    button: "Reprendre",
-  },
-  {
-    title: "Histoire 2",
-    image: require("../assets/Aventure.png"),
-    status: "En cours",
-    button: "Reprendre",
-  },
-  {
-    title: "Histoire 3",
-    image: require("../assets/Fantasy_SF.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-  {
-    title: "Histoire 4",
-    image: require("../assets/Policier_Thriller.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-  {
-    title: "Histoire 5",
-    image: require("../assets/Romance.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-  {
-    title: "Histoire 6",
-    image: require("../assets/Enfant.png"),
-    status: "Terminée",
-    button: "Relire",
-  },
-];
+
+useEffect(() => {
+    
+  fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+        console.log(data.stories)
+        setStories([...data.stories])
+        
+        } else {
+         console.log("error")
+        }
+  });
+
+}, []);
 
 // map sur le tableau et return 
-const storiesList = storiesData.map((story, index) => (
+const storiesList = stories.map((story, index) => (
   <View style={styles.storyButton} key={index}>
     <ImageBackground
       style={styles.storyImage}
-      source={story.image} //{{ uri: 'URL_DE_L'HISTOIRE' }}
+      source={require("../assets/Policier_Thriller.png")}
     >
       <Text style={styles.storyTitle}>{story.title}</Text>
-      <Text style={styles.storyStatus}>{story.status}</Text>
+      <Text style={styles.storyStatus}>Terminée</Text>
     </ImageBackground>
-    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory()}>
-      <Text style={styles.readButtonText}>{story.button}</Text>
+    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory(story)}>
+      <Text style={styles.readButtonText}>Relire</Text>
     </TouchableOpacity>
   </View>
 ))

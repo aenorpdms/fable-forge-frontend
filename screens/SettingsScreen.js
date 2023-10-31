@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch, Image } from "react-native";
 import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { ScrollView } from "react-native-gesture-handler";
 
 import TabBar from "../TabBar";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFontSize } from "../reducers/user";
 
 export default function SettingsScreen({ navigation }) {
+  const dispatch = useDispatch();
+  // const [fontSize, setFontSize] = useState(16);
+  const user = useSelector(state => state.user.value);
+
+  console.log("user", user);
   // const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [isFontEnabled, setIsFontEnabled] = useState(false);
@@ -16,18 +23,31 @@ export default function SettingsScreen({ navigation }) {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
   const [isModeEnabled, setIsModeEnabled] = useState(false);
 
-  const [fontSize, setFontSize] = useState(16);
+  const font = user.fontSizeSet;
 
   const increaseFontSize = () => {
-    if (fontSize < 30) {
-      setFontSize(fontSize + 2);
+    if (user.fontSizeSet < 30) {
+      //let newFontSize = user.fontSizeSet + 2;
+      // const newFontSize = fontSize + 2;
+
+      // // setFontSize(fontSize + 2);
+      // setFontSize(newFontSize);
+      dispatch(updateFontSize(user.fontSizeSet + 2));
     }
   };
 
   const decreaseFontSize = () => {
-    if (fontSize > 10) {
-      setFontSize(fontSize - 2);
+    if (user.fontSizeSet > 10) {
+      let newFontSize = user.fontSizeSet - 2;
+      console.log(user);
+      // setFontSize(fontSize - 2);
+      // setFontSize(newFontSize);
+      dispatch(updateFontSize(user.fontSizeSet - 2));
     }
+  };
+
+  const handleNavigateToStoryDisplay = () => {
+    navigation.navigate("StoryDisplay");
   };
 
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
@@ -41,18 +61,27 @@ export default function SettingsScreen({ navigation }) {
     // go back to sign in
     navigation.navigate("Cguv");
   };
-
+  const handleReturnToHome = () => {
+    // return to settings page
+    navigation.navigate("Home");
+  };
+  console.log(font);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
         {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
         <Text style={styles.title2}>Paramètres</Text>
       </ImageBackground>
-
+      <View style={styles.arrowContainer}>
+        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleReturnToHome()}>
+          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
           <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
-          <Text style={[styles.textPolice, {fontSize : fontSize}]}>Taille de police : {fontSize} px</Text>
+          <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>Taille de police : {font} px</Text>
+          {/* <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>Taille de police : {user.fontSizeSet} px</Text> */}
           <FontAwesome name='plus' size={20} style={styles.iconInc} color='white' onPress={increaseFontSize} />
         </View>
 
@@ -183,7 +212,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  
+
   switchBtn: {
     marginRight: 10,
     transform: [{ scaleX: 1.1 }, { scaleY: 1 }],
@@ -201,7 +230,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
-    marginTop: 35,
+    marginTop: 15,
   },
   fontCGU: {
     fontFamily: "Lato_400Regular",
@@ -213,5 +242,27 @@ const styles = StyleSheet.create({
   },
   iconInc: {
     padding: 5,
+  },
+  arrowContainer: {
+    position: "absolute",
+    zIndex: 1,
+    top: "100%",
+    // backgroundColor: "purple",
+    flexDirection: "row",
+    // justifyContent: "space-between",
+    // marginTop: 150, // ajustez la marge supérieure selon vos besoins
+    // borderWidth: 1,
+    // borderColor: "green",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    padding: 2,
+    width: "100%",
+  },
+  arrowBtn: {
+    bottom: 80,
+    // borderWidth: 2,
+    // borderColor: "#FFCE4A",
+    // borderRadius: 200,
+    padding: 10,
   },
 });

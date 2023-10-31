@@ -6,6 +6,7 @@ const initialState = {
     firstname: null,
     email: null,
     token: null,
+    fontSizeSet: 16,
   },
 };
 
@@ -14,13 +15,27 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action) => {
-      state.value = action.payload;
+      state.value.username = action.payload.username;
+      state.value.firstname = action.payload.firstname;
+      state.value.email = action.payload.email;
+      state.value.token = action.payload.token;
     },
     logOutuser: (state, action) => {
-      state.value = action.payload;
+      state.value.username = null;
+      //action.payload.username;
+      state.value.firstname = null;
+      //action.payload.firstname;
+      state.value.email = null;
+      //action.payload.email;
+      state.value.token = null;
+      //action.payload.token;
+      // state.value = action.payload;
+    },
+    updateFontSize: (state, action) => {
+      state.value.fontSizeSet = action.payload;
     },
   },
 });
 
-export const { updateUser, addStories, removeStories, logOutuser } = userSlice.actions;
+export const { updateUser, addStories, removeStories, logOutuser, updateFontSize } = userSlice.actions;
 export default userSlice.reducer;
