@@ -112,8 +112,8 @@ export default function StoryDisplayScreen({ route, navigation }) {
       .then(response => response.json())
       .then(data => {
         if (data.result) {
-          console.log("done");
-          dispatch(emptyNewStory());
+          console.log("Done");
+        
         } else {
           console.log("error");
         }

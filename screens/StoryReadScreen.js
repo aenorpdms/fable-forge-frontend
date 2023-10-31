@@ -9,8 +9,8 @@ import newStory, { addTitle,saveStory, emptyNewStory } from "../reducers/newStor
 
 export default function StoryReadScreen({navigation }) {
 
-  const story = useSelector((state) => state.newStory.value)
-  const contentWithoutFin = story.story.replace(/(Fin\.|undefined)|null/g, '').trim();
+  const selectedStory = useSelector((state) => state.stories.value)
+  const contentWithoutFin = selectedStory.story.replace(/(Fin\.|undefined)|null/g, '').trim();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,7 +20,7 @@ export default function StoryReadScreen({navigation }) {
       </View>
       <ScrollView style={styles.containerStory}>
        
-        <Text style={styles.titleStory}>{story.title}</Text>
+        <Text style={styles.titleStory}>{selectedStory.title}</Text>
 
           <Text  style={styles.textStory}>
               {contentWithoutFin}

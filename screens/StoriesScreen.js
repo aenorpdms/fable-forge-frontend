@@ -3,23 +3,47 @@ import * as Font from "expo-font";
 import TabBar from "../TabBar";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import {updateNewType, updateNewLength, updateNewEnding, updateSelectedImage, addTitle, saveStory} from "../reducers/newStory"
+import { updateStory } from "../reducers/stories";
 
 export default function StoriesScreen({ navigation }) {
-  const newStory = useSelector((state) => state.newStory.value);
+  const selectedStory = useSelector((state) => state.stories.value);
   const user = useSelector((state)=> state.user.value)
   const [stories, setStories] = useState([])
   const dispatch = useDispatch()
 
+
+  
+
 const handleDisplayStory = (story) => {
-    dispatch(addTitle(story.title))
-    dispatch(saveStory(story.choicePrompt[0]))
-    navigation.navigate("StoryRead");
+  let typeImage
+
+  if(story.type === "Horreur"){
+    typeImage = require("../assets/Horreur.png")
+  }else if (story.type === "Aventure"){
+    typeImage = require("../assets/Aventure.png")
+  }else if (story.type === "Fantasy / SF"){
+    typeImage = require("../assets/Fantasy_SF.png")
+  }else if (story.type === "Policier / Thriller"){
+    typeImage = require("../assets/Policier_Thriller.png")
+  }else if (story.type === "Romance"){
+    typeImage = require("../assets/Romance.png")
+  }else if (story.type === "Enfant"){
+    typeImage = require("../assets/Enfant.png")
+  }
+
+  const selectedStoryData = {
+    title: story.title || "Default Title",
+    type: story.type || "Default Type",
+    story: story.choicePrompt[0] || "Default Story",
+    selectedImage: typeImage,
+  };
+
+  dispatch(updateStory(selectedStoryData))
+  navigation.navigate("StoryRead");
   };
 
 
 useEffect(() => {
-    
   fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
@@ -35,11 +59,26 @@ useEffect(() => {
 }, []);
 
 // map sur le tableau et return 
-const storiesList = stories.map((story, index) => (
+const storiesList = stories.map((story, index) => {
+  let typeImage
+  if(story.type === "Horreur"){
+    typeImage = require("../assets/Horreur.png")
+  }else if (story.type === "Aventure"){
+    typeImage = require("../assets/Aventure.png")
+  }else if (story.type === "Fantasy / SF"){
+    typeImage = require("../assets/Fantasy_SF.png")
+  }else if (story.type === "Policier / Thriller"){
+    typeImage = require("../assets/Policier_Thriller.png")
+  }else if (story.type === "Romance"){
+    typeImage = require("../assets/Romance.png")
+  }else if (story.type === "Enfant"){
+    typeImage = require("../assets/Enfant.png")
+  }
+return (
   <View style={styles.storyButton} key={index}>
     <ImageBackground
       style={styles.storyImage}
-      source={require("../assets/Policier_Thriller.png")}
+      source={typeImage}
     >
       <Text style={styles.storyTitle}>{story.title}</Text>
       <Text style={styles.storyStatus}>Terminée</Text>
@@ -48,7 +87,7 @@ const storiesList = stories.map((story, index) => (
       <Text style={styles.readButtonText}>Relire</Text>
     </TouchableOpacity>
   </View>
-))
+)})
 
 //dans le scrollview le tableau résultant du map
 

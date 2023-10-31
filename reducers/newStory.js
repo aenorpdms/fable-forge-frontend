@@ -27,6 +27,7 @@ export const newStorySlice = createSlice({
       state.value.story += action.payload
     },
     emptyNewStory: (state, action) => {
+      console.log("Inside emptyNewStory reducer");
       state.value.length = null
       state.value.title = null
       state.value.endingType = null

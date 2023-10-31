@@ -2,23 +2,57 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, SafeAreaView, Image } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
-import newStory, { addTitle, saveStory } from "../reducers/newStory";
+import  { updateStory } from "../reducers/stories";
 import { useState, useEffect } from "react";
 
 import TabBar from "../TabBar";
-import { userSlice } from "../reducers/user";
+
 
 export default function HomeScreen({ navigation }) {
   const user = useSelector(state => state.user.value);
   console.log("user from homescreen", user);
   const nameUser = user.firstname;
   const readyName = nameUser.toUpperCase();
-
+  const [lastStory, setLastStory] = useState({})
+  const dispatch = useDispatch()
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
   };
 
+  useEffect(() => {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+          console.log(data.stories)
+          setLastStory({...data.story})
+          
+          } else {
+           console.log("error")
+          }
+    });
+  
+  }, []);
+
+  let typeImage
+
+  if(lastStory.type === "Horreur"){
+    typeImage = require("../assets/Horreur.png")
+  }else if (lastStory.type === "Aventure"){
+    typeImage = require("../assets/Aventure.png")
+  }else if (lastStory.type === "Fantasy / SF"){
+    typeImage = require("../assets/Fantasy_SF.png")
+  }else if (lastStory.type === "Policier / Thriller"){
+    typeImage = require("../assets/Policier_Thriller.png")
+  }else if (lastStory.type === "Romance"){
+    typeImage = require("../assets/Romance.png")
+  }else if (lastStory.type === "Enfant"){
+    typeImage = require("../assets/Enfant.png")
+  }
+
+
   const handleDisplayStory = () => {
+    dispatch(updateStory({title: lastStory.title, story: lastStory.choicePrompt[0], type: lastStory.type}))
     navigation.navigate("StoryRead");
   };
 
@@ -39,8 +73,8 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.title3}>Votre dernière histoire</Text>
 
         <View style={styles.lastStoryButton}>
-          <ImageBackground style={styles.storyImage} source={require("../assets/ImageBibliotheque.png")} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/>
-            <Text style={styles.storyTitle}>TITRE DE L'HISTOIRE</Text>
+          <ImageBackground style={styles.storyImage} source={typeImage} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/>
+            <Text style={styles.storyTitle}>{lastStory.title}</Text>
           </ImageBackground>
           <TouchableOpacity style={styles.readButton} onPress={() => handleDisplayStory()}>
             <Text style={styles.readButtonText}>Lire mon histoire</Text>
