@@ -21,20 +21,8 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
   const [letterToFillInInput, setLetterToFillInInput] = useState("");
   const [letterToFillInInputError, setLetterToFillInInputError] = useState("");
 
-  const [cvc, setCvc] = useState("");
-  const [cvcError, setCvcError] = useState("");
-
   // Access the subscription value from the state
   // const subscription = useSelector(state => state.payment.value);
-
-  const handleCvcChange = text => {
-    setCvc(text);
-    if (!/^[0-9]+$/.test(text)) {
-      setCvcError("Veuillez entrer uniquement des chiffres");
-    } else {
-      setCvcError("");
-    }
-  };
 
   const handleClickChoix1 = () => {
     setChoix1(1);
@@ -63,18 +51,28 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
     }
   };
 
+  const handleNumberChange = text => {
+    setNumberToFillInInput(text);
+    if (!/^[0-9]+$/.test(text)) {
+      setNumberToFillInInputError("Veuillez entrer uniquement des chiffres");
+    } else {
+      setNumberToFillInInputError("");
+    }
+  };
+
   const [isSaveInfosClicked, setIsSaveInfosClicked] = useState(false);
 
   const handleButtonClick = () => {
     setIsSaveInfosClicked(!isSaveInfosClicked);
   };
 
-  const handleValidationAbo = () => {};
+  // const handleValidationAbo = () => {};
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
-        <View style={styles.recapAbo}></View>
+        <View style={styles.recapAbo}>{/* <Image source={require("../assets/Abonnement_mois.png")} style={styles.imgAbo} /> */}</View>
+        <Text style={styles.textBtnPrice}>Choisi</Text>
         <Text style={styles.textRecapAbo}>
           Vous avez choisi l'abonnement:
           {/* {subscription.type} au prix de {subscription.price} */}
@@ -99,18 +97,32 @@ export default function SubscriptionPaymentScreen({ navigation, route }) {
           <TextInput style={styles.input} value={letterToFillInInput} onChangeText={handleLetterChange} />
           {letterToFillInInputError ? <Text style={styles.errorText}>{letterToFillInInputError}</Text> : null}
           <Text style={styles.titleInput}>Numéro de carte</Text>
-          <TextInput style={styles.input} value={numberToFillInInput} onChangeText={handleCvcChange}></TextInput>
+          <TextInput style={styles.input} value={numberToFillInInput} onChangeText={handleNumberChange}></TextInput>
+          {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
         </View>
         <View style={styles.inputCard}>
           {/* <View style={styles.inputRow}> */}
           <Text style={styles.titleInput1}>CVC</Text>
-          <TextInput style={styles.input1} placeholder='CVC' placeholderTextColor={"#FFCE4A"} value={cvc} onChangeText={handleCvcChange} />
-          {cvcError ? <Text style={styles.errorText}>{cvcError}</Text> : null}
+          <TextInput
+            style={styles.input1}
+            placeholder='CVC'
+            placeholderTextColor={"#FFCE4A"}
+            value={numberToFillInInput}
+            onChangeText={handleNumberChange}
+          />
+          {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
           {/* </View> */}
           {/* <View style={styles.inputRow}> */}
           <FontAwesomeIcon icon={faCircle} style={styles.circleIcon} />
           <Text style={styles.titleInput2}>Date d'expiration</Text>
-          <TextInput style={styles.input1} placeholder='MM/AA' placeholderTextColor={"#FFCE4A"}></TextInput>
+          <TextInput
+            style={styles.input1}
+            placeholder='MM/AA'
+            placeholderTextColor={"#FFCE4A"}
+            value={numberToFillInInput}
+            onChangeText={handleNumberChange}
+          ></TextInput>
+          {numberToFillInInputError ? <Text style={styles.errorText}>{numberToFillInInputError}</Text> : null}
           {/* </View> */}
         </View>
       </View>
@@ -161,7 +173,7 @@ const styles = StyleSheet.create({
     width: "92%",
     padding: 45,
     borderWidth: 1,
-    borderColor: "#FFCE4A",
+    borderColor: "white",
     borderRadius: 10,
     alignItems: "center",
     marginVertical: "5%", //20
@@ -170,8 +182,36 @@ const styles = StyleSheet.create({
   textRecapAbo: {
     textAlign: "center",
     color: "white",
-    bottom: 90,
+    bottom: 120,
     right: 30,
+  },
+
+  btnPrice: {
+    backgroundColor: "#FFCE4A",
+    borderWidth: 1,
+    borderColor: "#FFCE4A",
+    width: "40%",
+    // bottom: "20%",
+    borderRadius: 10,
+    padding: 20,
+    top: 30,
+    // marginLeft: "30%",
+    justifyContent: "center",
+  },
+
+  textBtnPrice: {
+    width: "30%",
+    fontFamily: "Lato_400Regular",
+    color: "white",
+    textAlign: "center",
+    borderWidth: 1,
+    padding: 8,
+    borderColor: "yellow",
+    borderRadius: 10,
+    backgroundColor: "#FFCE4A",
+    // fontSize: 20,
+    bottom: 30,
+    left: "30%",
   },
 
   title1: {
