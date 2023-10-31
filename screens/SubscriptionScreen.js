@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { addSubscription } from "../reducers/payment";
 import { useDispatch } from "react-redux";
 import { selectSubscription } from "../reducers/subscription";
+
 
 export default function SubscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export default function SubscriptionScreen({ navigation }) {
   }
 
   const handleSubscriptionSelection = subscription => {
-    dispatch(addSubscription(subscription));
+    dispatch(selectSubscription(subscription));
   };
 
   useEffect(() => {
