@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import {API_KEY, API_URL } from "@env";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
 import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory";
 
 const LENGTH_MAP = {
-  "Courte": { min: 1000, max: 1500 },
-  "Moyenne": { min: 100, max: 2500 },
-  "Longue": { min: 2500, max: 4000 },
+  Courte: { min: 50, max: 150 },
+  Moyenne: { min: 1500, max: 2500 },
+  Longue: { min: 2500, max: 4000 },
 };
 
 export default function StoryDisplayScreen({ route, navigation }) {
@@ -20,22 +28,25 @@ export default function StoryDisplayScreen({ route, navigation }) {
   const [desiredTokenCount, setDesiredTokenCount] = useState(0);
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
-  const newStory = useSelector(state => state.newStory.value);
-  const user = useSelector(state => state.user.value);
+  const newStory = useSelector((state) => state.newStory.value);
+  const user = useSelector((state) => state.user.value);
 
+  
   useEffect(() => {
     if (isGenerating) {
       // Utilisez la valeur désirée sans la recalculer
-      console.log("Nombre total de tokens à générer:", desiredTokenCount);
 
       if (totalTokens < desiredTokenCount) {
         generateNextChunk();
       } else {
         setIsGenerating(false);
+        sendStoryToBackend(newStory.story, newStory.title);
+        
       }
     }
   }, [chunks]);
 
+  console.log("isGenerated", isGenerating);
   const generateNextChunk = async () => {
     // Combinez la phrase initiale et les chunks pour former le message complet
     const userMessage = initialPrompt + " " + chunks.join(" ");
@@ -71,16 +82,24 @@ export default function StoryDisplayScreen({ route, navigation }) {
       const titleMatch = titleRegex.exec(generatedContent);
       const title = titleMatch ? titleMatch[1] : "";
 
-      if (count === 0) {
+      if (newStory.title == "") {
         dispatch(addTitle(title));
-        setCount(1);
       }
+
+      console.log("Nombre total de tokens à générer:", desiredTokenCount);
+      console.log("total token", totalTokens);
+
+      // Concatenate all chunks to create the complete story
+      //const completeStory = chunks.join(" ");
 
       // Remove the title from the chunk
       const contentWithoutTitle = generatedContent.replace(titleRegex, "");
-      setChunks(prevChunks => [...prevChunks, contentWithoutTitle]);
+      setChunks((prevChunks) => [...prevChunks, contentWithoutTitle]);
       dispatch(saveStory(contentWithoutTitle));
-      setTotalTokens(prevTokens => prevTokens + responseData.choices[0].message.content.split(" ").length);
+      setTotalTokens(
+        (prevTokens) =>
+          prevTokens + responseData.choices[0].message.content.split(" ").length
+      );
       return generatedContent;
     } catch (error) {
       console.error("Erreur lors de la génération de l'histoire:", error);
@@ -88,36 +107,49 @@ export default function StoryDisplayScreen({ route, navigation }) {
     }
   };
 
-  const handleGenerateStory = () => {
-    setIsGenerating(true);
-    setChunks([]);
-    setTotalTokens(0);
-    const tokenCount =
-      Math.floor(Math.random() * (LENGTH_MAP[newStory.length].max - LENGTH_MAP[newStory.length].min + 1)) + LENGTH_MAP[newStory.length].min;
-    setDesiredTokenCount(tokenCount); // Mettre à jour ici
-    const prompt = `Je souhaite créer une histoire de genre ${newStory.type} d'une longueur ${newStory.length}. Assurez-vous que l'histoire ait une ${newStory.endingType} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises "!".`;
-    setInitialPrompt(prompt);
-
-    fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        length: newStory.length,
-        title: newStory.title,
-        type: newStory.type,
-        ending: newStory.endingType,
-        story: newStory.story,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
+  const sendStoryToBackend = (completeStory, title) => {
+    console.log("sendStoryToBackend ", title);
+    fetch(
+      `https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          length: newStory.length,
+          title: title,
+          type: newStory.type,
+          ending: newStory.endingType,
+          story: completeStory, // Send the complete story
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
         if (data.result) {
+          // Save the title and complete story to the Redux store
+          dispatch(emptyNewStory())
           console.log("Done");
-        
         } else {
           console.log("error");
         }
       });
+  };
+
+  const handleGenerateStory = () => {
+    setIsGenerating(true);
+    setChunks([]);
+    setTotalTokens(0);
+    //dispatch(emptyNewStory());
+    const tokenCount =
+      Math.floor(
+        Math.random() *
+          (LENGTH_MAP[newStory.length].max -
+            LENGTH_MAP[newStory.length].min +
+            1)
+      ) + LENGTH_MAP[newStory.length].min;
+    setDesiredTokenCount(tokenCount); // Mettre à jour ici
+    const prompt = `Je souhaite créer une histoire de genre ${newStory.type} d'une longueur ${newStory.length}. Assurez-vous que l'histoire ait une ${newStory.endingType} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises "!".`;
+    setInitialPrompt(prompt);
   };
 
   return (
@@ -127,16 +159,28 @@ export default function StoryDisplayScreen({ route, navigation }) {
         <View style={styles.backgroundTab}></View>
       </View>
       <ScrollView style={styles.containerStory}>
-        {isGenerating && <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />}
+        {isGenerating && (
+          <ActivityIndicator
+            style={styles.tournicoti}
+            size="large"
+            color="#2C1A51"
+          />
+        )}
         <Text style={styles.titleStory}>{newStory.title}</Text>
         {chunks.map((chunk, index) => (
-          <Text key={index} style={[styles.textStory, { fontSize: user.fontSizeSet }]}>
+          <Text
+            key={index}
+            style={[styles.textStory, { fontSize: user.fontSizeSet }]}
+          >
             {chunk}
           </Text>
         ))}
         <View style={styles.space}></View>
       </ScrollView>
-      <TouchableOpacity style={styles.btngenerateStory} onPress={handleGenerateStory}>
+      <TouchableOpacity
+        style={styles.btngenerateStory}
+        onPress={handleGenerateStory}
+      >
         <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
       </TouchableOpacity>
     </SafeAreaView>
