@@ -1,8 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 SplashScreen.preventAutoHideAsync();
 
@@ -51,13 +49,14 @@ const Tab = createBottomTabNavigator();
 import user from "./reducers/user";
 import stories from "./reducers/stories";
 import newStory from "./reducers/newStory";
+import subscriptionReducer from "./reducers/subscription"
 
-//  AsyncStorage.getAllKeys()
-//  .then(keys => AsyncStorage.multiRemove(keys))
+// AsyncStorage.getAllKeys()
+//   .then(keys => AsyncStorage.multiRemove(keys))
 //   .then(() => console.log("clear"));
-// AsyncStorage.clear().then(() => console.log("clear")); 
+// AsyncStorage.clear().then(() => console.log("clear"));
 
-const reducers = combineReducers({ user, stories, newStory });
+const reducers = combineReducers({ subscription: subscriptionReducer, user, stories, newStory });
 const persistConfig = {
   key: "fable-forge",
   storage: AsyncStorage,
@@ -88,7 +87,7 @@ export default function App() {
     Lato_900Black_Italic,
   });
 
- // Vérifiez ici si fontsLoaded est true ou false
+  console.log(fontsLoaded); // Vérifiez ici si fontsLoaded est true ou false
 
   let fontSize = 24;
   let paddingVertical = 6;

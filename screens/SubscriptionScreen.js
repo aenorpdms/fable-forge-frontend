@@ -1,11 +1,12 @@
-import React, { useState, useNavigation } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView } from "react-native";
-import * as Font from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { addSubscription } from "../reducers/payment";
 import { useDispatch } from "react-redux";
+import { selectSubscription } from "../reducers/subscription";
+
 
 export default function SubscriptionScreen({ navigation }) {
+  const dispatch = useDispatch();
   // Création d'un tableau d'objets subscriptions (avec id, type, price, buttonText et buttonColor) qui représente chaque d'abonnement.
   const [subscriptions, setSubscriptions] = useState([
     {
@@ -39,47 +40,49 @@ export default function SubscriptionScreen({ navigation }) {
 
   //création d'un état pour suivre l'abonnement sélectionné
   const [activeSubscription, setActiveSubscription] = useState(null);
-  const dispatch = useDispatch();
 
   //Fonction qui permet de changer la couleur du bouton et le texte au click (uniquement 1 bouton actif à la fois)
   function handleButtonClick(id) {
+    dispatch(selectSubscription({ id }));
     const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
-    // navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
-    navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription, activeSubscription: activeSubscription });
-
-    const updatedSubscriptions = subscriptions.map(subscription => {
-      if (subscription.id === id) {
-        return {
-          ...subscription,
-          buttonText: "En cours",
-          buttonColor: "#FFCE4A",
-          textColor: "black",
-        };
-      } else {
-        return {
-          ...subscription,
-          buttonText: "Choisir",
-          buttonColor: "#2C1A51",
-          textColor: "white",
-        };
-      }
-    });
-
-    setSubscriptions(updatedSubscriptions);
-    setActiveSubscription(id);
-    navigation.navigate("SubscriptionPayment");
+    
+    if (selectedSubscription) {
+      console.log('Selected Subscription:', selectedSubscription);
+  
+      const updatedSubscriptions = subscriptions.map(subscription => {
+        if (subscription.id === id) {
+          return {
+            ...subscription,
+            buttonText: "En cours",
+            buttonColor: "#FFCE4A",
+            textColor: "black",
+          };
+        } else {
+          return {
+            ...subscription,
+            buttonText: "Choisir",
+            buttonColor: "#2C1A51",
+            textColor: "white",
+          };
+        }
+      });
+  
+      setSubscriptions(updatedSubscriptions);
+      setActiveSubscription(id);
+      navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
+    }
   }
 
   const handleSubscriptionSelection = subscription => {
-    dispatch(addSubscription(subscription));
+    dispatch(selectSubscription(subscription));
   };
 
-  // ...
-
-  // Exemple d'utilisation dans votre composant
-  const selectedSubscription = subscriptions.find(subscription => subscription.id === 1);
-
-  handleSubscriptionSelection(selectedSubscription);
+  useEffect(() => {
+    console.log("Rendering SubscriptionScreen");
+    // Initialisation de la sélection d'abonnement lors du montage du composant
+    const selectedSubscription = subscriptions.find(subscription => subscription.id === 1);
+    handleSubscriptionSelection(selectedSubscription);
+  }, []); // Exécuté seulement au montage grâce au tableau de dépendances vide
 
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
@@ -92,7 +95,6 @@ export default function SubscriptionScreen({ navigation }) {
           <Text style={styles.title2}>Abonnement</Text>
           <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
         </ImageBackground>
-        {/* <View style={styles.containerInformation} indicatorStyle='white'> */}
         <View style={styles.abonnementContainer}>
           {subscriptions.map(subscription => (
             <View key={subscription.id} style={styles.aboPrice}>
