@@ -26,7 +26,8 @@ export default function StoryDisplayScreen({ route, navigation }) {
   const [totalTokens, setTotalTokens] = useState(0);
   const [initialPrompt, setInitialPrompt] = useState("");
   const [desiredTokenCount, setDesiredTokenCount] = useState(0);
-  const [count, setCount] = useState(0);
+
+  const [showGenerateButton, setShowGenerateButton] = useState(true);
   const dispatch = useDispatch();
   const newStory = useSelector((state) => state.newStory.value);
   const user = useSelector((state) => state.user.value);
@@ -136,6 +137,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
   };
 
   const handleGenerateStory = () => {
+    setShowGenerateButton(false);
     setIsGenerating(true);
     setChunks([]);
     setTotalTokens(0);
@@ -158,6 +160,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         <TabBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
+       <Text style={styles.titleStory}>{newStory.title}</Text>
       <ScrollView style={styles.containerStory}>
         {isGenerating && (
           <ActivityIndicator
@@ -166,23 +169,23 @@ export default function StoryDisplayScreen({ route, navigation }) {
             color="#2C1A51"
           />
         )}
-        <Text style={styles.titleStory}>{newStory.title}</Text>
+       
         {chunks.map((chunk, index) => (
           <Text
             key={index}
             style={[styles.textStory, { fontSize: user.fontSizeSet }]}
           >
-            {chunk}
+            {chunk.trim()}
           </Text>
         ))}
         <View style={styles.space}></View>
       </ScrollView>
-      <TouchableOpacity
+     { showGenerateButton && <TouchableOpacity
         style={styles.btngenerateStory}
         onPress={handleGenerateStory}
       >
         <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
     </SafeAreaView>
   );
 }
@@ -205,25 +208,28 @@ const styles = StyleSheet.create({
     width: "92%",
   },
   titleStory: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "Lato_700Regular",
+    fontSize: 26,
+    color: "white",
     textAlign: "center",
-    marginBottom: 40,
+    margin: "2%",
+    marginTop: 30,
   },
   textStory: {
     fontSize: 16,
-    color: "black",
-    textAlign: "justify",
+    color: "#2C1A51",
+    textAlign:"justify"
   },
   btngenerateStory: {
-    borderColor: "#FFCE4A",
-    backgroundColor: "#2C1A51",
     margin: 10,
-    borderWidth: 1,
     borderRadius: 10,
     padding: 5,
     marginTop: 2,
     marginBottom: 95,
+    position: "absolute",
+    backgroundColor: "#6B5F85",
+    borderWidth: 1,
+    borderColor: "#FFFFFF",
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",
@@ -248,8 +254,8 @@ const styles = StyleSheet.create({
   },
   tournicoti: {
     position: "absolute",
-    left: 120,
-    top: 250,
+    left: "45%",//120
+    top: "50%",//250
   },
   space: {
     height: 80,
