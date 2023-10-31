@@ -63,7 +63,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${API_KEY}`,
         },
         body: JSON.stringify(data),
       });
