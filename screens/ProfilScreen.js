@@ -67,6 +67,7 @@ export default function ProfilScreen({ navigation }) {
     }
 
     dispatch(updateUser(updatedUserInfo));
+   
     console.log(updatedUserInfo);
 
     // send to back info PUT ROUTE USER
@@ -77,7 +78,7 @@ export default function ProfilScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+   
         if (data.result) {
           setIsEditable(false);
           setButtonText("Modifier mes informations");
@@ -100,7 +101,7 @@ export default function ProfilScreen({ navigation }) {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
+ 
           if (data.result) {
             console.log("updated");
             setIsEditablePwd(false);
