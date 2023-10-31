@@ -81,7 +81,7 @@ export default function StoryGenerationScreen() {
     console.log('Selected Music:', type.music);
     navigation.navigate("StoryGeneration2");
   };
-  console.log(newStory);
+
 
 
   const renderItem = ({ item }) => {

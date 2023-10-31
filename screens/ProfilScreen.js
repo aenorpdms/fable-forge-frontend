@@ -63,7 +63,7 @@ export default function ProfilScreen({ navigation }) {
     }
 
     dispatch(updateUser(updatedUserInfo));
-    console.log(updatedUserInfo)
+   
 
     // send to back info PUT ROUTE USER
     fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
@@ -73,7 +73,7 @@ export default function ProfilScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+   
         if (data.result) {
           
           setIsEditable(false);
@@ -97,7 +97,7 @@ export default function ProfilScreen({ navigation }) {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
+ 
           if (data.result) {
             console.log("updated");
             setIsEditablePwd(false);

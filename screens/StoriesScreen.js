@@ -48,7 +48,7 @@ useEffect(() => {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-        console.log(data.stories)
+        
         setStories([...data.stories])
         
         } else {

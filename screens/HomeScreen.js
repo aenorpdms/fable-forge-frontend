@@ -10,7 +10,7 @@ import TabBar from "../TabBar";
 
 export default function HomeScreen({ navigation }) {
   const user = useSelector(state => state.user.value);
-  console.log("user from homescreen", user);
+
   const nameUser = user.firstname;
   const readyName = nameUser.toUpperCase();
   const [lastStory, setLastStory] = useState({})
@@ -24,7 +24,7 @@ export default function HomeScreen({ navigation }) {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-          console.log(data.stories)
+          
           setLastStory({...data.story})
           
           } else {

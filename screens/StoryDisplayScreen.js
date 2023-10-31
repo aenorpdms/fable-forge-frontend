@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { API_KEY, API_URL } from "@env";
+import {API_KEY, API_URL } from "@env";
 import TabBar from "../TabBar";
 import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from "react-redux";
@@ -52,7 +52,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer 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`,
         },
         body: JSON.stringify(data),
       });
