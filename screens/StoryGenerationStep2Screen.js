@@ -21,12 +21,12 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   const dispatch = useDispatch();
 
   const [buttonColors, setButtonColors] = useState([
-    "#2C1A51",
+    "#FFCE4A",
     "#2C1A51",
     "#2C1A51",
   ]);
   const [buttonTypeEnd, setButtonTypeEnd] = useState([
-    "#6B5F85",
+    "#FFCE4A",
     "#6B5F85",
     "#6B5F85",
     "#6B5F85",
@@ -72,6 +72,9 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   };
 
   const handleStoryGeneration = () => {
+    // Réinitialisez l'état de la nouvelle histoire ici
+    dispatch(emptyNewStory());
+
     // navigate to Story step 2 page
     navigation.navigate("StoryGenerationScreen");
   };

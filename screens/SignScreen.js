@@ -37,7 +37,7 @@ export default function SignScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data.token);
+      
         if (data.result) {
           setIsValidSignUp(true);
           setUsername("");
@@ -61,7 +61,7 @@ export default function SignScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+   
         if (data.result) {
           setIsValidSignIn(true);
           setIdentifier("");

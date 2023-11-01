@@ -9,8 +9,8 @@ import newStory, { addTitle,saveStory, emptyNewStory } from "../reducers/newStor
 
 export default function StoryReadScreen({navigation }) {
 
-  const story = useSelector((state) => state.newStory.value)
-  const contentWithoutFin = story.story.replace(/(Fin\.|undefined)|null/g, '').trim();
+  const selectedStory = useSelector((state) => state.stories.value)
+  const contentWithoutFin = selectedStory.story.replace(/(Fin\.|undefined)|null/g, '').trim();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,10 +18,9 @@ export default function StoryReadScreen({navigation }) {
         <TabBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
+      <Text style={styles.titleStory}>{selectedStory.title}</Text>
       <ScrollView style={styles.containerStory}>
        
-        <Text style={styles.titleStory}>{story.title}</Text>
-
           <Text  style={styles.textStory}>
               {contentWithoutFin}
           </Text>
@@ -50,32 +49,18 @@ const styles = StyleSheet.create({
     width: "92%",
   },
   titleStory:{
-    fontSize: 20,
-    fontWeight:"bold",
+    fontFamily: "Lato_700Regular",
+    fontSize: 26,
+    color: "white",
     textAlign: "center",
-    marginBottom: 30,
-    marginTop: 10
+    margin: "2%",
+    marginTop: 30,
+    
   },
   textStory: {
     fontSize: 16,
-    color: "black",
+    color: "#2C1A51",
     textAlign:"justify"
-  },
-  btngenerateStory: {
-    borderColor: "#FFCE4A",
-    backgroundColor: "#2C1A51",
-    margin: 10,
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 5,
-    marginTop: 2,
-    marginBottom: 65,
-  },
-  generateTextBtn: {
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    textAlign: "center",
-    padding: 10,
   },
   tabBar: {
     marginTop: "200%",
@@ -91,11 +76,6 @@ const styles = StyleSheet.create({
     width: 650,
     marginLeft: -400,
     marginTop: -20,
-  },
-  tournicoti: {
-    position: "absolute",
-    left: 120,
-    top: 250,
   },
   space: {
     height: 80,

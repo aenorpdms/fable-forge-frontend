@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
+// import { useEffect } from "react";
 import { useState } from "react";
 import { updateUser, logOutuser } from "../reducers/user";
 
@@ -35,6 +36,9 @@ export default function ProfilScreen({ navigation }) {
   const [buttonText, setButtonText] = useState("Modifier mes informations");
   const [buttonTextPwd, setButtonTextPwd] = useState("Modifier mon mot de passe");
 
+  // // Letter Profil Picture
+  // const [firstLetter, setFirstLetter] = useState("");
+
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
 
@@ -43,27 +47,28 @@ export default function ProfilScreen({ navigation }) {
     const updatedUserInfo = { token: user.token };
 
     // UPDATE USERNAME
-    if (username !== user.username && username !== null && username!== "") {
+    if (username !== user.username && username !== null && username !== "") {
       updatedUserInfo.username = username;
     } else {
       updatedUserInfo.username = user.username; // Use the old value
     }
     // UPDATE FIRSTNAME
-    if (firstname !== user.firstname && firstname !== null && firstname!== "") {
+    if (firstname !== user.firstname && firstname !== null && firstname !== "") {
       updatedUserInfo.firstname = firstname;
     } else {
       updatedUserInfo.firstname = user.firstname; // Use the old value
     }
 
     // UPDATE EMAIL
-    if (email !== user.email && email !== null &&  email!== "") {
+    if (email !== user.email && email !== null && email !== "") {
       updatedUserInfo.email = email;
     } else {
       updatedUserInfo.email = user.email; // Use the old value
     }
 
     dispatch(updateUser(updatedUserInfo));
-    console.log(updatedUserInfo)
+   
+    console.log(updatedUserInfo);
 
     // send to back info PUT ROUTE USER
     fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
@@ -73,9 +78,8 @@ export default function ProfilScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+   
         if (data.result) {
-          
           setIsEditable(false);
           setButtonText("Modifier mes informations");
         }
@@ -97,7 +101,7 @@ export default function ProfilScreen({ navigation }) {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
+ 
           if (data.result) {
             console.log("updated");
             setIsEditablePwd(false);
@@ -118,15 +122,14 @@ export default function ProfilScreen({ navigation }) {
     navigation.navigate("Sign");
   };
 
-// MODALE DELETE 
-const [modalVisible, setModalVisible] = useState(false);
-const [modalType, setModalType] = useState("");
+  // MODALE DELETE
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalType, setModalType] = useState("");
 
- const handleModalToggle = type => {
+  const handleModalToggle = type => {
     setModalType(type);
     setModalVisible(!modalVisible);
   };
-
 
   // DELETE ACCOUNT
   const handleDeleteAccount = () => {
@@ -145,18 +148,20 @@ const [modalType, setModalType] = useState("");
 
   return (
     <SafeAreaView style={styles.container}>
-       <View style={styles.tabBar}>
-            <TabBar navigation={navigation} />
-            <View style={styles.backgroundTab}></View>
-        </View>
+      <View style={styles.tabBar}>
+        <TabBar navigation={navigation} />
+        <View style={styles.backgroundTab}></View>
+      </View>
       <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
-     
         <ScrollView style={styles.containerInformation} indicatorStyle='white'>
           <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
             <View>
               {/* <Text style={styles.title1}>BIENVENUE PIERRE</Text> */}
               <Text style={styles.title2}>Profil</Text>
-              <Image style={styles.image} source={require("../assets/profilPicture.png")} />
+              <Image style={styles.image} source={require("../assets/profilPic.png")} />
+              <View style={styles.initialContainer}>
+                <Text style={styles.initial}>{user.firstname.charAt(0)}</Text>
+              </View>
               <Text style={styles.subtitle}>Informations Personnelles</Text>
             </View>
           </ImageBackground>
@@ -165,33 +170,39 @@ const [modalType, setModalType] = useState("");
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholder={isEditable ? '' : user.username}
-              placeholderTextColor='white'
+              // placeholder={isEditable ? "" : user.username}
+              // placeholderTextColor='white'
+              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setUsername(value)}
               value={username}
               editable={isEditable}
+              placeholder={isEditable ? "Nom d'utilisateur" : user.username}
             ></TextInput>
           </View>
           <View>
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholder={isEditable ? '' : user.firstname}
-              placeholderTextColor='white'
+              // placeholder={isEditable ? "" : user.firstname}
+              // placeholderTextColor='white'
+              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setFirstName(value)}
               value={firstname}
               editable={isEditable}
+              placeholder={isEditable ? "Prénom" : user.firstname}
             ></TextInput>
           </View>
           <View>
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              placeholder={isEditable ? '' : user.email}
-              placeholderTextColor='white'
+              // placeholder={isEditable ? "" : user.email}
+              // placeholderTextColor='white'
+              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setEmail(value)}
               value={email}
               editable={isEditable}
+              placeholder={isEditable ? "Adresse mail" : user.email}
             ></TextInput>
           </View>
           <TouchableOpacity
@@ -270,29 +281,26 @@ const [modalType, setModalType] = useState("");
               Supprimer mon compte
             </Text>
           </TouchableOpacity>
-          <View style={styles.space}>
-          </View>
+          <View style={styles.space}></View>
 
-          
           <Modal visible={modalVisible} animationType='slide' transparent={true}>
-        <View style={styles.mdlctn}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.titleModal}>Êtes-vous sûr de vouloir supprimer votre compte Fable Forge ?</Text>
-           
-            {modalType === "deleteAccount" && (
-              < View style={styles.containerBtnModal}>
-                 <TouchableOpacity style={styles.btnDeleteModal} onPress={() => handleDeleteAccount()}>
-                 <Text style={styles.btnTextDelete}>Oui</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.btnNoModal} onPress={() => handleModalToggle()}>
-              <Text style={styles.btnText}>Non</Text>
-            </TouchableOpacity>
+            <View style={styles.mdlctn}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.titleModal}>Êtes-vous sûr de vouloir supprimer votre compte Fable Forge ?</Text>
+
+                {modalType === "deleteAccount" && (
+                  <View style={styles.containerBtnModal}>
+                    <TouchableOpacity style={styles.btnDeleteModal} onPress={() => handleDeleteAccount()}>
+                      <Text style={styles.btnTextDelete}>Oui</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnNoModal} onPress={() => handleModalToggle()}>
+                      <Text style={styles.btnText}>Non</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
-            )}
-          </View>
-        </View>
-      </Modal>
-          
+            </View>
+          </Modal>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -317,13 +325,28 @@ const styles = StyleSheet.create({
     height: "77%",
     // marginBottom: "4%",
   },
+  initialContainer: {
+    left: "37%",
+    bottom: 25,
+    borderRadius: 50,
+    width: 100,
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  initial: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 46,
+    color: "white",
+    fontWeight: "bold",
+  },
 
   title2: {
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     textAlign: "left",
     color: "#FFCE4A",
-    marginTop: "46.5%",//160
+    marginTop: "46.5%", //160
     lineHeight: 60,
     marginLeft: "3%",
   },
@@ -333,7 +356,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "center",
     marginTop: "10%",
-    marginBottom:"5%"
+    marginBottom: "5%",
   },
   image: {
     position: "absolute",
@@ -410,7 +433,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
   },
-  btnTextDelete:{
+  btnTextDelete: {
     fontFamily: "Lato_400Regular",
     color: "black",
     textAlign: "center",
@@ -433,20 +456,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
-  backgroundTab:{
-    backgroundColor:"#2C1A51",
-    top: "95%", 
+  backgroundTab: {
+    backgroundColor: "#2C1A51",
+    top: "95%",
     position: "absolute",
     zIndex: -1,
     height: 100,
     width: 650,
-    marginLeft:-400,
-    marginTop:-20,
+    marginLeft: -400,
+    marginTop: -20,
   },
   space: {
     padding: 10,
     height: 80,
-    backgroundColor:"transparent",
+    backgroundColor: "transparent",
   },
   mdlctn: {
     width: "100%",
@@ -480,7 +503,7 @@ const styles = StyleSheet.create({
     marginBottom: "6%",
     marginLeft: "4%",
   },
-  btnNoModal:{
+  btnNoModal: {
     backgroundColor: "#6B5F85",
     borderRadius: 10,
     margin: 10,
@@ -492,11 +515,10 @@ const styles = StyleSheet.create({
     marginBottom: "6%",
     marginLeft: "12%",
   },
-  containerBtnModal:{
-    marginTop:10,
+  containerBtnModal: {
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent:"center",
-  }
-
+    justifyContent: "center",
+  },
 });

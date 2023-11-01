@@ -1,8 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 SplashScreen.preventAutoHideAsync();
 
@@ -45,20 +43,20 @@ import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
 import StoryReadScreen from "./screens/StoryReadScreen";
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 import user from "./reducers/user";
 import stories from "./reducers/stories";
 import newStory from "./reducers/newStory";
+import subscriptionReducer from "./reducers/subscription"
 
 // AsyncStorage.getAllKeys()
 //   .then(keys => AsyncStorage.multiRemove(keys))
 //   .then(() => console.log("clear"));
 // AsyncStorage.clear().then(() => console.log("clear"));
 
-const reducers = combineReducers({ user, stories, newStory });
+const reducers = combineReducers({ subscription: subscriptionReducer, user, stories, newStory });
 const persistConfig = {
   key: "fable-forge",
   storage: AsyncStorage,
