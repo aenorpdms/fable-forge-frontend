@@ -1,15 +1,33 @@
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
-import * as Font from "expo-font";
 import TabBar from "../TabBar";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { updateStory } from "../reducers/stories";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+
 
 export default function StoriesScreen({ navigation }) {
   const selectedStory = useSelector((state) => state.stories.value);
   const user = useSelector((state)=> state.user.value)
   const [stories, setStories] = useState([])
   const dispatch = useDispatch()
+
+// DELETE ACCOUNT
+  const handleDeleteStory = ({ storyID }) => {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/user/${storyID}/${user.token}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          console.log('story delete');
+        }
+      });
+  };
+
 
 
   
@@ -58,6 +76,7 @@ useEffect(() => {
 
 }, []);
 
+
 // map sur le tableau et return 
 const storiesList = stories.map((story, index) => {
   let typeImage
@@ -74,6 +93,7 @@ const storiesList = stories.map((story, index) => {
   }else if (story.type === "Enfant"){
     typeImage = require("../assets/Enfant.png")
   }
+
 return (
   <View style={styles.storyButton} key={index}>
     <ImageBackground
@@ -85,6 +105,9 @@ return (
     </ImageBackground>
     <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory(story)}>
       <Text style={styles.readButtonText}>Relire</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.deleteBtn} onPress={()=> handleDeleteStory(story._id)}>
+      <FontAwesomeIcon icon={faTimesCircle} style={{color: "#ffffff",}}  size={25}/>
     </TouchableOpacity>
   </View>
 )})
@@ -208,6 +231,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     textAlign:"center"
+  },
+  deleteBtn: {
+    bottom: '107%',
+    left: '44%',
+    backgroundColor: '#2C1A51',
+    borderRadius: '100%',
   },
   tabBar: {
     marginTop: "104%",
