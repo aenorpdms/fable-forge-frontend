@@ -146,11 +146,11 @@ export default function StoryDisplayScreen({ route, navigation }) {
         <View style={styles.backgroundTab}></View>
       </View>
       <Text style={styles.titleStory}>{titleStory}</Text>
-      <ScrollView style={styles.containerStory}>
+      <ScrollView style={[styles.containerStory,{ backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
         {isGenerating && <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />}
 
         {chunks.map((chunk, index) => (
-          <Text key={index} style={[styles.textStory, { fontSize: user.fontSizeSet }]}>
+          <Text key={index} style={[styles.textStory, { fontSize: user.fontSizeSet, color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51" }]}>
             {chunk.trim()}
           </Text>
         ))}
