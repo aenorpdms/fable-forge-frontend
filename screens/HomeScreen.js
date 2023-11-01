@@ -105,7 +105,7 @@ export default function HomeScreen({ navigation }) {
 
         <Text style={styles.title3}>Votre dernière histoire</Text>
 
-        <View style={[styles.lastStoryButton, { opacity: noStory ? 1 : 0.6 }]}>
+        <View style={styles.lastStoryButton}>
           <ImageBackground
             style={styles.storyImage}
             source={typeImage} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/
