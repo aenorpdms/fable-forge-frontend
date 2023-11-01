@@ -14,8 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import TabBar from "../TabBar";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNewType, updateSelectedMusic } from "../reducers/newStory";
-import { updateSelectedImage } from "../reducers/newStory";
+import { updateNewType, updateSelectedMusic, updateSelectedImage } from "../reducers/newStory";
 
 
 export default function StoryGenerationScreen() {
@@ -171,8 +170,8 @@ const styles = StyleSheet.create({
   },
   
   carousel:{
-    alignSelf:"center",
-    justifySelf: "center",
+    alignItems:"center",
+    justifyContent: "center",
    
   },
   
@@ -231,7 +230,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
-    alignSelf: "center",
+    left: '20%',
   },
   selectButtonText: {
     fontFamily: "Lato_400Regular",
@@ -240,4 +239,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default StoryGenerationScreen;
