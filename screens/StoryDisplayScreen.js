@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, Modal } from "react-native";
 import { API_KEY, API_URL } from "@env";
-import TabBar from "../TabBar";
+// import TabBar from "../TabBar";
+import StoryBar from "../StoryBar";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory";
@@ -26,14 +20,13 @@ export default function StoryDisplayScreen({ route, navigation }) {
   const [totalTokens, setTotalTokens] = useState(0);
   const [initialPrompt, setInitialPrompt] = useState("");
   const [desiredTokenCount, setDesiredTokenCount] = useState(0);
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
   const [showGenerateButton, setShowGenerateButton] = useState(true);
   const dispatch = useDispatch();
-  const newStory = useSelector((state) => state.newStory.value);
-  const user = useSelector((state) => state.user.value);
-  
-  const [titleStory, setTitleStory] = useState("")
-    
+  const newStory = useSelector(state => state.newStory.value);
+  const user = useSelector(state => state.user.value);
+  const [titleStory, setTitleStory] = useState("");
+
   useEffect(() => {
     if (isGenerating) {
       // Utilisez la valeur désirée sans la recalculer
@@ -42,9 +35,8 @@ export default function StoryDisplayScreen({ route, navigation }) {
         generateNextChunk();
       } else {
         setIsGenerating(false);
-        setTitleStory(newStory.title)
+        setTitleStory(newStory.title);
         sendStoryToBackend(newStory.story, newStory.title);
-        
       }
     }
   }, [chunks]);
@@ -84,12 +76,12 @@ export default function StoryDisplayScreen({ route, navigation }) {
       const titleRegex = /<!(.*?)!>/;
       const titleMatch = titleRegex.exec(generatedContent);
       const title = titleMatch ? titleMatch[1] : "";
-      
-      if (newStory.title == "" && count ==0) {
+
+      if (newStory.title == "" && count == 0) {
         dispatch(addTitle(title));
-        setTitleStory(title)
-        console.log(title)
-        setCount(1)
+        setTitleStory(title);
+        console.log(title);
+        setCount(1);
       }
 
       console.log("Nombre total de tokens à générer:", desiredTokenCount);
@@ -100,12 +92,9 @@ export default function StoryDisplayScreen({ route, navigation }) {
 
       // Remove the title from the chunk
       const contentWithoutTitle = generatedContent.replace(titleRegex, "");
-      setChunks((prevChunks) => [...prevChunks, contentWithoutTitle]);
+      setChunks(prevChunks => [...prevChunks, contentWithoutTitle]);
       dispatch(saveStory(contentWithoutTitle));
-      setTotalTokens(
-        (prevTokens) =>
-          prevTokens + responseData.choices[0].message.content.split(" ").length
-      );
+      setTotalTokens(prevTokens => prevTokens + responseData.choices[0].message.content.split(" ").length);
       return generatedContent;
     } catch (error) {
       console.error("Erreur lors de la génération de l'histoire:", error);
@@ -115,24 +104,21 @@ export default function StoryDisplayScreen({ route, navigation }) {
 
   const sendStoryToBackend = (completeStory, title) => {
     console.log("sendStoryToBackend ", title);
-    fetch(
-      `https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          length: newStory.length,
-          title: title,
-          type: newStory.type,
-          ending: newStory.endingType,
-          story: completeStory, // Send the complete story
-        }),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        length: newStory.length,
+        title: title,
+        type: newStory.type,
+        ending: newStory.endingType,
+        story: completeStory, // Send the complete story
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
         if (data.result) {
-          dispatch(emptyNewStory())
+          dispatch(emptyNewStory());
           console.log("Done");
         } else {
           console.log("error");
@@ -147,12 +133,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
     setTotalTokens(0);
     //dispatch(emptyNewStory());
     const tokenCount =
-      Math.floor(
-        Math.random() *
-          (LENGTH_MAP[newStory.length].max -
-            LENGTH_MAP[newStory.length].min +
-            1)
-      ) + LENGTH_MAP[newStory.length].min;
+      Math.floor(Math.random() * (LENGTH_MAP[newStory.length].max - LENGTH_MAP[newStory.length].min + 1)) + LENGTH_MAP[newStory.length].min;
     setDesiredTokenCount(tokenCount); // Mettre à jour ici
     const prompt = `Je souhaite créer une histoire de genre ${newStory.type} d'une longueur ${newStory.length}. Assurez-vous que l'histoire ait une ${newStory.endingType} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises "!".`;
     setInitialPrompt(prompt);
@@ -161,35 +142,25 @@ export default function StoryDisplayScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.tabBar}>
-        <TabBar navigation={navigation} />
+        <StoryBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
-       <Text style={styles.titleStory}>{titleStory}</Text>
+      <Text style={styles.titleStory}>{titleStory}</Text>
       <ScrollView style={styles.containerStory}>
-        {isGenerating && (
-          <ActivityIndicator
-            style={styles.tournicoti}
-            size="large"
-            color="#2C1A51"
-          />
-        )}
-       
+        {isGenerating && <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />}
+
         {chunks.map((chunk, index) => (
-          <Text
-            key={index}
-            style={[styles.textStory, { fontSize: user.fontSizeSet }]}
-          >
+          <Text key={index} style={[styles.textStory, { fontSize: user.fontSizeSet }]}>
             {chunk.trim()}
           </Text>
         ))}
         <View style={styles.space}></View>
       </ScrollView>
-     { showGenerateButton && <TouchableOpacity
-        style={styles.btngenerateStory}
-        onPress={handleGenerateStory}
-      >
-        <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-      </TouchableOpacity>}
+      {showGenerateButton && (
+        <TouchableOpacity style={styles.btngenerateStory} onPress={handleGenerateStory}>
+          <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 }
@@ -222,10 +193,9 @@ const styles = StyleSheet.create({
   textStory: {
     fontSize: 16,
     color: "#2C1A51",
-    textAlign:"justify"
+    textAlign: "justify",
   },
   btngenerateStory: {
-
     margin: "1%",
     borderRadius: 10,
     padding: 5,
@@ -233,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#6B5F85",
     borderWidth: 1,
     borderColor: "#FFFFFF",
-    bottom: "18%"
+    bottom: "18%",
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",
@@ -258,11 +228,11 @@ const styles = StyleSheet.create({
   },
   tournicoti: {
     position: "absolute",
-    left: "45%",//120
-    top: "50%",//250
+    left: "45%", //120
+    top: "50%", //250
   },
   space: {
-    height: 80,
+    height: 120,
     backgroundColor: "transparent",
   },
 });
