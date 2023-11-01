@@ -23,14 +23,14 @@ export default function SubscriptionPaymentScreen() {
 
   // Vérifiez si subscription est défini
   if (!subscription) {
-    // Gérez le cas où subscription n'est pas défini, par exemple, redirigez l'utilisateur ou affichez un message d'erreur.
-    return (
+return (
       <View>
         <Text>Subscription is not defined</Text>
       </View>
     );
   }
 
+  
   const [choix1, setChoix1] = useState(0);
   const [choix2, setChoix2] = useState(0);
   const [choix3, setChoix3] = useState(0);

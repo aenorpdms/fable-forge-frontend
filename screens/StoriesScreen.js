@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     color: 'white',
     fontSize: 24,
+    textAlign:'center'
 },
 
   storyStatus: {

@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory";
 
 const LENGTH_MAP = {
-  Courte: { min: 500, max: 1500 },
+  Courte: { min: 100, max: 150 },
   Moyenne: { min: 1500, max: 2500 },
   Longue: { min: 2500, max: 4000 },
 };
