@@ -10,26 +10,18 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState, useRef, useEffect } from "react";
-import { API_URL, API_KEY } from "@env";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from '@react-navigation/native';
-import { Audio } from 'expo-av';
-import { addStories } from "../reducers/stories";
-import { updateNew } from "../reducers/newStory";
-import user from "../reducers/user";
 
 import TabBar from "../TabBar";
 
 export default function StoryGenerationStep3Screen({ route }) {
   const navigation = useNavigation();
-  const [isAudioEnabled, setIsAudioEnabled] = useState(route.params?.isAudioEnabled ?? true);
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+ 
 
   const [buttonColor, setButtonColor] = useState("#2C1A51");
   const newStory = useSelector((state) => state.newStory.value);
 
-  const soundObject = useRef(new Audio.Sound());
-  const isEnabled = useRef(false);
 
   let page;
   if (newStory.length === "Courte") {
@@ -41,50 +33,7 @@ export default function StoryGenerationStep3Screen({ route }) {
   }
   const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}, qui se déroulera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons élaborée pour vous.`;
 
-  const genreMusic = {
-    Horreur: require('../assets_music/Genre_Horreur.mp3'),
-    Aventure: require('../assets_music/Genre_Aventure.mp3'),
-    'Fantasy / SF': require('../assets_music/Genre_Fantasy-SF.mp3'),
-    'Policier / Thriller': require('../assets_music/Genre_Policier-Thriller.mp3'),
-    Romance: require('../assets_music/Genre_Romance.mp3'),
-    Enfant: require('../assets_music/Genre_Enfant.mp3'),
-  };
 
-
-  useEffect(() => {
-    const loadMusic = async () => {
-      try {
-        if (isAudioEnabled) {
-          await soundObject.current.loadAsync(genreMusic[newStory.type]);
-          await soundObject.current.setIsLoopingAsync(true);
-          await soundObject.current.playAsync(); // Jouer la musique au chargement
-        } else {
-          await soundObject.current.pauseAsync();
-        }
-      } catch (error) {
-        console.error('Erreur lors du chargement du son', error);
-      }
-    };
-
-    loadMusic();
-
-    return () => {
-      soundObject.current.unloadAsync();
-    };
-  }, [newStory.type, isAudioEnabled]);
-
-  const toggleMusic = async () => {
-    try {
-      if (isAudioEnabled) {
-        await soundObject.current.pauseAsync();
-      } else {
-        await soundObject.current.playAsync();
-      }
-      setIsAudioEnabled(prevState => !prevState);
-    } catch (error) {
-      console.error('Erreur lors de la lecture du son', error);
-    }
-  };
 
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {
