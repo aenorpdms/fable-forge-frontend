@@ -112,12 +112,12 @@ export default function SignScreen({ navigation }) {
       <TouchableOpacity style={styles.btnInput} onPress={() => handleModalToggle("connexion")}>
         <Text style={styles.textBtn1}>Se connecter</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btnGoogle}>
+      {/* <TouchableOpacity style={styles.btnGoogle}>
         <Text style={styles.textBtn1}>Se connecter avec Google</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnFacebook}>
         <Text style={styles.textBtn1}>Se connecter avec Facebook</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <Modal visible={modalVisible} animationType='slide' transparent={true}>
         <View style={styles.mdlctn}>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
 
     textAlign: "center",
     color: "#FFFFFF",
-    marginTop: "115%",
+    marginTop: "135%",
   },
   title2: {
     fontFamily: "Lato_400Regular",
@@ -246,6 +246,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "5%",
     justifyContent: "center",
+    marginBottom: "5%"
   },
   btnGoogle: {
     backgroundColor: "#E6DAFF",
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
     borderColor: "#FFFFFF",
-    // marginBottom: "18%",
+    marginBottom: "20%",
   },
   textBtn: {
     fontFamily: "Lato_400Regular",
