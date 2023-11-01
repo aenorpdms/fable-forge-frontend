@@ -12,6 +12,8 @@ import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStory } from "../reducers/stories";
 import { useState, useEffect } from "react";
+import { useIsFocused } from '@react-navigation/native';
+
 
 import TabBar from "../TabBar";
 
@@ -22,13 +24,16 @@ export default function HomeScreen({ navigation }) {
   const [lastStory, setLastStory] = useState({});
   const dispatch = useDispatch();
   const [noStory, setNoStory] = useState(false);
-  
+  const focus = useIsFocused()
+
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
   };
 
   const fetchLastStory = () => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`)
+    fetch(
+      `https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
@@ -43,8 +48,9 @@ export default function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
+    console.log("useeffect homescreen");
     fetchLastStory();
-  }, []);
+  }, [focus]);
 
   let typeImage;
   if (lastStory.type === "Horreur") {
