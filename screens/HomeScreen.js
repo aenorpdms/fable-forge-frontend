@@ -1,83 +1,125 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, SafeAreaView, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+  SafeAreaView,
+  Image,
+} from "react-native";
 import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
-import  { updateStory } from "../reducers/stories";
+import { updateStory } from "../reducers/stories";
 import { useState, useEffect } from "react";
 
 import TabBar from "../TabBar";
 
-
 export default function HomeScreen({ navigation }) {
-  const user = useSelector(state => state.user.value);
-
+  const user = useSelector((state) => state.user.value);
   const nameUser = user.firstname;
   const readyName = nameUser.toUpperCase();
-  const [lastStory, setLastStory] = useState({})
-  const dispatch = useDispatch()
+  const [lastStory, setLastStory] = useState({});
+  const dispatch = useDispatch();
+  const [noStory, setNoStory] = useState(false);
+  
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
   };
 
-  useEffect(() => {
+  const fetchLastStory = () => {
     fetch(`https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.result) {
-          
-          setLastStory({...data.story})
-          
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          if (data.story == null) {
+            setNoStory(false);
           } else {
-           console.log("error")
+            setNoStory(true);
+            setLastStory({ ...data.story });
           }
-    });
-  
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchLastStory();
   }, []);
 
-  let typeImage
-
-  if(lastStory.type === "Horreur"){
-    typeImage = require("../assets/Horreur.png")
-  }else if (lastStory.type === "Aventure"){
-    typeImage = require("../assets/Aventure.png")
-  }else if (lastStory.type === "Fantasy / SF"){
-    typeImage = require("../assets/Fantasy_SF.png")
-  }else if (lastStory.type === "Policier / Thriller"){
-    typeImage = require("../assets/Policier_Thriller.png")
-  }else if (lastStory.type === "Romance"){
-    typeImage = require("../assets/Romance.png")
-  }else if (lastStory.type === "Enfant"){
-    typeImage = require("../assets/Enfant.png")
+  let typeImage;
+  if (lastStory.type === "Horreur") {
+    typeImage = require("../assets/Horreur.png");
+  } else if (lastStory.type === "Aventure") {
+    typeImage = require("../assets/Aventure.png");
+  } else if (lastStory.type === "Fantasy / SF") {
+    typeImage = require("../assets/Fantasy_SF.png");
+  } else if (lastStory.type === "Policier / Thriller") {
+    typeImage = require("../assets/Policier_Thriller.png");
+  } else if (lastStory.type === "Romance") {
+    typeImage = require("../assets/Romance.png");
+  } else if (lastStory.type === "Enfant") {
+    typeImage = require("../assets/Enfant.png");
+  } else {
+    typeImage = require("../assets/ImageBibliotheque.png");
   }
 
-
   const handleDisplayStory = () => {
-    dispatch(updateStory({title: lastStory.title, story: lastStory.choicePrompt[0], type: lastStory.type}))
+    dispatch(
+      updateStory({
+        title: lastStory.title,
+        story: lastStory.choicePrompt[0],
+        type: lastStory.type,
+      })
+    );
     navigation.navigate("StoryRead");
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
+      <ImageBackground
+        style={styles.imagBgd}
+        source={require("../assets/ImageBibliotheque.png")}
+      >
         <Text style={styles.title1}>BIENVENUE {readyName}</Text>
         <Text style={styles.title2}>Où les histoires</Text>
         <Text style={styles.title2bis}>prennent vie...</Text>
       </ImageBackground>
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.newStoryButton} onPress={() => handleSubmit()}>
-          <Image style={styles.addButton} source={require("../assets/add-circle-outline.png")} />
+        <TouchableOpacity
+          style={styles.newStoryButton}
+          onPress={() => handleSubmit()}
+        >
+          <Image
+            style={styles.addButton}
+            source={require("../assets/add-circle-outline.png")}
+          />
           <Text style={styles.buttonText}>Créer une</Text>
           <Text style={styles.buttonText}>nouvelle histoire</Text>
         </TouchableOpacity>
 
         <Text style={styles.title3}>Votre dernière histoire</Text>
 
-        <View style={styles.lastStoryButton}>
-          <ImageBackground style={styles.storyImage} source={typeImage} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/>
+        <View style={[styles.lastStoryButton, { opacity: noStory ? 1 : 0.6 }]}>
+          <ImageBackground
+            style={styles.storyImage}
+            source={typeImage} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/
+          >
             <Text style={styles.storyTitle}>{lastStory.title}</Text>
           </ImageBackground>
-          <TouchableOpacity style={styles.readButton} onPress={() => handleDisplayStory()}>
-            <Text style={styles.readButtonText}>Lire mon histoire</Text>
+          <TouchableOpacity
+            style={[
+              styles.readButton,
+              {
+                backgroundColor: noStory ? "#2C1A51" : "#6B5F85",
+                borderColor: noStory ? "#FFCE4A" : "white",
+              },
+            ]}
+            onPress={noStory ? () => handleDisplayStory() : null}
+            disabled={!noStory}
+          >
+            <Text style={styles.readButtonText}>
+              {noStory ? "Lire mon histoire" : "Aucune histoire"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

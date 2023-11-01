@@ -8,44 +8,36 @@ import { Audio } from 'expo-av';
 
 export default function CguvScreen({ navigation }) {
   const soundObject = useRef(new Audio.Sound());
-  const isEnabled = useRef(true);
+  const isEnabled = useRef(false);
+
 
   useEffect(() => {
-    // Créez le soundObject une seule fois
-    if (!soundObject) {
-      setSoundObject(new Audio.Sound());
-    }
-
-    // Chargez le son lorsque le composant est monté
     const loadMusic = async () => {
       try {
         console.log('Avant le chargement du son');
-        await soundObject.loadAsync(require('../assets_music/Genre_Fantasy-SF.mp3'));
-        await soundObject.setIsLoopingAsync(true);
+        await soundObject.current.loadAsync(require('../assets_music/Genre_Fantasy-SF.mp3'));
+        await soundObject.current.setIsLoopingAsync(true);
         console.log('Après le chargement du son');
       } catch (error) {
         console.error('Erreur lors du chargement du son', error);
       }
     };
 
-    loadMusic(); // Chargez le son
+    loadMusic();
 
-    // Nettoyez le soundObject lorsque le composant est démonté
     return () => {
-      if (soundObject) {
-        soundObject.unloadAsync();
-      }
+      soundObject.current.unloadAsync();
     };
   }, []);
 
   const controlMusic = async () => {
     try {
-      if (soundObject) {
-        if (isEnabled) {
-          await soundObject.playAsync();
-        } else {
-          await soundObject.pauseAsync();
-        }
+      console.log('Control Music called');
+      if (isEnabled.current) {
+        await soundObject.current.playAsync();
+      } else {
+        await soundObject.current.pauseAsync();
+        console.log('Music paused');
       }
     } catch (error) {
       console.error('Erreur lors de la lecture du son', error);
@@ -53,7 +45,7 @@ export default function CguvScreen({ navigation }) {
   };
 
   const toggleMusic = () => {
-    setIsEnabled(previousState => !previousState);
+    isEnabled.current = !isEnabled.current;
     controlMusic();
   };
 

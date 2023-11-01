@@ -20,11 +20,12 @@ export default function StoryDisplayScreen({ route, navigation }) {
   const [totalTokens, setTotalTokens] = useState(0);
   const [initialPrompt, setInitialPrompt] = useState("");
   const [desiredTokenCount, setDesiredTokenCount] = useState(0);
-
+  const [count, setCount] = useState(0);
   const [showGenerateButton, setShowGenerateButton] = useState(true);
   const dispatch = useDispatch();
   const newStory = useSelector(state => state.newStory.value);
   const user = useSelector(state => state.user.value);
+  const [titleStory, setTitleStory] = useState("");
 
   useEffect(() => {
     if (isGenerating) {
@@ -34,6 +35,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         generateNextChunk();
       } else {
         setIsGenerating(false);
+        setTitleStory(newStory.title);
         sendStoryToBackend(newStory.story, newStory.title);
       }
     }
@@ -75,8 +77,11 @@ export default function StoryDisplayScreen({ route, navigation }) {
       const titleMatch = titleRegex.exec(generatedContent);
       const title = titleMatch ? titleMatch[1] : "";
 
-      if (newStory.title == "") {
+      if (newStory.title == "" && count == 0) {
         dispatch(addTitle(title));
+        setTitleStory(title);
+        console.log(title);
+        setCount(1);
       }
 
       console.log("Nombre total de tokens à générer:", desiredTokenCount);
@@ -113,7 +118,6 @@ export default function StoryDisplayScreen({ route, navigation }) {
       .then(response => response.json())
       .then(data => {
         if (data.result) {
-          // Save the title and complete story to the Redux store
           dispatch(emptyNewStory());
           console.log("Done");
         } else {
@@ -141,7 +145,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
         <StoryBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
-      <Text style={styles.titleStory}>{newStory.title}</Text>
+      <Text style={styles.titleStory}>{titleStory}</Text>
       <ScrollView style={styles.containerStory}>
         {isGenerating && <ActivityIndicator style={styles.tournicoti} size='large' color='#2C1A51' />}
 
@@ -192,15 +196,14 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
   btngenerateStory: {
-    margin: 10,
+    margin: "1%",
     borderRadius: 10,
     padding: 5,
-    marginTop: 2,
-    marginBottom: 95,
     position: "absolute",
     backgroundColor: "#6B5F85",
     borderWidth: 1,
     borderColor: "#FFFFFF",
+    bottom: "18%",
   },
   generateTextBtn: {
     fontFamily: "Lato_400Regular",
