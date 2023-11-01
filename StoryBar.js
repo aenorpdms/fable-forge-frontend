@@ -5,7 +5,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFontSize } from "./reducers/user";
+import { updateFontSize, updateMode } from "./reducers/user";
 
 export default function StoryBar({ navigation }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -15,22 +15,21 @@ export default function StoryBar({ navigation }) {
   const [isAudioEnabled, setIsAudioEnabled] = useState(false);
   const [isAmbianceEnabled, setIsAmbianceEnabled] = useState(false);
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
-  const [isModeEnabled, setIsModeEnabled] = useState(false);
+
 
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
   const toggleAudioSwitch = () => setIsAudioEnabled(previousState => !previousState);
   const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
   const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
-  const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
+
 
   const dispatch = useDispatch();
+
+
   // const [fontSize, setFontSize] = useState(16);
   const user = useSelector(state => state.user.value);
-
   const font = user.fontSizeSet;
-
   const widthValue = useSharedValue(isOpen ? 140 : 0);
-
   const animatedStyles = useAnimatedStyle(() => {
     return {
       width: withTiming(widthValue.value, {
@@ -40,7 +39,6 @@ export default function StoryBar({ navigation }) {
     };
   });
   const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
-
   const animatedBackgroundStyle = useAnimatedStyle(() => {
     const bgColor = bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
     return {
@@ -88,6 +86,13 @@ export default function StoryBar({ navigation }) {
       dispatch(updateFontSize(user.fontSizeSet - 2));
     }
   };
+
+  const isModeEnabledMode = user.mode === "dark";
+  const toggleModeSwitchMode = () => {
+    const newMode = isModeEnabledMode ? "light" : "dark";
+    dispatch(updateMode(newMode)); // Dispatch the mode to your reducer
+  };
+
 
   const handleDisplayHome = () => {
     navigation.navigate("Home");
@@ -166,7 +171,7 @@ export default function StoryBar({ navigation }) {
                 />
               </View>
               <View style={styles.setting}>
-                <Text style={styles.fontSettings}>Ambiance :</Text>
+                <Text style={styles.fontSettings}>Ambiance : </Text>
                 <Switch
                   style={styles.switchBtn}
                   trackColor={{ false: "white", true: "#FFCE4A" }}
@@ -174,28 +179,19 @@ export default function StoryBar({ navigation }) {
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleAmbianceSwitch}
                   value={isAmbianceEnabled}
+                
                 />
               </View>
-              {/* <View style={styles.setting}>
-              <Text style={styles.fontSettings}>Notifications :</Text>
-              <Switch
-                style={styles.switchBtn}
-                trackColor={{ false: "white", true: "#FFCE4A" }}
-                thumbColor={isNotificationsEnabled ? "#FFCE4A" : "white"}
-                ios_backgroundColor='#3e3e3e'
-                onValueChange={toggleNotificationsSwitch}
-                value={isNotificationsEnabled}
-              />
-            </View> */}
+             
               <View style={styles.setting}>
-                <Text style={styles.fontSettings}>Mode :</Text>
+                <Text style={styles.fontSettings}>Mode :   {isModeEnabledMode ? "Dark" : "Light"}</Text>
                 <Switch
                   style={styles.switchBtn}
                   trackColor={{ false: "white", true: "#FFCE4A" }}
-                  thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
+                  thumbColor={isModeEnabledMode ? "#FFCE4A" : "white"}
                   ios_backgroundColor='#3e3e3e'
-                  onValueChange={toggleModeSwitch}
-                  value={isModeEnabled}
+                  onValueChange={toggleModeSwitchMode}
+                  value={isModeEnabledMode}
                 />
               </View>
             </View>

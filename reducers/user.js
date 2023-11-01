@@ -7,6 +7,7 @@ const initialState = {
     email: null,
     token: null,
     fontSizeSet: 16,
+    mode: "ligth"
   },
 };
 
@@ -33,9 +34,11 @@ export const userSlice = createSlice({
     },
     updateFontSize: (state, action) => {
       state.value.fontSizeSet = action.payload;
+    },updateMode: (state, action) => {
+      state.value.mode = action.payload;
     },
   },
 });
 
-export const { updateUser, addStories, removeStories, logOutuser, updateFontSize } = userSlice.actions;
+export const { updateUser, addStories, removeStories, logOutuser, updateFontSize, updateMode } = userSlice.actions;
 export default userSlice.reducer;
