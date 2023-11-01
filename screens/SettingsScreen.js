@@ -51,7 +51,10 @@ export default function SettingsScreen({ navigation }) {
   };
 
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
-  const toggleAudioSwitch = () => setIsAudioEnabled(previousState => !previousState);
+  const toggleAudioSwitch = (value) => {
+    setIsAudioEnabled(value);
+    //code pour contrôler la musique en fonction de la valeur
+  };
   const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
   const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
   const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
