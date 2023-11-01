@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: { length: null, type: null, endingType: null, selectedImage: null, selectedMusic: null, title: null, story: null },
+  value: { length: null, type: null, endingType: null, selectedImage: null, selectedMusic: '', title: null, story: null },
 };
 
 export const newStorySlice = createSlice({
