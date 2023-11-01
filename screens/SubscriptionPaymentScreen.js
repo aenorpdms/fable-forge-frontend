@@ -333,9 +333,6 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
     bottom: '10%',
   },
-  arrowContainer: {
-    
-  },
   choixInfoSaved: {
     width: 15,
     height: 15,

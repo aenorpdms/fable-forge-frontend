@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView, Dimensions } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView, Dimensions, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectSubscription } from "../reducers/subscription";
 
 const windowWidth = Dimensions.get("window").width;
@@ -9,36 +9,9 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function SubscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
-  // Création d'un tableau d'objets subscriptions (avec id, type, price, buttonText et buttonColor) qui représente chaque d'abonnement.
-  const [subscriptions, setSubscriptions] = useState([
-    {
-      id: 1,
-      type: "Abonnement hebdomadaire :",
-      price: "4.99€/semaine",
-      buttonText: "Choisir",
-      buttonColor: "#2C1A51",
-      textColor: "white",
-      imageSource: require("../assets/Abonnement_semaine.png"),
-    },
-    {
-      id: 2,
-      type: "Abonnement mensuel :",
-      price: "9.99€/mois",
-      buttonText: "Choisir",
-      buttonColor: "#2C1A51",
-      textColor: "white",
-      imageSource: require("../assets/Abonnement_mois.png"),
-    },
-    {
-      id: 3,
-      type: "Abonnement annuel :",
-      price: "99.99€/an",
-      buttonText: "Choisir",
-      buttonColor: "#2C1A51",
-      textColor: "white",
-      imageSource: require("../assets/Abonnement_annee.png"),
-    },
-  ]);
+  
+  const subscriptions = useSelector(state => state.subscription.subscriptions);
+
 
   //création d'un état pour suivre l'abonnement sélectionné
   const [activeSubscription, setActiveSubscription] = useState(null);
@@ -47,8 +20,8 @@ export default function SubscriptionScreen({ navigation }) {
   function handleButtonClick(id) {
     dispatch(selectSubscription({ id }));
     const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
-
-if (selectedSubscription) {
+  
+    if (selectedSubscription) {
   console.log("Selected Subscription:", selectedSubscription);
 
   const updatedSubscriptions = subscriptions.map(subscription => {
@@ -69,7 +42,6 @@ if (selectedSubscription) {
     }
   });
 
-  setSubscriptions(updatedSubscriptions);
   setActiveSubscription(id);
   navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
 }
@@ -90,6 +62,8 @@ if (selectedSubscription) {
     navigation.navigate("Profil");
   };
 
+   // MODALE
+   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -115,7 +89,7 @@ if (selectedSubscription) {
         ))}
         <View style={styles.space}></View>
       </ScrollView>
-      <TouchableOpacity style={styles.btnResiliation}>
+      <TouchableOpacity style={styles.btnResiliation} onPress={() => setModalVisible(true)}>
         <Text style={styles.btnResiliationText}> Résilier mon abonnement</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btnRetour}>
@@ -123,6 +97,41 @@ if (selectedSubscription) {
           Retour vers Profil
         </Text>
       </TouchableOpacity>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Êtes-vous sûr de vouloir résilier votre abonnement Fable Forge ?</Text>
+          <View style={styles.modalBtn}>
+           <View style={styles.btnInput}>
+            <TouchableOpacity
+              style={{ ...styles.openButton}}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <Text style={styles.textStyleO}>Oui</Text>
+            </TouchableOpacity>
+           </View>
+           <View style={styles.btnInput}>
+            <TouchableOpacity
+              style={{ ...styles.openButton}}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <Text style={styles.textStyle}>Non</Text>
+            </TouchableOpacity>
+           </View>
+          </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -235,4 +244,43 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
+
+ // Style Modal
+ centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(0,0,0, 0.5)",
+},
+modalView: {
+  margin: 20,
+  backgroundColor: "#6B5F85",
+  borderRadius: 10,
+  padding: '8%',
+  alignItems: "center",
+},
+modalText: {
+  marginBottom: 15,
+  textAlign: "center",
+  color: 'white',
+},
+modalBtn: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+},
+openButton: {
+  borderWidth: 1,
+  borderColor: '#FFCE4A',
+  borderRadius: 10,
+  padding: 10,
+},
+textStyle: {
+  color: "white",
+  fontWeight: "bold",
+  textAlign: "center",
+},
+btnInput: {
+  margin: '5%',
+}
 });
