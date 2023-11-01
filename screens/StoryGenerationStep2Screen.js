@@ -1,68 +1,37 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNewLength, updateNewEnding } from "../reducers/newStory";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 import TabBar from "../TabBar";
 
 export default function StoryGenerationStep2Screen({ navigation }) {
-  const newStory = useSelector((state) => state.newStory.value);
+  const newStory = useSelector(state => state.newStory.value);
   const dispatch = useDispatch();
 
-  const [buttonColors, setButtonColors] = useState([
-    "#FFCE4A",
-    "#2C1A51",
-    "#2C1A51",
-  ]);
-  const [buttonTypeEnd, setButtonTypeEnd] = useState([
-    "#FFCE4A",
-    "#6B5F85",
-    "#6B5F85",
-    "#6B5F85",
-  ]);
-  const [sizeTextBtnColors, setSizeTextBtnColors] = useState([
-    "#2C1A51",
-    "white",
-    "white",
-  ]);
-  const handleButtonClick = (buttonNumber) => {
-    const newButtonColors = buttonColors.map((color, index) =>
-      buttonNumber - 1 === index ? "#FFCE4A" : "#2C1A51"
-    );
-    const newSizeTextBtnColors = buttonColors.map((color, index) =>
-      buttonNumber - 1 === index ? "#2C1A51" : "white"
-    );
+  const [buttonColors, setButtonColors] = useState(["#FFCE4A", "#2C1A51", "#2C1A51"]);
+  const [buttonTypeEnd, setButtonTypeEnd] = useState(["#FFCE4A", "#6B5F85", "#6B5F85", "#6B5F85"]);
+  const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["#2C1A51", "white", "white"]);
+  const handleButtonClick = buttonNumber => {
+    const newButtonColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#FFCE4A" : "#2C1A51"));
+    const newSizeTextBtnColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#2C1A51" : "white"));
     setButtonColors(newButtonColors);
     setSizeTextBtnColors(newSizeTextBtnColors);
-    const lengthStory =
-      buttonNumber === 1 ? "Courte" : buttonNumber === 2 ? "Moyenne" : "Longue";
+    const lengthStory = buttonNumber === 1 ? "Courte" : buttonNumber === 2 ? "Moyenne" : "Longue";
     dispatch(updateNewLength(lengthStory));
   };
 
-  const handleButtonEndTypeClick = (buttonEndNumber) => {
-    const newButtonTypeEnd = buttonTypeEnd.map((type, index) =>
-      buttonEndNumber - 1 === index ? "#FFCE4A" : "#6B5F85"
-    );
+  const handleButtonEndTypeClick = buttonEndNumber => {
+    const newButtonTypeEnd = buttonTypeEnd.map((type, index) => (buttonEndNumber - 1 === index ? "#FFCE4A" : "#6B5F85"));
     setButtonTypeEnd(newButtonTypeEnd);
     const typeEnd =
-      buttonEndNumber === 1
-        ? "Fin heureuse"
-        : buttonEndNumber === 2
-        ? "Fin triste"
-        : buttonEndNumber === 3
-        ? "Fin ouverte"
-        : "Fin morale";
+      buttonEndNumber === 1 ? "Fin heureuse" : buttonEndNumber === 2 ? "Fin triste" : buttonEndNumber === 3 ? "Fin ouverte" : "Fin morale";
     dispatch(updateNewEnding(typeEnd));
   };
 
@@ -81,123 +50,66 @@ export default function StoryGenerationStep2Screen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require("../assets/ImageBibliotheque.png")}
-        style={styles.imagBgd}
-      >
+      <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd}>
         <Text style={styles.title1}>Création d'une histoire</Text>
         <View style={styles.containerStep}>
-          <Text style={styles.title2}>Choisissez les paramètres</Text>
-          <Text style={styles.title2bis}>Etape 2/3</Text>
+          <Text style={styles.title2}>Etape 2/3 : Choisissez les paramètres</Text>
+          <FontAwesomeIcon icon={faQuestionCircle} size={20} style={styles.iconHelp} />
         </View>
       </ImageBackground>
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
       </View>
       <View style={styles.containerStory}>
-        <ScrollView
-          contentContainerStyle={styles.containerInformation}
-          indicatorStyle="white"
-        >
+        <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
-          <TouchableOpacity
-            style={[styles.btnSizeStory, { backgroundColor: buttonColors[0] }]}
-            onPress={() => handleButtonClick(1)}
-          >
-            <Text style={[styles.sizeTextBtn, { color: sizeTextBtnColors[0] }]}>
-              Courte
-            </Text>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[0] }]} onPress={() => handleButtonClick(1)}>
+            <Text style={[styles.sizeTextBtn, { color: sizeTextBtnColors[0] }]}>Courte</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.btnSizeStory, { backgroundColor: buttonColors[1] }]}
-            onPress={() => handleButtonClick(2)}
-          >
-            <Text style={[styles.sizeTextBtn, { color: sizeTextBtnColors[1] }]}>
-              Moyenne
-            </Text>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[1] }]} onPress={() => handleButtonClick(2)}>
+            <Text style={[styles.sizeTextBtn, { color: sizeTextBtnColors[1] }]}>Moyenne</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.btnSizeStory, { backgroundColor: buttonColors[2] }]}
-            onPress={() => handleButtonClick(3)}
-          >
-            <Text style={[styles.sizeTextBtn, { color: sizeTextBtnColors[2] }]}>
-              Longue
-            </Text>
+          <TouchableOpacity style={[styles.btnSizeStory, { backgroundColor: buttonColors[2] }]} onPress={() => handleButtonClick(3)}>
+            <Text style={[styles.sizeTextBtn, { color: sizeTextBtnColors[2] }]}>Longue</Text>
           </TouchableOpacity>
           <Text style={styles.titleContainer}>Type de fin</Text>
           <View style={styles.leftContainer}>
             <View style={styles.typeEndLeft}>
-              <TouchableOpacity
-                style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[0] }]}
-                onPress={() => handleButtonEndTypeClick(1)}
-              >
-                <ImageBackground
-                  style={styles.imagBgdAbo}
-                  source={require("../assets/Fin_heureuse.png")}
-                ></ImageBackground>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[0] }]} onPress={() => handleButtonEndTypeClick(1)}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_heureuse.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin heureuse</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndLeft}>
-              <TouchableOpacity
-                style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[1] }]}
-                onPress={() => handleButtonEndTypeClick(2)}
-              >
-                <ImageBackground
-                  style={styles.imagBgdAbo}
-                  source={require("../assets/Fin_triste.png")}
-                ></ImageBackground>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[1] }]} onPress={() => handleButtonEndTypeClick(2)}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_triste.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin triste</Text>
               </TouchableOpacity>
             </View>
           </View>
           <View style={styles.rightContainer}>
             <View style={styles.typeEndRight}>
-              <TouchableOpacity
-                style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[2] }]}
-                onPress={() => handleButtonEndTypeClick(3)}
-              >
-                <ImageBackground
-                  style={styles.imagBgdAbo}
-                  source={require("../assets/Fin_ouverte.png")}
-                ></ImageBackground>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[2] }]} onPress={() => handleButtonEndTypeClick(3)}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_ouverte.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin ouverte</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.typeEndRight}>
-              <TouchableOpacity
-                style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[3] }]}
-                onPress={() => handleButtonEndTypeClick(4)}
-              >
-                <ImageBackground
-                  style={styles.imagBgdAbo}
-                  source={require("../assets/Fin_morale.png")}
-                ></ImageBackground>
+              <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[3] }]} onPress={() => handleButtonEndTypeClick(4)}>
+                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_morale.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin morale</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.arrowContainer}>
-            <TouchableOpacity style={styles.arrowBtn}>
-              <Icon
-                name="chevron-left"
-                size={30}
-                color={"#2C1A51"}
-                onPress={() => handleStoryGeneration()}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.arrowBtn}>
-              <Icon
-                name="chevron-right"
-                size={30}
-                color={"#2C1A51"}
-                onPress={() => handleStoryGeneration3()}
-              />
-            </TouchableOpacity>
-           
+              <TouchableOpacity style={styles.arrowBtn}>
+                <Icon name='chevron-left' size={30} color={"#2C1A51"} onPress={() => handleStoryGeneration()} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.arrowBtn}>
+                <Icon name='chevron-right' size={30} color={"#2C1A51"} onPress={() => handleStoryGeneration3()} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.space}></View>
           </View>
-          <View style={styles.space}></View>
-          </View>
-          
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -225,6 +137,11 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
     position: "absolute",
   },
+  iconHelp: {
+    color: "rgba(255, 255, 255, 0.4)",
+    bottom: "8%",
+    left: "90%",
+  },
   containerStep: {
     flexDirection: "row",
     marginTop: "49%",
@@ -235,13 +152,14 @@ const styles = StyleSheet.create({
   },
   title2: {
     fontFamily: "Lato_400Regular",
-    color: "#FFCE4A",
+    color: "white",
     fontSize: 16,
+    marginTop: "5%",
   },
-  title2bis: {
-    fontFamily: "Lato_400Regular",
-    color: "#FFCE4A",
-  },
+  // title2bis: {
+  //   fontFamily: "Lato_400Regular",
+  //   color: "#FFCE4A",
+  // },
 
   containerInformation: {
     height: "122%", //650
@@ -341,17 +259,17 @@ const styles = StyleSheet.create({
   },
 
   arrowContainer: {
-    flexDirection:"row",
+    flexDirection: "row",
     justifyContent: "space-between",
     width: "190%",
     height: "20%",
     alignItems: "center",
-    right:"195%",
-    top: "55%"
+    right: "195%",
+    top: "55%",
   },
   arrowBtn: {
-    marginLeft:"12%",
-    marginRight:"60%"
+    marginLeft: "12%",
+    marginRight: "60%",
   },
 
   tabBar: {

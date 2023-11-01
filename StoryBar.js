@@ -141,10 +141,10 @@ export default function StoryBar({ navigation }) {
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
-            <TouchableOpacity onPress={closeModal}>
-              <Text style={styles.closeBtn}>X</Text>
-              <Text style={styles.modalTitle}>Settings</Text>
-            </TouchableOpacity>
+            {/* <TouchableOpacity > */}
+            <FontAwesome name='close' size={20} style={styles.mdlClosed} color='white' onPress={closeModal} />
+            {/* </TouchableOpacity> */}
+            <Text style={styles.modalTitle}>Settings</Text>
             <View style={styles.settingsApp}>
               <View style={styles.setting}>
                 {/* <View style={styles.setting}> */}
@@ -294,6 +294,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
     right: "10%",
   },
+  mdlClosed: {
+    textAlign: "right",
+    right: "10%",
+  },
   containerPolice: {
     // flexDirection: "row",
     // padding: 10,
@@ -340,7 +344,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#FFCE4A",
+    borderColor: "white",
     borderRadius: 10,
     marginBottom: 15,
   },

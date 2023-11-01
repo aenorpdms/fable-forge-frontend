@@ -37,7 +37,6 @@ export default function SignScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-      
         if (data.result) {
           setIsValidSignUp(true);
           setUsername("");
@@ -61,7 +60,6 @@ export default function SignScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
-   
         if (data.result) {
           setIsValidSignIn(true);
           setIdentifier("");
@@ -246,7 +244,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "5%",
     justifyContent: "center",
-    marginBottom: "5%"
+    marginBottom: "5%",
   },
   btnGoogle: {
     backgroundColor: "#E6DAFF",
