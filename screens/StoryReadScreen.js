@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { API_KEY, API_URL } from "@env";
 // import TabBar from "../TabBar";
 import StoryBar from "../StoryBar";
 import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from "react-redux";
-import newStory, { addTitle, saveStory, emptyNewStory } from "../reducers/newStory";
+import newStory, {
+  addTitle,
+  saveStory,
+  emptyNewStory,
+} from "../reducers/newStory";
 
 export default function StoryReadScreen({ navigation }) {
-  const selectedStory = useSelector(state => state.stories.value);
-  const contentWithoutFin = selectedStory.story.replace(/(Fin\.|undefined)|null/g, "").trim();
+  const selectedStory = useSelector((state) => state.stories.value);
+  const contentWithoutFin = selectedStory.story
+    .replace(/(Fin\.|undefined)|null/g, "")
+    .trim();
+  const user = useSelector((state) => state.user.value);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,8 +33,8 @@ export default function StoryReadScreen({ navigation }) {
         <View style={styles.backgroundTab}></View>
       </View>
       <Text style={styles.titleStory}>{selectedStory.title}</Text>
-      <ScrollView style={styles.containerStory}>
-        <Text style={styles.textStory}>{contentWithoutFin}</Text>
+      <ScrollView style={[styles.containerStory,{ backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
+        <Text style={[styles.textStory ,{ color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51" } ]}>{contentWithoutFin}</Text>
 
         <View style={styles.space}></View>
       </ScrollView>
