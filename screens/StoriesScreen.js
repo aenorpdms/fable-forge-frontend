@@ -15,13 +15,7 @@ export default function StoriesScreen({ navigation }) {
 const [update, setUpdate ] = useState(false)
 
 
-const handleDisplayStory = (story) => {
-    // Sortie anticipée si story n'est pas défini
-    if (!story) {
-      console.error("Erreur: L'histoire fournie est indéfinie");
-      return;
-    }
-  
+const handleDisplayStory = (story) => { 
     let typeImage;
 
   if(story.type === "Horreur"){
