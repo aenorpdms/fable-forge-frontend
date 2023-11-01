@@ -1664,14 +1664,14 @@
 
 "@fortawesome/fontawesome-svg-core@^6.4.2":
   version "6.4.2"
-  resolved "https://registry.npmjs.org/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.4.2.tgz"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.4.2.tgz#37f4507d5ec645c8b50df6db14eced32a6f9be09"
   integrity sha512-gjYDSKv3TrM2sLTOKBc5rH9ckje8Wrwgx1CxAPbN5N3Fm4prfi7NsJVWd1jklp7i5uSCVwhZS5qlhMXqLrpAIg==
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.4.2"
 
 "@fortawesome/free-solid-svg-icons@^6.4.2":
   version "6.4.2"
-  resolved "https://registry.npmjs.org/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.4.2.tgz"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-6.4.2.tgz#33a02c4cb6aa28abea7bc082a9626b7922099df4"
   integrity sha512-sYwXurXUEQS32fZz9hVCUUv/xu49PEJEyUOsA51l6PU/qVgfbTb2glsTEaJngVVT8VqBATRIdh7XVgV1JF1LkA==
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.4.2"
@@ -1685,7 +1685,7 @@
 
 "@fortawesome/react-native-fontawesome@^0.3.0":
   version "0.3.0"
-  resolved "https://registry.npmjs.org/@fortawesome/react-native-fontawesome/-/react-native-fontawesome-0.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/@fortawesome/react-native-fontawesome/-/react-native-fontawesome-0.3.0.tgz#b59c45cdae2451d15f826f937d6e1a6e9dca0c74"
   integrity sha512-wSfetdK4+b/pvPbM2v+bZ5hfNlwtk9l3QuJo59sbMrxJalfX7BuF2WsSIWMSxfWwSsbOtY4+TUs6uw/rE59NJA==
   dependencies:
     humps "^2.0.1"
@@ -6014,6 +6014,13 @@ react-native-gesture-handler@~2.12.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-ico-font-awesome@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-ico-font-awesome/-/react-native-ico-font-awesome-4.1.5.tgz#92a748d12e66223e8b4be56f8dd1666bf77141a5"
+  integrity sha512-wjEcCQOET21sOBf8Ah/1/YRFTQyJQ2FqUxg11vuBShWUungJ2XkASAYVBLu55MDynL+TTFMmLZwSeerMCabU3w==
+  dependencies:
+    react-svg-main "^3.0.1"
+
 react-native-reanimated-carousel@^3.5.1:
   version "3.5.1"
   resolved "https://registry.npmjs.org/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.5.1.tgz"
@@ -6055,10 +6062,10 @@ react-native-sse@^1.2.0:
   resolved "https://registry.yarnpkg.com/react-native-sse/-/react-native-sse-1.2.0.tgz#26838c912e934abcf10fedb20a0f87a130ae4d13"
   integrity sha512-+A1CcxkpR4cpxFzqYB1bg4CL7Yy+XjD258LmasJPBWMdwpMknQxabknSZWzoMgk2MEgmc0uFfbHssk3fZyr+vQ==
 
-react-native-svg@13.9.0:
-  version "13.9.0"
-  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.9.0.tgz"
-  integrity sha512-Ey18POH0dA0ob/QiwCBVrxIiwflhYuw0P0hBlOHeY4J5cdbs8ngdKHeWC/Kt9+ryP6fNoEQ1PUgPYw2Bs/rp5Q==
+react-native-svg@^13.13.0, react-native-svg@^13.14.0:
+  version "13.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-13.14.0.tgz#879930cfe10e877e51ebb77dfcc2cd65fc6b0d21"
+  integrity sha512-27ZnxUkHgWICimhuj6MuqBkISN53lVvgWJB7pIypjXysAyM+nqgQBPh4vXg+7MbqLBoYvR4PiBgKfwwGAqVxHg==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
@@ -6158,6 +6165,13 @@ react-shallow-renderer@^16.15.0:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+
+react-svg-main@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-svg-main/-/react-svg-main-3.0.1.tgz#b4160dd16ac42e26bc5e953d454940d5fa10b84d"
+  integrity sha512-PUMNkJhdI9Fr1Pw/C/yFo7I7sRiwNlZaV3ZyXnKJlyzVhlcdJUhMejivNrUAOhWLpyIYgQZ4hRYp/6IgmjFE1g==
+  dependencies:
+    react-native-svg "^13.13.0"
 
 react@18.2.0:
   version "18.2.0"
