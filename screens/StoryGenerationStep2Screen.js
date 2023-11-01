@@ -32,7 +32,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
     "#6B5F85",
   ]);
   const [sizeTextBtnColors, setSizeTextBtnColors] = useState([
-    "white",
+    "#2C1A51",
     "white",
     "white",
   ]);
