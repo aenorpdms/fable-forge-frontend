@@ -34,7 +34,7 @@ export default function StoryReadScreen({ navigation }) {
       </View>
       <Text style={styles.titleStory}>{selectedStory.title}</Text>
       <ScrollView style={[styles.containerStory,{ backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
-        <Text style={[styles.textStory ,{ color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51" } ]}>{contentWithoutFin}</Text>
+        <Text style={[styles.textStory ,{ color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51", fontSize: user.fontSizeSet } ]}>{contentWithoutFin}</Text>
 
         <View style={styles.space}></View>
       </ScrollView>
