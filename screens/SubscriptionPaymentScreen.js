@@ -112,13 +112,13 @@ export default function SubscriptionPaymentScreen() {
       </View>
       </View>
       <View style={styles.typeOfPayment}>
-      <View>
+       <View>
         <Text style={styles.textTypeOfPayment}>Visa</Text>
           <TouchableOpacity
             onPress={() => handleClickChoix1()}
             style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
           ></TouchableOpacity>
-      </View>
+       </View>
       <View>
         <Text style={styles.textTypeOfPayment}>Paypal</Text>
         <TouchableOpacity
@@ -136,11 +136,6 @@ export default function SubscriptionPaymentScreen() {
       </View>
       <View style={styles.containerPayment}>
         <View style={styles.inputPayment}>
-          <Image
-            source={require("../assets/buttonscanCard.png")}
-            style={styles.scanCard}
-            size={30}
-          />
           <Text style={styles.titleInput}>Nom du propriétaire</Text>
           <TextInput
             style={styles.input}
@@ -198,22 +193,11 @@ export default function SubscriptionPaymentScreen() {
         </Text>
       </View>
       <View style={styles.arrowContainer}>
-        <TouchableOpacity
-          style={styles.arrowBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Image
-            source={require("../assets/arrow-circle-back.png")}
-            size={30}
-            color="#FFCE4A"
-          />
+        <TouchableOpacity style={styles.btnResiliation} onPress={() => navigation.goBack()}>
+          <Text style={styles.btnResiliationText}>Valider mon paiement</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.arrowBtn1}>
-          <Image
-            source={require("../assets/validationbtn.png")}
-            size={30}
-            color="#FFCE4A"
-          />
+        <TouchableOpacity style={styles.btnRetour} onPress={() => navigation.goBack()}>
+          <Text style={styles.btnResiliationText}>Retour</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -236,24 +220,30 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   recapAbo: {
-    height: "35%",
+    height: "40%",
     width: "100%",
     overflow: "hidden",
     borderColor: "white",
     borderWidth: 1,
     borderRadius: 10,
-    bottom: '20%'
+    bottom: '15%'
   },
   textBtnPrice: {
     color: "#2C1A51",
     fontSize: 14,
+    textAlign: 'center',
+    top: '30%'
   },
   textRecapAbo: {
     color: "white",
     fontSize: 16,
+    textAlign: 'center',
+    fontWeight: "bold",
+    top: '55%',
   },
   title: {
-    
+    bottom: '15%',
+    right: '4%',
   },
   title1: {
     color: "#FFCE4A",
@@ -269,26 +259,29 @@ const styles = StyleSheet.create({
   title3: {
     color: "white",
     fontSize: 10,
-    // marginBottom: 20,
   },
   typeOfPayment: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    // marginBottom: 10,
+    bottom: '25%',
+  },
+  inputPayment: {
+    bottom: '10%',
   },
   textTypeOfPayment: {
     color: "#FFCE4A",
-    fontSize: 18,
+    fontSize: 14,
   },
   choisi: {
     backgroundColor: "#FFCE4A",
     borderRadius: 12,
     borderWidth: 1,
     textAlign: 'center',
-    height: "12%",
+    height: "10%",
     width: "40%",
     borderColor: "#FFCE4A",
+    bottom: '20%',
   },
   choix: {
     height: 24,
@@ -308,16 +301,11 @@ const styles = StyleSheet.create({
   choixSelectionneSaved: {
     backgroundColor: "#FFCE4A",
   },
-  scanCard: {
-    left: 130,
-    // margin: 20,
-    // bottom: 40,
-  },
   titleInput: {
     color: "white",
     fontFamily: "Lato_400Regular",
     marginLeft: 10,
-    bottom: 30,
+    bottom: '35%',
   },
   input: {
     backgroundColor: "#ffffff",
@@ -326,27 +314,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
     margin: 10,
-    bottom: 30,
+    bottom: '35%',
   },
   inputCard: {
     flexDirection: "row",
     justifyContent: "space-around",
-    // bottom: 30,
   },
-  // inputRow: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   marginBottom: 10,
-  // },
   titleInput1: {
     color: "white",
     fontFamily: "Lato_400Regular",
     left: 14,
+    bottom: '17%',
   },
   titleInput2: {
     color: "white",
     fontFamily: "Lato_400Regular",
     left: 90,
+    bottom: '17%',
   },
   input1: {
     backgroundColor: "#6B5F85",
@@ -354,33 +338,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 10,
     padding: 5,
-    // margin: 5,
-    top: 30,
     right: 17,
     color: "#FFCE4A",
+    bottom: '10%',
   },
   arrowContainer: {
-    position: "absolute",
-    zIndex: 1,
-    top: "100%",
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "center",
-    padding: 2,
-    width: "100%",
-    // bottom: 10,
+    
   },
-  arrowBtn: {
-    padding: 10,
-  },
-  arrowBtn1: {
-    padding: 10,
-  },
-
-  alignBtnSaved: {
-
-  },
-
   choixInfoSaved: {
     width: 15,
     height: 15,
@@ -389,23 +353,36 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     marginVertical: 2,
     right: 5,
-    bottom: 60,
-
-    // width: 15,
-    // height: 15,
-    // borderRadius: 25,
-    // borderWidth: 2,
-    // borderColor: "gray",
-    // marginVertical: 2,
-    // top: 0, // Update this value to align the button and the text
-    // left: 190,
+    bottom: '30%',
   },
-
   title4: {
     width: "100%",
     color: "white",
     textAlign: "center",
     left: 15,
-    bottom: 80,
+    bottom: '80%',
+  },
+  btnResiliation: {
+    width: "100%",
+    borderColor: "#FFFFFF",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#6B5F85",
+  },
+  btnRetour: {
+    width: "100%",
+    marginTop: "4%",
+    borderColor: "#FFCE4A",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "transparent",
+  },
+  btnResiliationText: {
+    fontFamily: "Lato_400Regular",
+    color: "#FFFFFF",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
