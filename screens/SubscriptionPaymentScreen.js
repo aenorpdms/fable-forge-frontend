@@ -9,7 +9,6 @@ import {
   ImageBackground,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
@@ -94,35 +93,46 @@ export default function SubscriptionPaymentScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
-        <ImageBackground source={activeImage} style={styles.recapAbo}>
-          <Text style={styles.textRecapAbo}>{subscription.type}</Text>
-          <Text style={styles.textRecapAbo}>{subscription.price}</Text>
-        </ImageBackground>
+       <View style={styles.recapAbo}>
+          <ImageBackground source={activeImage} style={styles.backgroundImage}>
+            <Text style={styles.textRecapAbo}>{subscription.type}</Text>
+            <Text style={styles.textRecapAbo}>{subscription.price}</Text>
+          </ImageBackground>
+       </View>
         <TouchableOpacity style={styles.choisi}>
           <Text style={styles.textBtnPrice}>Choisi</Text>
         </TouchableOpacity>
+
+        <View style={styles.title}>
         <Text style={styles.title1}>Paiement</Text>
         <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
         <Text style={styles.title3}>
           Vous serez débité une fois l'abonnement validé
         </Text>
       </View>
+      </View>
       <View style={styles.typeOfPayment}>
+      <View>
         <Text style={styles.textTypeOfPayment}>Visa</Text>
-        <TouchableOpacity
-          onPress={() => handleClickChoix1()}
-          style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
-        ></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleClickChoix1()}
+            style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
+          ></TouchableOpacity>
+      </View>
+      <View>
         <Text style={styles.textTypeOfPayment}>Paypal</Text>
         <TouchableOpacity
           onPress={() => handleClickChoix2()}
           style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}
         ></TouchableOpacity>
+      </View>
+      <View>
         <Text style={styles.textTypeOfPayment}>ApplePay</Text>
         <TouchableOpacity
           onPress={() => handleClickChoix3()}
           style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}
         ></TouchableOpacity>
+      </View>
       </View>
       <View style={styles.containerPayment}>
         <View style={styles.inputPayment}>
@@ -214,67 +224,68 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#2C1A51", // Dark purple background
+    backgroundColor: "#2C1A51",
   },
   containerTitles: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+  backgroundImage: {
+    width: '100%',
+    height: '100%'
+  },
   recapAbo: {
-    height: 150,
+    height: "35%",
     width: "100%",
     overflow: "hidden",
     borderColor: "white",
     borderWidth: 1,
-    backgroundColor: "#4F4F91", // Slightly lighter purple for the subscription box
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
+    bottom: '20%'
   },
   textBtnPrice: {
     color: "#2C1A51",
     fontSize: 14,
-    marginVertical: 10,
   },
   textRecapAbo: {
     color: "white",
-    fontSize: 15,
-    marginBottom: 20,
+    fontSize: 16,
+  },
+  title: {
+    
   },
   title1: {
     color: "#FFCE4A",
     fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   title2: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 5,
   },
   title3: {
     color: "white",
-    fontSize: 15,
-    marginBottom: 20,
+    fontSize: 10,
+    // marginBottom: 20,
   },
   typeOfPayment: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   textTypeOfPayment: {
-    color: "white",
+    color: "#FFCE4A",
     fontSize: 18,
   },
   choisi: {
     backgroundColor: "#FFCE4A",
     borderRadius: 12,
     borderWidth: 1,
-    textAlign: "center",
-    justifyContent: "center",
+    textAlign: 'center',
     height: "12%",
     width: "40%",
     borderColor: "#FFCE4A",
@@ -299,8 +310,8 @@ const styles = StyleSheet.create({
   },
   scanCard: {
     left: 130,
-    margin: 20,
-    bottom: 40,
+    // margin: 20,
+    // bottom: 40,
   },
   titleInput: {
     color: "white",
@@ -320,7 +331,7 @@ const styles = StyleSheet.create({
   inputCard: {
     flexDirection: "row",
     justifyContent: "space-around",
-    bottom: 30,
+    // bottom: 30,
   },
   // inputRow: {
   //   flexDirection: "row",
@@ -360,19 +371,14 @@ const styles = StyleSheet.create({
     // bottom: 10,
   },
   arrowBtn: {
-    bottom: 30,
     padding: 10,
   },
   arrowBtn1: {
-    bottom: 30,
     padding: 10,
   },
 
   alignBtnSaved: {
-    width: "80%",
-    // borderWidth: 1,
-    // borderColor: "green",
-    top: 90,
+
   },
 
   choixInfoSaved: {
@@ -382,7 +388,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "gray",
     marginVertical: 2,
-    // top: 20,
     right: 5,
     bottom: 60,
 
