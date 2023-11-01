@@ -30,24 +30,30 @@ export default function StoryBar({ navigation }) {
 
   const dispatch = useDispatch();
   const toggleFontSwitch = () =>
-    setIsFontEnabled((previousState) => !previousState);
-    
-  const toggleAudioSwitch = async () => {
-    setIsAudioEnabled((previousState) => !previousState);
-    if (isAudioEnabled) {
-      try {
-        await soundObject.current.pauseAsync();
-      } catch (error) {
-        console.error("Error pausing audio", error);
-      }
-    } else {
-      try {
-        await soundObject.current.playAsync();
-      } catch (error) {
-        console.error("Error playing audio", error);
-      }
+  setIsFontEnabled((previousState) => !previousState);
+
+
+ // Define the sound object
+ const soundObject = useRef(new Audio.Sound());
+
+const toggleAudioSwitch = async () => {
+  setIsAudioEnabled((previousState) => !previousState);
+  if (isAudioEnabled) {
+    try {
+      await soundObject.current.pauseAsync();
+    } catch (error) {
+      console.error("Error pausing audio", error);
     }
-  };
+  } else {
+    try {
+      await soundObject.current.playAsync();
+    } catch (error) {
+      console.error("Error playing audio", error);
+    }
+  }
+};
+
+
   // FONT
   const user = useSelector((state) => state.user.value);
   const font = user.fontSizeSet;
@@ -102,7 +108,7 @@ export default function StoryBar({ navigation }) {
 
   // AUDIO
   const newStory = useSelector((state) => state.newStory.value);
-  const soundObject = useRef(new Audio.Sound());
+  const storySelected = useSelector((state) => state.stories.value);
 
   const genreMusic = {
     Horreur: require("./assets_music/Genre_Horreur.mp3"),
@@ -113,11 +119,19 @@ export default function StoryBar({ navigation }) {
     Enfant: require("./assets_music/Genre_Enfant.mp3"),
   };
 
+  let genreStoryMusic;
+
+  if (newStory.type !== "") {
+    genreStoryMusic = newStory.type;
+  } else {
+    genreStoryMusic = storySelected.type;
+  }
+
   useEffect(() => {
     const loadMusic = async () => {
       try {
         if (isAudioEnabled) {
-          await soundObject.current.loadAsync(genreMusic[newStory.type]);
+          await soundObject.current.loadAsync(genreMusic[genreStoryMusic]);
           await soundObject.current.setIsLoopingAsync(true);
           await soundObject.current.playAsync(); // Jouer la musique au chargement
         } else {
@@ -133,7 +147,7 @@ export default function StoryBar({ navigation }) {
     return () => {
       soundObject.current.unloadAsync();
     };
-  }, [newStory.type, isAudioEnabled]);
+  }, [isAudioEnabled]);
 
   // DARK LIGTH MODE
   const isModeEnabledMode = user.mode === "dark";
