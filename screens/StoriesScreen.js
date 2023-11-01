@@ -16,7 +16,13 @@ const [update, setUpdate ] = useState(false)
 
 
 const handleDisplayStory = (story) => {
-  let typeImage
+    // Sortie anticipée si story n'est pas défini
+    if (!story) {
+      console.error("Erreur: L'histoire fournie est indéfinie");
+      return;
+    }
+  
+    let typeImage;
 
   if(story.type === "Horreur"){
     typeImage = require("../assets/Horreur.png")
@@ -32,17 +38,16 @@ const handleDisplayStory = (story) => {
     typeImage = require("../assets/Enfant.png")
   }
 
-  const selectedStoryData = {
-    title: story.title || "Default Title",
-    type: story.type || "Default Type",
-    story: story.choicePrompt[0] || "Default Story",
+  dispatch(updateStory({
+    title: story.title,
+    type: story.type,
+    story: story.choicePrompt[0],
     selectedImage: typeImage,
-  };
-
-  dispatch(updateStory(selectedStoryData))
+  }))
   navigation.navigate("StoryRead");
   };
 
+  console.log(selectedStory)
 
 useEffect(() => {
   fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
