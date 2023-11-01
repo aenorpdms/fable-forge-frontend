@@ -12,25 +12,8 @@ export default function StoriesScreen({ navigation }) {
   const user = useSelector((state)=> state.user.value)
   const [stories, setStories] = useState([])
   const dispatch = useDispatch()
+const [update, setUpdate ] = useState(false)
 
-// DELETE ACCOUNT
-  const handleDeleteStory = ({ storyID }) => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/user/${storyID}/${user.token}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: user.token }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.result) {
-          console.log('story delete');
-        }
-      });
-  };
-
-
-
-  
 
 const handleDisplayStory = (story) => {
   let typeImage
@@ -74,11 +57,14 @@ useEffect(() => {
         }
   });
 
-}, []);
+}, [!update]);
+
 
 
 // map sur le tableau et return 
 const storiesList = stories.map((story, index) => {
+
+  console.log(story._id)
   let typeImage
   if(story.type === "Horreur"){
     typeImage = require("../assets/Horreur.png")
@@ -112,7 +98,22 @@ return (
   </View>
 )})
 
-//dans le scrollview le tableau résultant du map
+
+// DELETE ACCOUNT
+const handleDeleteStory = (storyID) => {
+  fetch(`https://fable-forge-backend-84ce.vercel.app/stories/${storyID}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: user.token }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        setUpdate(true)
+        console.log('story delete');
+      }
+    });
+};
 
   return (
     <SafeAreaView style={styles.container}>
