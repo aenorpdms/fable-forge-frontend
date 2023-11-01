@@ -23,7 +23,7 @@ export default function StoryGenerationScreen() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
   const toggleModal = () => {
-    console.log("Toggle modal called");
+    console.log("modal", isModalOpen);
     setIsModalOpen(!isModalOpen);
   };
 
@@ -106,20 +106,20 @@ export default function StoryGenerationScreen() {
           <Text style={styles.title2}>Etape 1/3 : Choisissez un genre</Text>
         </View>
       </ImageBackground>
-      <FontAwesomeIcon icon={faQuestionCircle} size={20} style={styles.iconHelp} onPress={toggleModal} />
+      <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>
+        <FontAwesomeIcon icon={faQuestionCircle} color={"#6B5F85"} size={20} />
+      </TouchableOpacity>
       {/* Modal */}
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
-            {/* <TouchableOpacity > */}
             <FontAwesome name='close' size={20} style={styles.mdlClosed} color='white' onPress={closeModal} />
-            {/* </TouchableOpacity> */}
-            <Text style={styles.modalTitle}>Settings</Text>
             <View style={styles.settingsApp}>
-              <View style={styles.setting}>
-                {/* <View style={styles.setting}> */}
-                {/* </View> */}
-              </View>
+              <Text style={styles.titleModal}>Assistance</Text>
+              <Text style={styles.textModal}>
+                Vous voici dans la première étape de génération d'une histoire. Vous avez la possibilité de choisir parmi différents styles de récits.
+                Dès que votre choix est fait, appuyer sur "Sélectionner" pour passer à la seconde étape de génération d'histoires.
+              </Text>
             </View>
             {/* Add your modal content here */}
           </View>
@@ -166,14 +166,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: "5%",
   },
-  // title2bis: {
-  //   fontFamily: "Lato_400Regular",
-  //   color: "white",
-  // },
   iconHelp: {
-    color: "rgba(255, 255, 255, 0.4)",
+    color: "rgba(255, 255, 255, 0.5)",
     top: "11%",
     left: "40%",
+    zIndex: 10,
   },
   mdlctn: {
     width: "100%",
@@ -182,7 +179,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "80%",
-    height: "55%",
+    height: "25%",
     // justifyContent: "center",
     // backgroundColor: "rgba(0,0,0, 0.5)",
     // width: 350, // Adjust the width as per your requirement
@@ -193,25 +190,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
     // alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     // backdropFilter: "blur(5px)",
   },
-  modalTitle: {
-    color: "white",
-    textAlign: "center",
-    padding: "5%",
-    right: "5%",
-    fontSize: 20,
-  },
-  closeBtn: {
-    color: "white",
-    fontSize: 20,
-    textAlign: "right",
-    right: "10%",
-  },
+  // modalTitle: {
+  //   color: "white",
+  //   textAlign: "center",
+  //   padding: "5%",
+  //   right: "5%",
+  //   fontSize: 20,
+  // },
+  // closeBtn: {
+  //   color: "white",
+  //   fontSize: 20,
+  //   textAlign: "right",
+  //   top: "50%",
+  //   right: "10%",
+  // },
   mdlClosed: {
     textAlign: "right",
     right: "10%",
+    top: "5%",
+  },
+  titleModal: {
+    color: "#FFCE4A",
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  textModal: {
+    color: "white",
+    marginTop: "10%",
+    textAlign: "center",
+    right: "4%",
   },
   carousel: {
     alignItems: "center",

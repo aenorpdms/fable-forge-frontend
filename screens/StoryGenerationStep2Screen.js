@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateNewLength, updateNewEnding } from "../reducers/newStory";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import TabBar from "../TabBar";
 
@@ -18,6 +19,18 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   const [buttonColors, setButtonColors] = useState(["#FFCE4A", "#2C1A51", "#2C1A51"]);
   const [buttonTypeEnd, setButtonTypeEnd] = useState(["#FFCE4A", "#6B5F85", "#6B5F85", "#6B5F85"]);
   const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["#2C1A51", "white", "white"]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
+
+  const toggleModal = () => {
+    console.log("modal", isModalOpen);
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
+
   const handleButtonClick = buttonNumber => {
     const newButtonColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#FFCE4A" : "#2C1A51"));
     const newSizeTextBtnColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#2C1A51" : "white"));
@@ -54,9 +67,27 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         <Text style={styles.title1}>Création d'une histoire</Text>
         <View style={styles.containerStep}>
           <Text style={styles.title2}>Etape 2/3 : Choisissez les paramètres</Text>
-          <FontAwesomeIcon icon={faQuestionCircle} size={20} style={styles.iconHelp} />
+          <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>
+            <FontAwesomeIcon icon={faQuestionCircle} color={"#6B5F85"} size={20} />
+          </TouchableOpacity>
         </View>
       </ImageBackground>
+      {/* Modal */}
+      <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
+        <View style={styles.mdlctn}>
+          <View style={styles.modalContainer}>
+            <FontAwesome name='close' size={20} style={styles.mdlClosed} color='white' onPress={closeModal} />
+            <View style={styles.settingsApp}>
+              <Text style={styles.titleModal}>Assistance</Text>
+              <Text style={styles.textModal}>
+                Dans cette seconde étape, vous pouvez personnaliser votre histoire à créer. Vous avez la possibilité de choisir parmi 3 longueurs
+                possible de récit et 4 types de fin possibles.
+              </Text>
+            </View>
+            {/* Add your modal content here */}
+          </View>
+        </View>
+      </Modal>
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
       </View>
@@ -137,10 +168,68 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
     position: "absolute",
   },
+  // iconHelp: {
+  //   color: "rgba(255, 255, 255, 0.4)",
+  //   bottom: "8%",
+  //   left: "90%",
+  // },
   iconHelp: {
-    color: "rgba(255, 255, 255, 0.4)",
-    bottom: "8%",
+    color: "rgba(255, 255, 255, 0.5)",
+    bottom: "9%",
     left: "90%",
+    zIndex: 10,
+  },
+  mdlctn: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, 0.5)",
+  },
+  modalContainer: {
+    width: "80%",
+    height: "25%",
+    // justifyContent: "center",
+    // backgroundColor: "rgba(0,0,0, 0.5)",
+    // width: 350, // Adjust the width as per your requirement
+    // height: 180, // Adjust the height as per your requirement
+    marginTop: "40%",
+    marginLeft: 40,
+    paddingLeft: "5%",
+    backgroundColor: "#6B5F85",
+    borderRadius: 20, // Adjust the borderRadius as per your requirement
+    // alignItems: "center",
+    // justifyContent: "center",
+    // backdropFilter: "blur(5px)",
+  },
+  // modalTitle: {
+  //   color: "white",
+  //   textAlign: "center",
+  //   padding: "5%",
+  //   right: "5%",
+  //   fontSize: 20,
+  // },
+  // closeBtn: {
+  //   color: "white",
+  //   fontSize: 20,
+  //   textAlign: "right",
+  //   top: "50%",
+  //   right: "10%",
+  // },
+  mdlClosed: {
+    textAlign: "right",
+    right: "10%",
+    top: "5%",
+  },
+  titleModal: {
+    color: "#FFCE4A",
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  textModal: {
+    color: "white",
+    marginTop: "10%",
+    textAlign: "center",
+    right: "4%",
   },
   containerStep: {
     flexDirection: "row",
