@@ -7,6 +7,8 @@ import {
   TextInput,
   Image,
   ImageBackground,
+  Modal,
+  KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
@@ -20,16 +22,6 @@ export default function SubscriptionPaymentScreen() {
   const route = useRoute();
   const navigation = useNavigation();
   const { subscription } = route.params;
-
-  // Vérifiez si subscription est défini
-  if (!subscription) {
-return (
-      <View>
-        <Text>Subscription is not defined</Text>
-      </View>
-    );
-  }
-
   
   const [choix1, setChoix1] = useState(0);
   const [choix2, setChoix2] = useState(0);
@@ -58,26 +50,6 @@ return (
     setChoix3(1);
   };
 
-  const handleLetterChange = (text) => {
-    setLetterToFillInInput(text);
-    if (!/^[a-zA-Z\s]+$/.test(text)) {
-      setLetterToFillInInput(
-        "Veuillez entrer uniquement des lettres et des espaces"
-      );
-    } else {
-      setLetterToFillInInput("");
-    }
-  };
-
-  const handleNumberChange = (text) => {
-    setNumberToFillInInput(text);
-    if (!/^[0-9]+$/.test(text)) {
-      setNumberToFillInInputError("Veuillez entrer uniquement des chiffres");
-    } else {
-      setNumberToFillInInputError("");
-    }
-  };
-
   const [isSaveInfosClicked, setIsSaveInfosClicked] = useState(false);
 
   const handleButtonClick = () => {
@@ -90,70 +62,64 @@ return (
       ).imageSource
     : null;
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
-       <View style={styles.recapAbo}>
-          <ImageBackground source={activeImage} style={styles.backgroundImage}>
+        <View style={styles.recapAbo}>
+          <ImageBackground
+            source={activeImage}
+            style={styles.backgroundImage}
+          >
             <Text style={styles.textRecapAbo}>{subscription.type}</Text>
             <Text style={styles.textRecapAbo}>{subscription.price}</Text>
           </ImageBackground>
-       </View>
+        </View>
         <TouchableOpacity style={styles.choisi}>
           <Text style={styles.textBtnPrice}>Choisi</Text>
         </TouchableOpacity>
 
         <View style={styles.title}>
-        <Text style={styles.title1}>Paiement</Text>
-        <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
-        <Text style={styles.title3}>
-          Vous serez débité une fois l'abonnement validé
-        </Text>
-      </View>
+          <Text style={styles.title1}>Paiement</Text>
+          <Text style={styles.title2}>
+            Choisissez votre méthode de paiement
+          </Text>
+          <Text style={styles.title3}>
+            Vous serez débité une fois l'abonnement validé
+          </Text>
+        </View>
       </View>
       <View style={styles.typeOfPayment}>
-       <View>
-        <Text style={styles.textTypeOfPayment}>Visa</Text>
+        <View style={styles.choiceOfCard}>
+          <Text style={styles.textTypeOfPayment}>Visa</Text>
           <TouchableOpacity
             onPress={() => handleClickChoix1()}
             style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
           ></TouchableOpacity>
-       </View>
-      <View>
-        <Text style={styles.textTypeOfPayment}>Paypal</Text>
-        <TouchableOpacity
-          onPress={() => handleClickChoix2()}
-          style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}
-        ></TouchableOpacity>
+        </View>
+        <View style={styles.choiceOfCard}>
+          <Text style={styles.textTypeOfPayment}>Paypal</Text>
+          <TouchableOpacity
+            onPress={() => handleClickChoix2()}
+            style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}
+          ></TouchableOpacity>
+        </View>
+        <View style={styles.choiceOfCard}>
+          <Text style={styles.textTypeOfPayment}>ApplePay</Text>
+          <TouchableOpacity
+            onPress={() => handleClickChoix3()}
+            style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}
+          ></TouchableOpacity>
+        </View>
       </View>
-      <View>
-        <Text style={styles.textTypeOfPayment}>ApplePay</Text>
-        <TouchableOpacity
-          onPress={() => handleClickChoix3()}
-          style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}
-        ></TouchableOpacity>
-      </View>
-      </View>
+    <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
       <View style={styles.containerPayment}>
         <View style={styles.inputPayment}>
           <Text style={styles.titleInput}>Nom du propriétaire</Text>
-          <TextInput
-            style={styles.input}
-            value={letterToFillInInput}
-            onChangeText={handleLetterChange}
-          />
-          {letterToFillInInputError ? (
-            <Text style={styles.errorText}>{letterToFillInInputError}</Text>
-          ) : null}
+          <TextInput style={styles.input}/>
           <Text style={styles.titleInput}>Numéro de carte</Text>
-          <TextInput
-            style={styles.input}
-            value={numberToFillInInput}
-            onChangeText={handleNumberChange}
-          ></TextInput>
-          {numberToFillInInputError ? (
-            <Text style={styles.errorText}>{numberToFillInInputError}</Text>
-          ) : null}
+          <TextInput style={styles.input}></TextInput>
         </View>
         <View style={styles.inputCard}>
           <Text style={styles.titleInput1}>CVC</Text>
@@ -161,25 +127,16 @@ return (
             style={styles.input1}
             placeholder="CVC"
             placeholderTextColor="#FFCE4A"
-            value={numberToFillInInput}
-            onChangeText={handleNumberChange}
           />
-          {numberToFillInInputError ? (
-            <Text style={styles.errorText}>{numberToFillInInputError}</Text>
-          ) : null}
           <Text style={styles.titleInput2}>Date d'expiration</Text>
           <TextInput
             style={styles.input1}
             placeholder="MM/AA"
             placeholderTextColor="#FFCE4A"
-            value={numberToFillInInput}
-            onChangeText={handleNumberChange}
           ></TextInput>
-          {numberToFillInInputError ? (
-            <Text style={styles.errorText}>{numberToFillInInputError}</Text>
-          ) : null}
         </View>
       </View>
+      </KeyboardAvoidingView>    
       <View style={styles.alignBtnSaved}>
         <TouchableOpacity
           style={[
@@ -193,13 +150,42 @@ return (
         </Text>
       </View>
       <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.btnResiliation} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.btnResiliation}
+          onPress={() => setModalVisible(true)}
+        >
           <Text style={styles.btnResiliationText}>Valider mon paiement</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnRetour} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.btnRetour}
+          onPress={() => navigation.goBack()}
+        >
           <Text style={styles.btnResiliationText}>Retour</Text>
         </TouchableOpacity>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Bravo ! Votre achat est très apprécié, merci !</Text>
+            <TouchableOpacity
+              style={{ ...styles.openButton}}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Fermer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -220,7 +206,7 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   recapAbo: {
-    height: "40%",
+    height: "50%",
     width: "100%",
     overflow: "hidden",
     borderColor: "white",
@@ -262,20 +248,25 @@ const styles = StyleSheet.create({
   },
   typeOfPayment: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    bottom: '25%',
-  },
-  inputPayment: {
-    bottom: '10%',
+    // alignItems: "center",
+    // justifyContent: "space-between",
+    bottom: '20%',
   },
   textTypeOfPayment: {
     color: "#FFCE4A",
     fontSize: 14,
   },
+  choiceOfCard: {
+    alignItems: 'center',
+    padding: '10%',
+
+  },
+  inputPayment: {
+    bottom: '10%',
+  },
   choisi: {
     backgroundColor: "#FFCE4A",
-    borderRadius: 12,
+    borderRadius: 10,
     borderWidth: 1,
     textAlign: 'center',
     height: "10%",
@@ -286,7 +277,7 @@ const styles = StyleSheet.create({
   choix: {
     height: 24,
     width: 24,
-    borderRadius: 12,
+    borderRadius: 25,
     borderColor: "white",
     borderWidth: 2,
     backgroundColor: "#2E2E63",
@@ -342,9 +333,6 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
     bottom: '10%',
   },
-  arrowContainer: {
-    
-  },
   choixInfoSaved: {
     width: 15,
     height: 15,
@@ -384,5 +372,45 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textAlign: "center",
     fontSize: 16,
+  },
+
+// Style Modal
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0, 0.5)",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#6B5F85",
+    borderRadius: 10,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    color: 'white',
+  },
+  openButton: {
+    borderWidth: 1,
+    borderColor: '#FFCE4A',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

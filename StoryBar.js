@@ -1,36 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, StyleSheet, Image, Modal, Text, Switch } from "react-native";
-import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Modal,
+  Text,
+  Switch,
+} from "react-native";
+import Animated, {
+  Easing,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFontSize } from "./reducers/user";
+import { updateFontSize, updateMode } from "./reducers/user";
+import { Audio } from "expo-av";
 
 export default function StoryBar({ navigation }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
   const [isFontEnabled, setIsFontEnabled] = useState(false);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(false);
-  const [isAmbianceEnabled, setIsAmbianceEnabled] = useState(false);
-  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
-  const [isModeEnabled, setIsModeEnabled] = useState(false);
-
-  const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
-  const toggleAudioSwitch = () => setIsAudioEnabled(previousState => !previousState);
-  const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
-  const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
-  const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
+  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
 
   const dispatch = useDispatch();
-  // const [fontSize, setFontSize] = useState(16);
-  const user = useSelector(state => state.user.value);
+  const toggleFontSwitch = () =>
+  setIsFontEnabled((previousState) => !previousState);
 
+
+ // Define the sound object
+ const soundObject = useRef(new Audio.Sound());
+
+const toggleAudioSwitch = async () => {
+  setIsAudioEnabled((previousState) => !previousState);
+  if (isAudioEnabled) {
+    try {
+      await soundObject.current.pauseAsync();
+    } catch (error) {
+      console.error("Error pausing audio", error);
+    }
+  } else {
+    try {
+      await soundObject.current.playAsync();
+    } catch (error) {
+      console.error("Error playing audio", error);
+    }
+  }
+};
+
+
+  // FONT
+  const user = useSelector((state) => state.user.value);
   const font = user.fontSizeSet;
-
   const widthValue = useSharedValue(isOpen ? 140 : 0);
-
   const animatedStyles = useAnimatedStyle(() => {
     return {
       width: withTiming(widthValue.value, {
@@ -40,9 +67,9 @@ export default function StoryBar({ navigation }) {
     };
   });
   const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
-
   const animatedBackgroundStyle = useAnimatedStyle(() => {
-    const bgColor = bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
+    const bgColor =
+      bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
     return {
       backgroundColor: bgColor,
     };
@@ -56,7 +83,7 @@ export default function StoryBar({ navigation }) {
   }, []);
 
   const toggleTabBar = () => {
-    setIsOpen(prevState => {
+    setIsOpen((prevState) => {
       if (prevState) {
         widthValue.value = 0; // Réduire la largeur à 0
         bgValue.value = 0;
@@ -70,25 +97,66 @@ export default function StoryBar({ navigation }) {
 
   const increaseFontSize = () => {
     if (user.fontSizeSet < 30) {
-      //let newFontSize = user.fontSizeSet + 2;
-      // const newFontSize = fontSize + 2;
-
-      // // setFontSize(fontSize + 2);
-      // setFontSize(newFontSize);
       dispatch(updateFontSize(user.fontSizeSet + 2));
     }
   };
-
   const decreaseFontSize = () => {
     if (user.fontSizeSet > 10) {
-      let newFontSize = user.fontSizeSet - 2;
-
-      // setFontSize(fontSize - 2);
-      // setFontSize(newFontSize);
       dispatch(updateFontSize(user.fontSizeSet - 2));
     }
   };
 
+  // AUDIO
+  const newStory = useSelector((state) => state.newStory.value);
+  const storySelected = useSelector((state) => state.stories.value);
+
+  const genreMusic = {
+    Horreur: require("./assets_music/Genre_Horreur.mp3"),
+    Aventure: require("./assets_music/Genre_Aventure.mp3"),
+    "Fantasy / SF": require("./assets_music/Genre_Fantasy-SF.mp3"),
+    "Policier / Thriller": require("./assets_music/Genre_Policier-Thriller.mp3"),
+    Romance: require("./assets_music/Genre_Romance.mp3"),
+    Enfant: require("./assets_music/Genre_Enfant.mp3"),
+  };
+
+  let genreStoryMusic;
+
+  if (newStory.type !== "") {
+    genreStoryMusic = newStory.type;
+  } else {
+    genreStoryMusic = storySelected.type;
+  }
+
+  useEffect(() => {
+    const loadMusic = async () => {
+      try {
+        if (isAudioEnabled) {
+          await soundObject.current.loadAsync(genreMusic[genreStoryMusic]);
+          await soundObject.current.setIsLoopingAsync(true);
+          await soundObject.current.playAsync(); // Jouer la musique au chargement
+        } else {
+          await soundObject.current.pauseAsync();
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement du son", error);
+      }
+    };
+
+    loadMusic();
+
+    return () => {
+      soundObject.current.unloadAsync();
+    };
+  }, [isAudioEnabled]);
+
+  // DARK LIGTH MODE
+  const isModeEnabledMode = user.mode === "dark";
+  const toggleModeSwitchMode = () => {
+    const newMode = isModeEnabledMode ? "light" : "dark";
+    dispatch(updateMode(newMode)); // Dispatch the mode to your reducer
+  };
+
+  // NAVIGATE
   const handleDisplayHome = () => {
     navigation.navigate("Home");
   };
@@ -101,10 +169,7 @@ export default function StoryBar({ navigation }) {
     navigation.navigate("Profil");
   };
 
-  // const handleDisplaySettings = () => {
-  //     navigation.navigate("Settings");
-  // };
-
+  // OPEN MODE SETTING
   const handleDisplaySettings = () => {
     setIsModalOpen(true); // Open the modal
   };
@@ -118,15 +183,21 @@ export default function StoryBar({ navigation }) {
       <View style={styles.tabBar}>
         <Animated.View style={[styles.background, animatedBackgroundStyle]} />
         <Animated.View style={[styles.tabBarItem, animatedStyles]}>
-          <TouchableOpacity style={styles.icone1} onPress={() => handleDisplayHome()}>
+          <TouchableOpacity
+            style={styles.icone1}
+            onPress={() => handleDisplayHome()}
+          >
             <Image source={require("./assets/home.png")} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icone2} onPress={() => handleDisplayStory()}>
+          <TouchableOpacity
+            style={styles.icone2}
+            onPress={() => handleDisplayStory()}
+          >
             <Image source={require("./assets/book.png")} />
           </TouchableOpacity>
         </Animated.View>
         <TouchableOpacity style={styles.toggleButton} onPress={toggleTabBar}>
-          <FontAwesomeIcon icon={faCircle} size={24} color='white' />
+          <FontAwesomeIcon icon={faCircle} size={24} color="white" />
         </TouchableOpacity>
         <Animated.View style={[styles.tabBarItem, animatedStyles]}>
           <TouchableOpacity onPress={() => handleDisplayProfil()}>
@@ -138,19 +209,46 @@ export default function StoryBar({ navigation }) {
         </Animated.View>
       </View>
       {/* Modal */}
-      <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
+      <Modal
+        visible={isModalOpen}
+        animationType="slide"
+        onRequestClose={closeModal}
+        transparent={true}
+      >
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
             {/* <TouchableOpacity > */}
-            <FontAwesome name='close' size={20} style={styles.mdlClosed} color='white' onPress={closeModal} />
+            <FontAwesome
+              name="close"
+              size={20}
+              style={styles.mdlClosed}
+              color="white"
+              onPress={closeModal}
+            />
             {/* </TouchableOpacity> */}
             <Text style={styles.modalTitle}>Settings</Text>
             <View style={styles.settingsApp}>
               <View style={styles.setting}>
                 {/* <View style={styles.setting}> */}
-                <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
-                <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>Police : {font} px</Text>
-                <FontAwesome name='plus' size={20} style={styles.iconInc} color='white' onPress={increaseFontSize} />
+                <FontAwesome
+                  name="minus"
+                  size={20}
+                  style={styles.iconDec}
+                  color="white"
+                  onPress={decreaseFontSize}
+                />
+                <Text
+                  style={[styles.textPolice, { fontSize: user.fontSizeSet }]}
+                >
+                  Police : {font} px
+                </Text>
+                <FontAwesome
+                  name="plus"
+                  size={20}
+                  style={styles.iconInc}
+                  color="white"
+                  onPress={increaseFontSize}
+                />
                 {/* </View> */}
               </View>
 
@@ -160,42 +258,23 @@ export default function StoryBar({ navigation }) {
                   style={styles.switchBtn}
                   trackColor={{ false: "white", true: "#FFCE4A" }}
                   thumbColor={isAudioEnabled ? "#FFCE4A" : "white"}
-                  ios_backgroundColor='#3e3e3e'
+                  ios_backgroundColor="#3e3e3e"
                   onValueChange={toggleAudioSwitch}
                   value={isAudioEnabled}
                 />
               </View>
+
               <View style={styles.setting}>
-                <Text style={styles.fontSettings}>Ambiance :</Text>
+                <Text style={styles.fontSettings}>
+                  Mode : {isModeEnabledMode ? "Dark" : "Light"}
+                </Text>
                 <Switch
                   style={styles.switchBtn}
                   trackColor={{ false: "white", true: "#FFCE4A" }}
-                  thumbColor={isAmbianceEnabled ? "#FFCE4A" : "white"}
-                  ios_backgroundColor='#3e3e3e'
-                  onValueChange={toggleAmbianceSwitch}
-                  value={isAmbianceEnabled}
-                />
-              </View>
-              {/* <View style={styles.setting}>
-              <Text style={styles.fontSettings}>Notifications :</Text>
-              <Switch
-                style={styles.switchBtn}
-                trackColor={{ false: "white", true: "#FFCE4A" }}
-                thumbColor={isNotificationsEnabled ? "#FFCE4A" : "white"}
-                ios_backgroundColor='#3e3e3e'
-                onValueChange={toggleNotificationsSwitch}
-                value={isNotificationsEnabled}
-              />
-            </View> */}
-              <View style={styles.setting}>
-                <Text style={styles.fontSettings}>Mode :</Text>
-                <Switch
-                  style={styles.switchBtn}
-                  trackColor={{ false: "white", true: "#FFCE4A" }}
-                  thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
-                  ios_backgroundColor='#3e3e3e'
-                  onValueChange={toggleModeSwitch}
-                  value={isModeEnabled}
+                  thumbColor={isModeEnabledMode ? "#FFCE4A" : "white"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleModeSwitchMode}
+                  value={isModeEnabledMode}
                 />
               </View>
             </View>
