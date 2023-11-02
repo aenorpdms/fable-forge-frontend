@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "92%",
   },
-<<<<<<< HEAD
   titleStory: {
     fontFamily: "Lato_700Bold",
     fontSize: 26,
@@ -255,8 +254,6 @@ const styles = StyleSheet.create({
     margin: "2%",
     marginTop: 30,
   },
-=======
->>>>>>> c49093dc275f8e9b73f0a6c846b97ec93ad8d8df
   textStory: {
     fontSize: 16,
     color: "#2C1A51",
