@@ -246,6 +246,14 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "92%",
   },
+  titleStory: {
+    fontFamily: "Lato_700Bold",
+    fontSize: 26,
+    color: "white",
+    textAlign: "center",
+    margin: "2%",
+    marginTop: 30,
+  },
   textStory: {
     fontSize: 16,
     color: "#2C1A51",
