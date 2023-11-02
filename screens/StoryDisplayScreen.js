@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     width: "92%",
   },
   titleStory: {
-    fontFamily: "Lato_700Bold_Italic",
+    fontFamily: "Lato_700Bold",
     fontSize: 26,
     color: "white",
     textAlign: "center",
