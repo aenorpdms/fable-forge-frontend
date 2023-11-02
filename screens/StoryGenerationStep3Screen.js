@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 
-// Style récap histoire
+  // Style récap histoire
   containerStory: {
     height: "65%",
     bottom: "7%",
