@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, ImageBackground, Modal, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  ImageBackground,
+  Modal,
+  KeyboardAvoidingView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
 // Composant d'écran pour le paiement de l'abonnement.
 export default function SubscriptionPaymentScreen() {
-
   // Récupération de l'état global (les abonnements et l'abonnement actif) via useSelector.
-  const { subscriptions, activeSubscription } = useSelector(state => state.subscription);
+  const { subscriptions, activeSubscription } = useSelector(
+    (state) => state.subscription
+  );
 
   // Utilisation du hook useRoute pour accéder aux paramètres de la route actuelle.
   const route = useRoute();
@@ -50,11 +60,15 @@ export default function SubscriptionPaymentScreen() {
   };
 
   // Récupération de l'image de l'abonnement actif.
-  const activeImage = activeSubscription ? subscriptions.find(subscription => subscription.id === activeSubscription).imageSource : null;
+  const activeImage = activeSubscription
+    ? subscriptions.find(
+        (subscription) => subscription.id === activeSubscription
+      ).imageSource
+    : null;
 
   // État pour la visibilité du modal de confirmation.
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   // Fonction pour naviguer vers le profil après confirmation de l'achat.
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
@@ -75,25 +89,43 @@ export default function SubscriptionPaymentScreen() {
 
         <View style={styles.title}>
           <Text style={styles.title1}>Paiement</Text>
-          <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
-          <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
+          <Text style={styles.title2}>
+            Choisissez votre méthode de paiement
+          </Text>
+          <Text style={styles.title3}>
+            Vous serez débité une fois l'abonnement validé
+          </Text>
         </View>
       </View>
       <View style={styles.typeOfPayment}>
         <View style={styles.choiceOfCard}>
           <Text style={styles.textTypeOfPayment}>Visa</Text>
-          <TouchableOpacity onPress={() => handleClickChoix1()} style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleClickChoix1()}
+            style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
+          ></TouchableOpacity>
         </View>
         <View style={styles.choiceOfCard}>
           <Text style={styles.textTypeOfPayment}>Paypal</Text>
-          <TouchableOpacity onPress={() => handleClickChoix2()} style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleClickChoix2()}
+            style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}
+          ></TouchableOpacity>
         </View>
         <View style={styles.choiceOfCard}>
           <Text style={styles.textTypeOfPayment}>ApplePay</Text>
-          <TouchableOpacity onPress={() => handleClickChoix3()} style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleClickChoix3()}
+            style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}
+          ></TouchableOpacity>
         </View>
       </View>
-      <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
+      <KeyboardAvoidingView
+        style={styles.containerBis}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        enabled
+        keyboardVerticalOffset={10}
+      >
         <View style={styles.containerPayment}>
           <View style={styles.inputPayment}>
             <Text style={styles.titleInput}>Nom du propriétaire</Text>
@@ -103,31 +135,50 @@ export default function SubscriptionPaymentScreen() {
           </View>
           <View style={styles.inputCard}>
             <Text style={styles.titleInput1}>CVC</Text>
-            <TextInput style={styles.input1} placeholder='CVC' placeholderTextColor='#FFCE4A' />
+            <TextInput
+              style={styles.input1}
+              placeholder="CVC"
+              placeholderTextColor="#FFCE4A"
+            />
             <Text style={styles.titleInput2}>Date d'expiration</Text>
-            <TextInput style={styles.input1} placeholder='MM/AA' placeholderTextColor='#FFCE4A'></TextInput>
+            <TextInput
+              style={styles.input1}
+              placeholder="MM/AA"
+              placeholderTextColor="#FFCE4A"
+            ></TextInput>
           </View>
         </View>
       </KeyboardAvoidingView>
       <View style={styles.alignBtnSaved}>
         <TouchableOpacity
-          style={[styles.choixInfoSaved, isSaveInfosClicked === true && styles.choixSelectionneSaved]}
+          style={[
+            styles.choixInfoSaved,
+            isSaveInfosClicked === true && styles.choixSelectionneSaved,
+          ]}
           onPress={() => handleButtonClick()}
         ></TouchableOpacity>
-        <Text style={styles.title4}>Sauvegarder mes informations pour la prochaine fois</Text>
+        <Text style={styles.title4}>
+          Sauvegarder mes informations pour la prochaine fois
+        </Text>
       </View>
       <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.btnResiliation} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity
+          style={styles.btnResiliation}
+          onPress={() => setModalVisible(true)}
+        >
           <Text style={styles.btnResiliationText}>Valider mon paiement</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnRetour} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.btnRetour}
+          onPress={() => navigation.goBack()}
+        >
           <Text style={styles.btnResiliationText}>Retour</Text>
         </TouchableOpacity>
       </View>
 
       {/* Modal qui apparaît après la validation du paiement */}
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -136,7 +187,9 @@ export default function SubscriptionPaymentScreen() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Bravo ! Votre achat est très apprécié, merci !</Text>
+            <Text style={styles.modalText}>
+              Bravo ! Votre achat est très apprécié, merci !
+            </Text>
             <TouchableOpacity
               style={{ ...styles.openButton }}
               onPress={() => {
