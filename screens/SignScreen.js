@@ -135,7 +135,7 @@ export default function SignScreen({ navigation }) {
                 ></TextInput>
                 <TextInput
                   style={styles.inputUp}
-                  placeholder='Email'
+                  placeholder='Adresse mail'
                   placeholderTextColor='white'
                   onChangeText={value => setEmail(value)}
                   value={email}
@@ -159,7 +159,7 @@ export default function SignScreen({ navigation }) {
               <>
                 <TextInput
                   style={styles.inputIn}
-                  placeholder='Pseudonyme ou Email'
+                  placeholder='Pseudonyme ou Adresse mail'
                   placeholderTextColor='white'
                   onChangeText={value => setIdentifier(value)}
                   value={identifier}

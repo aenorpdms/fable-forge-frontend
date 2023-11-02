@@ -324,11 +324,11 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "72%",
+    height: "67%",
     // marginBottom: "4%",
   },
   initialContainer: {
-    left: "29%",
+    left: "26.5%",
     borderRadius: 50,
     width: 100,
     height: 100,
