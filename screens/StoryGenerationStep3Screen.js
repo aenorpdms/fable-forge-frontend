@@ -3,6 +3,7 @@ import {
   View,
   Text,
   ImageBackground,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
@@ -69,10 +70,10 @@ export default function StoryGenerationStep3Screen({ route }) {
       <View style={styles.containerStory}>
         {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
         <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
-        <ImageBackground
+        <Image
           style={styles.imagBgdRecap}
           source={newStory.selectedImage}
-        ></ImageBackground>
+        ></Image>
         <Text style={styles.textRecap}>{synopsis}</Text>
 
         <View style={styles.recapSizeStory}>
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
 
   imagBgdRecap: {
     width: "100%",
-    minHeight: "20%",
+    height: "30%",
     overflow: "hidden",
     borderRadius: 15,
     borderColor: "white",

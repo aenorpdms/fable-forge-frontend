@@ -22,7 +22,7 @@ import { updateFontSize, updateMode } from "./reducers/user";
 import { Audio } from "expo-av";
 
 export default function StoryBar({ navigation }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
   const [isFontEnabled, setIsFontEnabled] = useState(false);
