@@ -1,17 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, KeyboardAvoidingView } from "react-native";
-import * as Font from "expo-font";
-// import { GoogleSignin } from "@react-native-google-signin/google-signin";
-
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput} from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../reducers/user";
-import { text } from "@fortawesome/fontawesome-svg-core";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function SignScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
-  const dispatch = useDispatch();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
@@ -22,6 +18,8 @@ export default function SignScreen({ navigation }) {
   const [identifier, setIdentifier] = useState("");
   const [passwordUp, setPasswordUp] = useState("");
 
+
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
 
   const handleModalToggle = type => {
@@ -110,23 +108,17 @@ export default function SignScreen({ navigation }) {
       <TouchableOpacity style={styles.btnInput} onPress={() => handleModalToggle("connexion")}>
         <Text style={styles.textBtn1}>Se connecter</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.btnGoogle}>
-        <Text style={styles.textBtn1}>Se connecter avec Google</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.btnFacebook}>
-        <Text style={styles.textBtn1}>Se connecter avec Facebook</Text>
-      </TouchableOpacity> */}
-
       <Modal visible={modalVisible} animationType='slide' transparent={true}>
         <View style={styles.mdlctn}>
           <View style={modalStyle}>
             <View style={styles.titleClose}>
-              <Text style={titleStyle}> Fable Forge</Text>
+              <Text style={titleStyle}>Fable Forge</Text>
               <FontAwesome name='close' size={20} style={closeStyle} color='white' onPress={() => handleModalToggle()} />
             </View>
 
             {modalType === "register" && (
               <>
+              
                 <TextInput
                   style={styles.inputUp}
                   placeholder='Prénom'
@@ -229,49 +221,24 @@ const styles = StyleSheet.create({
     fontSize: 56,
     textAlign: "center",
     color: "#FFFFFF",
-    lineHeight: 60,
-  },
-  btnConnect: {
-    margin: 10,
-    width: "90%",
+    lineHeight: 60,//60
   },
   btnHome: {
     alignItems: "center",
     backgroundColor: "#FFCE4A",
     borderRadius: 10,
     margin: "2%",
-    padding: 10,
+    padding:"2%",
     width: "80%",
     height: "5%",
     justifyContent: "center",
-    marginBottom: "5%",
-  },
-  btnGoogle: {
-    backgroundColor: "#E6DAFF",
-    borderRadius: 10,
-    margin: "2%",
-    padding: 10,
-    width: "80%",
-    height: "5%",
-    justifyContent: "center",
-    opacity: 0.2,
-  },
-  btnFacebook: {
-    backgroundColor: "#E6DAFF",
-    borderRadius: 10,
-    margin: "2%",
-    padding: 10,
-    width: "80%",
-    height: "5%",
-    justifyContent: "center",
-    opacity: 0.2,
-    marginBottom: "18%",
+    marginBottom: "4%",
   },
   btnInput: {
     backgroundColor: "transparent",
     borderRadius: 10,
     margin: "2%",
-    padding: 10,
+    padding: "2%",//10
     width: "80%",
     height: "5%",
     justifyContent: "center",
@@ -291,24 +258,24 @@ const styles = StyleSheet.create({
   },
   modalContainerInscription: {
     width: "86%", // Adjust the width as per your requirement 350
-    height: "45%", // Adjust the height as per your requirement 400
-    marginTop: "40%", // 200
+    height: 400, // Adjust the height as per your requirement 400 // 47
+    marginTop: 130, // 200
     marginLeft: "7%", //30
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
-    padding: 20,
+    padding: '4%',
     alignItems: "center",
     justifyContent: "center",
     // backdropFilter: "blur(5px)",
   },
   modalContainerConnection: {
     width: "86%", // Adjust the width as per your requirement
-    height: "34%", // Adjust the height as per your requirement 300
+    height: 290, // Adjust the height as per your requirement 300
     marginTop: "63%",
     marginLeft: "7%",
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
-    padding: 20,
+    padding: '4%',
     alignItems: "center",
     justifyContent: "center",
     // backdropFilter: "blur(5px)",
@@ -329,20 +296,21 @@ const styles = StyleSheet.create({
   titleModalIn: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    fontSize: 18,
-    padding: 10,
-    marginTop: "-11%", // -40
+    fontSize: 18, // 18
+    padding: "2%",
+    marginTop: "-8%", // -40
   },
   titleModalUp: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
-    padding: 10,
+    padding: "2%",
     marginTop: "-8%",
+    
   },
   closeModalIn: {
     position: "absolute",
-    top: "3%",
+    top: "1%",
     left: "62%",
   },
   closeModalUp: {
