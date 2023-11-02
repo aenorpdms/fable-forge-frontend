@@ -1,40 +1,39 @@
-import React, { useState, useEffect } from "react";
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { API_KEY, API_URL } from "@env";
-// import TabBar from "../TabBar";
-import StoryBar from "../StoryBar";
-import { fontSize } from "./SettingsScreen";
-import { useSelector, useDispatch } from "react-redux";
-import newStory, {
-  addTitle,
-  saveStory,
-  emptyNewStory,
-} from "../reducers/newStory";
+import React, from "react";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
+// Importation de la tabBar personnalisés
+import StoryBar from "../StoryBar";
+
+// Écran de lecture de l'histoire dans l'application
 export default function StoryReadScreen({ navigation }) {
+
+  // Sélection de l'histoire courante à partir de l'état global Redux
   const selectedStory = useSelector((state) => state.stories.value);
+  
+  // Suppression des mots 'Fin.', 'undefined' ou 'null' du texte de l'histoire
   const contentWithoutFin = selectedStory.story
     .replace(/(Fin\.|undefined)|null/g, "")
     .trim();
+
+  // Sélection des paramètres utilisateur à partir de l'état global Redux
   const user = useSelector((state) => state.user.value);
 
   return (
     <SafeAreaView style={styles.container}>
+
+      {/* tabBar personnalisée pour l'histoire */}
       <View style={styles.storyBar}>
         <StoryBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
       <Text style={styles.titleStory}>{selectedStory.title}</Text>
-      <ScrollView style={[styles.containerStory,{ backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
-        <Text style={[styles.textStory ,{ color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51", fontSize: user.fontSizeSet } ]}>{contentWithoutFin}</Text>
+      <ScrollView style={[styles.containerStory,
+          {/* Thème clair ou sombre en fonction des paramètres utilisateur*/}
+          { backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
+        <Text style={[styles.textStory ,
+          {/* Texte de l'histoire avec police et couleur personnalisées */}
+          { color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51", fontSize: user.fontSizeSet } ]}>{contentWithoutFin}</Text>
 
         <View style={styles.space}></View>
       </ScrollView>
@@ -50,6 +49,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
     padding: 20,
   },
+
+  // Style pour l'histoire
   containerStory: {
     flex: 2,
     marginHorizontal: 30,
@@ -72,6 +73,8 @@ const styles = StyleSheet.create({
     color: "#2C1A51",
     textAlign: "justify",
   },
+
+  // Style tabBar
   storyBar: {
     marginTop: "200%",
     position: "absolute",
@@ -87,6 +90,8 @@ const styles = StyleSheet.create({
     marginLeft: -400,
     marginTop: -20,
   },
+
+  // Espace supplémentaire en bas du ScrollView
   space: {
     height: 80,
     backgroundColor: "transparent",
