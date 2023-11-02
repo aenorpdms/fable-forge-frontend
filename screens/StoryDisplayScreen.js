@@ -6,8 +6,7 @@ import StoryBar from "../StoryBar";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from "react-redux";
-import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory";
-
+import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory"
 const LENGTH_MAP = {
   Courte: { min: 500, max: 1500 },
   Moyenne: { min: 1500, max: 2500 },
@@ -48,9 +47,21 @@ export default function StoryDisplayScreen({ route, navigation }) {
 
     const data = {
       model: "gpt-3.5-turbo-16k",
-      messages: [{ role: "user", content: userMessage }],
-      temperature: 0.5,
+      messages: [
+        {
+          role: "system",
+          content: `Tu es un conteur d'histoires français, avec les consignes suivantes :\n\n- Tu vas créer une histoire du genre ${newStory.type}.\n- L'histoire que tu vas créer doit absolument respecter la longueur ${newStory.length} correspondant au nombre de token défini.\n- Tu dois t'assurez que l'histoire a une ${newStory.endingType} en accord avec le genre, qui soit très marquée et émotionnellement intense.\n- Organise ton histoire en paragraphes cohérents pour en faciliter la lecture.\n- Veille à ce que l'histoire ne dépasse pas la longueur défini.\n- Assure-toi que l'histoire soit du genre ${newStory.type}, d'une longueur ${newStory.length}, et avec une ${newStory.endingType} appropriée.\n- Tu ne commenceras pas les histoires par \"il était une fois\".\n- Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises \"!\".\n-`
+        },
+        { 
+          role: "user", 
+          content: userMessage 
+        },
+      ],
+      temperature: 1.2,
       max_tokens: 250,
+      top_p: 1,
+      frequency_penalty: 1,
+      presence_penalty: 1,
     };
 
     try {
@@ -73,7 +84,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
       const generatedContent = responseData.choices[0].message.content.trim();
 
       // Extract title using the regular expression
-      const titleRegex = /<!(.*?)!>/;
+      const titleRegex = /!(.*?)!/;
       const titleMatch = titleRegex.exec(generatedContent);
       const title = titleMatch ? titleMatch[1] : "";
 
@@ -135,7 +146,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
     const tokenCount =
       Math.floor(Math.random() * (LENGTH_MAP[newStory.length].max - LENGTH_MAP[newStory.length].min + 1)) + LENGTH_MAP[newStory.length].min;
     setDesiredTokenCount(tokenCount); // Mettre à jour ici
-    const prompt = `Je souhaite créer une histoire de genre ${newStory.type} d'une longueur ${newStory.length}. Assurez-vous que l'histoire ait une ${newStory.endingType} en accord avec le genre. Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises "!".`;
+    const prompt = `Je souhaite créer une histoire de genre ${newStory.type} de longueur ${newStory.length}. Je veux une ${newStory.endingType}.`;
     setInitialPrompt(prompt);
   };
 
