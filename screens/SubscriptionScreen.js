@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 // Importation des sélecteurs Redux.
 import { selectSubscription } from "../reducers/subscription";
 
+
 // Composant de l'écran d'abonnement.
 export default function SubscriptionScreen({ navigation }) {
   // Hooks Redux pour dispatcher des actions et sélectionner une partie de l'état. 
@@ -80,8 +81,8 @@ export default function SubscriptionScreen({ navigation }) {
         <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
       </ImageBackground>
 
-      {/* Liste des abonnements disponibles */}
       <ScrollView style={styles.abonnementContainer}>
+        <View style={styles.subContainer}>
         {subscriptions.map(subscription => (
           <View key={subscription.id} style={styles.aboPrice}>
             <ImageBackground style={styles.imagBgdAbo} source={subscription.imageSource}>
@@ -98,6 +99,7 @@ export default function SubscriptionScreen({ navigation }) {
           </View>
         ))}
         <View style={styles.space}></View>
+        </View>
       </ScrollView>
 
       {/* Bouton pour résilier l'abonnement */}
@@ -165,15 +167,15 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "50%",
-    bottom: "10%",
+    height: "59%",
+    marginTop:"-12%"
   },
   title2: {
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     textAlign: "left",
     color: "#FFCE4A",
-    marginTop: "40%",
+    marginTop: "50%",
     marginLeft: "3%",
   },
   title3: {
@@ -188,18 +190,14 @@ const styles = StyleSheet.create({
   abonnementContainer: {
     flex: 1,
     width: "100%",
-    // maxHeight: "100%",
-    bottom: "20%",
-    left: "5%",
-    padding: 10,
-    margin: "-25%",
-    // borderWidth: 1,
-    // borderColor: "green",
+    marginTop:'-38%'
   },
-  // space: {
-  //   height: 60,
-  //   backgroundColor: "transparent",
-  // },
+  subContainer:{
+    flex: 1,
+    width: "100%",
+    padding: 10,
+    alignItems:'center'
+  },
   imagBgdAbo: {
     width: "100%",
     height: "100%",
@@ -217,17 +215,17 @@ const styles = StyleSheet.create({
   textAboPrice: {
     fontFamily: "Lato_700Bold",
     color: "white",
-    bottom: "10%",
     textAlign: "center",
-    fontSize: 18,
-    marginTop: "30%",
+    fontSize: 16,
+    marginTop: "20%",
+    marginBottom:"10%",
   },
   btnPrice: {
     backgroundColor: "#2C1A51",
     borderWidth: 1,
     borderColor: "#FFCE4A",
     width: "40%",
-    height: "25%",
+    height: "28%",
     borderRadius: 10,
     alignSelf: "center",
     justifyContent: "center",
@@ -245,23 +243,25 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     backgroundColor: "#6B5F85",
-    bottom: 40,
+    marginVertical:"2%"
   },
   btnRetour: {
     width: "90%",
-    marginTop: "4%",
+    marginTop: "2%",
     borderColor: "#FFCE4A",
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
     backgroundColor: "transparent",
-    bottom: 40,
+    marginBottom:"5%"
+  
   },
   btnResiliationText: {
     fontFamily: "Lato_400Regular",
     color: "#FFFFFF",
     textAlign: "center",
     fontSize: 16,
+
   },
 
   // Style Modal
