@@ -481,10 +481,10 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0, 0.5)",
   },
   modalContainer: {
-    width: 350, // Adjust the width as per your requirement
+    width: "92%", // Adjust the width as per your requirement
     height: 180, // Adjust the height as per your requirement
     marginTop: 350,
-    marginLeft: 30,
+    marginLeft: "4%",
     backgroundColor: "#6B5F85",
     borderRadius: 20, // Adjust the borderRadius as per your requirement
     alignItems: "center",
@@ -494,8 +494,10 @@ const styles = StyleSheet.create({
   titleModal: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    fontSize: 20,
+    textAlign:"center",
+    fontSize: 18,
     padding: 10,
+    width:"90%"
   },
   btnDeleteModal: {
     backgroundColor: "#FFCE4A",
