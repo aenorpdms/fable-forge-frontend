@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "59%",
+    height: "60.5%",
     marginTop:"-12%"
   },
   title2: {
