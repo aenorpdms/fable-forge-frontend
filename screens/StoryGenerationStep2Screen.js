@@ -72,7 +72,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
       <ImageBackground source={require("../assets/ImageBibliotheque.png")} style={styles.imagBgd}>
         <Text style={styles.title1}>Création d'une histoire</Text>
         <View style={styles.containerStep}>
-          <Text style={styles.title2}>Etape 2/3 : Choisissez les paramètres</Text>
+          <Text style={styles.title2}>Étape 2/3 : Choisissez les paramètres</Text>
           <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>
             <FontAwesomeIcon icon={faQuestionCircle} color={"#6B5F85"} size={20} />
           </TouchableOpacity>
@@ -82,22 +82,23 @@ export default function StoryGenerationStep2Screen({ navigation }) {
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
-            <FontAwesome name='close' size={20} style={styles.mdlClosed} color='white' onPress={closeModal} />
-            <View style={styles.settingsApp}>
+          <View style={styles.settingsApp}>
               <Text style={styles.titleModal}>Assistance</Text>
+              <FontAwesome
+                name="close"
+                size={20}
+                style={styles.mdlClosed}
+                color="white"
+                onPress={closeModal}
+              />
+            </View>
               <Text style={styles.textModal}>
                 Dans cette seconde étape, vous pouvez personnaliser votre histoire à créer. Vous avez la possibilité de choisir parmi 3 longueurs de
                 récit et 4 types de fin possibles.
               </Text>
-            </View>
           </View>
         </View>
       </Modal>
-
-      <View style={styles.tabBar}>
-        <TabBar navigation={navigation} />
-      </View>
-
       <View style={styles.containerStory}>
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
@@ -150,6 +151,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
           </View>
         </ScrollView>
       </View>
+      <TabBar navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "77.5%",
+    height: "96%",
     marginTop: "-12%",
   },
   title1: {
@@ -177,10 +179,11 @@ const styles = StyleSheet.create({
   },
   iconHelp: {
     color: "rgba(255, 255, 255, 0.5)",
-    bottom: "9%",
-    left: "90%",
+    top: "-5%",
+    left: "80%",
     zIndex: 10,
-  },
+    padding: 8
+  }, 
   mdlctn: {
     width: "100%",
     height: "100%",
@@ -195,23 +198,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#6B5F85",
     borderRadius: 20,
   },
+  settingsApp: {
+    flexDirection: "row",
+    alignItems:"center",
+    justifyContent:"space-between",
+   
+  },
   mdlClosed: {
+    alignSelf:"right",
     textAlign: "right",
-    right: "10%",
-    top: "5%",
+    padding: 8,
+    marginRight: 15
   },
   titleModal: {
     color: "#FFCE4A",
     textAlign: "center",
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: "500",
+    marginLeft: 80
   },
-
   textModal: {
     color: "white",
     textAlign: "justify",
-    padding: "5%",
+    padding: "4%",
     right: "4%",
+    lineHeight: 22,
+ 
   },
   containerStep: {
     flexDirection: "row",
@@ -231,9 +243,9 @@ const styles = StyleSheet.create({
     height: "122%", //650
   },
   containerStory: {
-    height: "65%", //520
-    bottom: "8%", //60
     minHeight: "55%",
+    bottom: "-5.5%",
+    height: "64%",
     width: "90%",
     borderRadius: 10,
     backgroundColor: "#6B5F85",

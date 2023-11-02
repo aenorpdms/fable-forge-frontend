@@ -51,14 +51,11 @@ export default function StoryGenerationStep3Screen() {
         >
             <Text style={styles.title1}>Création d'une histoire</Text>
           <View style={styles.containerStep}>
-            <Text style={styles.title2}>Récapitulatif</Text>
-            <Text style={styles.title2bis}>Etape 3/3</Text>
+            <Text style={styles.title2}>Étape 3/3 : Récapitulatif</Text>
+
           </View>
         </ImageBackground>
-        
-        <View style={styles.tabBar}>
-          <TabBar navigation={navigation} />
-        </View>
+
 
       <View style={styles.containerStory}>
           <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
@@ -89,6 +86,7 @@ export default function StoryGenerationStep3Screen() {
             </TouchableOpacity>
         </View>
       </View>
+              <TabBar navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 2,
     width: "100%",
-    height: "77%",
+    height: "96%",
     marginTop: "-12%",
   },
   title1: {
@@ -126,12 +124,9 @@ const styles = StyleSheet.create({
   },
   title2: {
     fontFamily: "Lato_400Regular",
-    color: "#FFCE4A",
+    color: "white",
     fontSize: 16,
-  },
-  title2bis: {
-    fontFamily: "Lato_400Regular",
-    color: "#FFCE4A",
+    marginTop: "3%"
   },
 
   // Style tabBar
@@ -143,9 +138,9 @@ const styles = StyleSheet.create({
 
   // Style récap histoire
   containerStory: {
-    height: "65%",
-    bottom: "7%",
     minHeight: "55%",
+    bottom: "-5.5%",
+    height: "64%",
     width: "90%",
     borderRadius: 10,
     backgroundColor: "#6B5F85",
@@ -197,7 +192,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     height: "20%",
-    alignItems: "center",  
+    alignItems: "center", 
+    marginTop:"-3%" 
   },
   arrowBtn: {
     marginLeft:"10%",
