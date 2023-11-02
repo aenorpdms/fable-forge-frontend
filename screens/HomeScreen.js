@@ -12,8 +12,7 @@ import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStory } from "../reducers/stories";
 import { useState, useEffect } from "react";
-import { useIsFocused } from '@react-navigation/native';
-
+import { useIsFocused } from "@react-navigation/native";
 
 import TabBar from "../TabBar";
 
@@ -24,7 +23,7 @@ export default function HomeScreen({ navigation }) {
   const [lastStory, setLastStory] = useState({});
   const dispatch = useDispatch();
   const [noStory, setNoStory] = useState(false);
-  const focus = useIsFocused()
+  const focus = useIsFocused();
 
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
@@ -37,11 +36,13 @@ export default function HomeScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          if (data.story == null) {
+          if (data.stories == null) {
+            console.log("laststory", data);
+
             setNoStory(false);
           } else {
             setNoStory(true);
-            setLastStory({ ...data.story });
+            setLastStory({ ...data.stories });
           }
         }
       });
