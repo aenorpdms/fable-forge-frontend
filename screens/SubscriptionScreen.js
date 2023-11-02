@@ -2,27 +2,33 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, ScrollView, Dimensions, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
+
+// Importation des sélecteurs Redux.
 import { selectSubscription } from "../reducers/subscription";
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-
+// Composant de l'écran d'abonnement.
 export default function SubscriptionScreen({ navigation }) {
+  // Hooks Redux pour dispatcher des actions et sélectionner une partie de l'état. 
   const dispatch = useDispatch();
-
   const subscriptions = useSelector(state => state.subscription.subscriptions);
 
-  //création d'un état pour suivre l'abonnement sélectionné
+  // État local pour gérer l'abonnement actif.
   const [activeSubscription, setActiveSubscription] = useState(null);
+  
+  // État pour contrôler la visibilité de la modale.
+  const [modalVisible, setModalVisible] = useState(false);
 
-  //Fonction qui permet de changer la couleur du bouton et le texte au click (uniquement 1 bouton actif à la fois)
+  // Gère la sélection de l'abonnement et met à jour le bouton et le texte correspondants.
   function handleButtonClick(id) {
+    // Dispatch l'action de sélection d'abonnement.
     dispatch(selectSubscription({ id }));
+    // Trouve l'abonnement sélectionné dans la liste des abonnements.
     const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
 
+    // S'il y a un abonnement sélectionné, met à jour l'état et navigue vers le paiement.
     if (selectedSubscription) {
       console.log("Selected Subscription:", selectedSubscription);
-
+      // Mise à jour visuelle des boutons d'abonnement.
       const updatedSubscriptions = subscriptions.map(subscription => {
         if (subscription.id === id) {
           return {
@@ -41,15 +47,15 @@ export default function SubscriptionScreen({ navigation }) {
         }
       });
 
+      // Met à jour l'abonnement actif.
       setActiveSubscription(id);
+
+      // Navigue vers l'écran de paiement en passant l'abonnement sélectionné en paramètre.
       navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
     }
   }
 
-  const handleSubscriptionSelection = subscription => {
-    dispatch(selectSubscription(subscription));
-  };
-
+  // Initialise la sélection d'abonnement lors du montage du composant.
   useEffect(() => {
     console.log("Rendering SubscriptionScreen");
     // Initialisation de la sélection d'abonnement lors du montage du composant
@@ -57,12 +63,15 @@ export default function SubscriptionScreen({ navigation }) {
     handleSubscriptionSelection(selectedSubscription);
   }, []); // Exécuté seulement au montage grâce au tableau de dépendances vide
 
+  // Gère la navigation de retour vers le profil.
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
   };
 
-  // MODALE
-  const [modalVisible, setModalVisible] = useState(false);
+  // Gère la sélection d'un abonnement.
+  const handleSubscriptionSelection = subscription => {
+    dispatch(selectSubscription(subscription));
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,6 +79,8 @@ export default function SubscriptionScreen({ navigation }) {
         <Text style={styles.title2}>Abonnement</Text>
         <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
       </ImageBackground>
+
+      {/* Liste des abonnements disponibles */}
       <ScrollView style={styles.abonnementContainer}>
         {subscriptions.map(subscription => (
           <View key={subscription.id} style={styles.aboPrice}>
@@ -88,15 +99,21 @@ export default function SubscriptionScreen({ navigation }) {
         ))}
         <View style={styles.space}></View>
       </ScrollView>
+
+      {/* Bouton pour résilier l'abonnement */}
       <TouchableOpacity style={styles.btnResiliation} onPress={() => setModalVisible(true)}>
         <Text style={styles.btnResiliationText}> Résilier mon abonnement</Text>
       </TouchableOpacity>
+
+      {/* Bouton de retour vers le profil */}
       <TouchableOpacity style={styles.btnRetour}>
         <Text style={styles.btnResiliationText} onPress={() => handleNavigateProfil()}>
           Retour vers Profil
         </Text>
       </TouchableOpacity>
 
+
+      {/* Modale de confirmation de résiliation */}
       <Modal
         animationType='slide'
         transparent={true}

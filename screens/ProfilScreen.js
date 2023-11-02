@@ -224,7 +224,8 @@ export default function ProfilScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder='Tapez votre ancien mot de passe'
-                  placeholderTextColor='white'
+                  // placeholderTextColor='white'
+                  placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
                   onChangeText={value => setOldPassword(value)}
                   value={oldPassword}
                 ></TextInput>
@@ -234,7 +235,8 @@ export default function ProfilScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder='Tapez votre nouveau mot de passe'
-                  placeholderTextColor='white'
+                  // placeholderTextColor='white'
+                  placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
                   onChangeText={value => setNewPassword(value)}
                   value={newPassword}
                 ></TextInput>
@@ -244,7 +246,8 @@ export default function ProfilScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder='Confirmez votre nouveau mot de passe'
-                  placeholderTextColor='white'
+                  // placeholderTextColor='white'
+                  placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
                   onChangeText={value => setPassword(value)}
                   value={password}
                 ></TextInput>
