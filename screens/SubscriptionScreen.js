@@ -9,9 +9,8 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function SubscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
-  
-  const subscriptions = useSelector(state => state.subscription.subscriptions);
 
+  const subscriptions = useSelector(state => state.subscription.subscriptions);
 
   //création d'un état pour suivre l'abonnement sélectionné
   const [activeSubscription, setActiveSubscription] = useState(null);
@@ -20,31 +19,31 @@ export default function SubscriptionScreen({ navigation }) {
   function handleButtonClick(id) {
     dispatch(selectSubscription({ id }));
     const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
-  
+
     if (selectedSubscription) {
-  console.log("Selected Subscription:", selectedSubscription);
+      console.log("Selected Subscription:", selectedSubscription);
 
-  const updatedSubscriptions = subscriptions.map(subscription => {
-    if (subscription.id === id) {
-      return {
-        ...subscription,
-        buttonText: "En cours",
-        buttonColor: "#FFCE4A",
-        textColor: "black",
-      };
-    } else {
-      return {
-        ...subscription,
-        buttonText: "Choisir",
-        buttonColor: "#2C1A51",
-        textColor: "white",
-      };
+      const updatedSubscriptions = subscriptions.map(subscription => {
+        if (subscription.id === id) {
+          return {
+            ...subscription,
+            buttonText: "En cours",
+            buttonColor: "#FFCE4A",
+            textColor: "black",
+          };
+        } else {
+          return {
+            ...subscription,
+            buttonText: "Choisir",
+            buttonColor: "#2C1A51",
+            textColor: "white",
+          };
+        }
+      });
+
+      setActiveSubscription(id);
+      navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
     }
-  });
-
-  setActiveSubscription(id);
-  navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
-}
   }
 
   const handleSubscriptionSelection = subscription => {
@@ -62,8 +61,8 @@ export default function SubscriptionScreen({ navigation }) {
     navigation.navigate("Profil");
   };
 
-   // MODALE
-   const [modalVisible, setModalVisible] = useState(false);
+  // MODALE
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -99,7 +98,7 @@ export default function SubscriptionScreen({ navigation }) {
       </TouchableOpacity>
 
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -109,26 +108,29 @@ export default function SubscriptionScreen({ navigation }) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Êtes-vous sûr de vouloir résilier votre abonnement Fable Forge ?</Text>
-          <View style={styles.modalBtn}>
-           <View style={styles.btnInput}>
-            <TouchableOpacity
-              style={{ ...styles.openButton}}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text style={styles.textStyleO}>Oui</Text>
-            </TouchableOpacity>
-           </View>
-           <View style={styles.btnInput}>
-            <TouchableOpacity
-              style={{ ...styles.openButton}}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <Text style={styles.textStyle}>Non</Text>
-            </TouchableOpacity>
-           </View>
-          </View>
+            <View style={styles.modalBtn}>
+              <View style={styles.btnInput}>
+                <TouchableOpacity
+                  style={{ ...styles.openButtonY }}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    handleNavigateProfil();
+                  }}
+                >
+                  <Text style={styles.textStyleO}>Oui</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.btnInput}>
+                <TouchableOpacity
+                  style={{ ...styles.openButtonN }}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <Text style={styles.textStyle}>Non</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
       </Modal>
@@ -245,42 +247,54 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
- // Style Modal
- centeredView: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "rgba(0,0,0, 0.5)",
-},
-modalView: {
-  margin: 20,
-  backgroundColor: "#6B5F85",
-  borderRadius: 10,
-  padding: '8%',
-  alignItems: "center",
-},
-modalText: {
-  marginBottom: 15,
-  textAlign: "center",
-  color: 'white',
-},
-modalBtn: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-},
-openButton: {
-  borderWidth: 1,
-  borderColor: '#FFCE4A',
-  borderRadius: 10,
-  padding: 10,
-},
-textStyle: {
-  color: "white",
-  fontWeight: "bold",
-  textAlign: "center",
-},
-btnInput: {
-  margin: '5%',
-}
+  // Style Modal
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0, 0.5)",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#6B5F85",
+    borderRadius: 10,
+    padding: "8%",
+    alignItems: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    color: "white",
+  },
+  modalBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  openButtonY: {
+    borderWidth: 1,
+    borderColor: "#FFCE4A",
+    backgroundColor: "#FFCE4A",
+    borderRadius: 10,
+    padding: 10,
+  },
+  openButtonN: {
+    borderWidth: 1,
+    borderColor: "#FFCE4A",
+    borderRadius: 10,
+    padding: 10,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  textStyleO: {
+    color: "black",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  btnInput: {
+    margin: "5%",
+  },
 });
