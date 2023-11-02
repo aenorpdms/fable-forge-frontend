@@ -324,8 +324,8 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "67%",
-    // marginBottom: "4%",
+    height: "71%",
+ 
   },
   initialContainer: {
     left: "26.5%",
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: "center",
     justifyContent: "center",
-    top: "-28%"
+    top: "-35%"
   },
   initial: {
     fontFamily: "Lato_400Regular",
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     textAlign: "center",
-    marginTop: "-5%",
+    marginTop: "-10%",
     marginBottom: "5%",
   },
   image: {
