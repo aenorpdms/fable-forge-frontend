@@ -1,41 +1,26 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ImageBackground, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigation } from '@react-navigation/native';
 
+// Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
-export default function StoryGenerationStep3Screen({ route }) {
+// Composant pour l'écran génération d'histoire "Étape 3"
+export default function StoryGenerationStep3Screen() {
+
+  // Hook pour naviguer entre les écrans
   const navigation = useNavigation();
  
-
-  const [buttonColor, setButtonColor] = useState("#2C1A51");
+  // Récupération de l'état newStory depuis le store Redux
   const newStory = useSelector((state) => state.newStory.value);
 
-
-  let page;
-  if (newStory.length === "Courte") {
-    page = "1";
-  } else if (newStory.length === "Moyenne") {
-    page = "2";
-  } else {
-    page = "3";
-  }
-  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}, qui se déroulera sur ${page} pages. Attendez-vous à être captivé dès les premiers mots jusqu'à la ${newStory.endingType} que nous avons élaborée pour vous.`;
-
-
-
+  // Création du synopsis pour le récap des détails de l'histoire
+  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`
+  
+  // Fonction pour naviguer vers l'affichage de l'histoire
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {
       genre: newStory.type,
@@ -44,8 +29,8 @@ export default function StoryGenerationStep3Screen({ route }) {
     });
   };
 
+  // Fonction pour revenir à l'étape 2
   const handleStoryGeneration2 = () => {
-    // navigate to Story step 2 page
     navigation.navigate("StoryGeneration2");
   };
 
@@ -53,43 +38,39 @@ export default function StoryGenerationStep3Screen({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require("../assets/ImageBibliotheque.png")}
-        style={styles.imagBgd}
-      >
-        <Text style={styles.title1}>Création d'une histoire</Text>
-        <View style={styles.containerStep}>
-          <Text style={styles.title2}>Récapitulatif</Text>
-          <Text style={styles.title2bis}>Etape 3/3</Text>
+        <ImageBackground
+            source={require("../assets/ImageBibliotheque.png")}
+            style={styles.imagBgd}
+        >
+            <Text style={styles.title1}>Création d'une histoire</Text>
+          <View style={styles.containerStep}>
+            <Text style={styles.title2}>Récapitulatif</Text>
+            <Text style={styles.title2bis}>Etape 3/3</Text>
+          </View>
+        </ImageBackground>
+        
+        <View style={styles.tabBar}>
+          <TabBar navigation={navigation} />
         </View>
-      </ImageBackground>
-      <View style={styles.tabBar}>
-        <TabBar navigation={navigation} />
-      </View>
 
       <View style={styles.containerStory}>
-        {/* <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'> */}
-        <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
-        <Image
-          style={styles.imagBgdRecap}
-          source={newStory.selectedImage}
-        ></Image>
-        <Text style={styles.textRecap}>{synopsis}</Text>
-
-        <View style={styles.recapSizeStory}>
+          <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
+        <Image style={styles.imagBgdRecap} source={newStory.selectedImage}></Image>
+          <Text style={styles.textRecap}>{synopsis}</Text>
+      <View style={styles.recapSizeStory}>
           <Text style={styles.sizeTextRecap}>{newStory.length}</Text>
-        </View>
-        <View style={styles.recapSizeStory}>
+      </View>
+      <View style={styles.recapSizeStory}>
           <Text style={styles.sizeTextRecap}>{newStory.endingType}</Text>
-        </View>
+      </View>
         <View style={styles.arrowContainer}>
-            <TouchableOpacity style={styles.arrowBtn}>
-              <Icon
-                name="chevron-left"
-                size={30}
-                color={"#2C1A51"}
-                onPress={() => handleStoryGeneration2()}
-              />
+          <TouchableOpacity style={styles.arrowBtn}>
+            <Icon
+              name="chevron-left"
+              size={30}
+              color={"#2C1A51"}
+              onPress={() => handleStoryGeneration2()}
+            />
             </TouchableOpacity>
             <TouchableOpacity style={styles.arrowBtn}>
               <Icon
@@ -99,9 +80,7 @@ export default function StoryGenerationStep3Screen({ route }) {
                 onPress={() => handleStoryDisplay()}
               />
             </TouchableOpacity>
-           
-          </View>
-        {/* </ScrollView> */}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -114,6 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
+
+  // Style header 
   imagBgd: {
     flex: 2,
     width: "100%",
@@ -124,7 +105,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     color: "#FFCE4A",
-    marginTop: "49%", //160
+    marginTop: "49%",
     marginLeft: "3%",
     position: "absolute",
   },
@@ -146,9 +127,14 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
   },
 
-  containerInformation: {
-    height: "112%",
+  // Style tabBar
+  tabBar: {
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
   },
+
+// Style récap histoire
   containerStory: {
     height: "65%",
     bottom: "7%",
@@ -197,44 +183,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
   },
-  btngenerateStory: {
-    borderColor: "white",
-    backgroundColor: "#2C1A51",
-    margin: 10,
-    borderWidth: 1,
-    borderColor: "#FFCE4A",
-    borderRadius: 10,
-    padding: 5,
-    marginTop: 10,
-  },
-  generateTextBtn: {
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    textAlign: "center",
-    padding: 10,
-  },
-  tabBar: {
-    marginTop: "200%",
-    position: "absolute",
-    zIndex: 1,
-  },
 
+// Style flèche directionnelle 
   arrowContainer: {
     flexDirection:"row",
     justifyContent: "space-between",
     width: "100%",
     height: "20%",
-    alignItems: "center",
-    
+    alignItems: "center",  
   },
   arrowBtn: {
     marginLeft:"10%",
     marginRight:"10%"
-  },
-  musicButton: {
-    marginTop: 5, 
-    padding: 20, 
-    borderWidth: 2,
-    border: 'red',
   },
 });
