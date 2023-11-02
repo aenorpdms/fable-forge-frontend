@@ -12,6 +12,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
+// Composant pour l'écran génération d'histoire "Étape 1"
 export default function StoryGenerationStep2Screen({ navigation }) {
   
   // Accès au state Redux et au dispatch pour envoyer des actions.

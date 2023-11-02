@@ -1,32 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, Modal, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-// eslint-disable-next-line
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
-import TabBar from "../TabBar";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNewType, updateSelectedMusic, updateSelectedImage } from "../reducers/newStory";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { updateNewType, updateSelectedMusic, updateSelectedImage } from "../reducers/newStory";
+// import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+// Importation du composant personnalisé TabBar
+import TabBar from "../TabBar";
+
+// Composant pour l'écran génération d'histoire "Étape 1"
 export default function StoryGenerationScreen() {
-  // Story display page:
+  
+  // Hook pour naviguer entre les écrans
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const newStory = useSelector(state => state.newStory.value);
-  //const [selectedMusic, setSelectedMusic] = useState(null);
 
-  // const [modalVisible, setModalVisible] = useState(false);
+  // État local pour la visibilité du modal.
   const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
+  // Fonction pour afficher ou cacher le modal.
   const toggleModal = () => {
     console.log("modal", isModalOpen);
     setIsModalOpen(!isModalOpen);
   };
 
+  // Fonction pour fermer le modal.
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
   };
@@ -70,17 +72,15 @@ export default function StoryGenerationScreen() {
     },
   ];
 
+  // Navigation vers l'étape 2
   const handleStoryGeneration2 = item => {
-    // navigate to Story step 2 page
-    const type = item;
-    dispatch(updateNewType(type.title));
-    dispatch(updateSelectedImage(type.image));
-    dispatch(updateSelectedMusic(type.music));
-    //setSelectedMusic(type.music);
-    console.log("Selected Music:", type.music);
+    dispatch(updateNewType(item.title));
+    dispatch(updateSelectedImage(item.image));
+    dispatch(updateSelectedMusic(item.music));
     navigation.navigate("StoryGeneration2");
   };
 
+  // Rendu d'un élément du carrousel
   const renderItem = ({ item }) => {
     return (
       <View style={styles.slide}>
@@ -109,7 +109,8 @@ export default function StoryGenerationScreen() {
       <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>
         <FontAwesomeIcon icon={faQuestionCircle} color={"#6B5F85"} size={20} />
       </TouchableOpacity>
-      {/* Modal */}
+
+      // Modal
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
@@ -121,11 +122,14 @@ export default function StoryGenerationScreen() {
                 Dès que votre choix est fait, appuyer sur "Sélectionner" pour passer à la seconde étape de génération d'histoires.
               </Text>
             </View>
-            {/* Add your modal content here */}
           </View>
         </View>
       </Modal>
+
+      // Carousel
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} style={styles.carousel} />
+      
+      // tabBar
       <TabBar navigation={navigation} />
     </SafeAreaView>
   );
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     color: "#FFCE4A",
-    marginTop: "49%", //160
+    marginTop: "49%",
     marginLeft: "3%",
     position: "absolute",
   },
@@ -180,33 +184,13 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "80%",
     height: "25%",
-    // justifyContent: "center",
-    // backgroundColor: "rgba(0,0,0, 0.5)",
-    // width: 350, // Adjust the width as per your requirement
-    // height: 180, // Adjust the height as per your requirement
     marginTop: "40%",
     marginLeft: 40,
     paddingLeft: "5%",
     backgroundColor: "#6B5F85",
-    borderRadius: 20, // Adjust the borderRadius as per your requirement
-    // alignItems: "center",
-    // justifyContent: "center",
-    // backdropFilter: "blur(5px)",
+    borderRadius: 20,
   },
-  // modalTitle: {
-  //   color: "white",
-  //   textAlign: "center",
-  //   padding: "5%",
-  //   right: "5%",
-  //   fontSize: 20,
-  // },
-  // closeBtn: {
-  //   color: "white",
-  //   fontSize: 20,
-  //   textAlign: "right",
-  //   top: "50%",
-  //   right: "10%",
-  // },
+
   mdlClosed: {
     textAlign: "right",
     right: "10%",
@@ -220,7 +204,6 @@ const styles = StyleSheet.create({
   },
   textModal: {
     color: "white",
-    // marginTop: "10%",
     textAlign: "justify",
     padding: "4%",
     right: "4%",
@@ -231,8 +214,8 @@ const styles = StyleSheet.create({
   },
 
   slide: {
-    width: "100%", //300
-    height: "74.5%", // 500
+    width: "100%",
+    height: "74.5%",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 10,
@@ -276,7 +259,7 @@ const styles = StyleSheet.create({
     marginTop: "-5%",
   },
   selectButton: {
-    width: 150, //150
+    width: 150,
     borderWidth: 1,
     borderColor: "#FFCE4A",
     backgroundColor: "#2C1A51",
