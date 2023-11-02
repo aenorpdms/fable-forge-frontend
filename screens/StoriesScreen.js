@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     bottom: '107%',
     left: '44%',
     backgroundColor: '#2C1A51',
-    borderRadius: '100%',
+    borderRadius: 200,
   },
   tabBar: {
     marginTop: "104%",

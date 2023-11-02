@@ -156,8 +156,9 @@ export default function ProfilScreen({ navigation }) {
             <View>
               {/* <Text style={styles.title1}>BIENVENUE PIERRE</Text> */}
               <Text style={styles.title2}>Profil</Text>
-              <Image style={styles.image} source={require("../assets/profilPic.png")} />
+              
               <View style={styles.initialContainer}>
+                <Image style={styles.image} source={require("../assets/profilPic.png")} />
                 <Text style={styles.initial}>{user.firstname.charAt(0)}</Text>
               </View>
               <Text style={styles.subtitle}>Informations Personnelles</Text>
@@ -323,23 +324,25 @@ const styles = StyleSheet.create({
   imagBgd: {
     flex: 1,
     width: "100%",
-    height: "77%",
+    height: "67%",
     // marginBottom: "4%",
   },
   initialContainer: {
-    left: "37%",
-    bottom: 25,
+    left: "26.5%",
     borderRadius: 50,
     width: 100,
     height: 100,
     alignItems: "center",
     justifyContent: "center",
+    top: "-28%"
   },
   initial: {
     fontFamily: "Lato_400Regular",
     fontSize: 46,
     color: "white",
     fontWeight: "bold",
+    left: "42%",
+    top: "48%"
   },
 
   title2: {
@@ -356,7 +359,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     textAlign: "center",
-    marginTop: "10%",
+    marginTop: "-5%",
     marginBottom: "5%",
   },
   image: {
@@ -406,7 +409,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 0,
     marginLeft: "4%",
-    marginBottom: "4%",
+    marginBottom: "6%",
   },
   mdp: {
     marginTop: "1%",
