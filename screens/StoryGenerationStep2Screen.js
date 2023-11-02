@@ -12,6 +12,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
+// Composant pour l'écran génération d'histoire "Étape 1"
 export default function StoryGenerationStep2Screen({ navigation }) {
   
   // Accès au state Redux et au dispatch pour envoyer des actions.
@@ -80,7 +81,6 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         </View>
       </ImageBackground>
 
-      // Modal
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
@@ -96,7 +96,6 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         </View>
       </Modal>
 
-      // tabBar
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
       </View>
