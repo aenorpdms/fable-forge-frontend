@@ -210,9 +210,9 @@ const styles = StyleSheet.create({
   },
   addButton: {
     width: "9%",
-    height: "28%",
-    marginTop: "3%",
-    marginBottom: "4%",
+    height: "30%",
+    marginTop: "2%",
+    marginBottom: "3%",
   },
   buttonText: {
     fontFamily: "Lato_400Regular",
