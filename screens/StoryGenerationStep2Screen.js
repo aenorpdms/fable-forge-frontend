@@ -80,8 +80,8 @@ export default function StoryGenerationStep2Screen({ navigation }) {
             <View style={styles.settingsApp}>
               <Text style={styles.titleModal}>Assistance</Text>
               <Text style={styles.textModal}>
-                Dans cette seconde étape, vous pouvez personnaliser votre histoire à créer. Vous avez la possibilité de choisir parmi 3 longueurs
-                possible de récit et 4 types de fin possibles.
+                Dans cette seconde étape, vous pouvez personnaliser votre histoire à créer. Vous avez la possibilité de choisir parmi 3 longueurs de
+                récit et 4 types de fin possibles.
               </Text>
             </View>
             {/* Add your modal content here */}
@@ -225,10 +225,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+
   textModal: {
     color: "white",
-    marginTop: "10%",
-    textAlign: "center",
+    textAlign: "justify",
+    padding: "5%",
     right: "4%",
   },
   containerStep: {
