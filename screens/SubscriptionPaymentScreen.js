@@ -1,24 +1,14 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-  ImageBackground,
-  Modal,
-  KeyboardAvoidingView,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, ImageBackground, Modal, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
 // Composant d'écran pour le paiement de l'abonnement.
 export default function SubscriptionPaymentScreen() {
+
   // Récupération de l'état global (les abonnements et l'abonnement actif) via useSelector.
-  const { subscriptions, activeSubscription } = useSelector(
-    (state) => state.subscription
-  );
+  const { subscriptions, activeSubscription } = useSelector(state => state.subscription);
 
   // Utilisation du hook useRoute pour accéder aux paramètres de la route actuelle.
   const route = useRoute();
@@ -60,15 +50,11 @@ export default function SubscriptionPaymentScreen() {
   };
 
   // Récupération de l'image de l'abonnement actif.
-  const activeImage = activeSubscription
-    ? subscriptions.find(
-        (subscription) => subscription.id === activeSubscription
-      ).imageSource
-    : null;
+  const activeImage = activeSubscription ? subscriptions.find(subscription => subscription.id === activeSubscription).imageSource : null;
 
   // État pour la visibilité du modal de confirmation.
   const [modalVisible, setModalVisible] = useState(false);
-
+  
   // Fonction pour naviguer vers le profil après confirmation de l'achat.
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
@@ -89,43 +75,25 @@ export default function SubscriptionPaymentScreen() {
 
         <View style={styles.title}>
           <Text style={styles.title1}>Paiement</Text>
-          <Text style={styles.title2}>
-            Choisissez votre méthode de paiement
-          </Text>
-          <Text style={styles.title3}>
-            Vous serez débité une fois l'abonnement validé
-          </Text>
+          <Text style={styles.title2}>Choisissez votre méthode de paiement</Text>
+          <Text style={styles.title3}>Vous serez débité une fois l'abonnement validé</Text>
         </View>
       </View>
       <View style={styles.typeOfPayment}>
         <View style={styles.choiceOfCard}>
           <Text style={styles.textTypeOfPayment}>Visa</Text>
-          <TouchableOpacity
-            onPress={() => handleClickChoix1()}
-            style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}
-          ></TouchableOpacity>
+          <TouchableOpacity onPress={() => handleClickChoix1()} style={[styles.choix, choix1 === 1 && styles.choixSelectionne]}></TouchableOpacity>
         </View>
         <View style={styles.choiceOfCard}>
           <Text style={styles.textTypeOfPayment}>Paypal</Text>
-          <TouchableOpacity
-            onPress={() => handleClickChoix2()}
-            style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}
-          ></TouchableOpacity>
+          <TouchableOpacity onPress={() => handleClickChoix2()} style={[styles.choix, choix2 === 1 && styles.choixSelectionne]}></TouchableOpacity>
         </View>
         <View style={styles.choiceOfCard}>
           <Text style={styles.textTypeOfPayment}>ApplePay</Text>
-          <TouchableOpacity
-            onPress={() => handleClickChoix3()}
-            style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}
-          ></TouchableOpacity>
+          <TouchableOpacity onPress={() => handleClickChoix3()} style={[styles.choix, choix3 === 1 && styles.choixSelectionne]}></TouchableOpacity>
         </View>
       </View>
-      <KeyboardAvoidingView
-        style={styles.containerBis}
-        behavior={Platform.OS === "ios" ? "padding" : null}
-        enabled
-        keyboardVerticalOffset={10}
-      >
+      <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
         <View style={styles.containerPayment}>
           <View style={styles.inputPayment}>
             <Text style={styles.titleInput}>Nom du propriétaire</Text>
@@ -135,50 +103,31 @@ export default function SubscriptionPaymentScreen() {
           </View>
           <View style={styles.inputCard}>
             <Text style={styles.titleInput1}>CVC</Text>
-            <TextInput
-              style={styles.input1}
-              placeholder="CVC"
-              placeholderTextColor="#FFCE4A"
-            />
+            <TextInput style={styles.input1} placeholder='CVC' placeholderTextColor='#FFCE4A' />
             <Text style={styles.titleInput2}>Date d'expiration</Text>
-            <TextInput
-              style={styles.input1}
-              placeholder="MM/AA"
-              placeholderTextColor="#FFCE4A"
-            ></TextInput>
+            <TextInput style={styles.input1} placeholder='MM/AA' placeholderTextColor='#FFCE4A'></TextInput>
           </View>
         </View>
       </KeyboardAvoidingView>
       <View style={styles.alignBtnSaved}>
         <TouchableOpacity
-          style={[
-            styles.choixInfoSaved,
-            isSaveInfosClicked === true && styles.choixSelectionneSaved,
-          ]}
+          style={[styles.choixInfoSaved, isSaveInfosClicked === true && styles.choixSelectionneSaved]}
           onPress={() => handleButtonClick()}
         ></TouchableOpacity>
-        <Text style={styles.title4}>
-          Sauvegarder mes informations pour la prochaine fois
-        </Text>
+        <Text style={styles.title4}>Sauvegarder mes informations pour la prochaine fois</Text>
       </View>
       <View style={styles.arrowContainer}>
-        <TouchableOpacity
-          style={styles.btnResiliation}
-          onPress={() => setModalVisible(true)}
-        >
+        <TouchableOpacity style={styles.btnResiliation} onPress={() => setModalVisible(true)}>
           <Text style={styles.btnResiliationText}>Valider mon paiement</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btnRetour}
-          onPress={() => navigation.goBack()}
-        >
+        <TouchableOpacity style={styles.btnRetour} onPress={() => navigation.goBack()}>
           <Text style={styles.btnResiliationText}>Retour</Text>
         </TouchableOpacity>
       </View>
 
       {/* Modal qui apparaît après la validation du paiement */}
       <Modal
-        animationType="slide"
+        animationType='slide'
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -187,9 +136,7 @@ export default function SubscriptionPaymentScreen() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Bravo ! Votre achat est très apprécié, merci !
-            </Text>
+            <Text style={styles.modalText}>Bravo ! Votre achat est très apprécié, merci !</Text>
             <TouchableOpacity
               style={{ ...styles.openButton }}
               onPress={() => {
@@ -235,6 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     top: "30%",
+    fontWeight:'500'
   },
   textRecapAbo: {
     color: "white",
@@ -269,6 +217,7 @@ const styles = StyleSheet.create({
   textTypeOfPayment: {
     color: "#FFCE4A",
     fontSize: 14,
+    marginBottom:5
   },
   choiceOfCard: {
     alignItems: "center",
@@ -282,10 +231,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     textAlign: "center",
-    height: "10%",
+    height: "13%",
     width: "40%",
     borderColor: "#FFCE4A",
-    bottom: "20%",
+    bottom: "22%",
   },
   choix: {
     height: 24,
@@ -316,7 +265,7 @@ const styles = StyleSheet.create({
     opacity: 0.1,
     textAlign: "center",
     borderRadius: 10,
-    padding: 5,
+    padding: 10,
     margin: 10,
     bottom: "35%",
   },
@@ -341,10 +290,13 @@ const styles = StyleSheet.create({
     width: "30%",
     textAlign: "center",
     borderRadius: 10,
-    padding: 5,
+    padding: 10,
     right: 17,
     color: "#FFCE4A",
     bottom: "10%",
+  },
+  alignBtnSaved:{
+  marginTop:"4%"
   },
   choixInfoSaved: {
     width: 15,
@@ -352,16 +304,16 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     borderColor: "gray",
-    marginVertical: 2,
-    right: 5,
+   marginVertical:"-2%",
+    marginLeft:"5%",
     bottom: "30%",
   },
   title4: {
-    width: "100%",
+    width: 260,
     color: "white",
-    textAlign: "center",
-    left: 15,
-    bottom: "80%",
+    textAlign: "justify",
+    marginLeft: "15%",
+    bottom: "75%",
   },
   btnResiliation: {
     width: "100%",
@@ -413,18 +365,22 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     color: "white",
+    fontSize: 16
   },
   openButton: {
-    borderWidth: 1,
-    borderColor: "#FFCE4A",
     backgroundColor: "#FFCE4A",
     borderRadius: 10,
-    padding: 10,
-    elevation: 2,
+    margin: 10,
+    marginTop: 5,
+    padding: 11,
+    width: 100,
+    marginBottom: "6%",
+    marginLeft: "4%",
   },
   textStyle: {
+    fontFamily: "Lato_400Regular",
     color: "black",
-    fontWeight: "bold",
     textAlign: "center",
+    fontSize: 18,
   },
 });
