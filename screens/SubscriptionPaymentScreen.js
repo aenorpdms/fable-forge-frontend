@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, Image, ImageBackground, Modal, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, ImageBackground, Modal, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
+// Composant d'écran pour le paiement de l'abonnement.
 export default function SubscriptionPaymentScreen() {
+
+  // Récupération de l'état global (les abonnements et l'abonnement actif) via useSelector.
   const { subscriptions, activeSubscription } = useSelector(state => state.subscription);
 
+  // Utilisation du hook useRoute pour accéder aux paramètres de la route actuelle.
   const route = useRoute();
+  // Utilisation du hook useNavigation pour la navigation entre les écrans.
   const navigation = useNavigation();
+  // Accès aux paramètres passés à la route actuelle.
   const { subscription } = route.params;
 
-  const [choix1, setChoix1] = useState(0);
-  const [choix2, setChoix2] = useState(0);
-  const [choix3, setChoix3] = useState(0);
+  // États locaux pour gérer les choix des méthodes de paiement.
+  const [choix1, setChoix1] = useState(0); // État pour le choix 1 (Visa)
+  const [choix2, setChoix2] = useState(0); // État pour le choix 2 (Paypal)
+  const [choix3, setChoix3] = useState(0); // État pour le choix 3 (ApplePay)
 
-  const [numberToFillInInput, setNumberToFillInInput] = useState("");
-  const [numberToFillInInputError, setNumberToFillInInputError] = useState("");
-  const [letterToFillInInput, setLetterToFillInInput] = useState("");
-  const [letterToFillInInputError, setLetterToFillInInputError] = useState("");
-
+  // Fonctions pour gérer les clics sur les méthodes de paiement et définir l'état sélectionné.
   const handleClickChoix1 = () => {
     setChoix1(1);
     setChoix2(0);
@@ -38,16 +41,21 @@ export default function SubscriptionPaymentScreen() {
     setChoix3(1);
   };
 
+  // État pour gérer l'activation de l'option "Sauvegarder mes informations".
   const [isSaveInfosClicked, setIsSaveInfosClicked] = useState(false);
 
+  // Fonction pour gérer le clic sur l'option "Sauvegarder mes informations".
   const handleButtonClick = () => {
     setIsSaveInfosClicked(!isSaveInfosClicked);
   };
 
+  // Récupération de l'image de l'abonnement actif.
   const activeImage = activeSubscription ? subscriptions.find(subscription => subscription.id === activeSubscription).imageSource : null;
 
+  // État pour la visibilité du modal de confirmation.
   const [modalVisible, setModalVisible] = useState(false);
-
+  
+  // Fonction pour naviguer vers le profil après confirmation de l'achat.
   const handleNavigateProfil = () => {
     navigation.navigate("Profil");
   };
@@ -117,6 +125,7 @@ export default function SubscriptionPaymentScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Modal qui apparaît après la validation du paiement */}
       <Modal
         animationType='slide'
         transparent={true}
@@ -202,8 +211,6 @@ const styles = StyleSheet.create({
   },
   typeOfPayment: {
     flexDirection: "row",
-    // alignItems: "center",
-    // justifyContent: "space-between",
     bottom: "20%",
   },
   textTypeOfPayment: {
