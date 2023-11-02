@@ -3,30 +3,36 @@ import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity, 
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNewLength, updateNewEnding } from "../reducers/newStory";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+// Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
 export default function StoryGenerationStep2Screen({ navigation }) {
+  
+  // Accès au state Redux et au dispatch pour envoyer des actions.
   const newStory = useSelector(state => state.newStory.value);
   const dispatch = useDispatch();
 
+  // État local pour les couleurs des boutons.
   const [buttonColors, setButtonColors] = useState(["#FFCE4A", "#2C1A51", "#2C1A51"]);
   const [buttonTypeEnd, setButtonTypeEnd] = useState(["#FFCE4A", "#6B5F85", "#6B5F85", "#6B5F85"]);
   const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["#2C1A51", "white", "white"]);
 
+  // État local pour la visibilité du modal.
   const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
+  // Fonction pour afficher ou cacher le modal.
   const toggleModal = () => {
     console.log("modal", isModalOpen);
     setIsModalOpen(!isModalOpen);
   };
 
+  // Fonction pour fermer le modal.
   const closeModal = () => {
     setIsModalOpen(false); // Close the modal
   };
@@ -48,16 +54,17 @@ export default function StoryGenerationStep2Screen({ navigation }) {
     dispatch(updateNewEnding(typeEnd));
   };
 
+  // Navigation vers l'étape 3
   const handleStoryGeneration3 = () => {
-    // navigate to Story step 3 page
     navigation.navigate("StoryGeneration3");
   };
+
 
   const handleStoryGeneration = () => {
     // Réinitialisez l'état de la nouvelle histoire ici
     dispatch(emptyNewStory());
 
-    // navigate to Story step 2 page
+    // Navigation vers l'étape 1
     navigation.navigate("StoryGenerationScreen");
   };
 
@@ -72,7 +79,8 @@ export default function StoryGenerationStep2Screen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      {/* Modal */}
+
+      // Modal
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
@@ -84,13 +92,15 @@ export default function StoryGenerationStep2Screen({ navigation }) {
                 récit et 4 types de fin possibles.
               </Text>
             </View>
-            {/* Add your modal content here */}
           </View>
         </View>
       </Modal>
+
+      // tabBar
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
       </View>
+
       <View style={styles.containerStory}>
         <ScrollView contentContainerStyle={styles.containerInformation} indicatorStyle='white'>
           <Text style={styles.titleContainer}>Longueur</Text>
@@ -127,7 +137,7 @@ export default function StoryGenerationStep2Screen({ navigation }) {
             </View>
             <View style={styles.typeEndRight}>
               <TouchableOpacity style={[styles.typeEndBtn, { borderColor: buttonTypeEnd[3] }]} onPress={() => handleButtonEndTypeClick(4)}>
-                <ImageBackground style={styles.imagBgdAbo} source={require("../assets/Fin_morale.png")}></ImageBackground>
+                <ImageBackground style={styles.imagBgdEnd} source={require("../assets/Fin_morale.png")}></ImageBackground>
                 <Text style={styles.textTypeEnd}>Fin morale</Text>
               </TouchableOpacity>
             </View>
@@ -154,6 +164,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
+
+// Style header
   imagBgd: {
     flex: 2,
     width: "100%",
@@ -164,73 +176,9 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     color: "#FFCE4A",
-    marginTop: "49%", //160
+    marginTop: "49%",
     marginLeft: "3%",
     position: "absolute",
-  },
-  // iconHelp: {
-  //   color: "rgba(255, 255, 255, 0.4)",
-  //   bottom: "8%",
-  //   left: "90%",
-  // },
-  iconHelp: {
-    color: "rgba(255, 255, 255, 0.5)",
-    bottom: "9%",
-    left: "90%",
-    zIndex: 10,
-  },
-  mdlctn: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0,0,0, 0.5)",
-  },
-  modalContainer: {
-    width: "80%",
-    height: "25%",
-    // justifyContent: "center",
-    // backgroundColor: "rgba(0,0,0, 0.5)",
-    // width: 350, // Adjust the width as per your requirement
-    // height: 180, // Adjust the height as per your requirement
-    marginTop: "40%",
-    marginLeft: 40,
-    paddingLeft: "5%",
-    backgroundColor: "#6B5F85",
-    borderRadius: 20, // Adjust the borderRadius as per your requirement
-    // alignItems: "center",
-    // justifyContent: "center",
-    // backdropFilter: "blur(5px)",
-  },
-  // modalTitle: {
-  //   color: "white",
-  //   textAlign: "center",
-  //   padding: "5%",
-  //   right: "5%",
-  //   fontSize: 20,
-  // },
-  // closeBtn: {
-  //   color: "white",
-  //   fontSize: 20,
-  //   textAlign: "right",
-  //   top: "50%",
-  //   right: "10%",
-  // },
-  mdlClosed: {
-    textAlign: "right",
-    right: "10%",
-    top: "5%",
-  },
-  titleModal: {
-    color: "#FFCE4A",
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-
-  textModal: {
-    color: "white",
-    textAlign: "justify",
-    padding: "5%",
-    right: "4%",
   },
   containerStep: {
     flexDirection: "row",
@@ -246,37 +194,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: "5%",
   },
-  // title2bis: {
-  //   fontFamily: "Lato_400Regular",
-  //   color: "#FFCE4A",
-  // },
-
-  containerInformation: {
-    height: "122%", //650
+  iconHelp: {
+    color: "rgba(255, 255, 255, 0.5)",
+    bottom: "9%",
+    left: "90%",
+    zIndex: 10,
   },
+
+// Style modal
+mdlctn: {
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0,0,0, 0.5)",
+},
+modalContainer: {
+  width: "80%",
+  height: "25%",
+  marginTop: "40%",
+  marginLeft: 40,
+  paddingLeft: "5%",
+  backgroundColor: "#6B5F85",
+  borderRadius: 20,
+},
+  mdlClosed: {
+    textAlign: "right",
+    right: "10%",
+    top: "5%",
+  },
+  titleModal: {
+    color: "#FFCE4A",
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  textModal: {
+    color: "white",
+    textAlign: "justify",
+    padding: "5%",
+    right: "4%",
+  },
+
+// Style longueur et type de fin
   containerStory: {
-    height: "65%", //520
-    bottom: "8%", //60
+    height: "65%",
+    bottom: "8%",
     minHeight: "55%",
     width: "90%",
     borderRadius: 10,
     backgroundColor: "#6B5F85",
     padding: 10,
   },
-
-  leftContainer: {
-    flexDirection: "row",
-    width: "50%",
-    marginLeft: "4%",
-    top: "5%", //30
+  containerInformation: {
+    height: "122%",
   },
-  rightContainer: {
-    flexDirection: "row",
-    width: "50%",
-    bottom: "20%",
-    marginLeft: "4%",
-  },
-
   titleContainer: {
     fontFamily: "Lato_400Regular",
     color: "white",
@@ -296,22 +266,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 5,
   },
-  btnSizeStoryOn: {
-    margin: 10,
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 5,
-  },
   sizeTextBtn: {
     fontFamily: "Lato_400Regular",
     color: "white",
     textAlign: "center",
     padding: 10,
   },
-  sizeTextBtnOn: {
-    color: "black",
-    textAlign: "center",
-    padding: 10,
+  leftContainer: {
+    flexDirection: "row",
+    width: "50%",
+    marginLeft: "4%",
+    top: "5%",
   },
   typeEndLeft: {
     flexDirection: "column",
@@ -321,6 +286,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: "6%",
   },
+  rightContainer: {
+    flexDirection: "row",
+    width: "50%",
+    bottom: "20%",
+    marginLeft: "4%",
+  },
   typeEndRight: {
     flexDirection: "column",
     width: "80%",
@@ -329,7 +300,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: "6%",
   },
-  imagBgdAbo: {
+  imagBgdEnd: {
     width: "100%",
     height: "100%",
     overflow: "hidden",
@@ -348,6 +319,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
+// Style flèche directionnelle
   arrowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -362,6 +334,7 @@ const styles = StyleSheet.create({
     marginRight: "60%",
   },
 
+// Style tabBar
   tabBar: {
     marginTop: "200%",
     position: "absolute",
