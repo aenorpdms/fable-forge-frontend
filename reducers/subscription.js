@@ -30,7 +30,7 @@ const initialState = {
       imageSource: require("../assets/Abonnement_annee.png"),
     },
   ],
-  activeSubscription: null,
+  activeSubscription: null, // Abonnement actif sélectionné par l'utilisateur
 };
 
 export const subscriptionSlice = createSlice({
@@ -38,14 +38,19 @@ export const subscriptionSlice = createSlice({
   initialState,
   reducers: {
     selectSubscription: (state, action) => {
-      const { id } = action.payload;
+      // Sélection d'un abonnement
+      const { id } = action.payload; // Récupération de l'id de l'abonnement à sélectionner depuis l'action
+      
+      // Mise à jour de la liste des abonnements pour refléter le choix de l'utilisateur
       state.subscriptions = state.subscriptions.map((subscription) => ({
-        ...subscription,
+        ...subscription, // Conserver les propriétés existantes de l'abonnement
+
+        // Mise à jour du bouton en fonction de l'abonnement sélectionné
         buttonText: subscription.id === id ? "En cours" : "Choisir",
         buttonColor: subscription.id === id ? "#FFCE4A" : "#2C1A51",
         textColor: subscription.id === id ? "black" : "white",
       }));
-      state.activeSubscription = id;
+      state.activeSubscription = id; // Mise à jour de l'abonnement actif avec l'id sélectionné
     },
   },
 });
