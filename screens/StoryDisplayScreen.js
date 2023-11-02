@@ -155,10 +155,20 @@ export default function StoryDisplayScreen({ navigation }) {
 
   // Déclancher la génération de l'histoire
   const handleGenerateStory = () => {
+
+    // Cacher le bouton de génération d'histoire
     setShowGenerateButton(false);
+
+    // Mise à 'true' pour indiquer que le processus de génération d'histoire a commencé
     setIsGenerating(true);
+    
+    // Réinitialise le tableau 'chunks' à un tableau vide
     setChunks([]);
+
+    // Réinitialise le compteur 'totalTokens' à 0
     setTotalTokens(0);
+
+    // Génération du nombre de token aléatoire en fonction de la longueur sélectionné
     const tokenCount =
       Math.floor(Math.random() * (LENGTH_MAP[newStory.length].max - LENGTH_MAP[newStory.length].min + 1)) + LENGTH_MAP[newStory.length].min;
     setDesiredTokenCount(tokenCount);
