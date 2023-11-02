@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, ImageBackground, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { 
+  View, 
+  Text, 
+  ImageBackground, 
+  Image, 
+  StyleSheet, 
+  TouchableOpacity 
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useSelector } from "react-redux";

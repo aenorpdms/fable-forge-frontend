@@ -1,14 +1,13 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ImageBackground,
-  SafeAreaView,
-  Image,
+import { 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View, 
+  ImageBackground, 
+  SafeAreaView, 
+  Image 
 } from "react-native";
-import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStory } from "../reducers/stories";
 import { useState, useEffect } from "react";
@@ -17,18 +16,27 @@ import { useIsFocused } from "@react-navigation/native";
 import TabBar from "../TabBar";
 
 export default function HomeScreen({ navigation }) {
+
+  // État Redux pour récupérer les informations de l'utilisateur.
   const user = useSelector((state) => state.user.value);
   const nameUser = user.firstname;
   const readyName = nameUser.toUpperCase();
-  const [lastStory, setLastStory] = useState({});
-  const dispatch = useDispatch();
-  const [noStory, setNoStory] = useState(false);
-  const focus = useIsFocused();
 
+  // État local pour l'affichage de la dernière histoire
+  const [lastStory, setLastStory] = useState({});
+  const [noStory, setNoStory] = useState(false);
+
+  // Accès au dispatch pour envoyer des actions.
+  const dispatch = useDispatch();
+  
+  const focus = useIsFocused();
+  
+  // Navigation vers l'étape 1
   const handleSubmit = () => {
     navigation.navigate("StoryGenerationScreen");
   };
 
+  // Récupérer la dernière histoire de l'utilisateur depuis le backend
   const fetchLastStory = () => {
     fetch(
       `https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`
@@ -53,6 +61,7 @@ export default function HomeScreen({ navigation }) {
     fetchLastStory();
   }, [focus]);
 
+  // Sélection de l'image en fonction du type de l'histoire.
   let typeImage;
   if (lastStory.type === "Horreur") {
     typeImage = require("../assets/Horreur.png");
@@ -70,6 +79,7 @@ export default function HomeScreen({ navigation }) {
     typeImage = require("../assets/ImageBibliotheque.png");
   }
 
+  // Afficher la dernière histoire lors du clique sur le bouton
   const handleDisplayStory = () => {
     dispatch(
       updateStory({
@@ -143,11 +153,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
   },
 
+// Style header
   imagBgd: {
     flex: 2,
     width: "100%",
     height: "98%",
-    marginTop: "-12%", // -30%
+    marginTop: "-12%",
   },
 
   title1: {
@@ -155,8 +166,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "left",
     color: "#FFFFFF",
-    marginTop: "52%", //205
-    marginLeft: "3.5%", //16
+    marginTop: "52%",
+    marginLeft: "3.5%",
   },
 
   title2: {
@@ -176,6 +187,7 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
   },
 
+// Style création d'image et lecture de lastStory
   btnContainer: {
     flex: 3,
     flexDirection: "column",
@@ -184,6 +196,8 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: "15%",
   },
+
+  // Nouvelle histoire
   newStoryButton: {
     width: "92%",
     height: "30%",
@@ -192,30 +206,31 @@ const styles = StyleSheet.create({
     borderColor: "#FFCE4A",
     borderRadius: 10,
     alignItems: "center",
-    marginVertical: "5%", //20
+    marginVertical: "5%",
   },
   addButton: {
-    width: "9%", //30
-    height: "28%", //30
-    marginTop: "3%", //10
-    marginBottom: "4%", //10
+    width: "9%",
+    height: "28%",
+    marginTop: "3%",
+    marginBottom: "4%",
   },
-
   buttonText: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
   },
 
+//
   title3: {
     fontFamily: "Lato_400Regular",
     fontSize: 16,
     color: "#FFCE4A",
     alignSelf: "flex-start",
-    marginLeft: "4%", //16
-    marginTop: "4%", //20
+    marginLeft: "4%",
+    marginTop: "4%",
   },
 
+  // Lire lastStory
   lastStoryButton: {
     width: "92%",
     height: "40%",
@@ -226,7 +241,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginVertical: "3%",
   },
-
   storyImage: {
     width: "100%",
     height: "100%",
@@ -235,13 +249,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   storyTitle: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
   },
-
   readButton: {
     width: "50%",
     borderWidth: 1,
@@ -252,7 +264,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
   },
-
   readButtonText: {
     fontFamily: "Lato_400Regular",
     color: "white",

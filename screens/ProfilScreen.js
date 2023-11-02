@@ -1,4 +1,4 @@
-import {
+import { 
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,66 +11,49 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import * as Font from "expo-font";
 import { useDispatch, useSelector } from "react-redux";
-// import { useEffect } from "react";
 import { useState } from "react";
-import { updateUser, logOutuser } from "../reducers/user";
+import { updateUser } from "../reducers/user";
 
+// Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
 export default function ProfilScreen({ navigation }) {
-  // INPUT STATE
+  // Information du profil
   const [username, setUsername] = useState("");
   const [firstname, setFirstName] = useState("");
   const [email, setEmail] = useState("");
 
-  // PASSWORD UPDATE
+  // Modification du mot de passe
   const [newPassword, setNewPassword] = useState("");
   const [password, setPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
 
-  // EDITE
+  // Modification des informations du profil
   const [isEditable, setIsEditable] = useState(false);
   const [isEditablePwd, setIsEditablePwd] = useState(false);
   const [buttonText, setButtonText] = useState("Modifier mes informations");
   const [buttonTextPwd, setButtonTextPwd] = useState("Modifier mon mot de passe");
 
-  // // Letter Profil Picture
-  // const [firstLetter, setFirstLetter] = useState("");
-
+  // Accès au dispatch pour envoyer des actions.
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.value);
 
-  // MODIFY INFO
+  // Modifier les informations de l'utilisateur
   const handleModifyInfo = () => {
+      
+    // Création d'un objet avec les informations mises à jour de l'utilisateur
     const updatedUserInfo = { token: user.token };
 
-    // UPDATE USERNAME
-    if (username !== user.username && username !== null && username !== "") {
-      updatedUserInfo.username = username;
-    } else {
-      updatedUserInfo.username = user.username; // Use the old value
-    }
-    // UPDATE FIRSTNAME
-    if (firstname !== user.firstname && firstname !== null && firstname !== "") {
-      updatedUserInfo.firstname = firstname;
-    } else {
-      updatedUserInfo.firstname = user.firstname; // Use the old value
-    }
+    // Vérification et mise à jour de chaque champ si nécessaire
+    updatedUserInfo.username = username || user.username;
+    updatedUserInfo.firstname = firstname || user.firstname;
+    updatedUserInfo.email = email || user.email;
 
-    // UPDATE EMAIL
-    if (email !== user.email && email !== null && email !== "") {
-      updatedUserInfo.email = email;
-    } else {
-      updatedUserInfo.email = user.email; // Use the old value
-    }
-
+    // Mise à jour de l'utilisateur dans le Redux store
     dispatch(updateUser(updatedUserInfo));
 
-    console.log(updatedUserInfo);
-
-    // send to back info PUT ROUTE USER
+    // Appel API pour mettre à jour les informations sur le serveur
     fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -78,6 +61,7 @@ export default function ProfilScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
+        // Si la mise à jour est réussie, désactiver le mode édition
         if (data.result) {
           setIsEditable(false);
           setButtonText("Modifier mes informations");
@@ -85,10 +69,12 @@ export default function ProfilScreen({ navigation }) {
       });
   };
 
-  // MODIFY PWD
+  // Modifier le mot de passe
   const handleModifyPwd = () => {
-    // send to back info PUT ROUTE USER
+    // Vérification que le nouveau mot de passe et sa confirmation sont identiques
     if (password === newPassword) {
+    
+      // Appel API pour changer le mot de passe sur le serveur
       fetch(`https://fable-forge-backend-84ce.vercel.app/users/password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -100,6 +86,8 @@ export default function ProfilScreen({ navigation }) {
       })
         .then(response => response.json())
         .then(data => {
+          
+          // Si la mise à jour est réussie, désactiver le mode édition du mot de passe
           if (data.result) {
             console.log("updated");
             setIsEditablePwd(false);
@@ -109,18 +97,17 @@ export default function ProfilScreen({ navigation }) {
     }
   };
 
-  // SUBSCRIPTION PAGE
   const handleSubscription = () => {
-    // navigate to subscription page
+    // Navigation vers la page "Subscription"
     navigation.navigate("Subscription");
   };
 
   const handleLogOut = () => {
-    // LogOut and return to sign page
+    // Déconnexion, navigation vers la page "Sign"
     navigation.navigate("Sign");
   };
 
-  // MODALE DELETE
+  // État local pour la visibilité du modal.
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
 
@@ -129,7 +116,7 @@ export default function ProfilScreen({ navigation }) {
     setModalVisible(!modalVisible);
   };
 
-  // DELETE ACCOUNT
+  // Appel API pour supprimer le compte sur le serveur
   const handleDeleteAccount = () => {
     fetch(`https://fable-forge-backend-84ce.vercel.app/users`, {
       method: "DELETE",
@@ -138,6 +125,7 @@ export default function ProfilScreen({ navigation }) {
     })
       .then(response => response.json())
       .then(data => {
+        // Si la suppression est réussie, naviguer vers l'écran de "Sign"
         if (data.result) {
           navigation.navigate("Sign");
         }
@@ -154,7 +142,6 @@ export default function ProfilScreen({ navigation }) {
         <ScrollView style={styles.containerInformation} indicatorStyle='white'>
           <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
             <View>
-              {/* <Text style={styles.title1}>BIENVENUE PIERRE</Text> */}
               <Text style={styles.title2}>Profil</Text>
               
               <View style={styles.initialContainer}>
@@ -169,8 +156,6 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              // placeholder={isEditable ? "" : user.username}
-              // placeholderTextColor='white'
               placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setUsername(value)}
               value={username}
@@ -182,8 +167,6 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              // placeholder={isEditable ? "" : user.firstname}
-              // placeholderTextColor='white'
               placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setFirstName(value)}
               value={firstname}
@@ -195,8 +178,6 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Adresse mail</Text>
             <TextInput
               style={styles.input}
-              // placeholder={isEditable ? "" : user.email}
-              // placeholderTextColor='white'
               placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setEmail(value)}
               value={email}
@@ -224,7 +205,6 @@ export default function ProfilScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder='Tapez votre ancien mot de passe'
-                  // placeholderTextColor='white'
                   placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
                   onChangeText={value => setOldPassword(value)}
                   value={oldPassword}
@@ -235,7 +215,6 @@ export default function ProfilScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder='Tapez votre nouveau mot de passe'
-                  // placeholderTextColor='white'
                   placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
                   onChangeText={value => setNewPassword(value)}
                   value={newPassword}
@@ -246,7 +225,6 @@ export default function ProfilScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   placeholder='Confirmez votre nouveau mot de passe'
-                  // placeholderTextColor='white'
                   placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
                   onChangeText={value => setPassword(value)}
                   value={password}
@@ -316,16 +294,53 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
+
+// Style tabBar
+tabBar: {
+  marginTop: "200%",
+  position: "absolute",
+  zIndex: 1,
+},
+backgroundTab: {
+  backgroundColor: "#2C1A51",
+  top: "95%",
+  position: "absolute",
+  zIndex: -1,
+  height: 100,
+  width: 650,
+  marginLeft: -400,
+  marginTop: -20,
+},
+space: {
+  padding: 10,
+  height: 80,
+  backgroundColor: "transparent",
+},
+
+//
   containerBis: {
     flex: 1,
     width: "100%",
     marginTop: "-12%",
   },
+  containerInformation: {
+    flex: 2,
+  },
+
+// Style header
   imagBgd: {
     flex: 1,
     width: "100%",
     height: "71%",
- 
+  },
+  title2: {
+    fontFamily: "Lato_400Regular",
+    fontSize: 32,
+    textAlign: "left",
+    color: "#FFCE4A",
+    marginTop: "46.5%",
+    lineHeight: 60,
+    marginLeft: "3%",
   },
   initialContainer: {
     left: "26.5%",
@@ -336,6 +351,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     top: "-35%"
   },
+  image: {
+    position: "absolute",
+    top: "52%",
+    left: "36%",
+  },
   initial: {
     fontFamily: "Lato_400Regular",
     fontSize: 46,
@@ -343,16 +363,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     left: "42%",
     top: "48%"
-  },
-
-  title2: {
-    fontFamily: "Lato_400Regular",
-    fontSize: 32,
-    textAlign: "left",
-    color: "#FFCE4A",
-    marginTop: "46.5%", //160
-    lineHeight: 60,
-    marginLeft: "3%",
   },
   subtitle: {
     fontFamily: "Lato_400Regular",
@@ -362,32 +372,12 @@ const styles = StyleSheet.create({
     marginTop: "-10%",
     marginBottom: "5%",
   },
-  image: {
-    position: "absolute",
-    top: "52%",
-    left: "36%",
-  },
-  containerInformation: {
-    flex: 2,
-  },
-  titleInputMDP: {
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    fontSize: 18,
-    marginLeft: "4%",
-    marginBottom: "1%",
-  },
 
+// Informations utilisateur
   titleInput: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 18,
-    marginLeft: "4%",
-  },
-  titleInputPWD: {
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    fontSize: 16,
     marginLeft: "4%",
   },
   input: {
@@ -403,6 +393,13 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
     color: "white",
   },
+  titleInputMDP: {
+    fontFamily: "Lato_400Regular",
+    color: "white",
+    fontSize: 18,
+    marginLeft: "4%",
+    marginBottom: "1%",
+  },
   btnModify: {
     fontFamily: "Lato_400Regular",
     color: "#FFCE4A",
@@ -411,9 +408,19 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
     marginBottom: "6%",
   },
+
+// Mot de passe
+  titleInputPWD: {
+    fontFamily: "Lato_400Regular",
+    color: "white",
+    fontSize: 16,
+    marginLeft: "4%",
+  },
   mdp: {
     marginTop: "1%",
   },
+
+// Abonnement, Déconnexion, Suppression de compte
   subscriptionText: {
     fontFamily: "Lato_400Regular",
     color: "white",
@@ -455,41 +462,23 @@ const styles = StyleSheet.create({
     marginBottom: "4%",
     marginLeft: "4%",
   },
-  tabBar: {
-    marginTop: "200%",
-    position: "absolute",
-    zIndex: 1,
-  },
-  backgroundTab: {
-    backgroundColor: "#2C1A51",
-    top: "95%",
-    position: "absolute",
-    zIndex: -1,
-    height: 100,
-    width: 650,
-    marginLeft: -400,
-    marginTop: -20,
-  },
-  space: {
-    padding: 10,
-    height: 80,
-    backgroundColor: "transparent",
-  },
+
+// Modal
   mdlctn: {
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0,0,0, 0.5)",
   },
   modalContainer: {
-    width: "92%", // Adjust the width as per your requirement
-    height: 180, // Adjust the height as per your requirement
+    width: "92%", 
+    height: 180,
     marginTop: 350,
     marginLeft: "4%",
     backgroundColor: "#6B5F85",
-    borderRadius: 20, // Adjust the borderRadius as per your requirement
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    // backdropFilter: "blur(5px)",
+
   },
   titleModal: {
     fontFamily: "Lato_400Regular",

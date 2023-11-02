@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, ImageBackground, Modal, KeyboardAvoidingView } from "react-native";
+import { 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View, 
+  TextInput, 
+  ImageBackground, 
+  Modal, 
+  KeyboardAvoidingView 
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";

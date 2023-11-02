@@ -1,26 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Image, StyleSheet, Animated } from 'react-native';
+import React, { useEffect } from 'react';
+import { 
+  View, 
+  ActivityIndicator, 
+  Image, 
+  StyleSheet, 
+  Animated 
+} from 'react-native';
 
 const LoadingScreen = ({ navigation }) => {
-  const splashTime = 3000; // 3 secondes
-  const animationDuration = 500; // Durée de l'animation en millisecondes
 
-  // État local pour l'animation
+  // Durée de l'affichage de l'écran splash en millisecondes.
+  const splashTime = 3000;
+
+  // Durée de l'animation de l'opacité en millisecondes.
+  const animationDuration = 500;
+
+  // État local pour l'animation qui commence à 0.
   const animation = new Animated.Value(0);
 
   useEffect(() => {
-    // Démarrer l'animation pour faire apparaître l'indicateur de chargement
+    // Démarrage de l'animation d'opacité
     Animated.timing(animation, {
-      toValue: 1,
-      duration: animationDuration,
-      useNativeDriver: true,
+      duration: animationDuration, // Durée de l'animation.
+      useNativeDriver: true, // Utilisation du driver natif pour de meilleures performances.
     }).start();
 
-    setTimeout(() => {
-      // Utiliser navigation.replace pour passer à l'écran d'accueil et empêcher le retour en arrière
-      navigation.replace('Sign');
+    // Définition d'un timer pour naviguer vers l'écran suivant après `splashTime`.
+    const timer = setTimeout(() => {
+      navigation.replace('Sign'); // Navigation vers l'écran 'Sign'.
     }, splashTime);
-  }, [animation, navigation]);
+
+    // Nettoyage du timer si le composant est démonté avant que le timer ne soit terminé.
+    return () => clearTimeout(timer);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -40,9 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2C1A51',
-  },
-  text: {
-    fontSize: 24,
   },
   image: {
     width: '100%',
