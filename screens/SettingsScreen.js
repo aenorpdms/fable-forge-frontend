@@ -92,7 +92,7 @@ export default function SettingsScreen({ navigation }) {
           />
         </View>
 
-        <View style={styles.setting}>
+        {/* <View style={styles.setting}>
           <Text style={styles.fontSettings}>Ambiance :</Text>
           <Switch
             style={styles.switchBtn}
@@ -102,9 +102,9 @@ export default function SettingsScreen({ navigation }) {
             onValueChange={toggleAmbianceSwitch}
             value={isAmbianceEnabled}
           />
-        </View>
+        </View> */}
 
-        <View style={styles.setting}>
+        {/* <View style={styles.setting}>
           <Text style={styles.fontSettings}>Notifications :</Text>
           <Switch
             style={styles.switchBtn}
@@ -114,7 +114,7 @@ export default function SettingsScreen({ navigation }) {
             onValueChange={toggleNotificationsSwitch}
             value={isNotificationsEnabled}
           />
-        </View>
+        </View> */}
 
         <View style={styles.setting}>
           <Text style={styles.fontSettings}>Mode :</Text>
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
-    marginTop: 15,
+    marginTop: 250,
   },
   fontCGU: {
     fontFamily: "Lato_400Regular",
