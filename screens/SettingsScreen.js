@@ -1,22 +1,29 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch, Image } from "react-native";
-import * as Font from "expo-font";
+import { 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View, 
+  ImageBackground, 
+  Switch 
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { ScrollView } from "react-native-gesture-handler";
-
-import TabBar from "../TabBar";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFontSize } from "../reducers/user";
 
+// Importation du composant personnalisé TabBar
+import TabBar from "../TabBar";
+
 export default function SettingsScreen({ navigation }) {
+
+  // Accès au dispatch pour envoyer des actions.
   const dispatch = useDispatch();
-  // const [fontSize, setFontSize] = useState(16);
+
+  // Récuperer les informatons de Redux
   const user = useSelector(state => state.user.value);
 
-
-  // const [isEnabled, setIsEnabled] = useState(false);
-  // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  // État local pour gérer les switchs on/off
   const [isFontEnabled, setIsFontEnabled] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(false);
   const [isAmbianceEnabled, setIsAmbianceEnabled] = useState(false);
@@ -25,47 +32,37 @@ export default function SettingsScreen({ navigation }) {
 
   const font = user.fontSizeSet;
 
+  // Augmenter la taille de la police
   const increaseFontSize = () => {
     if (user.fontSizeSet < 30) {
-      //let newFontSize = user.fontSizeSet + 2;
-      // const newFontSize = fontSize + 2;
-
-      // // setFontSize(fontSize + 2);
-      // setFontSize(newFontSize);
       dispatch(updateFontSize(user.fontSizeSet + 2));
     }
   };
 
+  // Diminuer la taille de la police
   const decreaseFontSize = () => {
     if (user.fontSizeSet > 10) {
       let newFontSize = user.fontSizeSet - 2;
-  
-      // setFontSize(fontSize - 2);
-      // setFontSize(newFontSize);
       dispatch(updateFontSize(user.fontSizeSet - 2));
     }
   };
 
-  const handleNavigateToStoryDisplay = () => {
-    navigation.navigate("StoryDisplay");
-  };
-
+  // Fonctions pour basculer l'état des switches on/off
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
   const toggleAudioSwitch = (value) => {
     setIsAudioEnabled(value);
-    //code pour contrôler la musique en fonction de la valeur
   };
   const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
   const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
   const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
 
   const handleCguv = () => {
-    // call back delete account
-    // go back to sign in
+    // Navigation vers la page "Cguv"
     navigation.navigate("Cguv");
   };
+
   const handleReturnToHome = () => {
-    // return to settings page
+    // Navigation vers la page "home"
     navigation.navigate("Home");
   };
 
@@ -73,19 +70,13 @@ export default function SettingsScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
-        {/* <Text style={styles.title1}>Bienvenue Pierre</Text> */}
         <Text style={styles.title2}>Paramètres</Text>
       </ImageBackground>
-      {/* <View style={styles.arrowContainer}>
-        <TouchableOpacity style={styles.arrowBtn} onPress={() => handleReturnToHome()}>
-          <Image source={require("../assets/arrow-circle-back.png")} size={30} color={"#FFCE4A"} />
-        </TouchableOpacity> */}
-      {/* </View> */}
+
       <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
           <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
           <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>Taille de police : {font} px</Text>
-          {/* <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>Taille de police : {user.fontSizeSet} px</Text> */}
           <FontAwesome name='plus' size={20} style={styles.iconInc} color='white' onPress={increaseFontSize} />
         </View>
 
@@ -153,13 +144,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
+
+// Style header
   imagBgd: {
     flex: 2,
     marginTop: "-12%",
     width: "100%",
     height: "64%",
   },
-
   title2: {
     fontFamily: "Lato_400Regular",
     fontSize: 32,
@@ -169,6 +161,8 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
     marginTop: "47%",
   },
+
+// Style bouton taille de police
   settingsApp: {
     flex: 2,
     width: "92%",
@@ -191,11 +185,19 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: 20,
   },
+  iconDec: {
+    padding: 5,
+  },
   textPolice: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
   },
+  iconInc: {
+    padding: 5,
+  },
+
+// Style bouton audio, light mode, cguv
   setting: {
     width: "92%",
     flexDirection: "row",
@@ -208,7 +210,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
   },
-
   fontSettings: {
     fontFamily: "Lato_400Regular",
     textAlign: "center",
@@ -216,7 +217,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-
   switchBtn: {
     marginRight: 10,
     transform: [{ scaleX: 1.1 }, { scaleY: 1 }],
@@ -241,22 +241,14 @@ const styles = StyleSheet.create({
     color: "white",
     paddingLeft: "39%",
   },
-  iconDec: {
-    padding: 5,
-  },
-  iconInc: {
-    padding: 5,
-  },
+
+
+// Style flèche directionnelle
   arrowContainer: {
     position: "absolute",
     zIndex: 1,
     top: "100%",
-    // backgroundColor: "purple",
     flexDirection: "row",
-    // justifyContent: "space-between",
-    // marginTop: 150, // ajustez la marge supérieure selon vos besoins
-    // borderWidth: 1,
-    // borderColor: "green",
     alignItems: "flex-end",
     justifyContent: "center",
     padding: 2,
@@ -264,9 +256,6 @@ const styles = StyleSheet.create({
   },
   arrowBtn: {
     bottom: 80,
-    // borderWidth: 2,
-    // borderColor: "#FFCE4A",
-    // borderRadius: 200,
     padding: 10,
   },
 });
