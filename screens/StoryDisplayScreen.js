@@ -14,9 +14,9 @@ import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory"
 
 // Longueur d'histoire possible (en token)
 const LENGTH_MAP = {
-  Courte: { min: 500, max: 1500 },
-  Moyenne: { min: 1500, max: 2500 },
-  Longue: { min: 2500, max: 4000 },
+  Courte: { min: 400, max: 800 },
+  Moyenne: { min: 800, max: 1200 },
+  Longue: { min: 1200, max: 1600 },
 };
 
 export default function StoryDisplayScreen({ navigation }) {
