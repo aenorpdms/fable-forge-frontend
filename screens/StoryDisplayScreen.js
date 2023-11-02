@@ -1,50 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, Modal } from "react-native";
+import { 
+  ActivityIndicator, 
+  SafeAreaView, ScrollView, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View
+} from "react-native";
 import { API_KEY, API_URL } from "@env";
-// import TabBar from "../TabBar";
 import StoryBar from "../StoryBar";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { fontSize } from "./SettingsScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { addTitle, saveStory, emptyNewStory } from "../reducers/newStory"
+
+// Longueur d'histoire possible (en token)
 const LENGTH_MAP = {
   Courte: { min: 500, max: 1500 },
   Moyenne: { min: 1500, max: 2500 },
   Longue: { min: 2500, max: 4000 },
 };
 
-export default function StoryDisplayScreen({ route, navigation }) {
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [chunks, setChunks] = useState([]);
-  const [totalTokens, setTotalTokens] = useState(0);
-  const [initialPrompt, setInitialPrompt] = useState("");
-  const [desiredTokenCount, setDesiredTokenCount] = useState(0);
-  const [count, setCount] = useState(0);
-  const [showGenerateButton, setShowGenerateButton] = useState(true);
-  const dispatch = useDispatch();
+export default function StoryDisplayScreen({ navigation }) {
+  // État pour le suivi du processus de génération d'histoire
+
+  const [isGenerating, setIsGenerating] = useState(false); // Voir si une histoire est en cours de génération
+  const [chunks, setChunks] = useState([]); // Mise à jour des tranches d'histoire générés
+  const [totalTokens, setTotalTokens] = useState(0); // Nombre total de tokens générés
+  const [initialPrompt, setInitialPrompt] = useState(""); // Prompt initial pour l'API
+  const [desiredTokenCount, setDesiredTokenCount] = useState(0); // Nombre de tokens désiré pour l'histoire
+  const [count, setCount] = useState(0); // Compteur utilisé pour la logique de titre
+  const [showGenerateButton, setShowGenerateButton] = useState(true); // Contrôle l'affichage du bouton de génération
+  const [titleStory, setTitleStory] = useState(""); // Titre de l'histoire générée
+  
+  // Récupération de l'état depuis Redux
   const newStory = useSelector(state => state.newStory.value);
   const user = useSelector(state => state.user.value);
-  const [titleStory, setTitleStory] = useState("");
+  const dispatch = useDispatch();
 
+  // Déclanchement de la génération de l'histoire
   useEffect(() => {
+    // Lorsque le composant est mis à jour avec de nouveaux 'chunks'
     if (isGenerating) {
-      // Utilisez la valeur désirée sans la recalculer
-
+      // Si le nombre total de tokens est inférieur au nombre désiré, générer la prochaine tranche
       if (totalTokens < desiredTokenCount) {
         generateNextChunk();
       } else {
+        // Sinon, arrêter la génération et envoyer l'histoire au backend
         setIsGenerating(false);
         setTitleStory(newStory.title);
         sendStoryToBackend(newStory.story, newStory.title);
       }
     }
-  }, [chunks]);
+  }, [chunks]); // Ce useEffect se déclenche uniquement lorsque 'chunks' change
 
-  console.log("isGenerated", isGenerating);
+  // Fonction asynchrone pour générer la prochaine tranche de l'histoire
   const generateNextChunk = async () => {
-    // Combinez la phrase initiale et les chunks pour former le message complet
+    // Construction du message pour l'API à partir du prompt initial et des morceaux d'histoire existants
     const userMessage = initialPrompt + " " + chunks.join(" ");
 
+    // Préparation de la requête à envoyer à l'API
     const data = {
       model: "gpt-3.5-turbo-16k",
       messages: [
@@ -55,8 +68,10 @@ export default function StoryDisplayScreen({ route, navigation }) {
         { 
           role: "user", 
           content: userMessage 
-        },
+        }, // Message de l'utilisateur actuel
       ],
+
+      // Contrôle du style et de la diversité de la génération de texte
       temperature: 1.2,
       max_tokens: 250,
       top_p: 1,
@@ -65,6 +80,7 @@ export default function StoryDisplayScreen({ route, navigation }) {
     };
 
     try {
+      // Envoi de la requête à l'API et attente de la réponse
       const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
@@ -74,20 +90,25 @@ export default function StoryDisplayScreen({ route, navigation }) {
         body: JSON.stringify(data),
       });
 
+      // Traitement de la réponse de l'API
       const responseData = await response.json();
 
+      // Gestion des erreurs de réponse
       if (!response.ok || !responseData.choices || !responseData.choices[0]) {
         console.error("Erreur lors de la génération de l'histoire");
         setIsGenerating(false);
         return;
       }
+
+      // Extraction du contenu généré
       const generatedContent = responseData.choices[0].message.content.trim();
 
-      // Extract title using the regular expression
+      // Extraction du titre à l'aide d'une expression régulière
       const titleRegex = /!(.*?)!/;
       const titleMatch = titleRegex.exec(generatedContent);
       const title = titleMatch ? titleMatch[1] : "";
 
+      // Logique pour définir le titre de l'histoire si ce n'est pas déjà fait
       if (newStory.title == "" && count == 0) {
         dispatch(addTitle(title));
         setTitleStory(title);
@@ -95,26 +116,21 @@ export default function StoryDisplayScreen({ route, navigation }) {
         setCount(1);
       }
 
-      console.log("Nombre total de tokens à générer:", desiredTokenCount);
-      console.log("total token", totalTokens);
-
-      // Concatenate all chunks to create the complete story
-      //const completeStory = chunks.join(" ");
-
-      // Remove the title from the chunk
+      // Logique pour mettre à jour l'état avec le contenu généré
       const contentWithoutTitle = generatedContent.replace(titleRegex, "");
       setChunks(prevChunks => [...prevChunks, contentWithoutTitle]);
       dispatch(saveStory(contentWithoutTitle));
       setTotalTokens(prevTokens => prevTokens + responseData.choices[0].message.content.split(" ").length);
       return generatedContent;
     } catch (error) {
+      // Gestion des erreurs lors de la requête
       console.error("Erreur lors de la génération de l'histoire:", error);
       setIsGenerating(false);
     }
   };
 
+  // Envoyer l'histoire complète au backend
   const sendStoryToBackend = (completeStory, title) => {
-    console.log("sendStoryToBackend ", title);
     fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -137,15 +153,15 @@ export default function StoryDisplayScreen({ route, navigation }) {
       });
   };
 
+  // Déclancher la génération de l'histoire
   const handleGenerateStory = () => {
     setShowGenerateButton(false);
     setIsGenerating(true);
     setChunks([]);
     setTotalTokens(0);
-    //dispatch(emptyNewStory());
     const tokenCount =
       Math.floor(Math.random() * (LENGTH_MAP[newStory.length].max - LENGTH_MAP[newStory.length].min + 1)) + LENGTH_MAP[newStory.length].min;
-    setDesiredTokenCount(tokenCount); // Mettre à jour ici
+    setDesiredTokenCount(tokenCount);
     const prompt = `Je souhaite créer une histoire de genre ${newStory.type} de longueur ${newStory.length}. Je veux une ${newStory.endingType}.`;
     setInitialPrompt(prompt);
   };
@@ -184,6 +200,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
     padding: 20,
   },
+
+// Style tabBar
+  tabBar: {
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
+  },
+  backgroundTab: {
+    backgroundColor: "#2C1A51",
+    top: "95%",
+    position: "absolute",
+    zIndex: -1,
+    height: 100,
+    width: 650,
+    marginLeft: -400,
+    marginTop: -20,
+  },
+
+// Style générateur/lecteur d'histoire
+  titleStory: {
+    fontFamily: "Lato_700Bold_Italic",
+    fontSize: 26,
+    color: "white",
+    textAlign: "center",
+    margin: "2%",
+    marginTop: 30,
+  },
   containerStory: {
     flex: 2,
     marginHorizontal: 30,
@@ -192,14 +235,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     width: "92%",
-  },
-  titleStory: {
-    fontFamily: "Lato_700Bold_Italic",
-    fontSize: 26,
-    color: "white",
-    textAlign: "center",
-    margin: "2%",
-    marginTop: 30,
   },
   textStory: {
     fontSize: 16,
@@ -222,26 +257,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
   },
-  tabBar: {
-    marginTop: "200%",
-    position: "absolute",
-    zIndex: 1,
-  },
-  backgroundTab: {
-    backgroundColor: "#2C1A51",
-    top: "95%",
-    position: "absolute",
-    zIndex: -1,
-    height: 100,
-    width: 650,
-    marginLeft: -400,
-    marginTop: -20,
-  },
+
+// Style ActivityIndicator
   tournicoti: {
     position: "absolute",
-    left: "45%", //120
-    top: "50%", //250
+    left: "45%",
+    top: "50%",
   },
+
+//
   space: {
     height: 120,
     backgroundColor: "transparent",
