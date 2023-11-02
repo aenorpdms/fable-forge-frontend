@@ -1,4 +1,4 @@
-import React, from "react";
+import React from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -29,10 +29,10 @@ export default function StoryReadScreen({ navigation }) {
       </View>
       <Text style={styles.titleStory}>{selectedStory.title}</Text>
       <ScrollView style={[styles.containerStory,
-          {/* Thème clair ou sombre en fonction des paramètres utilisateur*/}
+          // Thème clair ou sombre en fonction des paramètres utilisateur
           { backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
         <Text style={[styles.textStory ,
-          {/* Texte de l'histoire avec police et couleur personnalisées */}
+          // Texte de l'histoire avec police et couleur personnalisées
           { color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51", fontSize: user.fontSizeSet } ]}>{contentWithoutFin}</Text>
 
         <View style={styles.space}></View>
