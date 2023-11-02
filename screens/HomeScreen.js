@@ -251,8 +251,12 @@ const styles = StyleSheet.create({
   },
   storyTitle: {
     fontFamily: "Lato_400Regular",
-    color: "white",
-    fontSize: 16,
+    color: 'white',
+    fontSize: 20,
+    textAlign:'center',
+    backgroundColor: 'rgba(44,26,80, 0.5)',
+    padding: 10,
+    width: "100%",
   },
   readButton: {
     width: "50%",

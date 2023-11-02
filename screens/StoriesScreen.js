@@ -15,6 +15,7 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 // Importation du composant TabBar personnalisé
 import TabBar from '../TabBar';
+import { convertToRGBA } from "react-native-reanimated";
 
 // Mapping des types d'histoire à leurs images correspondantes pour éviter les répétitions
 const storyTypeImages = {
@@ -93,7 +94,7 @@ export default function StoriesScreen({ navigation }) {
         source={storyTypeImages[story.type] || null}
       >
         <Text style={styles.storyTitle}>{story.title}</Text>
-        <Text style={styles.storyStatus}>Terminée</Text>
+
       </ImageBackground>
       <TouchableOpacity style={styles.readButton} onPress={() => handleDisplayStory(story)}>
         <Text style={styles.readButtonText}>Relire</Text>
@@ -200,18 +201,19 @@ const styles = StyleSheet.create({
     overflow:"hidden",
     justifyContent: 'center',
     alignItems: 'center',
+   
 },
   storyTitle: {
     fontFamily: "Lato_400Regular",
     color: 'white',
-    fontSize: 24,
-    textAlign:'center'
+    fontSize: 20,
+    textAlign:'center',
+    backgroundColor: 'rgba(44,26,80, 0.5)',
+    padding: 10,
+    width: "100%",
+   
 },
-  storyStatus: {
-    fontFamily: "Lato_400Regular",
-    color: 'white',
-    fontSize: 18,
-  },
+  
   readButton: {
     width: "50%",
     backgroundColor: '#2C1A51',
