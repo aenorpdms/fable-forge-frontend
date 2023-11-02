@@ -22,91 +22,43 @@ import { updateFontSize, updateMode } from "./reducers/user";
 import { Audio } from "expo-av";
 
 export default function StoryBar({ navigation }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
+  // Accès au dispatch pour envoyer des actions.
+  const dispatch = useDispatch();
 
-  const [isFontEnabled, setIsFontEnabled] = useState(false);
+  // État pour gérer l'ouverture (ouvert/fermé)
+  const [isOpen, setIsOpen] = useState(false);
+
+  // État pour la modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // État pour la musique (activé/désactivé)
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
 
-  const dispatch = useDispatch();
-  const toggleFontSwitch = () =>
-  setIsFontEnabled((previousState) => !previousState);
-
-
- // Define the sound object
- const soundObject = useRef(new Audio.Sound());
-
-const toggleAudioSwitch = async () => {
-  setIsAudioEnabled((previousState) => !previousState);
-  if (isAudioEnabled) {
-    try {
-      await soundObject.current.pauseAsync();
-    } catch (error) {
-      console.error("Error pausing audio", error);
-    }
-  } else {
-    try {
-      await soundObject.current.playAsync();
-    } catch (error) {
-      console.error("Error playing audio", error);
-    }
-  }
-};
-
-
-  // FONT
+  // Accès à l'état global Redux pour la configuration de l'utilisateur
   const user = useSelector((state) => state.user.value);
-  const font = user.fontSizeSet;
-  const widthValue = useSharedValue(isOpen ? 140 : 0);
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      width: withTiming(widthValue.value, {
-        duration: 400,
-        easing: Easing.linear,
-      }),
-    };
-  });
-  const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
-  const animatedBackgroundStyle = useAnimatedStyle(() => {
-    const bgColor =
-      bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
-    return {
-      backgroundColor: bgColor,
-    };
-  });
-
-  useEffect(() => {
-    // Automatically open the tab bar when the component is rendered
-    if (isOpen) {
-      toggleTabBar();
-    }
-  }, []);
-
-  const toggleTabBar = () => {
-    setIsOpen((prevState) => {
-      if (prevState) {
-        widthValue.value = 0; // Réduire la largeur à 0
-        bgValue.value = 0;
-      } else {
-        widthValue.value = 140; // Augmenter la largeur à la valeur souhaitée
-        bgValue.value = 1;
-      }
-      return !prevState;
-    });
-  };
-
-  const increaseFontSize = () => {
-    if (user.fontSizeSet < 30) {
-      dispatch(updateFontSize(user.fontSizeSet + 2));
-    }
-  };
-  const decreaseFontSize = () => {
-    if (user.fontSizeSet > 10) {
-      dispatch(updateFontSize(user.fontSizeSet - 2));
-    }
-  };
 
   // AUDIO
+  // Référence pour la gestion de l'audio
+  const soundObject = useRef(new Audio.Sound());
+
+  // Basculer l'audio
+  const toggleAudioSwitch = async () => {
+    setIsAudioEnabled((previousState) => !previousState);
+    if (isAudioEnabled) {
+      try {
+        await soundObject.current.pauseAsync();
+      } catch (error) {
+        console.error("Error pausing audio", error);
+      }
+    } else {
+      try {
+        await soundObject.current.playAsync();
+      } catch (error) {
+        console.error("Error playing audio", error);
+      }
+    }
+  };
+
   const newStory = useSelector((state) => state.newStory.value);
   const storySelected = useSelector((state) => state.stories.value);
 
@@ -149,11 +101,70 @@ const toggleAudioSwitch = async () => {
     };
   }, [isAudioEnabled]);
 
+  //TAB-BAR
+  // Animation pour la largeur de la tabBar
+  const widthValue = useSharedValue(isOpen ? 140 : 0);
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      width: withTiming(widthValue.value, {
+        duration: 400,
+        easing: Easing.linear,
+      }),
+    };
+  });
+
+  // Animation pour le fond de la tabBar (ouvert/fermé)
+  const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
+  const animatedBackgroundStyle = useAnimatedStyle(() => {
+  const bgColor =
+    bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
+  return {
+    backgroundColor: bgColor,
+    };
+  });
+
+  useEffect(() => {
+    // Ouvrir automatiquement la barre d'onglets lorsque le composant est rendu
+    if (isOpen) {
+      toggleTabBar();
+    }
+  }, []);
+
+  const toggleTabBar = () => {
+    setIsOpen((prevState) => {
+      if (prevState) {
+        widthValue.value = 0; // Réduire la largeur à 0
+        bgValue.value = 0;
+      } else {
+        widthValue.value = 140; // Augmenter la largeur à la valeur souhaitée
+        bgValue.value = 1;
+      }
+      return !prevState;
+    });
+  };
+
+  // FONT
+  const font = user.fontSizeSet;
+
+  // Augmenter la taille de police
+  const increaseFontSize = () => {
+    if (user.fontSizeSet < 30) {
+      dispatch(updateFontSize(user.fontSizeSet + 2));
+    }
+  };
+
+  // Diminuer la taille de police
+  const decreaseFontSize = () => {
+    if (user.fontSizeSet > 10) {
+      dispatch(updateFontSize(user.fontSizeSet - 2));
+    }
+  };
+
   // DARK LIGTH MODE
   const isModeEnabledMode = user.mode === "dark";
   const toggleModeSwitchMode = () => {
     const newMode = isModeEnabledMode ? "light" : "dark";
-    dispatch(updateMode(newMode)); // Dispatch the mode to your reducer
+    dispatch(updateMode(newMode));
   };
 
   // NAVIGATE
@@ -169,13 +180,13 @@ const toggleAudioSwitch = async () => {
     navigation.navigate("Profil");
   };
 
-  // OPEN MODE SETTING
+  // MODAL
   const handleDisplaySettings = () => {
-    setIsModalOpen(true); // Open the modal
+    setIsModalOpen(true); // Ouvrir la modal
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
+    setIsModalOpen(false); // Fermer la modal
   };
 
   return (
@@ -208,7 +219,6 @@ const toggleAudioSwitch = async () => {
           </TouchableOpacity>
         </Animated.View>
       </View>
-      {/* Modal */}
       <Modal
         visible={isModalOpen}
         animationType="slide"
@@ -217,7 +227,6 @@ const toggleAudioSwitch = async () => {
       >
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
-            {/* <TouchableOpacity > */}
             <FontAwesome
               name="close"
               size={20}
@@ -225,11 +234,9 @@ const toggleAudioSwitch = async () => {
               color="white"
               onPress={closeModal}
             />
-            {/* </TouchableOpacity> */}
             <Text style={styles.modalTitle}>Settings</Text>
             <View style={styles.settingsApp}>
               <View style={styles.setting}>
-                {/* <View style={styles.setting}> */}
                 <FontAwesome
                   name="minus"
                   size={20}
@@ -249,7 +256,6 @@ const toggleAudioSwitch = async () => {
                   color="white"
                   onPress={increaseFontSize}
                 />
-                {/* </View> */}
               </View>
 
               <View style={styles.setting}>
@@ -278,7 +284,6 @@ const toggleAudioSwitch = async () => {
                 />
               </View>
             </View>
-            {/* Add your modal content here */}
           </View>
         </View>
       </Modal>
@@ -316,7 +321,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    width: 40, // Exemple
+    width: 40,
     height: 40,
     backgroundColor: "white",
     borderRadius: 30,
@@ -347,18 +352,12 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "80%",
     height: "55%",
-    // justifyContent: "center",
-    // backgroundColor: "rgba(0,0,0, 0.5)",
-    // width: 350, // Adjust the width as per your requirement
-    // height: 180, // Adjust the height as per your requirement
     marginTop: "40%",
     marginLeft: 40,
     paddingLeft: "5%",
     backgroundColor: "#6B5F85",
-    borderRadius: 20, // Adjust the borderRadius as per your requirement
-    // alignItems: "center",
+    borderRadius: 20,
     justifyContent: "center",
-    // backdropFilter: "blur(5px)",
   },
   modalTitle: {
     color: "white",
@@ -378,19 +377,6 @@ const styles = StyleSheet.create({
     right: "10%",
   },
   containerPolice: {
-    // flexDirection: "row",
-    // padding: 10,
-    // paddingLeft: 20,
-    // paddingRight: 20,
-    // width: "92%",
-    // justifyContent: "space-between",
-    // alignItems: "center",
-    // borderWidth: 1,
-    // borderColor: "#FFCE4A",
-    // borderRadius: 10,
-    // height: 55,
-    // marginBottom: 15,
-    // marginTop: 20,
     width: "92%",
     flexDirection: "row",
     padding: 10,

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-
-import { StyleSheet } from "react-native";
+import React, { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
-SplashScreen.preventAutoHideAsync();
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Provider } from "react-redux";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   useFonts,
   Lato_100Thin,
@@ -22,13 +22,7 @@ import {
   Lato_900Black_Italic,
 } from "@expo-google-fonts/lato";
 
-import { Provider } from "react-redux";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-// redux-persist imports
-import { persistStore, persistReducer } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+// Importation des écrans
 import SignScreen from "./screens/SignScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProfilScreen from "./screens/ProfilScreen";
@@ -43,37 +37,49 @@ import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
 import StoryReadScreen from "./screens/StoryReadScreen";
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
+// Importation des reducers 
 import user from "./reducers/user";
 import stories from "./reducers/stories";
 import newStory from "./reducers/newStory";
 import subscriptionReducer from "./reducers/subscription"
+
+// Initialisation du SplashScreen pour empêcher sa disparition automatique
+SplashScreen.preventAutoHideAsync();
+
+// Création des navigateurs pour l'application
+const Stack = createNativeStackNavigator();
+
+// Combinaison de tous les reducers pour le store Redux
+const reducers = combineReducers({ subscription: subscriptionReducer, user, stories, newStory });
+
+// Configuration de redux-persist pour stocker le state de Redux
+const persistConfig = {
+  key: "fable-forge",
+  storage: AsyncStorage,
+};
 
 // AsyncStorage.getAllKeys()
 //   .then(keys => AsyncStorage.multiRemove(keys))
 //   .then(() => console.log("clear"));
 // AsyncStorage.clear().then(() => console.log("clear"));
 
-const reducers = combineReducers({ subscription: subscriptionReducer, user, stories, newStory });
-const persistConfig = {
-  key: "fable-forge",
-  storage: AsyncStorage,
-};
-
+// Création du store Redux persistant
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: getDefaultMiddleware => 
+    getDefaultMiddleware({ serializableCheck: false }),
 });
-
 const persistor = persistStore(store);
 
+
 export default function App() {
+  // Masquer le SplashScreen après le chargement initial
   useEffect(() => {
     SplashScreen.hideAsync();
   }, []);
 
+  // Chargement des polices personnalisées via useFonts
   let [fontsLoaded] = useFonts({
     Lato_100Thin,
     Lato_100Thin_Italic,
@@ -87,14 +93,9 @@ export default function App() {
     Lato_900Black_Italic,
   });
 
-  console.log(fontsLoaded); // Vérifiez ici si fontsLoaded est true ou false
-
-  let fontSize = 24;
-  let paddingVertical = 6;
-
+  // Affichage d'un écran vide si les polices ne sont pas chargées
   if (!fontsLoaded) {
     return null;
-    //hello to delete
   }
 
   return (
@@ -122,13 +123,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "Lato_400Regular",
-  },
-});
