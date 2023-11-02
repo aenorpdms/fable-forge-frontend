@@ -81,7 +81,6 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         </View>
       </ImageBackground>
 
-      // Modal
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
@@ -97,7 +96,6 @@ export default function StoryGenerationStep2Screen({ navigation }) {
         </View>
       </Modal>
 
-      // tabBar
       <View style={styles.tabBar}>
         <TabBar navigation={navigation} />
       </View>

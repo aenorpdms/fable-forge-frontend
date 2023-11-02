@@ -5,9 +5,9 @@ import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { updateNewType, updateSelectedMusic, updateSelectedImage } from "../reducers/newStory";
-// import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
@@ -109,8 +109,6 @@ export default function StoryGenerationScreen() {
       <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>
         <FontAwesomeIcon icon={faQuestionCircle} color={"#6B5F85"} size={20} />
       </TouchableOpacity>
-
-      // Modal
       <Modal visible={isModalOpen} animationType='slide' onRequestClose={closeModal} transparent={true}>
         <View style={styles.mdlctn}>
           <View style={styles.modalContainer}>
@@ -125,11 +123,7 @@ export default function StoryGenerationScreen() {
           </View>
         </View>
       </Modal>
-
-      // Carousel
       <Carousel data={data} renderItem={renderItem} sliderWidth={Dimensions.get("window").width} itemWidth={300} style={styles.carousel} />
-      
-      // tabBar
       <TabBar navigation={navigation} />
     </SafeAreaView>
   );
