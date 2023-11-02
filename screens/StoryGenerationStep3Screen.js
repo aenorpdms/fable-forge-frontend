@@ -10,14 +10,17 @@ import TabBar from "../TabBar";
 
 // Composant pour l'écran génération d'histoire "Étape 3"
 export default function StoryGenerationStep3Screen() {
+
   // Hook pour naviguer entre les écrans
   const navigation = useNavigation();
  
   // Récupération de l'état newStory depuis le store Redux
   const newStory = useSelector((state) => state.newStory.value);
 
+  // Création du synopsis pour le récap des détails de l'histoire
   const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`
   
+  // Fonction pour naviguer vers l'affichage de l'histoire
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {
       genre: newStory.type,
@@ -26,8 +29,8 @@ export default function StoryGenerationStep3Screen() {
     });
   };
 
+  // Fonction pour revenir à l'étape 2
   const handleStoryGeneration2 = () => {
-    // navigate to Story step 2 page
     navigation.navigate("StoryGeneration2");
   };
 
@@ -90,6 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2C1A51",
   },
+
+  // Style header 
   imagBgd: {
     flex: 2,
     width: "100%",
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     fontSize: 32,
     color: "#FFCE4A",
-    marginTop: "49%", //160
+    marginTop: "49%",
     marginLeft: "3%",
     position: "absolute",
   },
@@ -122,9 +127,14 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
   },
 
-  containerInformation: {
-    height: "112%",
+  // Style tabBar
+  tabBar: {
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
   },
+
+// Style récap histoire
   containerStory: {
     height: "65%",
     bottom: "7%",
@@ -173,44 +183,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
   },
-  btngenerateStory: {
-    borderColor: "white",
-    backgroundColor: "#2C1A51",
-    margin: 10,
-    borderWidth: 1,
-    borderColor: "#FFCE4A",
-    borderRadius: 10,
-    padding: 5,
-    marginTop: 10,
-  },
-  generateTextBtn: {
-    fontFamily: "Lato_400Regular",
-    color: "white",
-    textAlign: "center",
-    padding: 10,
-  },
-  tabBar: {
-    marginTop: "200%",
-    position: "absolute",
-    zIndex: 1,
-  },
 
+// Style flèche directionnelle 
   arrowContainer: {
     flexDirection:"row",
     justifyContent: "space-between",
     width: "100%",
     height: "20%",
-    alignItems: "center",
-    
+    alignItems: "center",  
   },
   arrowBtn: {
     marginLeft:"10%",
     marginRight:"10%"
-  },
-  musicButton: {
-    marginTop: 5, 
-    padding: 20, 
-    borderWidth: 2,
-    border: 'red',
   },
 });
