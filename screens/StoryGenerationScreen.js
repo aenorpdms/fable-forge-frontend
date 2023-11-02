@@ -220,8 +220,9 @@ const styles = StyleSheet.create({
   },
   textModal: {
     color: "white",
-    marginTop: "10%",
-    textAlign: "center",
+    // marginTop: "10%",
+    textAlign: "justify",
+    padding: "4%",
     right: "4%",
   },
   carousel: {

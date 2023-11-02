@@ -77,7 +77,7 @@ const toggleAudioSwitch = async () => {
 
   useEffect(() => {
     // Automatically open the tab bar when the component is rendered
-    if (!isOpen) {
+    if (isOpen) {
       toggleTabBar();
     }
   }, []);
