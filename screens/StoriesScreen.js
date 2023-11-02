@@ -1,124 +1,113 @@
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Modal, TextInput, SafeAreaView, Image, ScrollView } from "react-native";
-import TabBar from "../TabBar";
+import { 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View, 
+  ImageBackground, 
+  SafeAreaView, 
+  ScrollView 
+} from "react-native";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { updateStory } from "../reducers/stories";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
+// Importation du composant TabBar personnalisé
+import TabBar from '../TabBar';
+
+// Mapping des types d'histoire à leurs images correspondantes pour éviter les répétitions
+const storyTypeImages = {
+  Horreur: require('../assets/Horreur.png'),
+  Aventure: require('../assets/Aventure.png'),
+  'Fantasy / SF': require('../assets/Fantasy_SF.png'),
+  'Policier / Thriller': require('../assets/Policier_Thriller.png'),
+  Romance: require('../assets/Romance.png'),
+  Enfant: require('../assets/Enfant.png')
+};
 
 export default function StoriesScreen({ navigation }) {
+  // Utilisation de Redux pour accéder et modifier l'état global
   const selectedStory = useSelector((state) => state.stories.value);
-  const user = useSelector((state)=> state.user.value)
-  const [stories, setStories] = useState([])
-  const dispatch = useDispatch()
-const [update, setUpdate ] = useState(false)
+  const user = useSelector((state) => state.user.value);
+  
+  // Accès au dispatch pour envoyer des actions
+  const dispatch = useDispatch();
 
+  // État la mise à jour des histoires
+  const [stories, setStories] = useState([]);
+  const [update, setUpdate] = useState(false);
 
-const handleDisplayStory = (story) => { 
-    let typeImage;
+  //Afficher l'histoire sélectionnée
+  const handleDisplayStory = (story) => {
+    
+    // Récupération de l'image correspondant au type d'histoire
+    const typeImage = storyTypeImages[story.type] || null; 
+    
+    // Mise à jour de l'histoire sélectionnée dans Redux
+    dispatch(updateStory({
+      title: story.title,
+      type: story.type,
+      story: story.choicePrompt[0],
+      selectedImage: typeImage,
+    }));
 
-  if(story.type === "Horreur"){
-    typeImage = require("../assets/Horreur.png")
-  }else if (story.type === "Aventure"){
-    typeImage = require("../assets/Aventure.png")
-  }else if (story.type === "Fantasy / SF"){
-    typeImage = require("../assets/Fantasy_SF.png")
-  }else if (story.type === "Policier / Thriller"){
-    typeImage = require("../assets/Policier_Thriller.png")
-  }else if (story.type === "Romance"){
-    typeImage = require("../assets/Romance.png")
-  }else if (story.type === "Enfant"){
-    typeImage = require("../assets/Enfant.png")
-  }
-
-  dispatch(updateStory({
-    title: story.title,
-    type: story.type,
-    story: story.choicePrompt[0],
-    selectedImage: typeImage,
-  }))
-  navigation.navigate("StoryRead");
+    navigation.navigate('StoryRead');
   };
 
-  console.log(selectedStory)
-
-useEffect(() => {
-  fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
+  // Afficher les histoires de l'utilisateur
+  useEffect(() => {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-        
-        setStories([...data.stories])
-        
+          setStories([...data.stories]);
         } else {
-         console.log("error")
+          console.log('Erreur lors du chargement des histoires');
         }
-  });
+      });
+  }, [update]);
 
-}, [!update]);
+  // Supprimer une histoire.
+  const handleDeleteStory = (storyID) => {
+    fetch(`https://fable-forge-backend-84ce.vercel.app/stories/${storyID}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: user.token }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          // Inversion de l'état de mise à jour pour déclencher un nouveau chargement des histoires.
+          setUpdate(prevUpdate => !prevUpdate); 
+          console.log('Histoire supprimée');
+        }
+      });
+  };
 
+  // Afficher le container des histoires
+  const renderStoryList = () => stories.map((story, index) => (
+    <View style={styles.storyButton} key={index}>
+      <ImageBackground
+        style={styles.storyImage}
+        source={storyTypeImages[story.type] || null}
+      >
+        <Text style={styles.storyTitle}>{story.title}</Text>
+        <Text style={styles.storyStatus}>Terminée</Text>
+      </ImageBackground>
+      <TouchableOpacity style={styles.readButton} onPress={() => handleDisplayStory(story)}>
+        <Text style={styles.readButtonText}>Relire</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.deleteBtn} onPress={() => handleDeleteStory(story._id)}>
+        <FontAwesomeIcon icon={faTimesCircle} style={{ color: '#ffffff' }} size={25} />
+      </TouchableOpacity>
+    </View>
+  ));
 
-
-// map sur le tableau et return 
-const storiesList = stories.map((story, index) => {
-
-  console.log(story._id)
-  let typeImage
-  if(story.type === "Horreur"){
-    typeImage = require("../assets/Horreur.png")
-  }else if (story.type === "Aventure"){
-    typeImage = require("../assets/Aventure.png")
-  }else if (story.type === "Fantasy / SF"){
-    typeImage = require("../assets/Fantasy_SF.png")
-  }else if (story.type === "Policier / Thriller"){
-    typeImage = require("../assets/Policier_Thriller.png")
-  }else if (story.type === "Romance"){
-    typeImage = require("../assets/Romance.png")
-  }else if (story.type === "Enfant"){
-    typeImage = require("../assets/Enfant.png")
-  }
-
-return (
-  <View style={styles.storyButton} key={index}>
-    <ImageBackground
-      style={styles.storyImage}
-      source={typeImage}
-    >
-      <Text style={styles.storyTitle}>{story.title}</Text>
-      <Text style={styles.storyStatus}>Terminée</Text>
-    </ImageBackground>
-    <TouchableOpacity style={styles.readButton} onPress={()=> handleDisplayStory(story)}>
-      <Text style={styles.readButtonText}>Relire</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.deleteBtn} onPress={()=> handleDeleteStory(story._id)}>
-      <FontAwesomeIcon icon={faTimesCircle} style={{color: "#ffffff",}}  size={25}/>
-    </TouchableOpacity>
-  </View>
-)})
-
-
-// DELETE ACCOUNT
-const handleDeleteStory = (storyID) => {
-  fetch(`https://fable-forge-backend-84ce.vercel.app/stories/${storyID}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token: user.token }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result) {
-        setUpdate(true)
-        console.log('story delete');
-      }
-    });
-};
-
+  // Structure principale du composant d'affichage
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={styles.header}>
-
         <ImageBackground
           style={styles.imagBgd}
           source={require('../assets/ImageBibliotheque.png')}
@@ -131,14 +120,13 @@ const handleDeleteStory = (storyID) => {
         <View style={styles.backgroundTab}></View>
       </View>
       <View style={styles.scrollViewContainer}>
-        <ScrollView  contentContainerStyle={styles.scrollView} indicatorStyle="white">
-          {storiesList}
-          <View style={styles.space}>
-          </View>
+        <ScrollView contentContainerStyle={styles.scrollView} indicatorStyle="white">
+          {renderStoryList()}
+          <View style={styles.space}></View>
         </ScrollView>
       </View>
-    </SafeAreaView> 
-  )
+    </SafeAreaView>
+  );
 }
 
 
@@ -149,19 +137,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
   },
 
+// Style header
   header: {
     height: '25%', 
     width: '100%', 
   },
-
   imagBgd: {
     flex: 1,
     width: "100%",
     height: "104%",
     marginTop:"-12%"
-   
   },
-
   title1: {
     fontFamily: "Lato_400Regular",
     fontSize: 32,
@@ -170,75 +156,7 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
 
-  scrollView: {
-    width: '100%',
-  },
-
-  scrollViewContainer: {
-    flex: 1,
-    width: "90%",
-   
-  },
-
-  storiesContainer: {
-    alignItems: 'center',
-  },
-
-  storyButton: {
-    width: '100%',
-    height: 200,
-    borderWidth: 1,
-    borderColor: '#FFFFFF',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginVertical: "6%",
-},
-
-  storyImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-    overflow:"hidden",
-    justifyContent: 'center',
-    alignItems: 'center',
-},
-
-  storyTitle: {
-    fontFamily: "Lato_400Regular",
-    color: 'white',
-    fontSize: 24,
-    textAlign:'center'
-},
-
-  storyStatus: {
-    fontFamily: "Lato_400Regular",
-    color: 'white',
-    fontSize: 18,
-  },
-
-  readButton: {
-    width: "50%",
-    backgroundColor: '#2C1A51',
-    borderWidth: 1,
-    borderColor: '#FFCE4A',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: "-6%", 
-   },
-
-  readButtonText: {
-    fontFamily: "Lato_400Regular",
-    color: 'white',
-    fontSize: 16,
-    textAlign:"center"
-  },
-  deleteBtn: {
-    bottom: '107%',
-    left: '44%',
-    backgroundColor: '#2C1A51',
-    borderRadius: 200,
-  },
+// Style tabBar
   tabBar: {
     marginTop: "104%",
     position: "absolute",
@@ -253,11 +171,71 @@ const styles = StyleSheet.create({
     width: 650,
     marginLeft:-400,
     marginTop:-40,
-   
+  },
+
+// Style scrollView
+  scrollViewContainer: {
+    flex: 1,
+    width: "90%",
+  },
+  scrollView: {
+    width: '100%',
+  },
+
+// Style container histoire
+  storyButton: {
+    width: '100%',
+    height: 200,
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginVertical: "6%",
+},
+  storyImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+    overflow:"hidden",
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+  storyTitle: {
+    fontFamily: "Lato_400Regular",
+    color: 'white',
+    fontSize: 24,
+    textAlign:'center'
+},
+  storyStatus: {
+    fontFamily: "Lato_400Regular",
+    color: 'white',
+    fontSize: 18,
+  },
+  readButton: {
+    width: "50%",
+    backgroundColor: '#2C1A51',
+    borderWidth: 1,
+    borderColor: '#FFCE4A',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: "-6%", 
+   },
+  readButtonText: {
+    fontFamily: "Lato_400Regular",
+    color: 'white',
+    fontSize: 16,
+    textAlign:"center"
+  },
+  deleteBtn: {
+    bottom: '107%',
+    left: '44%',
+    backgroundColor: '#2C1A51',
+    borderRadius: 200,
   },
   space: {
     padding: 10,
     height: 80,
     backgroundColor:"transparent",
-  }
+  },
 });
