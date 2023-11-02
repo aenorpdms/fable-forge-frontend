@@ -51,10 +51,10 @@ import stories from "./reducers/stories";
 import newStory from "./reducers/newStory";
 import subscriptionReducer from "./reducers/subscription"
 
-// AsyncStorage.getAllKeys()
+//AsyncStorage.getAllKeys()
 //   .then(keys => AsyncStorage.multiRemove(keys))
 //   .then(() => console.log("clear"));
-// AsyncStorage.clear().then(() => console.log("clear"));
+//AsyncStorage.clear().then(() => console.log("clear"));
 
 const reducers = combineReducers({ subscription: subscriptionReducer, user, stories, newStory });
 const persistConfig = {
