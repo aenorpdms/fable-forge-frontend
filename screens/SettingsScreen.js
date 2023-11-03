@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginTop: "-12%",
     width: "100%",
-    height: "64%",
+    height: "68%",
   },
   title2: {
     fontFamily: "Lato_400Regular",
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: "#FFCE4A",
     lineHeight: 60,
-    marginLeft: "4%",
+    marginLeft: "3%",
     marginTop: "47%",
   },
 
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   settingsApp: {
     flex: 2,
     width: "92%",
-    marginTop: "-40%",
+    marginTop: "-30%",
     justifyContent: "flex-start",
     alignItems: "center",
   },
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
-    marginTop: 250,
+    marginTop: 185,
   },
   fontCGU: {
     fontFamily: "Lato_400Regular",
