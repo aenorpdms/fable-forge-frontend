@@ -27,15 +27,15 @@
       "favicon": "./assets/splash.png"
     },
     "extra": {
-     /*  "eas": {
-        "projectId": "f81fea52-0ed3-4188-a139-d6fbfc6b1fa2" 
-      }*/
+      "eas": {
+        "projectId": "f853f8c8-d392-4be8-b26c-babdc4c1c7c4"
+      }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/f81fea52-0ed3-4188-a139-d6fbfc6b1fa2"
+      "url": "https://u.expo.dev/f853f8c8-d392-4be8-b26c-babdc4c1c7c4"
     }
   }
 }
