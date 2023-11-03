@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { 
+    View, 
+    TouchableOpacity, 
+    StyleSheet, 
+    Image 
+} from 'react-native';
 import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function TabBar({ navigation }) {
+    // État pour la tabBar
     const [isOpen, setIsOpen] = useState(true);
 
+    // Animation pour la largeur de la tabBar
     const widthValue = useSharedValue(isOpen ? 140 : 0);
 
     const animatedStyles = useAnimatedStyle(() => {
@@ -17,6 +24,8 @@ export default function TabBar({ navigation }) {
             }),
         };
     });
+
+    // Animation pour le fond de la tabBar (ouvert/fermé)
     const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
 
     const animatedBackgroundStyle = useAnimatedStyle(() => {
@@ -27,7 +36,7 @@ export default function TabBar({ navigation }) {
     });
 
     useEffect(() => {
-        // Automatically open the tab bar when the component is rendered
+            // Ouvrir automatiquement la barre d'onglets lorsque le composant est rendu
         if (!isOpen) {
             toggleTabBar();
         }
@@ -46,6 +55,7 @@ export default function TabBar({ navigation }) {
         });
     };
 
+    // NAVIGATION
     const handleDisplayHome = () => {
         navigation.navigate("Home");
     };
@@ -120,7 +130,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        width: 40, // Exemple
+        width: 40,
         height: 40,
         backgroundColor: 'white',
         borderRadius: 30,

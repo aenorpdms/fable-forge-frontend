@@ -167,7 +167,7 @@ export default function StoryBar({ navigation }) {
     dispatch(updateMode(newMode));
   };
 
-  // NAVIGATE
+  // NAVIGATION
   const handleDisplayHome = () => {
     navigation.navigate("Home");
   };
