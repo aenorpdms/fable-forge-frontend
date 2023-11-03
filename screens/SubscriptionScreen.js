@@ -86,7 +86,7 @@ export default function SubscriptionScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
         <Text style={styles.title2}>Abonnement</Text>
-        <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/11/2023</Text>
+        <Text style={styles.title3}>Votre abonnement sera renouvelé le 31/12/2023</Text>
       </ImageBackground>
 
       <ScrollView style={styles.abonnementContainer}>

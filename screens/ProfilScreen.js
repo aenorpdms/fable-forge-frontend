@@ -175,14 +175,14 @@ export default function ProfilScreen({ navigation }) {
             ></TextInput>
           </View>
           <View>
-            <Text style={styles.titleInput}>Adresse mail</Text>
+            <Text style={styles.titleInput}>Adresse email</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setEmail(value)}
               value={email}
               editable={isEditable}
-              placeholder={isEditable ? "Adresse mail" : user.email}
+              placeholder={isEditable ? "Adresse email" : user.email}
             ></TextInput>
           </View>
           <TouchableOpacity
@@ -245,7 +245,7 @@ export default function ProfilScreen({ navigation }) {
           >
             <Text style={styles.btnModify}>{buttonTextPwd}</Text>
           </TouchableOpacity>
-          <Text style={styles.subscriptionText}>Votre abonnement est valide jusqu’au 31/10/2023</Text>
+          <Text style={styles.subscriptionText}>Votre abonnement est valide jusqu’au 31/12/2023</Text>
           <TouchableOpacity style={styles.btnAbonnement}>
             <Text style={styles.btnText} onPress={() => handleSubscription()}>
               Gérer l'abonnement
@@ -361,8 +361,8 @@ space: {
     fontSize: 46,
     color: "white",
     fontWeight: "bold",
-    left: "42%",
-    top: "48%"
+    left: "43%",
+    top: "52%"
   },
   subtitle: {
     fontFamily: "Lato_400Regular",
