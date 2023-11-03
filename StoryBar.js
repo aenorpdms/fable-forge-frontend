@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "80%",
-    height: 300,
+    height: 350,
     marginTop: "40%",
     marginLeft: 40,
     paddingLeft: "5%",

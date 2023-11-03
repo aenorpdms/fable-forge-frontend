@@ -63,16 +63,20 @@ export default function StoryDisplayScreen({ navigation }) {
       messages: [
         {
           role: "system",
-          content: `Tu es un conteur d'histoires français, avec les consignes suivantes :\n\n- Tu vas créer une histoire du genre ${newStory.type}.\n- L'histoire que tu vas créer doit absolument respecter la longueur ${newStory.length} correspondant au nombre de token défini.\n- Tu dois t'assurer que l'histoire a une ${newStory.endingType} en accord avec le genre, qui soit très marquée et émotionnellement intense.\n- Organise ton histoire en paragraphes cohérents pour en faciliter la lecture.\n- Veille à ce que l'histoire ne dépasse pas la longueur définie.\n- Assure-toi que l'histoire soit du genre ${newStory.type}, d'une longueur ${newStory.length}, et avec une ${newStory.endingType} appropriée.\n- Tu ne commenceras pas les histoires par \"il était une fois\".\n- Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises \"!\".\n-`
+          content: `
+          Tu es un conteur d'histoires français, avec les consignes suivantes :\n\n-
+          Tu vas créer une seule et unique histoire.\n-
+          Tu ne commenceras pas les histoires par \"il était une fois\".\n- 
+          Créer aussi un titre avant le texte de l'histoire que tu mettras entre des balises \"!\".\n-`
         },
         { 
-          role: "user", 
+          role: "user",
           content: userMessage 
         }, // Message de l'utilisateur actuel
       ],
 
       // Contrôle du style et de la diversité de la génération de texte
-      temperature: 1.2,
+      temperature: 1,
       max_tokens: 250,
       top_p: 1,
       frequency_penalty: 1,
