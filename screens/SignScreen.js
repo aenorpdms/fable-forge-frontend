@@ -165,7 +165,7 @@ const resetSignInForm = () => {
                 ></TextInput>
                 <TextInput
                   style={styles.inputUp}
-                  placeholder='Adresse mail'
+                  placeholder='Adresse email'
                   placeholderTextColor='white'
                   onChangeText={value => setEmail(value)}
                   value={email}
@@ -189,7 +189,7 @@ const resetSignInForm = () => {
               <>
                 <TextInput
                   style={styles.inputIn}
-                  placeholder='Pseudonyme ou Adresse mail'
+                  placeholder='Pseudonyme ou Adresse email'
                   placeholderTextColor='white'
                   onChangeText={value => setIdentifier(value)}
                   value={identifier}
@@ -202,7 +202,7 @@ const resetSignInForm = () => {
                   onChangeText={value => setPasswordUp(value)}
                   value={passwordUp}
                 ></TextInput>
-                <Text style={errorTextInStyle}>Mot de passe ou Email/ Nom d'utilisateur incorrect</Text>
+                <Text style={errorTextInStyle}>Mot de passe ou Adresse email/ Nom d'utilisateur incorrect</Text>
                 <TouchableOpacity style={styles.btnValidate} onPress={() => handleConnection()}>
                   <Text style={styles.textBtnValidate}>Valider</Text>
                 </TouchableOpacity>

@@ -175,14 +175,14 @@ export default function ProfilScreen({ navigation }) {
             ></TextInput>
           </View>
           <View>
-            <Text style={styles.titleInput}>Adresse mail</Text>
+            <Text style={styles.titleInput}>Adresse email</Text>
             <TextInput
               style={styles.input}
               placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
               onChangeText={value => setEmail(value)}
               value={email}
               editable={isEditable}
-              placeholder={isEditable ? "Adresse mail" : user.email}
+              placeholder={isEditable ? "Adresse email" : user.email}
             ></TextInput>
           </View>
           <TouchableOpacity
