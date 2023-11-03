@@ -38,11 +38,11 @@ import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
 import StoryReadScreen from "./screens/StoryReadScreen";
 
-// Importation des reducers 
+// Importation des reducers
 import user from "./reducers/user";
 import stories from "./reducers/stories";
 import newStory from "./reducers/newStory";
-import subscriptionReducer from "./reducers/subscription"
+import subscriptionReducer from "./reducers/subscription";
 
 // Initialisation du SplashScreen pour empêcher sa disparition automatique
 SplashScreen.preventAutoHideAsync();
@@ -67,11 +67,9 @@ const persistConfig = {
 // Création du store Redux persistant
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: getDefaultMiddleware => 
-    getDefaultMiddleware({ serializableCheck: false }),
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 const persistor = persistStore(store);
-
 
 export default function App() {
   // Masquer le SplashScreen après le chargement initial
