@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
-    marginTop: 185,
+    marginTop: 170,
   },
   fontCGU: {
     fontFamily: "Lato_400Regular",
