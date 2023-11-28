@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation }) {
   // Récupérer la dernière histoire de l'utilisateur depuis le backend
   const fetchLastStory = () => {
     fetch(
-      `https://fable-forge-backend-84ce.vercel.app/users/lastStory/${user.token}`
+      `https://fable-forge.onrender.com/users/lastStory/${user.token}`
     )
       .then((response) => response.json())
       .then((data) => {

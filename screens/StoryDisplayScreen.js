@@ -135,7 +135,7 @@ export default function StoryDisplayScreen({ navigation }) {
 
   // Envoyer l'histoire complète au backend
   const sendStoryToBackend = (completeStory, title) => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/stories/new/${user.token}`, {
+    fetch(`https://fable-forge.onrender.com/stories/new/${user.token}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -58,7 +58,7 @@ export default function StoriesScreen({ navigation }) {
 
   // Afficher les histoires de l'utilisateur
   useEffect(() => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/users/stories/${user.token}`)
+    fetch(`https://fable-forge.onrender.com/users/stories/${user.token}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
@@ -71,7 +71,7 @@ export default function StoriesScreen({ navigation }) {
 
   // Supprimer une histoire.
   const handleDeleteStory = (storyID) => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/stories/${storyID}`, {
+    fetch(`https://fable-forge.onrender.com/stories/${storyID}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: user.token }),

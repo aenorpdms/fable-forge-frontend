@@ -54,7 +54,7 @@ export default function ProfilScreen({ navigation }) {
     dispatch(updateUser(updatedUserInfo));
 
     // Appel API pour mettre à jour les informations sur le serveur
-    fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
+    fetch(`https://fable-forge.onrender.com/users/information`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedUserInfo),
@@ -75,7 +75,7 @@ export default function ProfilScreen({ navigation }) {
     if (password === newPassword) {
     
       // Appel API pour changer le mot de passe sur le serveur
-      fetch(`https://fable-forge-backend-84ce.vercel.app/users/password`, {
+      fetch(`https://fable-forge.onrender.com/users/password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -118,7 +118,7 @@ export default function ProfilScreen({ navigation }) {
 
   // Appel API pour supprimer le compte sur le serveur
   const handleDeleteAccount = () => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/users`, {
+    fetch(`https://fable-forge.onrender.com/users`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
