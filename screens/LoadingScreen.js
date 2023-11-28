@@ -1,14 +1,7 @@
-import React, { useEffect } from 'react';
-import { 
-  View, 
-  ActivityIndicator, 
-  Image, 
-  StyleSheet, 
-  Animated 
-} from 'react-native';
+import React, { useEffect } from "react";
+import { View, ActivityIndicator, Image, StyleSheet, Animated } from "react-native";
 
 const LoadingScreen = ({ navigation }) => {
-
   // Durée de l'affichage de l'écran splash en millisecondes.
   const splashTime = 3000;
 
@@ -27,7 +20,7 @@ const LoadingScreen = ({ navigation }) => {
 
     // Définition d'un timer pour naviguer vers l'écran suivant après `splashTime`.
     const timer = setTimeout(() => {
-      navigation.replace('Sign'); // Navigation vers l'écran 'Sign'.
+      navigation.replace("Sign"); // Navigation vers l'écran 'Sign'.
     }, splashTime);
 
     // Nettoyage du timer si le composant est démonté avant que le timer ne soit terminé.
@@ -36,12 +29,8 @@ const LoadingScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/loading.png')}
-        style={styles.image}
-        resizeMode="cover"
-      />
-      <ActivityIndicator style={styles.activityIndicator} size="large" color="#D9D9D9" />
+      <Image source={require("../assets/loading.png")} style={styles.image} resizeMode='cover' />
+      <ActivityIndicator style={styles.activityIndicator} size='large' color='#D9D9D9' />
     </View>
   );
 };
@@ -49,19 +38,21 @@ const LoadingScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2C1A51',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2C1A51",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
   activityIndicator: {
-    position: 'absolute', 
-    top: '67%',
-    left: '47%',
-  }
+    // position: "absolute",
+    // top: "67%",
+    // left: "47%",
+    marginTop: "67%",
+  },
 });
 
 export default LoadingScreen;
