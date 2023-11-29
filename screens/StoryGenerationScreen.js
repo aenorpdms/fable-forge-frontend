@@ -11,38 +11,34 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel from "react-native-snap-carousel";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-import {
-  updateNewType,
-  updateSelectedMusic,
-  updateSelectedImage,
-} from "../reducers/newStory";
+// import {
+//   updateNewType,
+//   updateSelectedMusic,
+//   updateSelectedImage,
+// } from "../reducers/newStory";
 
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
 // Composant pour l'écran génération d'histoire "Étape 1"
 export default function StoryGenerationScreen() {
-  // Hook pour naviguer entre les écrans
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
-  // État local pour la visibilité du modal.
-  const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
+// État local pour la visibilité du modal.
+const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
-  // Fonction pour afficher ou cacher le modal.
-  const toggleModal = () => {
-    console.log("modal", isModalOpen);
-    setIsModalOpen(!isModalOpen);
-  };
+// Fonction pour afficher ou cacher le modal.
+const toggleModal = () => {
+  setIsModalOpen(!isModalOpen);
+};
 
-  // Fonction pour fermer le modal.
-  const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
-  };
+// Fonction pour fermer le modal.
+const closeModal = () => {
+  setIsModalOpen(false); // Close the modal
+};
 
   const data = [
     {
@@ -85,10 +81,15 @@ export default function StoryGenerationScreen() {
 
   // Navigation vers l'étape 2
   const handleStoryGeneration2 = (item) => {
-    dispatch(updateNewType(item.title));
-    dispatch(updateSelectedImage(item.image));
-    dispatch(updateSelectedMusic(item.music));
-    navigation.navigate("StoryGeneration2");
+    console.log("Selected Type:", item.title);
+    console.log("Selected Image:", item.image);
+    console.log("Selected Music:", item.music);
+    
+    navigation.navigate("StoryGeneration2", {
+      selectedType: item.title,
+      selectedImage: item.image,
+      selectedMusic: item.music,
+    });
   };
 
   // Rendu d'un élément du carrousel

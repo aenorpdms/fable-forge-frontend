@@ -10,21 +10,18 @@ import {
   KeyboardAvoidingView 
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
 // Composant d'écran pour le paiement de l'abonnement.
-export default function SubscriptionPaymentScreen() {
+export default function SubscriptionPaymentScreen({ route }) {
 
-  // Récupération de l'état global (les abonnements et l'abonnement actif) via useSelector.
-  const { subscriptions, activeSubscription } = useSelector(state => state.subscription);
+  const [activeSubscription, setActiveSubscription] = useState(null);
 
-  // Utilisation du hook useRoute pour accéder aux paramètres de la route actuelle.
-  const route = useRoute();
+  const { type, price, imageSource } = route.params.selectedSubscription;
+
   // Utilisation du hook useNavigation pour la navigation entre les écrans.
   const navigation = useNavigation();
-  // Accès aux paramètres passés à la route actuelle.
-  const { subscription } = route.params;
+
 
   // États locaux pour gérer les choix des méthodes de paiement.
   const [choix1, setChoix1] = useState(0); // État pour le choix 1 (Visa)
@@ -58,9 +55,6 @@ export default function SubscriptionPaymentScreen() {
     setIsSaveInfosClicked(!isSaveInfosClicked);
   };
 
-  // Récupération de l'image de l'abonnement actif.
-  const activeImage = activeSubscription ? subscriptions.find(subscription => subscription.id === activeSubscription).imageSource : null;
-
   // État pour la visibilité du modal de confirmation.
   const [modalVisible, setModalVisible] = useState(false);
   
@@ -73,9 +67,9 @@ export default function SubscriptionPaymentScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.containerTitles}>
         <View style={styles.recapAbo}>
-          <ImageBackground source={activeImage} style={styles.backgroundImage}>
-            <Text style={styles.textRecapAbo}>{subscription.type}</Text>
-            <Text style={styles.textRecapAbo}>{subscription.price}</Text>
+          <ImageBackground source={imageSource} style={styles.backgroundImage}>
+            <Text style={styles.textRecapAbo}>{type}</Text>
+            <Text style={styles.textRecapAbo}>{price}</Text>
           </ImageBackground>
         </View>
         <TouchableOpacity style={styles.choisi}>

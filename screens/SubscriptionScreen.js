@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { 
   StyleSheet, 
   Text, 
@@ -9,77 +9,67 @@ import {
   Modal 
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useDispatch, useSelector } from "react-redux";
-
-// Importation des sélecteurs Redux.
-import { selectSubscription } from "../reducers/subscription";
-
 
 // Composant de l'écran d'abonnement.
 export default function SubscriptionScreen({ navigation }) {
-  // Hooks Redux pour dispatcher des actions et sélectionner une partie de l'état. 
-  const dispatch = useDispatch();
-  const subscriptions = useSelector(state => state.subscription.subscriptions);
+     
+     const initialSubscriptions = [
+      {
+        id: 1,
+        type: "Abonnement hebdomadaire :",
+        price: "4.99€/semaine",
+        buttonText: "Choisir",
+        buttonColor: "#2C1A51",
+        textColor: "white",
+        imageSource: require("../assets/Abonnement_semaine.png"),
+      },
+      {
+        id: 2,
+        type: "Abonnement mensuel :",
+        price: "9.99€/mois",
+        buttonText: "Choisir",
+        buttonColor: "#2C1A51",
+        textColor: "white",
+        imageSource: require("../assets/Abonnement_mois.png"),
+      },
+      {
+        id: 3,
+        type: "Abonnement annuel :",
+        price: "99.99€/an",
+        buttonText: "Choisir",
+        buttonColor: "#2C1A51",
+        textColor: "white",
+        imageSource: require("../assets/Abonnement_annee.png"),
+      },
+    ];
 
-  // État local pour gérer l'abonnement actif.
-  const [activeSubscription, setActiveSubscription] = useState(null);
-  
-  // État pour contrôler la visibilité de la modale.
-  const [modalVisible, setModalVisible] = useState(false);
+     // État local pour l'abonnement actif
+    const [activeSubscription, setActiveSubscription] = useState(null);
+    const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
+       
+    // État pour contrôler la visibilité de la modale
+    const [modalVisible, setModalVisible] = useState(false);
 
-  // Gère la sélection de l'abonnement et met à jour le bouton et le texte correspondants.
-  function handleButtonClick(id) {
-    // Dispatch l'action de sélection d'abonnement.
-    dispatch(selectSubscription({ id }));
-    // Trouve l'abonnement sélectionné dans la liste des abonnements.
-    const selectedSubscription = subscriptions.find(subscription => subscription.id === id);
-
-    // S'il y a un abonnement sélectionné, met à jour l'état et navigue vers le paiement.
+  const handleButtonClick = (id) => {
+    const selectedSubscription = subscriptions.find(sub => sub.id === id);
     if (selectedSubscription) {
-      console.log("Selected Subscription:", selectedSubscription);
-      // Mise à jour visuelle des boutons d'abonnement.
-      const updatedSubscriptions = subscriptions.map(subscription => {
-        if (subscription.id === id) {
-          return {
-            ...subscription,
-            buttonText: "En cours",
-            buttonColor: "#FFCE4A",
-            textColor: "black",
-          };
-        } else {
-          return {
-            ...subscription,
-            buttonText: "Choisir",
-            buttonColor: "#2C1A51",
-            textColor: "white",
-          };
-        }
-      });
-
-      // Met à jour l'abonnement actif.
       setActiveSubscription(id);
+      navigation.navigate("SubscriptionPayment", { selectedSubscription });
 
-      // Navigue vers l'écran de paiement en passant l'abonnement sélectionné en paramètre.
-      navigation.navigate("SubscriptionPayment", { subscription: selectedSubscription });
+      // Mise à jour des couleurs des boutons
+      const updatedSubscriptions = subscriptions.map(subscription => ({
+        ...subscription,
+        buttonText: subscription.id === id ? "En cours" : "Choisir",
+        buttonColor: subscription.id === id ? "#FFCE4A" : "#2C1A51",
+        textColor: subscription.id === id ? "black" : "white",
+      }));
+      setSubscriptions(updatedSubscriptions);
     }
-  }
-
-  // Initialise la sélection d'abonnement lors du montage du composant.
-  useEffect(() => {
-    console.log("Rendering SubscriptionScreen");
-    // Initialisation de la sélection d'abonnement lors du montage du composant
-    const selectedSubscription = subscriptions.find(subscription => subscription.id === 1);
-    handleSubscriptionSelection(selectedSubscription);
-  }, []); // Exécuté seulement au montage grâce au tableau de dépendances vide
-
-  // Gère la navigation de retour vers le profil.
-  const handleNavigateProfil = () => {
-    navigation.navigate("Profil");
   };
 
-  // Gère la sélection d'un abonnement.
-  const handleSubscriptionSelection = subscription => {
-    dispatch(selectSubscription(subscription));
+  // Gère la navigation de retour vers le profil
+  const handleNavigateProfil = () => {
+    navigation.navigate("Profil");
   };
 
   return (

@@ -42,7 +42,7 @@ export default function SignScreen({ navigation }) {
   // Inscription utilisateur
   const handleInscription = () => {
     // Appel API pour créer l'utilisateur sur le serveur
-    fetch("https://fable-forge-backend-84ce.vercel.app/users/signup", {
+    fetch("https://fable-forge.onrender.com/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, firstname, email, password }),
@@ -72,7 +72,7 @@ const resetSignUpForm = () => {
 
   // Connexion utilisateur
   const handleConnection = () => {
-    fetch("https://fable-forge-backend-84ce.vercel.app/users/signin", {
+    fetch("https://fable-forge.onrender.com/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password: passwordUp }),
@@ -212,6 +212,7 @@ const resetSignInForm = () => {
         </View>
       </Modal>
     </View>
+    
   );
 }
 

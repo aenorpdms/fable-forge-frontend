@@ -16,7 +16,8 @@ import { useNavigation } from '@react-navigation/native';
 import TabBar from "../TabBar";
 
 // Composant pour l'écran génération d'histoire "Étape 3"
-export default function StoryGenerationStep3Screen() {
+export default function StoryGenerationStep3Screen({ route }) {
+  const { length, endType, selectedType, selectedImage, selectedMusic } = route.params;
 
   // Hook pour naviguer entre les écrans
   const navigation = useNavigation();
@@ -30,9 +31,9 @@ export default function StoryGenerationStep3Screen() {
   // Fonction pour naviguer vers l'affichage de l'histoire
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {
-      genre: newStory.type,
-      longueur: newStory.length,
-      fin: newStory.endingType,
+      genre: selectedType,
+      longueur: length,
+      fin: endType,
     });
   };
 
@@ -58,14 +59,14 @@ export default function StoryGenerationStep3Screen() {
 
 
       <View style={styles.containerStory}>
-          <Text style={styles.titleContainer}>Genre : {newStory.type}</Text>
-        <Image style={styles.imagBgdRecap} source={newStory.selectedImage}></Image>
+          <Text style={styles.titleContainer}>Genre : {selectedType}</Text>
+        <Image style={styles.imagBgdRecap} source={selectedImage}></Image>
           <Text style={styles.textRecap}>{synopsis}</Text>
       <View style={styles.recapSizeStory}>
-          <Text style={styles.sizeTextRecap}>{newStory.length}</Text>
+          <Text style={styles.sizeTextRecap}>{length}</Text>
       </View>
       <View style={styles.recapSizeStory}>
-          <Text style={styles.sizeTextRecap}>{newStory.endingType}</Text>
+          <Text style={styles.sizeTextRecap}>{endType}</Text>
       </View>
         <View style={styles.arrowContainer}>
           <TouchableOpacity style={styles.arrowBtn}>

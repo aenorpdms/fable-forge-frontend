@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import { 
-  StyleSheet, 
-  Text, 
-  TouchableOpacity, 
-  View, 
-  ImageBackground, 
-  Switch 
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +8,10 @@ import { updateFontSize } from "../reducers/user";
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
-export default function SettingsScreen({ navigation }) {
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
+export default function SettingsScreen({ navigation }) {
   // Accès au dispatch pour envoyer des actions.
   const dispatch = useDispatch();
 
@@ -49,7 +44,7 @@ export default function SettingsScreen({ navigation }) {
 
   // Fonctions pour basculer l'état des switches on/off
   const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
-  const toggleAudioSwitch = (value) => {
+  const toggleAudioSwitch = value => {
     setIsAudioEnabled(value);
   };
   const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
@@ -65,7 +60,6 @@ export default function SettingsScreen({ navigation }) {
     // Navigation vers la page "home"
     navigation.navigate("Home");
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -145,12 +139,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
   },
 
-// Style header
+  // Style header
   imagBgd: {
     flex: 2,
     marginTop: "-12%",
-    width: "100%",
-    height: "68%",
+    // width: "100%",
+    // height: "68%",
+    // width: windowWidth,
+    // height: windowHeight * 0.38,
+    width: windowWidth,
+    height: windowHeight * 0.45,
+    marginTop: -windowHeight * 0.12,
   },
   title2: {
     fontFamily: "Lato_400Regular",
@@ -159,14 +158,14 @@ const styles = StyleSheet.create({
     color: "#FFCE4A",
     lineHeight: 60,
     marginLeft: "3%",
-    marginTop: "47%",
+    marginTop: "60%",
   },
 
-// Style bouton taille de police
+  // Style bouton taille de police
   settingsApp: {
     flex: 2,
     width: "92%",
-    marginTop: "-30%",
+    marginTop: "-10%",
     justifyContent: "flex-start",
     alignItems: "center",
   },
@@ -197,7 +196,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 
-// Style bouton audio, light mode, cguv
+  // Style bouton audio, light mode, cguv
   setting: {
     width: "92%",
     flexDirection: "row",
@@ -234,7 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 55,
     marginBottom: 15,
-    marginTop: 170,
+    marginTop: 130,
   },
   fontCGU: {
     fontFamily: "Lato_400Regular",
@@ -242,8 +241,7 @@ const styles = StyleSheet.create({
     paddingLeft: "39%",
   },
 
-
-// Style flèche directionnelle
+  // Style flèche directionnelle
   arrowContainer: {
     position: "absolute",
     zIndex: 1,

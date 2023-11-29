@@ -1,4 +1,4 @@
-import { 
+import {
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ScrollView,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -17,6 +18,11 @@ import { updateUser } from "../reducers/user";
 
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
+
+// Get the screen dimensions
+// const { width, height } = Dimensions.get("window");
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function ProfilScreen({ navigation }) {
   // Information du profil
@@ -41,7 +47,6 @@ export default function ProfilScreen({ navigation }) {
 
   // Modifier les informations de l'utilisateur
   const handleModifyInfo = () => {
-      
     // Création d'un objet avec les informations mises à jour de l'utilisateur
     const updatedUserInfo = { token: user.token };
 
@@ -54,7 +59,7 @@ export default function ProfilScreen({ navigation }) {
     dispatch(updateUser(updatedUserInfo));
 
     // Appel API pour mettre à jour les informations sur le serveur
-    fetch(`https://fable-forge-backend-84ce.vercel.app/users/information`, {
+    fetch(`https://fable-forge.onrender.com/users/information`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedUserInfo),
@@ -73,9 +78,8 @@ export default function ProfilScreen({ navigation }) {
   const handleModifyPwd = () => {
     // Vérification que le nouveau mot de passe et sa confirmation sont identiques
     if (password === newPassword) {
-    
       // Appel API pour changer le mot de passe sur le serveur
-      fetch(`https://fable-forge-backend-84ce.vercel.app/users/password`, {
+      fetch(`https://fable-forge.onrender.com/users/password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -86,7 +90,6 @@ export default function ProfilScreen({ navigation }) {
       })
         .then(response => response.json())
         .then(data => {
-          
           // Si la mise à jour est réussie, désactiver le mode édition du mot de passe
           if (data.result) {
             console.log("updated");
@@ -118,7 +121,7 @@ export default function ProfilScreen({ navigation }) {
 
   // Appel API pour supprimer le compte sur le serveur
   const handleDeleteAccount = () => {
-    fetch(`https://fable-forge-backend-84ce.vercel.app/users`, {
+    fetch(`https://fable-forge.onrender.com/users`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
@@ -143,7 +146,7 @@ export default function ProfilScreen({ navigation }) {
           <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
             <View>
               <Text style={styles.title2}>Profil</Text>
-              
+
               <View style={styles.initialContainer}>
                 <Image style={styles.image} source={require("../assets/profilPic.png")} />
                 <Text style={styles.initial}>{user.firstname.charAt(0)}</Text>
@@ -293,45 +296,52 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#2C1A51",
+    width: windowWidth,
+    height: windowHeight,
+    // width: width, // Set the width of the container to the screen width
+    // height: height, // Set the height of the container to the screen height
   },
 
-// Style tabBar
-tabBar: {
-  marginTop: "200%",
-  position: "absolute",
-  zIndex: 1,
-},
-backgroundTab: {
-  backgroundColor: "#2C1A51",
-  top: "95%",
-  position: "absolute",
-  zIndex: -1,
-  height: 100,
-  width: 650,
-  marginLeft: -400,
-  marginTop: -20,
-},
-space: {
-  padding: 10,
-  height: 80,
-  backgroundColor: "transparent",
-},
+  // Style tabBar
+  tabBar: {
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 1,
+  },
+  backgroundTab: {
+    backgroundColor: "#2C1A51",
+    top: "95%",
+    position: "absolute",
+    zIndex: -1,
+    height: 100,
+    width: 650,
+    marginLeft: -400,
+    marginTop: -20,
+  },
+  space: {
+    padding: 10,
+    height: 80,
+    backgroundColor: "transparent",
+  },
 
-//
+  //
   containerBis: {
     flex: 1,
     width: "100%",
-    marginTop: "-12%",
+    // marginTop: "-12%",
   },
   containerInformation: {
     flex: 2,
   },
 
-// Style header
+  // Style header
   imagBgd: {
     flex: 1,
-    width: "100%",
-    height: "71%",
+    // width: "100%",
+    // height: "71%",
+    width: windowWidth,
+    height: windowHeight * 0.5,
+    marginTop: -windowHeight * 0.12,
   },
   title2: {
     fontFamily: "Lato_400Regular",
@@ -349,11 +359,11 @@ space: {
     height: 100,
     alignItems: "center",
     justifyContent: "center",
-    top: "-35%"
+    // top: "-15%",
   },
   image: {
     position: "absolute",
-    top: "52%",
+    // top: "52%",
     left: "36%",
   },
   initial: {
@@ -361,19 +371,19 @@ space: {
     fontSize: 46,
     color: "white",
     fontWeight: "bold",
-    left: "43%",
-    top: "52%"
+    left: "42%",
+    // top: "52%",
   },
   subtitle: {
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 22,
     textAlign: "center",
-    marginTop: "-10%",
-    marginBottom: "5%",
+    // marginTop: "-10%",
+    // marginTop: "5%",
   },
 
-// Informations utilisateur
+  // Informations utilisateur
   titleInput: {
     fontFamily: "Lato_400Regular",
     color: "white",
@@ -409,7 +419,7 @@ space: {
     marginBottom: "6%",
   },
 
-// Mot de passe
+  // Mot de passe
   titleInputPWD: {
     fontFamily: "Lato_400Regular",
     color: "white",
@@ -420,7 +430,7 @@ space: {
     marginTop: "1%",
   },
 
-// Abonnement, Déconnexion, Suppression de compte
+  // Abonnement, Déconnexion, Suppression de compte
   subscriptionText: {
     fontFamily: "Lato_400Regular",
     color: "white",
@@ -463,14 +473,14 @@ space: {
     marginLeft: "4%",
   },
 
-// Modal
+  // Modal
   mdlctn: {
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0,0,0, 0.5)",
   },
   modalContainer: {
-    width: "92%", 
+    width: "92%",
     height: 180,
     marginTop: 350,
     marginLeft: "4%",
@@ -478,15 +488,14 @@ space: {
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-
   },
   titleModal: {
     fontFamily: "Lato_400Regular",
     color: "white",
-    textAlign:"center",
+    textAlign: "center",
     fontSize: 18,
     padding: 10,
-    width:"90%"
+    width: "90%",
   },
   btnDeleteModal: {
     backgroundColor: "#FFCE4A",
