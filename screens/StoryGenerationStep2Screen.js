@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { View, Text, ImageBackground, StyleSheet, ScrollView, TouchableOpacity, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useDispatch } from "react-redux";
-import { updateNewLength, updateNewEnding, emptyNewStory } from "../reducers/newStory";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -11,14 +9,23 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
+// Couleurs constantes
+const colors = {
+  primary: "#2C1A51",
+  secondary: "#6B5F85",
+  tertiary: "#FFCE4A",
+  white: "#FFFFFF",
+};
+
 // Composant pour l'écran génération d'histoire "Étape 2"
-export default function StoryGenerationStep2Screen({ navigation }) {
-  // Accès au dispatch pour envoyer des actions.
-  const dispatch = useDispatch();
+export default function StoryGenerationStep2Screen({ navigation, route }) {
+  const { selectedType, selectedImage, selectedMusic } = route.params;
 
   // État local pour la couleurs des boutons.
   const [buttonColors, setButtonColors] = useState(["#FFCE4A", "#2C1A51", "#2C1A51"]);
   const [buttonTypeEnd, setButtonTypeEnd] = useState(["#FFCE4A", "#6B5F85", "#6B5F85", "#6B5F85"]);
+  const [selectedLength, setSelectedLength] = useState("Courte");
+  const [selectedEndType, setSelectedEndType] = useState("Fin heureuse");
   const [sizeTextBtnColors, setSizeTextBtnColors] = useState(["#2C1A51", "white", "white"]);
 
   // État local pour la visibilité du modal.
@@ -26,7 +33,6 @@ export default function StoryGenerationStep2Screen({ navigation }) {
 
   // Fonction pour afficher ou cacher le modal.
   const toggleModal = () => {
-    console.log("modal", isModalOpen);
     setIsModalOpen(!isModalOpen);
   };
 
@@ -36,33 +42,61 @@ export default function StoryGenerationStep2Screen({ navigation }) {
   };
 
   // Gestion des clics sur les boutons de sélection de la longueur de l'histoire.
-  const handleButtonClick = buttonNumber => {
-    const newButtonColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#FFCE4A" : "#2C1A51"));
-    const newSizeTextBtnColors = buttonColors.map((color, index) => (buttonNumber - 1 === index ? "#2C1A51" : "white"));
+  const handleButtonClick = (buttonNumber) => {
+    let lengthStory = "Courte";
+    const newButtonColors = buttonColors.map((color, index) =>
+      buttonNumber - 1 === index ? colors.tertiary : colors.primary
+    );
     setButtonColors(newButtonColors);
-    setSizeTextBtnColors(newSizeTextBtnColors);
-    const lengthStory = buttonNumber === 1 ? "Courte" : buttonNumber === 2 ? "Moyenne" : "Longue";
-    dispatch(updateNewLength(lengthStory));
+
+    if (buttonNumber === 1) {
+      lengthStory = "Courte";
+    } else if (buttonNumber === 2) {
+      lengthStory = "Moyenne";
+    } else if (buttonNumber === 3) {
+      lengthStory = "Longue";
+    }
+    setSelectedLength(lengthStory);
+
+    console.log("Longueur sélectionnée :", lengthStory);
   };
 
   // Gestion des clics sur les boutons de sélection du type de fin de l'histoire.
-  const handleButtonEndTypeClick = buttonEndNumber => {
-  const newButtonTypeEnd = buttonTypeEnd.map((type, index) => (buttonEndNumber - 1 === index ? "#FFCE4A" : "#6B5F85"));
+  const handleButtonEndTypeClick = (buttonEndNumber) => {
+    let typeEnd = "Fin heureuse";
+    const newButtonTypeEnd = buttonTypeEnd.map((type, index) =>
+      buttonEndNumber - 1 === index ? colors.tertiary : colors.secondary
+    );
     setButtonTypeEnd(newButtonTypeEnd);
-      const typeEnd =
-        buttonEndNumber === 1 ? "Fin heureuse" : buttonEndNumber === 2 ? "Fin triste" : buttonEndNumber === 3 ? "Fin ouverte" : "Fin morale";
-      dispatch(updateNewEnding(typeEnd));
+
+    if (buttonEndNumber === 1) {
+      typeEnd = "Fin heureuse";
+    } else if (buttonEndNumber === 2) {
+      typeEnd = "Fin triste";
+    } else if (buttonEndNumber === 3) {
+      typeEnd = "Fin ouverte";
+    } else if (buttonEndNumber === 4) {
+      typeEnd = "Fin morale";
+    }
+    setSelectedEndType(typeEnd);
+
+    console.log("Type de fin sélectionné :", typeEnd);
   };
 
-  const handleStoryGeneration3 = () => {
-    // Navigation vers l'étape 3
-    navigation.navigate("StoryGeneration3");
-  };
+    const handleStoryGeneration3 = () => {
+      console.log("route.params:", route.params);
+      console.log("route.params.selectedType:", route.params.selectedType);
+
+      navigation.navigate('StoryGeneration3', {
+        length: selectedLength,
+        endType: selectedEndType,
+        selectedType: selectedType,
+        selectedImage: selectedImage,
+        selectedMusic: selectedMusic,
+      });
+    };
 
   const handleStoryGeneration = () => {
-    // Réinitialisation de l'état de la nouvelle histoire
-    dispatch(emptyNewStory());
-
     // Navigation vers l'étape 1
     navigation.navigate("StoryGenerationScreen");
   };
