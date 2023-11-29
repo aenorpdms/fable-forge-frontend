@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, ActivityIndicator, Image, StyleSheet, Animated } from "react-native";
+import { View, ActivityIndicator, Image, StyleSheet, Animated, Dimensions } from "react-native";
 
 const LoadingScreen = ({ navigation }) => {
   // Durée de l'affichage de l'écran splash en millisecondes.
@@ -10,6 +10,9 @@ const LoadingScreen = ({ navigation }) => {
 
   // État local pour l'animation qui commence à 0.
   const animation = new Animated.Value(0);
+
+  // dimensions pour rendre la page responsive
+  const windowDimensions = Dimensions.get("window");
 
   useEffect(() => {
     // Démarrage de l'animation d'opacité
@@ -28,9 +31,28 @@ const LoadingScreen = ({ navigation }) => {
   }, [navigation]);
 
   return (
+    // <View style={styles.container}>
+    //   <Image source={require("../assets/loading.png")} style={styles.image} resizeMode='cover' />
+    //   <ActivityIndicator style={styles.activityIndicator} size='large' color='#D9D9D9' />
+    // </View>
     <View style={styles.container}>
-      <Image source={require("../assets/loading.png")} style={styles.image} resizeMode='cover' />
-      <ActivityIndicator style={styles.activityIndicator} size='large' color='#D9D9D9' />
+      <Image
+        source={require("../assets/loading.png")}
+        style={{
+          width: windowDimensions.width,
+          height: windowDimensions.height,
+        }}
+        resizeMode='cover'
+      />
+      <ActivityIndicator
+        style={{
+          position: "absolute",
+          top: windowDimensions.height * 0.67,
+          left: windowDimensions.width * 0.47,
+        }}
+        size='large'
+        color='#D9D9D9'
+      />
     </View>
   );
 };
@@ -48,10 +70,10 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   activityIndicator: {
-    // position: "absolute",
-    // top: "67%",
-    // left: "47%",
-    marginTop: "67%",
+    position: "absolute",
+    top: "67%",
+    left: "47%",
+    // marginTop: "67%",
   },
 });
 
