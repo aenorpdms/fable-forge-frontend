@@ -28,7 +28,7 @@ export default function HomeScreen({ navigation }) {
 
   // Navigation vers l'étape 1
   const handleSubmit = () => {
-    navigation.navigate("StoryGenerationScreen");
+    navigation.navigate("Websocket");
   };
 
   // Récupérer la dernière histoire de l'utilisateur depuis le backend

@@ -37,6 +37,7 @@ import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
 import StoryReadScreen from "./screens/StoryReadScreen";
+import Websocketview from "./screens/Websocketview";
 
 // Importation des reducers
 import user from "./reducers/user";
@@ -114,6 +115,7 @@ export default function App() {
             <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
             <Stack.Screen name='SubscriptionPayment' component={SubscriptionPaymentScreen} options={{ headerShown: false }} />
             <Stack.Screen name='StoryRead' component={StoryReadScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='Websocket' component={Websocketview} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
