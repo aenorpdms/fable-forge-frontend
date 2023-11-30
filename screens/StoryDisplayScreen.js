@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -11,7 +11,8 @@ import {
 import StoryBar from "../StoryBar";
 import { useSelector, useDispatch } from "react-redux";
 
-const ws = useRef(new WebSocket('ws://fable-forge.onrender.com')).current;
+
+let ws = new WebSocket('ws://192.168.1.4:8001')
 
 export default function StoryDisplayScreen({ navigation }) {
   const [chunks, setChunks] = useState([]);
@@ -19,40 +20,63 @@ export default function StoryDisplayScreen({ navigation }) {
   const user = useSelector((state) => state.user.value);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // Déclanchement de la génération de l'histoire
+
   useEffect(() => {
+    ws = new WebSocket('ws://192.168.1.4:8001')
+
     setIsGenerating(true);
 
     ws.onopen = () => {
       console.log('Connected to backend');
       const requestData = {
-        type: "Horreur",
-        endingType: "Fin Heureuse",
-        length: "Courte",
+        type: "generate-story",
+        data: {
+          type: "Horreur",
+          endingType: "Fin Heureuse",
+          length: "Courte",
+        }
       };
-      ws.send("generate-story", JSON.stringify(requestData)); // Sending data to the server
+      if (ws.readyState === WebSocket.OPEN) {
+        console.log('send')
+        ws.send(JSON.stringify(requestData));
+        
+      } else {
+        console.error("WebSocket not open for sending data.");
+      }
     };
 
-
-    ws.onmessage("storyChunk", (event) => {
+    ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.title) {
-        setTitleStory(data.title);
-      } else if (data.chunk) {
-        setChunks((prevChunks) => [...prevChunks, data.chunk.trim()]);
+      console.log("Received message", data)
+
+      if (data.type === "storyChunk") {
+        if (data.title) {
+          setTitleStory(data.title);
+        } else if (data.chunk) {
+          setChunks((prevChunks) => [...prevChunks, data.chunk.trim()]);
+        }
+      } else if (data.type === "error") {
+        console.error("Error from server:", data.error);
+      } else if (data.type === "result") {
+        console.log("Received result:", data.result);
       }
-    });
+    };
     
     ws.onerror = (error) => {
       console.error("Socket error:", error);
     };
 
     ws.onclose = (e) => {
-      console.log(e.code, e.reason)
+      console.log("Socket closed:", e.code, e.reason)
     }
+
+    return () => {
+      ws.close();
+    };
 
   }, []);
 
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.tabBar}>

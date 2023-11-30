@@ -9,7 +9,7 @@ import {
   View,
   Button
 } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 
 
@@ -20,7 +20,7 @@ export default function Websocket() {
     const [disableButton, setDisableButton] = useState(true);
     const [inputFieldEmpty, setInputFieldEmpty] =useState(true);
     const [serverMessages, setServerMessages] = useState([]);
-    var ws = useRef(new WebSocket('ws:////192.168.1.4:8001')).current;
+    // var ws = useRef(new WebSocket('ws://192.168.1.4:8001')).current;
   
   
     useEffect(() => {
