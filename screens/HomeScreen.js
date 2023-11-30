@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     // marginTop: "-12%",
     width: windowWidth,
     height: windowHeight * 0.5,
-    marginTop: -windowHeight * 0.12,
+    marginTop: -windowHeight * 0.18,
   },
 
   title1: {

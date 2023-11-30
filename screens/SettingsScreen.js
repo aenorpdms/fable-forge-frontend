@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     // height: windowHeight * 0.38,
     width: windowWidth,
     height: windowHeight * 0.45,
-    marginTop: -windowHeight * 0.12,
+    marginTop: -windowHeight * 0.17,
   },
   title2: {
     fontFamily: "Lato_400Regular",
