@@ -16,6 +16,7 @@ let ws = new WebSocket('ws://192.168.1.4:8001')
 
 export default function StoryDisplayScreen({ navigation }) {
   const [chunks, setChunks] = useState([]);
+  const [titleHandle, setTitleHandle] = useState(false)
   const [titleStory, setTitleStory] = useState("");
   const user = useSelector((state) => state.user.value);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -37,8 +38,10 @@ export default function StoryDisplayScreen({ navigation }) {
         }
       };
       if (ws.readyState === WebSocket.OPEN) {
-        console.log('send')
         ws.send(JSON.stringify(requestData));
+        //ws.send("banane", JSON.stringify(requestData))
+       
+        console.log('send')
         
       } else {
         console.error("WebSocket not open for sending data.");
@@ -47,20 +50,21 @@ export default function StoryDisplayScreen({ navigation }) {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("Received message", data)
+      console.log("Received message", data.data.title)
 
-      if (data.type === "storyChunk") {
-        if (data.title) {
-          setTitleStory(data.title);
-        } else if (data.chunk) {
-          setChunks((prevChunks) => [...prevChunks, data.chunk.trim()]);
+      
+     if (data.data.title && !titleHandle) {
+          setTitleStory(data.data.title);
+          setTitleHandle(true)
         }
-      } else if (data.type === "error") {
-        console.error("Error from server:", data.error);
-      } else if (data.type === "result") {
-        console.log("Received result:", data.result);
+     if (data.data.chunk) {
+        setChunks((prevChunks) => [...prevChunks, data.data.chunk.trim()]);
       }
-    };
+     if (data.data.type === "error") {
+        console.error("Error from server:", data.data.error);
+      } else if (data.data.type === "result") {
+        console.log("Received result:", data.data.result);
+    }}
     
     ws.onerror = (error) => {
       console.error("Socket error:", error);

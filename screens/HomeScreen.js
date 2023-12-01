@@ -28,7 +28,7 @@ export default function HomeScreen({ navigation }) {
 
   // Navigation vers l'étape 1
   const handleSubmit = () => {
-    navigation.navigate("StoryDisplay");
+    navigation.navigate("StoryGenerationScreen");
   };
 
   // Récupérer la dernière histoire de l'utilisateur depuis le backend
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     // marginTop: "-12%",
     width: windowWidth,
     height: windowHeight * 0.5,
-    marginTop: -windowHeight * 0.12,
+    marginTop: -windowHeight * 0.18,
   },
 
   title1: {
