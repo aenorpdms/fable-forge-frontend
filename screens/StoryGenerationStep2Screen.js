@@ -84,9 +84,6 @@ export default function StoryGenerationStep2Screen({ navigation, route }) {
   };
 
     const handleStoryGeneration3 = () => {
-      console.log("route.params:", route.params);
-      console.log("route.params.selectedType:", route.params.selectedType);
-
       navigation.navigate('StoryGeneration3', {
         length: selectedLength,
         endType: selectedEndType,

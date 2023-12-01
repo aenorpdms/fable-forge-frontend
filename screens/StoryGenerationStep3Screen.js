@@ -22,24 +22,22 @@ export default function StoryGenerationStep3Screen({ route }) {
   // Hook pour naviguer entre les écrans
   const navigation = useNavigation();
  
-  // Récupération de l'état newStory depuis le store Redux
-  const newStory = useSelector((state) => state.newStory.value);
-
   // Création du synopsis pour le récap des détails de l'histoire
-  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${newStory.type}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`
+  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${selectedType}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`
   
   // Fonction pour naviguer vers l'affichage de l'histoire
   const handleStoryDisplay = () => {
     navigation.navigate("StoryDisplay", {
-      genre: selectedType,
-      longueur: length,
-      fin: endType,
+      selectedType,
+      length,
+      endType,
     });
   };
 
   // Fonction pour revenir à l'étape 2
   const handleStoryGeneration2 = () => {
-    navigation.navigate("StoryGeneration2");
+    navigation.navigate("StoryGeneration2", {selectedType});
+
   };
 
 

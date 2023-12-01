@@ -14,7 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 let ws = new WebSocket('ws://192.168.1.4:8001')
 
-export default function StoryDisplayScreen({ navigation }) {
+export default function StoryDisplayScreen({ navigation, route}) {
+  const { length, endType, selectedType} = route.params;
   const [chunks, setChunks] = useState([]);
   const [titleHandle, setTitleHandle] = useState(false)
   const [titleStory, setTitleStory] = useState("");
@@ -31,18 +32,11 @@ export default function StoryDisplayScreen({ navigation }) {
       console.log('Connected to backend');
       const requestData = {
         type: "generate-story",
-        data: {
-          type: "Horreur",
-          endingType: "Fin Heureuse",
-          length: "Courte",
-        }
-      };
+        data: {type: selectedType,endingType: endType,length,}};
+
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(requestData));
-        //ws.send("banane", JSON.stringify(requestData))
-       
         console.log('send')
-        
       } else {
         console.error("WebSocket not open for sending data.");
       }
@@ -51,8 +45,6 @@ export default function StoryDisplayScreen({ navigation }) {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log("Received message", data.data.title)
-
-      
      if (data.data.title && !titleHandle) {
           setTitleStory(data.data.title);
           setTitleHandle(true)
