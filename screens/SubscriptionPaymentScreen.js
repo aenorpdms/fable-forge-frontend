@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView 
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 // Composant d'écran pour le paiement de l'abonnement.
 export default function SubscriptionPaymentScreen({ route }) {

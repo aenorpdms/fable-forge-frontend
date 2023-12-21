@@ -16,59 +16,65 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 // Importation du composant personnalisé TabBar
-import TabBar from "../TabBar";
+import TabBar from "../components/TabBar";
 
 // Composant pour l'écran génération d'histoire "Étape 1"
 export default function StoryGenerationScreen() {
   const navigation = useNavigation();
 
-// État local pour la visibilité du modal.
-const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
+  // État local pour la visibilité du modal.
+  const [isModalOpen, setIsModalOpen] = useState(false); // Add this line
 
-// Fonction pour afficher ou cacher le modal.
-const toggleModal = () => {
-  setIsModalOpen(!isModalOpen);
-};
+  // Fonction pour afficher ou cacher le modal.
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
-// Fonction pour fermer le modal.
-const closeModal = () => {
-  setIsModalOpen(false); // Close the modal
-};
+  // Fonction pour fermer le modal.
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
 
   const data = [
     {
       title: "Horreur",
-      description:"Explorez l'obscurité et laissez votre imagination vous guider à travers des récits terrifiants où le suspense règne en maître.",
+      description:
+        "Explorez l'obscurité et laissez votre imagination vous guider à travers des récits terrifiants où le suspense règne en maître.",
       image: require("../assets/Horreur.png"),
       music: require("../assets_music/Genre_Horreur.mp3"),
     },
     {
       title: "Aventure",
-      description:"Embarquez pour des aventures épiques, résolvez des énigmes, à travers des mondes extraordinaires.",
+      description:
+        "Embarquez pour des aventures épiques, résolvez des énigmes, à travers des mondes extraordinaires.",
       image: require("../assets/Aventure.png"),
       music: require("../assets_music/Genre_Aventure.mp3"),
     },
     {
       title: "Fantasy / SF",
-      description:"Explorez des mondes futuristes, rencontrez des créatures magiques et partez à la découverte de l'inconnu.",
+      description:
+        "Explorez des mondes futuristes, rencontrez des créatures magiques et partez à la découverte de l'inconnu.",
       image: require("../assets/Fantasy_SF.png"),
       music: require("../assets_music/Genre_Fantasy-SF.mp3"),
     },
     {
       title: "Policier / Thriller",
-      description:"Plongez dans des intrigues mystérieuses, traquez des criminels et résolvez des énigmes palpitantes.",
+      description:
+        "Plongez dans des intrigues mystérieuses, traquez des criminels et résolvez des énigmes palpitantes.",
       image: require("../assets/Policier_Thriller.png"),
       music: require("../assets_music/Genre_Policier-Thriller.mp3"),
     },
     {
       title: "Romance",
-      description:"Découvrez des récits passionnés, explorez des relations intenses et suivez les histoires d'amour captivantes.",
+      description:
+        "Découvrez des récits passionnés, explorez des relations intenses et suivez les histoires d'amour captivantes.",
       image: require("../assets/Romance.png"),
       music: require("../assets_music/Genre_Romance.mp3"),
     },
     {
       title: "Enfant",
-      description:"Plongez dans des aventures adaptées aux plus jeunes, remplies de leçons précieuses et d'histoires amusantes.",
+      description:
+        "Plongez dans des aventures adaptées aux plus jeunes, remplies de leçons précieuses et d'histoires amusantes.",
       image: require("../assets/Enfant.png"),
       music: require("../assets_music/Genre_Enfant.mp3"),
     },
@@ -201,7 +207,7 @@ const styles = StyleSheet.create({
     top: "12%",
     left: "40%",
     zIndex: 10,
-    padding: 8
+    padding: 8,
   },
   mdlctn: {
     width: "100%",
@@ -219,23 +225,22 @@ const styles = StyleSheet.create({
   },
   settingsApp: {
     flexDirection: "row",
-    alignItems:"center",
-    justifyContent:"space-between",
-   
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
   mdlClosed: {
-    alignSelf:"right",
+    alignSelf: "right",
     textAlign: "right",
     padding: 8,
-    marginRight: 15
+    marginRight: 15,
   },
   titleModal: {
     color: "#FFCE4A",
     textAlign: "center",
     fontSize: 24,
     fontWeight: "500",
-    marginLeft: 80
+    marginLeft: 80,
   },
   textModal: {
     color: "white",
@@ -243,7 +248,6 @@ const styles = StyleSheet.create({
     padding: "4%",
     right: "4%",
     lineHeight: 22,
- 
   },
   carousel: {
     alignItems: "center",
@@ -274,7 +278,7 @@ const styles = StyleSheet.create({
     justifyContent: "top",
   },
   genreImage: {
-    height:250,//250
+    height: 250, //250
     width: "100%",
     borderRadius: 10,
     overflow: "hidden",
@@ -292,7 +296,6 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     marginBottom: "1%",
     padding: 12,
-  
   },
   selectButton: {
     width: 150,
@@ -303,8 +306,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     alignSelf: "center",
-    position:"absolute",
-    bottom:-25
+    position: "absolute",
+    bottom: -25,
   },
   selectButtonText: {
     fontFamily: "Lato_400Regular",

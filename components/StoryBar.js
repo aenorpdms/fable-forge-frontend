@@ -18,11 +18,10 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFontSize, updateMode } from "./reducers/user";
+import { updateFontSize, updateMode } from "../reducers/user";
 import { Audio } from "expo-av";
 
 export default function StoryBar({ navigation, selectedMusic }) {
-  // console.log('Value of userMode:', userMode);
   const dispatch = useDispatch();
   // État pour gérer l'ouverture (ouvert/fermé)
   const [isOpen, setIsOpen] = useState(false);
@@ -36,8 +35,6 @@ export default function StoryBar({ navigation, selectedMusic }) {
   // Accès à l'état global Redux pour la configuration de l'utilisateur
   const user = useSelector((state) => state.user.value);
   const userMode = useSelector((state) => state.user.mode);
-  // Console log pour vérifier la valeur de userMode extraite du Redux Store
-  // console.log('Value of userMode extracted from Redux Store:', userMode);
 
   // AUDIO
   // Référence pour la gestion de l'audio
@@ -47,75 +44,74 @@ export default function StoryBar({ navigation, selectedMusic }) {
     const loadAndPlayMusic = async () => {
       try {
         const genreMusic = {
-            "29": require("./assets_music/Genre_Horreur.mp3"),
-            Horreur: require("./assets_music/Genre_Horreur.mp3"),
-            "30": require("./assets_music/Genre_Aventure.mp3"),
-            Aventure: require("./assets_music/Genre_Aventure.mp3"),
-            "31": require("./assets_music/Genre_Fantasy-SF.mp3"),
-            "Fantasy / SF": require("./assets_music/Genre_Fantasy-SF.mp3"),
-            "32": require("./assets_music/Genre_Policier-Thriller.mp3"),
-            "Policier / Thriller": require("./assets_music/Genre_Policier-Thriller.mp3"),
-            "33": require("./assets_music/Genre_Romance.mp3"),
-            Romance: require("./assets_music/Genre_Romance.mp3"),
-            "34": require("./assets_music/Genre_Enfant.mp3"),
-            Enfant: require("./assets_music/Genre_Enfant.mp3"),
-          };
-          const musicSource = genreMusic[selectedMusic];
-          if (musicSource) {
-            await soundObject.current.unloadAsync();
-            await soundObject.current.loadAsync(musicSource);
-            if (isAudioEnabled) await soundObject.current.playAsync();
-            await soundObject.current.setIsLoopingAsync(true);
-          }
-        } catch (error) {
-          console.error('Erreur lors du chargement et de la lecture de la musique', error);
+          29: require("../assets_music/Genre_Horreur.mp3"),
+          Horreur: require("../assets_music/Genre_Horreur.mp3"),
+          30: require("../assets_music/Genre_Aventure.mp3"),
+          Aventure: require("../assets_music/Genre_Aventure.mp3"),
+          31: require("../assets_music/Genre_Fantasy-SF.mp3"),
+          "Fantasy / SF": require("../assets_music/Genre_Fantasy-SF.mp3"),
+          32: require("../assets_music/Genre_Policier-Thriller.mp3"),
+          "Policier / Thriller": require("../assets_music/Genre_Policier-Thriller.mp3"),
+          33: require("../assets_music/Genre_Romance.mp3"),
+          Romance: require("../assets_music/Genre_Romance.mp3"),
+          34: require("../assets_music/Genre_Enfant.mp3"),
+          Enfant: require("../assets_music/Genre_Enfant.mp3"),
+        };
+        const musicSource = genreMusic[selectedMusic];
+        if (musicSource) {
+          await soundObject.current.unloadAsync();
+          await soundObject.current.loadAsync(musicSource);
+          if (isAudioEnabled) await soundObject.current.playAsync();
+          await soundObject.current.setIsLoopingAsync(true);
         }
-      };
-      loadAndPlayMusic();
-      return () => soundObject.current.unloadAsync();
-    }, [selectedMusic, isAudioEnabled]);
-
-// Basculer l'audio
-const toggleAudioSwitch = async () => {
-  setIsAudioEnabled((previousState) => !previousState);
-  try {
-    if (isAudioEnabled && soundObject.current._loaded) {
-      await soundObject.current.pauseAsync();
-    } else if (soundObject.current._loaded) {
-      await soundObject.current.playAsync();
-    }
-  } catch (error) {
-    console.error('Error toggling audio:', error);
-  }
-};
-
-const font = user.fontSizeSet;
-
-   // Augmenter la taille de police
-   const increaseFontSize = () => {
-    //console.log('Increase Font Size called');
-     if (user.fontSizeSet < 30) {
-       dispatch(updateFontSize(user.fontSizeSet + 2));
-     }
-   };
- 
-   // Diminuer la taille de police
-   const decreaseFontSize = () => {
-    //console.log('Decrease Font Size called');
-     if (user.fontSizeSet > 10) {
-       dispatch(updateFontSize(user.fontSizeSet - 2));
-     }
-   };
-
-    // DARK LIGTH MODE
-    const isModeEnabledMode = user.mode === "dark";
-
-    const toggleModeSwitchMode = () => {
-     // console.log('Toggle Mode Switch called');
-      const newMode = user.mode === "dark" ? "light" : "dark";
-      //console.log('New Mode:', newMode);
-      dispatch(updateMode(newMode));
+      } catch (error) {
+        console.error(
+          "Erreur lors du chargement et de la lecture de la musique",
+          error
+        );
+      }
     };
+    loadAndPlayMusic();
+    return () => soundObject.current.unloadAsync();
+  }, [selectedMusic, isAudioEnabled]);
+
+  // Basculer l'audio
+  const toggleAudioSwitch = async () => {
+    setIsAudioEnabled((previousState) => !previousState);
+    try {
+      if (isAudioEnabled && soundObject.current._loaded) {
+        await soundObject.current.pauseAsync();
+      } else if (soundObject.current._loaded) {
+        await soundObject.current.playAsync();
+      }
+    } catch (error) {
+      console.error("Error toggling audio:", error);
+    }
+  };
+
+  const font = user.fontSizeSet;
+
+  // Augmenter la taille de police
+  const increaseFontSize = () => {
+    if (user.fontSizeSet < 30) {
+      dispatch(updateFontSize(user.fontSizeSet + 2));
+    }
+  };
+
+  // Diminuer la taille de police
+  const decreaseFontSize = () => {
+    if (user.fontSizeSet > 10) {
+      dispatch(updateFontSize(user.fontSizeSet - 2));
+    }
+  };
+
+  // DARK LIGTH MODE
+  const isModeEnabledMode = user.mode === "dark";
+
+  const toggleModeSwitchMode = () => {
+    const newMode = user.mode === "dark" ? "light" : "dark";
+    dispatch(updateMode(newMode));
+  };
 
   //TAB-BAR
   // Animation pour la largeur de la tabBar
@@ -132,10 +128,10 @@ const font = user.fontSizeSet;
   // Animation pour le fond de la tabBar (ouvert/fermé)
   const bgValue = useSharedValue(isOpen ? 1 : 0); // 0 pour fermé, 1 pour ouvert
   const animatedBackgroundStyle = useAnimatedStyle(() => {
-  const bgColor =
-    bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
-  return {
-    backgroundColor: bgColor,
+    const bgColor =
+      bgValue.value === 1 ? "rgba(255, 255, 255, 0.5)" : "transparent";
+    return {
+      backgroundColor: bgColor,
     };
   });
 
@@ -155,42 +151,31 @@ const font = user.fontSizeSet;
         widthValue.value = 140; // Augmenter la largeur à la valeur souhaitée
         bgValue.value = 1;
       }
-     // console.log("Toggle Tab Bar, Is Open: ", !prevState); // Ajoutez cette ligne
       return !prevState;
     });
   };
- 
-   // NAVIGATION
-   const handleDisplayHome = () => {
-    //console.log('navigate home ok')
-     navigation.navigate("Home");
-   };
- 
-   const handleDisplayStory = () => {
-    //console.log('navigate stories ok')
-     navigation.navigate("Stories");
-   };
- 
-   const handleDisplayProfil = () => {
-    //console.log('navigate profil ok')
-     navigation.navigate("Profil");
-   };
- 
-   // MODAL
-   const handleDisplaySettings = () => {
-     setIsModalOpen(true); // Ouvrir la modal
-   };
- 
-   const closeModal = () => {
-     setIsModalOpen(false); // Fermer la modal
-   };
 
-// Console log pour vérifier si le composant se met à jour avec la nouvelle valeur de userMode
-//console.log('Component re-rendered with userMode:', userMode);
+  // NAVIGATION
+  const handleDisplayHome = () => {
+    navigation.navigate("Home");
+  };
 
-   useEffect(() => {
-    //console.log('userMode:', userMode);
-  }, [userMode]);
+  const handleDisplayStory = () => {
+    navigation.navigate("Stories");
+  };
+
+  const handleDisplayProfil = () => {
+    navigation.navigate("Profil");
+  };
+
+  // MODAL
+  const handleDisplaySettings = () => {
+    setIsModalOpen(true); // Ouvrir la modal
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Fermer la modal
+  };
 
   return (
     <View style={styles.pageContainer}>
@@ -201,13 +186,13 @@ const font = user.fontSizeSet;
             style={styles.icone1}
             onPress={() => handleDisplayHome()}
           >
-            <Image source={require("./assets/home.png")} />
+            <Image source={require("../assets/home.png")} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.icone2}
             onPress={() => handleDisplayStory()}
           >
-            <Image source={require("./assets/book.png")} />
+            <Image source={require("../assets/book.png")} />
           </TouchableOpacity>
         </Animated.View>
         <TouchableOpacity style={styles.toggleButton} onPress={toggleTabBar}>
@@ -215,10 +200,10 @@ const font = user.fontSizeSet;
         </TouchableOpacity>
         <Animated.View style={[styles.tabBarItem, animatedStyles]}>
           <TouchableOpacity onPress={() => handleDisplayProfil()}>
-            <Image source={require("./assets/user.png")} />
+            <Image source={require("../assets/user.png")} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleDisplaySettings()}>
-            <Image source={require("./assets/roue.png")} />
+            <Image source={require("../assets/roue.png")} />
           </TouchableOpacity>
         </Animated.View>
       </View>

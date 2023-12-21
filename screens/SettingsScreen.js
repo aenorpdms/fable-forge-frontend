@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, Switch, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+  Switch,
+  Dimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFontSize } from "../reducers/user";
 
 // Importation du composant personnalisé TabBar
-import TabBar from "../TabBar";
+import TabBar from "../components/TabBar";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -16,7 +24,7 @@ export default function SettingsScreen({ navigation }) {
   const dispatch = useDispatch();
 
   // Récuperer les informatons de Redux
-  const user = useSelector(state => state.user.value);
+  const user = useSelector((state) => state.user.value);
 
   // État local pour gérer les switchs on/off
   const [isFontEnabled, setIsFontEnabled] = useState(false);
@@ -43,13 +51,17 @@ export default function SettingsScreen({ navigation }) {
   };
 
   // Fonctions pour basculer l'état des switches on/off
-  const toggleFontSwitch = () => setIsFontEnabled(previousState => !previousState);
-  const toggleAudioSwitch = value => {
+  const toggleFontSwitch = () =>
+    setIsFontEnabled((previousState) => !previousState);
+  const toggleAudioSwitch = (value) => {
     setIsAudioEnabled(value);
   };
-  const toggleAmbianceSwitch = () => setIsAmbianceEnabled(previousState => !previousState);
-  const toggleNotificationsSwitch = () => setIsNotificationsEnabled(previousState => !previousState);
-  const toggleModeSwitch = () => setIsModeEnabled(previousState => !previousState);
+  const toggleAmbianceSwitch = () =>
+    setIsAmbianceEnabled((previousState) => !previousState);
+  const toggleNotificationsSwitch = () =>
+    setIsNotificationsEnabled((previousState) => !previousState);
+  const toggleModeSwitch = () =>
+    setIsModeEnabled((previousState) => !previousState);
 
   const handleCguv = () => {
     // Navigation vers la page "Cguv"
@@ -63,15 +75,32 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
+      <ImageBackground
+        style={styles.imagBgd}
+        source={require("../assets/ImageBibliotheque.png")}
+      >
         <Text style={styles.title2}>Paramètres</Text>
       </ImageBackground>
 
       <View style={styles.settingsApp}>
         <View style={styles.containerPolice}>
-          <FontAwesome name='minus' size={20} style={styles.iconDec} color='white' onPress={decreaseFontSize} />
-          <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>Taille de police : {font} px</Text>
-          <FontAwesome name='plus' size={20} style={styles.iconInc} color='white' onPress={increaseFontSize} />
+          <FontAwesome
+            name="minus"
+            size={20}
+            style={styles.iconDec}
+            color="white"
+            onPress={decreaseFontSize}
+          />
+          <Text style={[styles.textPolice, { fontSize: user.fontSizeSet }]}>
+            Taille de police : {font} px
+          </Text>
+          <FontAwesome
+            name="plus"
+            size={20}
+            style={styles.iconInc}
+            color="white"
+            onPress={increaseFontSize}
+          />
         </View>
 
         <View style={styles.setting}>
@@ -80,7 +109,7 @@ export default function SettingsScreen({ navigation }) {
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isAudioEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor='#3e3e3e'
+            ios_backgroundColor="#3e3e3e"
             onValueChange={toggleAudioSwitch}
             value={isAudioEnabled}
           />
@@ -116,12 +145,15 @@ export default function SettingsScreen({ navigation }) {
             style={styles.switchBtn}
             trackColor={{ false: "white", true: "#FFCE4A" }}
             thumbColor={isModeEnabled ? "#FFCE4A" : "white"}
-            ios_backgroundColor='#3e3e3e'
+            ios_backgroundColor="#3e3e3e"
             onValueChange={toggleModeSwitch}
             value={isModeEnabled}
           />
         </View>
-        <TouchableOpacity onPress={() => handleCguv("Cguv")} style={styles.cgvBtn}>
+        <TouchableOpacity
+          onPress={() => handleCguv("Cguv")}
+          style={styles.cgvBtn}
+        >
           <Text style={styles.fontCGU}>CGU / CGV</Text>
         </TouchableOpacity>
       </View>

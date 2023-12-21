@@ -1,10 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, SafeAreaView, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+  SafeAreaView,
+  Image,
+  Dimensions,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 
-import TabBar from "../TabBar";
+import TabBar from "../components/TabBar";
 
 // responsive page
 const windowWidth = Dimensions.get("window").width;
@@ -12,7 +21,7 @@ const windowHeight = Dimensions.get("window").height;
 
 export default function HomeScreen({ navigation }) {
   // État Redux pour récupérer les informations de l'utilisateur.
-  const user = useSelector(state => state.user.value);
+  const user = useSelector((state) => state.user.value);
   const nameUser = user.firstname;
   const readyName = nameUser.toUpperCase();
 
@@ -29,8 +38,8 @@ export default function HomeScreen({ navigation }) {
 
   // Récupérer la dernière histoire de l'utilisateur depuis le backend
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      console.log('Screen is focused');
+    const unsubscribe = navigation.addListener("focus", () => {
+      console.log("Screen is focused");
       fetchLastStory();
     });
 
@@ -39,14 +48,14 @@ export default function HomeScreen({ navigation }) {
 
   const fetchLastStory = () => {
     fetch(`https://fable-forge.onrender.com/users/lastStory/${user.token}`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.result) {
           if (data.stories == null) {
             setNoStory(false);
           } else {
             setNoStory(true);
-            setLastStory({...data.stories});
+            setLastStory({ ...data.stories });
           }
         }
       });
@@ -85,14 +94,23 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
+      <ImageBackground
+        style={styles.imagBgd}
+        source={require("../assets/ImageBibliotheque.png")}
+      >
         <Text style={styles.title1}>BIENVENUE {readyName}</Text>
         <Text style={styles.title2}>Où les histoires</Text>
         <Text style={styles.title2bis}>prennent vie...</Text>
       </ImageBackground>
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.newStoryButton} onPress={() => handleSubmit()}>
-          <Image style={styles.addButton} source={require("../assets/add-circle-outline.png")} />
+        <TouchableOpacity
+          style={styles.newStoryButton}
+          onPress={() => handleSubmit()}
+        >
+          <Image
+            style={styles.addButton}
+            source={require("../assets/add-circle-outline.png")}
+          />
           <Text style={styles.buttonText}>Créer une</Text>
           <Text style={styles.buttonText}>nouvelle histoire</Text>
         </TouchableOpacity>
@@ -100,7 +118,10 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.title3}>Votre dernière histoire</Text>
 
         <View style={styles.lastStoryButton}>
-          <ImageBackground style={styles.storyImage} source={typeImage} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/>
+          <ImageBackground
+            style={styles.storyImage}
+            source={typeImage} /*{{ uri: 'URL_DE_L'HISTOIRE' }}*/
+          >
             <Text style={styles.storyTitle}>{lastStory.title}</Text>
           </ImageBackground>
           <TouchableOpacity
@@ -114,7 +135,9 @@ export default function HomeScreen({ navigation }) {
             onPress={noStory ? () => handleDisplayStory() : null}
             disabled={!noStory}
           >
-            <Text style={styles.readButtonText}>{noStory ? "Lire mon histoire" : "Aucune histoire"}</Text>
+            <Text style={styles.readButtonText}>
+              {noStory ? "Lire mon histoire" : "Aucune histoire"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

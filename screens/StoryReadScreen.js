@@ -4,7 +4,7 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
 // Importation de la tabBar personnalisés
-import StoryBar from "../StoryBar";
+import StoryBar from "../components/StoryBar";
 
 // Écran de lecture de l'histoire dans l'application
 export default function StoryReadScreen({ navigation, route }) {

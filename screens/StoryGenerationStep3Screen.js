@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import { 
-  View, 
-  Text, 
-  ImageBackground, 
-  Image, 
-  StyleSheet, 
-  TouchableOpacity 
+import {
+  View,
+  Text,
+  ImageBackground,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 // Importation du composant personnalisé TabBar
-import TabBar from "../TabBar";
+import TabBar from "../components/TabBar";
 
 // Composant pour l'écran génération d'histoire "Étape 3"
 export default function StoryGenerationStep3Screen({ navigation, route }) {
-  const { length, endingType, selectedType, selectedImage, selectedMusic } = route.params ;
-  const [type, setType] = useState(selectedType)
+  const { length, endingType, selectedType, selectedImage, selectedMusic } =
+    route.params;
+  const [type, setType] = useState(selectedType);
   // Création du synopsis pour le récap des détails de l'histoire
-  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${selectedType}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`
-  
+  const synopsis = `Préparez-vous à plonger dans une histoire de genre ${selectedType}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`;
+
   // Fonction pour naviguer vers l'affichage de l'histoire
   const handleStoryDisplay = () => {
-    console.log(type)
+    console.log(type);
     navigation.navigate("StoryDisplay", {
       type,
       length,
@@ -31,35 +32,33 @@ export default function StoryGenerationStep3Screen({ navigation, route }) {
     });
   };
 
-// Fonction pour revenir à l'étape 2
-const handleStoryGeneration2 = () => {
-  navigation.navigate("StoryGeneration2", {type});
-};
+  // Fonction pour revenir à l'étape 2
+  const handleStoryGeneration2 = () => {
+    navigation.navigate("StoryGeneration2", { type });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-        <ImageBackground
-            source={require("../assets/ImageBibliotheque.png")}
-            style={styles.imagBgd}
-        >
-            <Text style={styles.title1}>Création d'une histoire</Text>
-          <View style={styles.containerStep}>
-            <Text style={styles.title2}>Étape 3/3 : Récapitulatif</Text>
-
-          </View>
-        </ImageBackground>
-
+      <ImageBackground
+        source={require("../assets/ImageBibliotheque.png")}
+        style={styles.imagBgd}
+      >
+        <Text style={styles.title1}>Création d'une histoire</Text>
+        <View style={styles.containerStep}>
+          <Text style={styles.title2}>Étape 3/3 : Récapitulatif</Text>
+        </View>
+      </ImageBackground>
 
       <View style={styles.containerStory}>
-          <Text style={styles.titleContainer}>Genre : {selectedType}</Text>
+        <Text style={styles.titleContainer}>Genre : {selectedType}</Text>
         <Image style={styles.imagBgdRecap} source={selectedImage}></Image>
-          <Text style={styles.textRecap}>{synopsis}</Text>
-      <View style={styles.recapSizeStory}>
+        <Text style={styles.textRecap}>{synopsis}</Text>
+        <View style={styles.recapSizeStory}>
           <Text style={styles.sizeTextRecap}>{length}</Text>
-      </View>
-      <View style={styles.recapSizeStory}>
+        </View>
+        <View style={styles.recapSizeStory}>
           <Text style={styles.sizeTextRecap}>{endingType}</Text>
-      </View>
+        </View>
         <View style={styles.arrowContainer}>
           <TouchableOpacity style={styles.arrowBtn}>
             <Icon
@@ -68,18 +67,18 @@ const handleStoryGeneration2 = () => {
               color={"#2C1A51"}
               onPress={() => handleStoryGeneration2()}
             />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.arrowBtn}>
-              <Icon
-                name="chevron-right"
-                size={30}
-                color={"#2C1A51"}
-                onPress={() => handleStoryDisplay()}
-              />
-            </TouchableOpacity>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.arrowBtn}>
+            <Icon
+              name="chevron-right"
+              size={30}
+              color={"#2C1A51"}
+              onPress={() => handleStoryDisplay()}
+            />
+          </TouchableOpacity>
         </View>
       </View>
-              <TabBar navigation={navigation} />
+      <TabBar navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C1A51",
   },
 
-  // Style header 
+  // Style header
   imagBgd: {
     flex: 2,
     width: "100%",
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lato_400Regular",
     color: "white",
     fontSize: 16,
-    marginTop: "3%"
+    marginTop: "3%",
   },
 
   // Style tabBar
@@ -179,17 +178,17 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-// Style flèche directionnelle 
+  // Style flèche directionnelle
   arrowContainer: {
-    flexDirection:"row",
+    flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
     height: "20%",
-    alignItems: "center", 
-    marginTop:"-3%" 
+    alignItems: "center",
+    marginTop: "-3%",
   },
   arrowBtn: {
-    marginLeft:"10%",
-    marginRight:"10%"
+    marginLeft: "10%",
+    marginRight: "10%",
   },
 });

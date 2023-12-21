@@ -15,7 +15,7 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 // Importation du composant personnalisé TabBar
-import TabBar from "../TabBar";
+import TabBar from "../components/TabBar";
 
 // Couleurs constantes
 const colors = {

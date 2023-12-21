@@ -78,10 +78,10 @@ export default function TabBar({ navigation }) {
             <Animated.View style={[styles.background, animatedBackgroundStyle]} />
             <Animated.View style={[styles.tabBarItem, animatedStyles]}>
               <TouchableOpacity style={styles.icone1} onPress={()=> handleDisplayHome()}>
-                <Image source={require('./assets/home.png')} />
+                <Image source={require('../assets/home.png')} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.icone2} onPress={()=> handleDisplayStory()}>
-                <Image source={require('./assets/book.png')} />
+                <Image source={require('../assets/book.png')} />
               </TouchableOpacity>
             </Animated.View>
             <TouchableOpacity style={styles.toggleButton} onPress={toggleTabBar}>
@@ -89,10 +89,10 @@ export default function TabBar({ navigation }) {
             </TouchableOpacity>
             <Animated.View style={[styles.tabBarItem, animatedStyles]}>
               <TouchableOpacity onPress={()=> handleDisplayProfil()}>
-                <Image source={require('./assets/user.png')} />  
+                <Image source={require('../assets/user.png')} />  
               </TouchableOpacity> 
               <TouchableOpacity onPress={()=> handleDisplaySettings()}>
-                <Image source={require('./assets/roue.png')} />
+                <Image source={require('../assets/roue.png')} />
               </TouchableOpacity>
             </Animated.View>
         </View>

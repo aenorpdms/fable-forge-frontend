@@ -17,7 +17,7 @@ import { useState } from "react";
 import { updateUser } from "../reducers/user";
 
 // Importation du composant personnalisé TabBar
-import TabBar from "../TabBar";
+import TabBar from "../components/TabBar";
 
 // Get the screen dimensions
 // const { width, height } = Dimensions.get("window");
@@ -39,11 +39,13 @@ export default function ProfilScreen({ navigation }) {
   const [isEditable, setIsEditable] = useState(false);
   const [isEditablePwd, setIsEditablePwd] = useState(false);
   const [buttonText, setButtonText] = useState("Modifier mes informations");
-  const [buttonTextPwd, setButtonTextPwd] = useState("Modifier mon mot de passe");
+  const [buttonTextPwd, setButtonTextPwd] = useState(
+    "Modifier mon mot de passe"
+  );
 
   // Accès au dispatch pour envoyer des actions.
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.value);
+  const user = useSelector((state) => state.user.value);
 
   // Modifier les informations de l'utilisateur
   const handleModifyInfo = () => {
@@ -64,8 +66,8 @@ export default function ProfilScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedUserInfo),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         // Si la mise à jour est réussie, désactiver le mode édition
         if (data.result) {
           setIsEditable(false);
@@ -88,8 +90,8 @@ export default function ProfilScreen({ navigation }) {
           newPassword,
         }),
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           // Si la mise à jour est réussie, désactiver le mode édition du mot de passe
           if (data.result) {
             console.log("updated");
@@ -114,7 +116,7 @@ export default function ProfilScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
 
-  const handleModalToggle = type => {
+  const handleModalToggle = (type) => {
     setModalType(type);
     setModalVisible(!modalVisible);
   };
@@ -126,8 +128,8 @@ export default function ProfilScreen({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: user.token }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         // Si la suppression est réussie, naviguer vers l'écran de "Sign"
         if (data.result) {
           navigation.navigate("Sign");
@@ -141,14 +143,25 @@ export default function ProfilScreen({ navigation }) {
         <TabBar navigation={navigation} />
         <View style={styles.backgroundTab}></View>
       </View>
-      <KeyboardAvoidingView style={styles.containerBis} behavior={Platform.OS === "ios" ? "padding" : null} enabled keyboardVerticalOffset={10}>
-        <ScrollView style={styles.containerInformation} indicatorStyle='white'>
-          <ImageBackground style={styles.imagBgd} source={require("../assets/ImageBibliotheque.png")}>
+      <KeyboardAvoidingView
+        style={styles.containerBis}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        enabled
+        keyboardVerticalOffset={10}
+      >
+        <ScrollView style={styles.containerInformation} indicatorStyle="white">
+          <ImageBackground
+            style={styles.imagBgd}
+            source={require("../assets/ImageBibliotheque.png")}
+          >
             <View>
               <Text style={styles.title2}>Profil</Text>
 
               <View style={styles.initialContainer}>
-                <Image style={styles.image} source={require("../assets/profilPic.png")} />
+                <Image
+                  style={styles.image}
+                  source={require("../assets/profilPic.png")}
+                />
                 <Text style={styles.initial}>{user.firstname.charAt(0)}</Text>
               </View>
               <Text style={styles.subtitle}>Informations Personnelles</Text>
@@ -159,8 +172,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Nom d'utilisateur</Text>
             <TextInput
               style={styles.input}
-              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
-              onChangeText={value => setUsername(value)}
+              placeholderTextColor={
+                isEditable ? "rgba(255, 255, 255, 0.5)" : "white"
+              }
+              onChangeText={(value) => setUsername(value)}
               value={username}
               editable={isEditable}
               placeholder={isEditable ? "Nom d'utilisateur" : user.username}
@@ -170,8 +185,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Prénom</Text>
             <TextInput
               style={styles.input}
-              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
-              onChangeText={value => setFirstName(value)}
+              placeholderTextColor={
+                isEditable ? "rgba(255, 255, 255, 0.5)" : "white"
+              }
+              onChangeText={(value) => setFirstName(value)}
               value={firstname}
               editable={isEditable}
               placeholder={isEditable ? "Prénom" : user.firstname}
@@ -181,8 +198,10 @@ export default function ProfilScreen({ navigation }) {
             <Text style={styles.titleInput}>Adresse email</Text>
             <TextInput
               style={styles.input}
-              placeholderTextColor={isEditable ? "rgba(255, 255, 255, 0.5)" : "white"}
-              onChangeText={value => setEmail(value)}
+              placeholderTextColor={
+                isEditable ? "rgba(255, 255, 255, 0.5)" : "white"
+              }
+              onChangeText={(value) => setEmail(value)}
               value={email}
               editable={isEditable}
               placeholder={isEditable ? "Adresse email" : user.email}
@@ -207,9 +226,11 @@ export default function ProfilScreen({ navigation }) {
                 <Text style={styles.titleInputPWD}>Ancien mot de passe</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder='Tapez votre ancien mot de passe'
-                  placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
-                  onChangeText={value => setOldPassword(value)}
+                  placeholder="Tapez votre ancien mot de passe"
+                  placeholderTextColor={
+                    isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"
+                  }
+                  onChangeText={(value) => setOldPassword(value)}
                   value={oldPassword}
                 ></TextInput>
               </View>
@@ -217,9 +238,11 @@ export default function ProfilScreen({ navigation }) {
                 <Text style={styles.titleInputPWD}>Nouveau mot de passe</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder='Tapez votre nouveau mot de passe'
-                  placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
-                  onChangeText={value => setNewPassword(value)}
+                  placeholder="Tapez votre nouveau mot de passe"
+                  placeholderTextColor={
+                    isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"
+                  }
+                  onChangeText={(value) => setNewPassword(value)}
                   value={newPassword}
                 ></TextInput>
               </View>
@@ -227,9 +250,11 @@ export default function ProfilScreen({ navigation }) {
                 <Text style={styles.titleInputPWD}>Confirmez mot de Passe</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder='Confirmez votre nouveau mot de passe'
-                  placeholderTextColor={isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"}
-                  onChangeText={value => setPassword(value)}
+                  placeholder="Confirmez votre nouveau mot de passe"
+                  placeholderTextColor={
+                    isEditablePwd ? "rgba(255, 255, 255, 0.5)" : "white"
+                  }
+                  onChangeText={(value) => setPassword(value)}
                   value={password}
                 ></TextInput>
               </View>
@@ -248,7 +273,9 @@ export default function ProfilScreen({ navigation }) {
           >
             <Text style={styles.btnModify}>{buttonTextPwd}</Text>
           </TouchableOpacity>
-          <Text style={styles.subscriptionText}>Votre abonnement est valide jusqu’au 31/12/2023</Text>
+          <Text style={styles.subscriptionText}>
+            Votre abonnement est valide jusqu’au 31/12/2023
+          </Text>
           <TouchableOpacity style={styles.btnAbonnement}>
             <Text style={styles.btnText} onPress={() => handleSubscription()}>
               Gérer l'abonnement
@@ -260,23 +287,38 @@ export default function ProfilScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnDelete}>
-            <Text style={styles.btnText} onPress={() => handleModalToggle("deleteAccount")}>
+            <Text
+              style={styles.btnText}
+              onPress={() => handleModalToggle("deleteAccount")}
+            >
               Supprimer mon compte
             </Text>
           </TouchableOpacity>
           <View style={styles.space}></View>
 
-          <Modal visible={modalVisible} animationType='slide' transparent={true}>
+          <Modal
+            visible={modalVisible}
+            animationType="slide"
+            transparent={true}
+          >
             <View style={styles.mdlctn}>
               <View style={styles.modalContainer}>
-                <Text style={styles.titleModal}>Êtes-vous sûr de vouloir supprimer votre compte Fable Forge ?</Text>
+                <Text style={styles.titleModal}>
+                  Êtes-vous sûr de vouloir supprimer votre compte Fable Forge ?
+                </Text>
 
                 {modalType === "deleteAccount" && (
                   <View style={styles.containerBtnModal}>
-                    <TouchableOpacity style={styles.btnDeleteModal} onPress={() => handleDeleteAccount()}>
+                    <TouchableOpacity
+                      style={styles.btnDeleteModal}
+                      onPress={() => handleDeleteAccount()}
+                    >
                       <Text style={styles.btnTextDelete}>Oui</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnNoModal} onPress={() => handleModalToggle()}>
+                    <TouchableOpacity
+                      style={styles.btnNoModal}
+                      onPress={() => handleModalToggle()}
+                    >
                       <Text style={styles.btnText}>Non</Text>
                     </TouchableOpacity>
                   </View>

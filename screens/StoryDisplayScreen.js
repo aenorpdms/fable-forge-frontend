@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from "react";
-import Typewriter from 'react-native-typewriter';
+import React, { useState, useEffect } from "react";
+import Typewriter from "react-native-typewriter";
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -8,30 +8,30 @@ import {
   Text,
   View,
 } from "react-native";
-import StoryBar from "../StoryBar";
+import StoryBar from "../components/StoryBar";
 import { useSelector } from "react-redux";
 
-
-let ws 
-export default function StoryDisplayScreen({ navigation, route}) {
-  const { type,length,endingType, selectedMusic} = route.params;
+let ws;
+export default function StoryDisplayScreen({ navigation, route }) {
+  const { type, length, endingType, selectedMusic } = route.params;
   const [chunks, setChunks] = useState([]);
   const [titleStory, setTitleStory] = useState("");
-  const user = useSelector(state => state.user.value);
+  const user = useSelector((state) => state.user.value);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [storyEnd, setStoryEnd] = useState(false)
+  const [storyEnd, setStoryEnd] = useState(false);
   const [lastChunkIndex, setLastChunkIndex] = useState(-1);
 
   useEffect(() => {
-    ws = new WebSocket('wss://fable-forge.onrender.com')
+    ws = new WebSocket("wss://fable-forge.onrender.com");
 
     ws.onopen = () => {
-      console.log('Connected to backend');
-     console.log(type, length, endingType)
+      console.log("Connected to backend");
+      console.log(type, length, endingType);
       setIsGenerating(true);
       const requestData = {
         type: "generate-story",
-        data: { type,endingType,length}};
+        data: { type, endingType, length },
+      };
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(requestData));
       } else {
@@ -42,36 +42,35 @@ export default function StoryDisplayScreen({ navigation, route}) {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-     if (data.data.title) {
-          setTitleStory(data.data.title);
-          console.log("title handle")
-        }
+      if (data.data.title) {
+        setTitleStory(data.data.title);
+        console.log("title handle");
+      }
 
-     if (data.data.chunk) {
+      if (data.data.chunk) {
         setIsGenerating(false);
         setChunks((prevChunks) => [...prevChunks, data.data.chunk.trim()]);
       }
 
-      if(data.type == "storyEnd") {
-        console.log("story end", titleStory)
-        setStoryEnd(true)
-      }else if (data.type == "storyChunk"){
-        console.log("generating")
+      if (data.type == "storyEnd") {
+        console.log("story end", titleStory);
+        setStoryEnd(true);
+      } else if (data.type == "storyChunk") {
+        console.log("generating");
       }
-    }
-    
+    };
+
     ws.onerror = (error) => {
       console.error("Socket error:", error);
     };
 
     ws.onclose = (e) => {
-      console.log("Socket closed:", e.code, e.reason)
-    }
+      console.log("Socket closed:", e.code, e.reason);
+    };
 
     return () => {
       ws.close();
     };
-
   }, []);
 
   useEffect(() => {
@@ -80,33 +79,36 @@ export default function StoryDisplayScreen({ navigation, route}) {
     }
   }, [chunks]);
 
-
-const sendToBDD = () => {
+  const sendToBDD = () => {
     fetch(`https://fable-forge.onrender.com/stories/new/${user.token}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        length, 
+        length,
         title: titleStory,
-        story: chunks, 
-        ending: endingType, 
-        type
+        story: chunks,
+        ending: endingType,
+        type,
       }),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Story register to BDD")
-      })
-}
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Story register to BDD");
+      });
+  };
 
-if(storyEnd){
-  sendToBDD()
-}
+  if (storyEnd) {
+    sendToBDD();
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.tabBar}>
-      <StoryBar navigation={navigation} route={route} selectedMusic={selectedMusic} />
+        <StoryBar
+          navigation={navigation}
+          route={route}
+          selectedMusic={selectedMusic}
+        />
         <View style={styles.backgroundTab}></View>
       </View>
       <Text style={styles.titleStory}>{titleStory}</Text>
@@ -124,25 +126,25 @@ if(storyEnd){
           />
         )}
         {chunks.map((chunk, index) => (
-        <Text
-          key={index}
-          style={[
-            styles.textStory,
-            {
-              fontSize: user.fontSizeSet,
-              color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51",
-            },
-          ]}
-        >
-          {index === lastChunkIndex ? ( 
-            <Typewriter typing={1} maxDelay={50}>
-              {chunk.trim()}
-            </Typewriter>
-          ) : (
-            chunk.trim()
-          )}
-        </Text>
-      ))}
+          <Text
+            key={index}
+            style={[
+              styles.textStory,
+              {
+                fontSize: user.fontSizeSet,
+                color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51",
+              },
+            ]}
+          >
+            {index === lastChunkIndex ? (
+              <Typewriter typing={1} maxDelay={50}>
+                {chunk.trim()}
+              </Typewriter>
+            ) : (
+              chunk.trim()
+            )}
+          </Text>
+        ))}
         <View style={styles.space}></View>
       </ScrollView>
     </SafeAreaView>
