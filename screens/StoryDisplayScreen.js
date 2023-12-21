@@ -1,42 +1,39 @@
 import React, { useState, useEffect} from "react";
+import Typewriter from 'react-native-typewriter';
 import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import StoryBar from "../StoryBar";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 
-let ws = new WebSocket('ws://192.168.1.4:8001')
-
+let ws 
 export default function StoryDisplayScreen({ navigation, route}) {
-  const { length, endType, selectedType} = route.params;
+  const { type,length,endingType, selectedMusic} = route.params;
   const [chunks, setChunks] = useState([]);
-  const [titleHandle, setTitleHandle] = useState(false)
   const [titleStory, setTitleStory] = useState("");
-  const user = useSelector((state) => state.user.value);
+  const user = useSelector(state => state.user.value);
   const [isGenerating, setIsGenerating] = useState(false);
-
+  const [storyEnd, setStoryEnd] = useState(false)
+  const [lastChunkIndex, setLastChunkIndex] = useState(-1);
 
   useEffect(() => {
-    ws = new WebSocket('ws://192.168.1.4:8001')
-
-    setIsGenerating(true);
+    ws = new WebSocket('wss://fable-forge.onrender.com')
 
     ws.onopen = () => {
       console.log('Connected to backend');
+     console.log(type, length, endingType)
+      setIsGenerating(true);
       const requestData = {
         type: "generate-story",
-        data: {type: selectedType,endingType: endType,length,}};
-
+        data: { type,endingType,length}};
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(requestData));
-        console.log('send')
       } else {
         console.error("WebSocket not open for sending data.");
       }
@@ -44,19 +41,24 @@ export default function StoryDisplayScreen({ navigation, route}) {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("Received message", data.data.title)
-     if (data.data.title && !titleHandle) {
+
+     if (data.data.title) {
           setTitleStory(data.data.title);
-          setTitleHandle(true)
+          console.log("title handle")
         }
+
      if (data.data.chunk) {
+        setIsGenerating(false);
         setChunks((prevChunks) => [...prevChunks, data.data.chunk.trim()]);
       }
-     if (data.data.type === "error") {
-        console.error("Error from server:", data.data.error);
-      } else if (data.data.type === "result") {
-        console.log("Received result:", data.data.result);
-    }}
+
+      if(data.type == "storyEnd") {
+        console.log("story end", titleStory)
+        setStoryEnd(true)
+      }else if (data.type == "storyChunk"){
+        console.log("generating")
+      }
+    }
     
     ws.onerror = (error) => {
       console.error("Socket error:", error);
@@ -72,11 +74,39 @@ export default function StoryDisplayScreen({ navigation, route}) {
 
   }, []);
 
-  
+  useEffect(() => {
+    if (chunks.length > 0) {
+      setLastChunkIndex(chunks.length - 1); // Update the last chunk index when chunks change
+    }
+  }, [chunks]);
+
+
+const sendToBDD = () => {
+    fetch(`https://fable-forge.onrender.com/stories/new/${user.token}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        length, 
+        title: titleStory,
+        story: chunks, 
+        ending: endingType, 
+        type
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Story register to BDD")
+      })
+}
+
+if(storyEnd){
+  sendToBDD()
+}
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.tabBar}>
-        <StoryBar navigation={navigation} />
+      <StoryBar navigation={navigation} route={route} selectedMusic={selectedMusic} />
         <View style={styles.backgroundTab}></View>
       </View>
       <Text style={styles.titleStory}>{titleStory}</Text>
@@ -94,26 +124,27 @@ export default function StoryDisplayScreen({ navigation, route}) {
           />
         )}
         {chunks.map((chunk, index) => (
-          <Text
-            key={index}
-            style={[
-              styles.textStory,
-              {
-                fontSize: user.fontSizeSet,
-                color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51",
-              },
-            ]}
-          >
-            {chunk.trim()}
-          </Text>
-        ))}
+        <Text
+          key={index}
+          style={[
+            styles.textStory,
+            {
+              fontSize: user.fontSizeSet,
+              color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51",
+            },
+          ]}
+        >
+          {index === lastChunkIndex ? ( 
+            <Typewriter typing={1} maxDelay={50}>
+              {chunk.trim()}
+            </Typewriter>
+          ) : (
+            chunk.trim()
+          )}
+        </Text>
+      ))}
         <View style={styles.space}></View>
       </ScrollView>
-      {/* {showGenerateButton && (
-        <TouchableOpacity style={styles.btngenerateStory} onPress={handleGenerateStory}>
-          <Text style={styles.generateTextBtn}>Générer mon histoire</Text>
-        </TouchableOpacity>
-      )} */}
     </SafeAreaView>
   );
 }

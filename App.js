@@ -40,8 +40,6 @@ import StoryReadScreen from "./screens/StoryReadScreen";
 
 // Importation des reducers
 import user from "./reducers/user";
-import stories from "./reducers/stories";
-import newStory from "./reducers/newStory";
 
 // Initialisation du SplashScreen pour empêcher sa disparition automatique
 SplashScreen.preventAutoHideAsync();
@@ -50,7 +48,7 @@ SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 
 // Combinaison de tous les reducers pour le store Redux
-const reducers = combineReducers({ user, stories, newStory });
+const reducers = combineReducers({ user });
 
 // Configuration de redux-persist pour stocker le state de Redux
 const persistConfig = {

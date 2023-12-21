@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
   View, 
   Text, 
@@ -9,38 +9,32 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useSelector } from "react-redux";
-import { useNavigation } from '@react-navigation/native';
 
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
 
 // Composant pour l'écran génération d'histoire "Étape 3"
-export default function StoryGenerationStep3Screen({ route }) {
-  const { length, endType, selectedType, selectedImage, selectedMusic } = route.params;
-
-  // Hook pour naviguer entre les écrans
-  const navigation = useNavigation();
- 
+export default function StoryGenerationStep3Screen({ navigation, route }) {
+  const { length, endingType, selectedType, selectedImage, selectedMusic } = route.params ;
+  const [type, setType] = useState(selectedType)
   // Création du synopsis pour le récap des détails de l'histoire
   const synopsis = `Préparez-vous à plonger dans une histoire de genre ${selectedType}. Attendez-vous à être captivé dès les premiers mots jusqu'à la fin de l'histoire que nous avons élaborée pour vous.`
   
   // Fonction pour naviguer vers l'affichage de l'histoire
   const handleStoryDisplay = () => {
+    console.log(type)
     navigation.navigate("StoryDisplay", {
-      selectedType,
+      type,
       length,
-      endType,
+      endingType,
+      selectedMusic: selectedMusic,
     });
   };
 
-  // Fonction pour revenir à l'étape 2
-  const handleStoryGeneration2 = () => {
-    navigation.navigate("StoryGeneration2", {selectedType});
-
-  };
-
-
+// Fonction pour revenir à l'étape 2
+const handleStoryGeneration2 = () => {
+  navigation.navigate("StoryGeneration2", {type});
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,7 +58,7 @@ export default function StoryGenerationStep3Screen({ route }) {
           <Text style={styles.sizeTextRecap}>{length}</Text>
       </View>
       <View style={styles.recapSizeStory}>
-          <Text style={styles.sizeTextRecap}>{endType}</Text>
+          <Text style={styles.sizeTextRecap}>{endingType}</Text>
       </View>
         <View style={styles.arrowContainer}>
           <TouchableOpacity style={styles.arrowBtn}>

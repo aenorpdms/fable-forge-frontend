@@ -14,11 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
-// import {
-//   updateNewType,
-//   updateSelectedMusic,
-//   updateSelectedImage,
-// } from "../reducers/newStory";
 
 // Importation du composant personnalisé TabBar
 import TabBar from "../TabBar";
@@ -81,10 +76,6 @@ const closeModal = () => {
 
   // Navigation vers l'étape 2
   const handleStoryGeneration2 = (item) => {
-    console.log("Selected Type:", item.title);
-    console.log("Selected Image:", item.image);
-    console.log("Selected Music:", item.music);
-    
     navigation.navigate("StoryGeneration2", {
       selectedType: item.title,
       selectedImage: item.image,

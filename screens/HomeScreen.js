@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground, SafeAreaView, Image, Dimensions } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { updateStory } from "../reducers/stories";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -18,13 +17,10 @@ export default function HomeScreen({ navigation }) {
   const readyName = nameUser.toUpperCase();
 
   // État local pour l'affichage de la dernière histoire
-  const [lastStory, setLastStory] = useState({});
+  const [lastStory, setLastStory] = useState([]);
   const [noStory, setNoStory] = useState(false);
 
-  // Accès au dispatch pour envoyer des actions.
-  const dispatch = useDispatch();
-
-  const focus = useIsFocused();
+  // const navigation = useNavigation();
 
   // Navigation vers l'étape 1
   const handleSubmit = () => {
@@ -32,27 +28,29 @@ export default function HomeScreen({ navigation }) {
   };
 
   // Récupérer la dernière histoire de l'utilisateur depuis le backend
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('Screen is focused');
+      fetchLastStory();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   const fetchLastStory = () => {
     fetch(`https://fable-forge.onrender.com/users/lastStory/${user.token}`)
       .then(response => response.json())
       .then(data => {
         if (data.result) {
           if (data.stories == null) {
-            console.log("laststory", data);
-
             setNoStory(false);
           } else {
             setNoStory(true);
-            setLastStory({ ...data.stories });
+            setLastStory({...data.stories});
           }
         }
       });
   };
-
-  useEffect(() => {
-    console.log("useeffect homescreen");
-    fetchLastStory();
-  }, [focus]);
 
   // Sélection de l'image en fonction du type de l'histoire.
   let typeImage;
@@ -74,14 +72,15 @@ export default function HomeScreen({ navigation }) {
 
   // Afficher la dernière histoire lors du clique sur le bouton
   const handleDisplayStory = () => {
-    dispatch(
-      updateStory({
+    if (noStory) {
+      const selectedMusic = lastStory.type; // Définissez selectedMusic en fonction du genre de la dernière histoire
+      navigation.navigate("StoryRead", {
         title: lastStory.title,
-        story: lastStory.choicePrompt[0],
+        story: lastStory.choicePrompt,
         type: lastStory.type,
-      })
-    );
-    navigation.navigate("StoryRead");
+        selectedMusic: selectedMusic, // Transmettez selectedMusic ici
+      });
+    }
   };
 
   return (

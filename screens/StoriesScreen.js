@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { 
   StyleSheet, 
   Text, 
@@ -7,9 +8,7 @@ import {
   SafeAreaView, 
   ScrollView 
 } from "react-native";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { updateStory } from "../reducers/stories";
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -28,33 +27,12 @@ const storyTypeImages = {
 };
 
 export default function StoriesScreen({ navigation }) {
-  // Utilisation de Redux pour accéder et modifier l'état global
-  const selectedStory = useSelector((state) => state.stories.value);
-  const user = useSelector((state) => state.user.value);
-  
-  // Accès au dispatch pour envoyer des actions
-  const dispatch = useDispatch();
-
   // État la mise à jour des histoires
   const [stories, setStories] = useState([]);
   const [update, setUpdate] = useState(false);
 
-  //Afficher l'histoire sélectionnée
-  const handleDisplayStory = (story) => {
-    
-    // Récupération de l'image correspondant au type d'histoire
-    const typeImage = storyTypeImages[story.type] || null; 
-    
-    // Mise à jour de l'histoire sélectionnée dans Redux
-    dispatch(updateStory({
-      title: story.title,
-      type: story.type,
-      story: story.choicePrompt[0],
-      selectedImage: typeImage,
-    }));
-
-    navigation.navigate('StoryRead');
-  };
+  // Utilisation de Redux pour accéder et modifier l'état global
+  const user = useSelector((state) => state.user.value);
 
   // Afficher les histoires de l'utilisateur
   useEffect(() => {
@@ -68,6 +46,20 @@ export default function StoriesScreen({ navigation }) {
         }
       });
   }, [update]);
+
+  //Afficher l'histoire sélectionnée
+const handleDisplayStory = (story) => {
+  const typeImage = storyTypeImages[story.type] || null;
+  const selectedMusic = story.type;
+  // Passez les détails de l'histoire via la navigation
+  navigation.navigate('StoryRead', {
+    title: story.title,
+    type: story.type,
+    story: story.choicePrompt,
+    selectedImage: typeImage,
+    selectedMusic: selectedMusic,
+  });
+};
 
   // Supprimer une histoire.
   const handleDeleteStory = (storyID) => {
@@ -85,9 +77,10 @@ export default function StoriesScreen({ navigation }) {
         }
       });
   };
-
+  
+  const storiesOrder = stories.reverse()
   // Afficher le container des histoires
-  const renderStoryList = () => stories.map((story, index) => (
+  const renderStoryList = () => storiesOrder.map((story, index) => (
     <View style={styles.storyButton} key={index}>
       <ImageBackground
         style={styles.storyImage}
@@ -201,7 +194,7 @@ const styles = StyleSheet.create({
     overflow:"hidden",
     justifyContent: 'center',
     alignItems: 'center',
-   
+  
 },
   storyTitle: {
     fontFamily: "Lato_400Regular",
@@ -211,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(44,26,80, 0.5)',
     padding: 10,
     width: "100%",
-   
+  
 },
   
   readButton: {
@@ -222,7 +215,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginTop: "-6%", 
-   },
+  },
   readButtonText: {
     fontFamily: "Lato_400Regular",
     color: 'white',

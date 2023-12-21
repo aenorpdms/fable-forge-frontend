@@ -1,45 +1,63 @@
 import React from "react";
-import { 
-  SafeAreaView, 
-  ScrollView, 
-  StyleSheet, 
-  Text, 
-  View 
-} from "react-native";
+import Typewriter from "react-native-typewriter";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
 // Importation de la tabBar personnalisés
 import StoryBar from "../StoryBar";
 
 // Écran de lecture de l'histoire dans l'application
-export default function StoryReadScreen({ navigation }) {
+export default function StoryReadScreen({ navigation, route }) {
+  // Récupérer les détails de l'histoire passés via la navigation
+  const { title, type, story, selectedMusic } = route.params;
 
-  // Sélection de l'histoire courante à partir de l'état global Redux
-  const selectedStory = useSelector((state) => state.stories.value);
-  
   // Suppression des mots 'Fin.', 'undefined' ou 'null' du texte de l'histoire
-  const contentWithoutFin = selectedStory.story
+  const fullStory = story.join(" ");
+  const contentWithoutFin = fullStory
     .replace(/(Fin\.|undefined)|null/g, "")
     .trim();
 
   // Sélection des paramètres utilisateur à partir de l'état global Redux
-  const user = useSelector((state) => state.user.value);
+  // Utilisation de l'opérateur de chaînage optionnel `?.` et fournir des valeurs par défaut
+  const user = useSelector((state) => state.user.value) || {
+    mode: "light",
+    fontSizeSet: 16,
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-
       {/* tabBar personnalisée pour l'histoire */}
       <View style={styles.storyBar}>
-        <StoryBar navigation={navigation} />
+        <StoryBar
+          navigation={navigation}
+          route={route}
+          selectedMusic={selectedMusic}
+          storyType={type}
+        />
         <View style={styles.backgroundTab}></View>
       </View>
-      <Text style={styles.titleStory}>{selectedStory.title}</Text>
-      <ScrollView style={[styles.containerStory,
+      <Text style={styles.titleStory}>{title}</Text>
+      <ScrollView
+        style={[
+          styles.containerStory,
           // Thème clair ou sombre en fonction des paramètres utilisateur
-          { backgroundColor: user.mode === "dark" ? "#180A34" : "white" } ]}>
-        <Text style={[styles.textStory ,
-          // Texte de l'histoire avec police et couleur personnalisées
-          { color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51", fontSize: user.fontSizeSet } ]}>{contentWithoutFin}</Text>
+          { backgroundColor: user.mode === "dark" ? "#180A34" : "white" },
+        ]}
+      >
+        <Text
+          style={[
+            styles.textStory,
+            // Texte de l'histoire avec police et couleur personnalisées
+            {
+              color: user.mode === "dark" ? "#F6F2FF" : "#2C1A51",
+              fontSize: user.fontSizeSet,
+            },
+          ]}
+        >
+          <Typewriter typing={1} maxDelay={25}>
+            {contentWithoutFin}
+          </Typewriter>
+        </Text>
 
         <View style={styles.space}></View>
       </ScrollView>

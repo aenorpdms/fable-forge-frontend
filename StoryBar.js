@@ -21,10 +21,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateFontSize, updateMode } from "./reducers/user";
 import { Audio } from "expo-av";
 
-export default function StoryBar({ navigation }) {
-  // Accès au dispatch pour envoyer des actions.
+export default function StoryBar({ navigation, selectedMusic }) {
+  // console.log('Value of userMode:', userMode);
   const dispatch = useDispatch();
-
   // État pour gérer l'ouverture (ouvert/fermé)
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,70 +35,87 @@ export default function StoryBar({ navigation }) {
 
   // Accès à l'état global Redux pour la configuration de l'utilisateur
   const user = useSelector((state) => state.user.value);
+  const userMode = useSelector((state) => state.user.mode);
+  // Console log pour vérifier la valeur de userMode extraite du Redux Store
+  // console.log('Value of userMode extracted from Redux Store:', userMode);
 
   // AUDIO
   // Référence pour la gestion de l'audio
   const soundObject = useRef(new Audio.Sound());
 
-  // Basculer l'audio
-  const toggleAudioSwitch = async () => {
-    setIsAudioEnabled((previousState) => !previousState);
-    if (isAudioEnabled) {
-      try {
-        await soundObject.current.pauseAsync();
-      } catch (error) {
-        console.error("Error pausing audio", error);
-      }
-    } else {
-      try {
-        await soundObject.current.playAsync();
-      } catch (error) {
-        console.error("Error playing audio", error);
-      }
-    }
-  };
-
-  const newStory = useSelector((state) => state.newStory.value);
-  const storySelected = useSelector((state) => state.stories.value);
-
-  const genreMusic = {
-    Horreur: require("./assets_music/Genre_Horreur.mp3"),
-    Aventure: require("./assets_music/Genre_Aventure.mp3"),
-    "Fantasy / SF": require("./assets_music/Genre_Fantasy-SF.mp3"),
-    "Policier / Thriller": require("./assets_music/Genre_Policier-Thriller.mp3"),
-    Romance: require("./assets_music/Genre_Romance.mp3"),
-    Enfant: require("./assets_music/Genre_Enfant.mp3"),
-  };
-
-  let genreStoryMusic;
-
-  if (newStory.type !== "") {
-    genreStoryMusic = newStory.type;
-  } else {
-    genreStoryMusic = storySelected.type;
-  }
-
   useEffect(() => {
-    const loadMusic = async () => {
+    const loadAndPlayMusic = async () => {
       try {
-        if (isAudioEnabled) {
-          await soundObject.current.loadAsync(genreMusic[genreStoryMusic]);
-          await soundObject.current.setIsLoopingAsync(true);
-          await soundObject.current.playAsync(); // Jouer la musique au chargement
-        } else {
-          await soundObject.current.pauseAsync();
+        const genreMusic = {
+            "29": require("./assets_music/Genre_Horreur.mp3"),
+            Horreur: require("./assets_music/Genre_Horreur.mp3"),
+            "30": require("./assets_music/Genre_Aventure.mp3"),
+            Aventure: require("./assets_music/Genre_Aventure.mp3"),
+            "31": require("./assets_music/Genre_Fantasy-SF.mp3"),
+            "Fantasy / SF": require("./assets_music/Genre_Fantasy-SF.mp3"),
+            "32": require("./assets_music/Genre_Policier-Thriller.mp3"),
+            "Policier / Thriller": require("./assets_music/Genre_Policier-Thriller.mp3"),
+            "33": require("./assets_music/Genre_Romance.mp3"),
+            Romance: require("./assets_music/Genre_Romance.mp3"),
+            "34": require("./assets_music/Genre_Enfant.mp3"),
+            Enfant: require("./assets_music/Genre_Enfant.mp3"),
+          };
+          const musicSource = genreMusic[selectedMusic];
+          if (musicSource) {
+            await soundObject.current.unloadAsync();
+            await soundObject.current.loadAsync(musicSource);
+            if (isAudioEnabled) await soundObject.current.playAsync();
+            await soundObject.current.setIsLoopingAsync(true);
+          }
+        } catch (error) {
+          console.error('Erreur lors du chargement et de la lecture de la musique', error);
         }
-      } catch (error) {
-        console.error("Erreur lors du chargement du son", error);
-      }
-    };
+      };
+      loadAndPlayMusic();
+      return () => soundObject.current.unloadAsync();
+    }, [selectedMusic, isAudioEnabled]);
 
-    loadMusic();
+// Basculer l'audio
+const toggleAudioSwitch = async () => {
+  setIsAudioEnabled((previousState) => !previousState);
+  try {
+    if (isAudioEnabled && soundObject.current._loaded) {
+      await soundObject.current.pauseAsync();
+    } else if (soundObject.current._loaded) {
+      await soundObject.current.playAsync();
+    }
+  } catch (error) {
+    console.error('Error toggling audio:', error);
+  }
+};
 
-    return () => {
-      soundObject.current.unloadAsync();
+const font = user.fontSizeSet;
+
+   // Augmenter la taille de police
+   const increaseFontSize = () => {
+    //console.log('Increase Font Size called');
+     if (user.fontSizeSet < 30) {
+       dispatch(updateFontSize(user.fontSizeSet + 2));
+     }
+   };
+ 
+   // Diminuer la taille de police
+   const decreaseFontSize = () => {
+    //console.log('Decrease Font Size called');
+     if (user.fontSizeSet > 10) {
+       dispatch(updateFontSize(user.fontSizeSet - 2));
+     }
+   };
+
+    // DARK LIGTH MODE
+    const isModeEnabledMode = user.mode === "dark";
+
+    const toggleModeSwitchMode = () => {
+     // console.log('Toggle Mode Switch called');
+      const newMode = user.mode === "dark" ? "light" : "dark";
+      //console.log('New Mode:', newMode);
+      dispatch(updateMode(newMode));
     };
-  }, [isAudioEnabled]);
 
   //TAB-BAR
   // Animation pour la largeur de la tabBar
@@ -139,55 +155,42 @@ export default function StoryBar({ navigation }) {
         widthValue.value = 140; // Augmenter la largeur à la valeur souhaitée
         bgValue.value = 1;
       }
+     // console.log("Toggle Tab Bar, Is Open: ", !prevState); // Ajoutez cette ligne
       return !prevState;
     });
   };
+ 
+   // NAVIGATION
+   const handleDisplayHome = () => {
+    //console.log('navigate home ok')
+     navigation.navigate("Home");
+   };
+ 
+   const handleDisplayStory = () => {
+    //console.log('navigate stories ok')
+     navigation.navigate("Stories");
+   };
+ 
+   const handleDisplayProfil = () => {
+    //console.log('navigate profil ok')
+     navigation.navigate("Profil");
+   };
+ 
+   // MODAL
+   const handleDisplaySettings = () => {
+     setIsModalOpen(true); // Ouvrir la modal
+   };
+ 
+   const closeModal = () => {
+     setIsModalOpen(false); // Fermer la modal
+   };
 
-  // FONT
-  const font = user.fontSizeSet;
+// Console log pour vérifier si le composant se met à jour avec la nouvelle valeur de userMode
+//console.log('Component re-rendered with userMode:', userMode);
 
-  // Augmenter la taille de police
-  const increaseFontSize = () => {
-    if (user.fontSizeSet < 30) {
-      dispatch(updateFontSize(user.fontSizeSet + 2));
-    }
-  };
-
-  // Diminuer la taille de police
-  const decreaseFontSize = () => {
-    if (user.fontSizeSet > 10) {
-      dispatch(updateFontSize(user.fontSizeSet - 2));
-    }
-  };
-
-  // DARK LIGTH MODE
-  const isModeEnabledMode = user.mode === "dark";
-  const toggleModeSwitchMode = () => {
-    const newMode = isModeEnabledMode ? "light" : "dark";
-    dispatch(updateMode(newMode));
-  };
-
-  // NAVIGATION
-  const handleDisplayHome = () => {
-    navigation.navigate("Home");
-  };
-
-  const handleDisplayStory = () => {
-    navigation.navigate("Stories");
-  };
-
-  const handleDisplayProfil = () => {
-    navigation.navigate("Profil");
-  };
-
-  // MODAL
-  const handleDisplaySettings = () => {
-    setIsModalOpen(true); // Ouvrir la modal
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false); // Fermer la modal
-  };
+   useEffect(() => {
+    //console.log('userMode:', userMode);
+  }, [userMode]);
 
   return (
     <View style={styles.pageContainer}>
