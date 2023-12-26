@@ -51,10 +51,17 @@ export default function StoryGenerationScreen() {
       music: require("../assets_music/Genre_Aventure.mp3"),
     },
     {
-      title: "Fantasy / SF",
+      title: "Fantasy",
       description:
-        "Explorez des mondes futuristes, rencontrez des créatures magiques et partez à la découverte de l'inconnu.",
-      image: require("../assets/Fantasy_SF.png"),
+        "Plongez dans des mondes enchantés, rencontrez des créatures extraordinaires et vivez des quêtes épiques.",
+      image: require("../assets/Fantasy.png"),
+      music: require("../assets_music/Genre_Fantasy-SF.mp3"),
+    },
+    {
+      title: "Science Fiction",
+      description:
+        "Découvrez des futurs innovants où l'imagination repousse les frontières de l'espace et du temps.",
+      image: require("../assets/Science-Fiction.png"),
       music: require("../assets_music/Genre_Fantasy-SF.mp3"),
     },
     {
