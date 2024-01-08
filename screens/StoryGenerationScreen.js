@@ -128,7 +128,7 @@ export default function StoryGenerationScreen() {
       >
         <Text style={styles.title1}>Création d'une histoire</Text>
         <View style={styles.containerStep}>
-          <Text style={styles.title2}>Étape 1/3 : Choisissez un genre</Text>
+          <Text style={styles.title2}>Étape 1/4 : Choisissez un genre</Text>
         </View>
       </ImageBackground>
       <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>

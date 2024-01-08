@@ -103,7 +103,7 @@ export default function StoryGenerationStep2Screen({ navigation, route }) {
     navigation.navigate("StoryGeneration3", {
       length: selectedLength,
       endingType: selectedEndType,
-      selectedType: selectedType !== undefined ? selectedType : type,
+      selectedType: selectedType,
       selectedImage,
       selectedMusic,
     });
@@ -123,7 +123,7 @@ export default function StoryGenerationStep2Screen({ navigation, route }) {
         <Text style={styles.title1}>Création d'une histoire</Text>
         <View style={styles.containerStep}>
           <Text style={styles.title2}>
-            Étape 2/3 : Choisissez les paramètres
+            Étape 2/4 : Choisissez les paramètres
           </Text>
           <TouchableOpacity onPress={toggleModal} style={styles.iconHelp}>
             <FontAwesomeIcon

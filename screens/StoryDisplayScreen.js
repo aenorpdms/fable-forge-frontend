@@ -13,7 +13,8 @@ import { useSelector } from "react-redux";
 
 let ws;
 export default function StoryDisplayScreen({ navigation, route }) {
-  const { type, length, endingType, selectedMusic } = route.params;
+  const { type, length, endingType, selectedMusic, selectedCharacter } = route.params;
+
   const [chunks, setChunks] = useState([]);
   const [titleStory, setTitleStory] = useState("");
   const user = useSelector((state) => state.user.value);
@@ -26,11 +27,11 @@ export default function StoryDisplayScreen({ navigation, route }) {
 
     ws.onopen = () => {
       console.log("Connected to backend");
-      console.log(type, length, endingType);
+      console.log(type, length, endingType, selectedCharacter);
       setIsGenerating(true);
       const requestData = {
         type: "generate-story",
-        data: { type, endingType, length },
+        data: { type, endingType, length, selectedCharacter },
       };
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(requestData));

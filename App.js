@@ -34,6 +34,7 @@ import SubscriptionScreen from "./screens/SubscriptionScreen";
 import StoryGenerationScreen from "./screens/StoryGenerationScreen";
 import StoryGenerationStep2Screen from "./screens/StoryGenerationStep2Screen";
 import StoryGenerationStep3Screen from "./screens/StoryGenerationStep3Screen";
+import StoryGenerationStep4Screen from "./screens/StoryGenerationStep4Screen";
 import StoryDisplayScreen from "./screens/StoryDisplayScreen";
 import SubscriptionPaymentScreen from "./screens/SubscriptionPaymentScreen";
 import StoryReadScreen from "./screens/StoryReadScreen";
@@ -109,6 +110,7 @@ export default function App() {
             <Stack.Screen name='StoryGenerationScreen' component={StoryGenerationScreen} />
             <Stack.Screen name='StoryGeneration2' component={StoryGenerationStep2Screen} />
             <Stack.Screen name='StoryGeneration3' component={StoryGenerationStep3Screen} />
+            <Stack.Screen name='StoryGeneration4' component={StoryGenerationStep4Screen} />
             <Stack.Screen name='StoryDisplay' component={StoryDisplayScreen} options={{ headerShown: false }} />
             <Stack.Screen name='SubscriptionPayment' component={SubscriptionPaymentScreen} options={{ headerShown: false }} />
             <Stack.Screen name='StoryRead' component={StoryReadScreen} options={{ headerShown: false }} />
